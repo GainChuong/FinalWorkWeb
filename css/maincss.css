@@ -1,151 +1,172 @@
-/* ==========================================================================
-   GreenCommerce Global Main CSS
-   Shared tokens, animations, and the global Role-Switching Header
-   ========================================================================== */
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Space+Mono:wght@400;700&display=swap');
 
 :root {
-  /* Color Palette - Premium Eco Green */
-  --primary-color: #059669;
-  --primary-hover: #10B981;
-  --secondary-color: #0f172a;
-  --accent-color: #d97706;
-  --bg-light: #f8fafc;
-  --border-color: #e2e8f0;
-  
-  /* Font Stacks */
-  --font-heading: 'Plus Jakarta Sans', 'Inter', sans-serif;
-  --font-body: 'Inter', sans-serif;
+  --background: hsl(30, 20%, 98%);
+  --foreground: hsl(210, 15%, 15%);
+  --primary: hsl(142, 60%, 22%);
+  --primary-hover: hsl(142, 65%, 18%);
+  --primary-light: hsl(142, 50%, 93%);
+  --accent: hsl(32, 75%, 45%);
+  --accent-hover: hsl(32, 80%, 40%);
+  --accent-light: hsl(32, 60%, 93%);
+  --card: hsl(0, 0%, 100%);
+  --border: hsl(30, 10%, 88%);
+  --text-muted: hsl(210, 10%, 45%);
+  --shadow: rgba(43, 39, 36, 0.06);
+  --shadow-lg: rgba(43, 39, 36, 0.12);
+  --font-sans: 'Outfit', sans-serif;
+  --font-serif: 'Playfair Display', serif;
   --font-mono: 'Space Mono', monospace;
-
-  /* Shadows */
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
-  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+  --sentiment-pos: hsl(142, 72%, 29%);
+  --sentiment-pos-light: hsl(142, 60%, 94%);
+  --sentiment-neu: hsl(38, 92%, 50%);
+  --sentiment-neu-light: hsl(38, 90%, 94%);
+  --sentiment-neg: hsl(0, 72%, 51%);
+  --sentiment-neg-light: hsl(0, 80%, 94%);
 }
 
-/* Global Reset & Base */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 100%; min-height: 100vh;
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
 }
 
-body {
-  font-family: var(--font-body);
-  background-color: var(--bg-light);
-  color: var(--secondary-color);
+a { color: inherit; text-decoration: none; }
+button, input, textarea, select { font-family: inherit; outline: none; }
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--background); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse-soft {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.02); opacity: 0.95; }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.animate-fade-in-up { animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.animate-pulse-soft { animation: pulse-soft 3s ease-in-out infinite; }
+.animate-float { animation: float 4s ease-in-out infinite; }
+
+.container { width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 2rem; }
+
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-/* ==========================================================================
-   GLOBAL DEMO ROLE SWITCHING HEADER
-   ========================================================================== */
-.global-role-header {
-  background: rgba(15, 23, 42, 0.95);
-  backdrop-filter: blur(10px);
-  color: #ffffff;
-  padding: 8px 24px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: sticky;
-  top: 0;
-  z-index: 10000;
-  font-size: 13px;
-  font-family: var(--font-heading);
-  border-bottom: 2px solid var(--primary-color);
-  box-shadow: var(--shadow-md);
+.badge {
+  display: inline-flex; align-items: center; gap: 0.25rem;
+  padding: 0.25rem 0.75rem; border-radius: 50px;
+  font-size: 0.75rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+.badge-primary { background-color: var(--primary-light); color: var(--primary); }
+.badge-accent { background-color: var(--accent-light); color: var(--accent); }
+.badge-success { background-color: var(--sentiment-pos-light); color: var(--sentiment-pos); }
+
+.navbar-header {
+  position: sticky; top: 0; left: 0; width: 100%;
+  z-index: 100; border-bottom: 1px solid var(--border);
+  transition: all 0.3s ease;
+}
+.navbar-header.scrolled { box-shadow: 0 4px 30px var(--shadow); }
+
+.logo-brand {
+  font-family: var(--font-serif); font-weight: 700; font-size: 1.75rem;
+  letter-spacing: -0.02em; color: var(--primary);
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.logo-brand span {
+  font-family: var(--font-sans); font-weight: 300; font-size: 0.9rem;
+  text-transform: uppercase; letter-spacing: 0.2em; color: var(--accent);
 }
 
-.global-role-brand {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 800;
-  letter-spacing: 0.5px;
-  color: #34d399;
+.nav-links-list { display: flex; list-style: none; gap: 2rem; }
+.nav-link-item {
+  font-weight: 500; font-size: 0.95rem; position: relative;
+  padding: 0.5rem 0; color: var(--foreground); opacity: 0.85;
+  transition: all 0.2s ease;
+}
+.nav-link-item:hover { opacity: 1; color: var(--primary); }
+.nav-link-item::after {
+  content: ''; position: absolute; bottom: 0; left: 0;
+  width: 0; height: 2px; background-color: var(--accent);
+  transition: width 0.3s ease;
+}
+.nav-link-item:hover::after { width: 100%; }
+
+.nav-actions-div { display: flex; align-items: center; gap: 1.25rem; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 0.5rem; padding: 0.65rem 1.5rem; border-radius: 50px;
+  font-weight: 600; font-size: 0.9rem; cursor: pointer;
+  transition: all 0.2s ease; border: 1px solid transparent;
+}
+.btn-primary { background-color: var(--primary); color: white; }
+.btn-primary:hover { background-color: var(--primary-hover); transform: translateY(-1px); }
+.btn-outline {
+  background-color: transparent; color: var(--foreground); border-color: var(--border);
+}
+.btn-outline:hover { background-color: var(--border); transform: translateY(-1px); }
+.btn-accent { background-color: var(--accent); color: white; }
+.btn-accent:hover { background-color: var(--accent-hover); transform: translateY(-1px); }
+
+.footer-main {
+  background-color: hsl(210, 15%, 12%); color: hsl(30, 20%, 90%);
+  padding: 4rem 0 2rem 0; border-top: 1px solid var(--border); margin-top: auto;
+}
+.footer-main a { color: hsl(30, 20%, 80%); }
+.footer-main a:hover { color: white; text-decoration: underline; }
+
+.card-hover { transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
+.card-hover:hover { transform: translateY(-8px); box-shadow: 0 20px 40px var(--shadow-lg) !important; }
+.card-hover .product-img { transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); }
+.card-hover:hover .product-img { transform: scale(1.05); }
+.dropdown-link:hover { background-color: var(--background) !important; }
+.profile-avatar-btn:hover { transform: scale(1.05); box-shadow: 0 0 0 3px var(--primary-light) !important; }
+.profile-dropdown::before {
+  content: ''; position: absolute; top: -8px; right: 14px;
+  width: 14px; height: 14px; background-color: var(--card);
+  border-left: 1px solid var(--border); border-top: 1px solid var(--border);
+  transform: rotate(45deg);
 }
 
-.global-role-brand span {
-  background: var(--primary-color);
-  color: white;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 10px;
-  font-family: var(--font-mono);
-}
 
-.global-role-nav {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
 
-.global-role-info {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.global-role-label {
-  color: #94a3b8;
-  font-size: 11px;
-  text-transform: uppercase;
-  font-family: var(--font-mono);
-}
-
-.global-role-badge {
-  background: #34d399;
-  color: #0f172a;
-  padding: 2px 8px;
-  border-radius: 9999px;
-  font-weight: 700;
-  font-size: 11px;
-  text-transform: uppercase;
-}
-
-.global-role-select {
-  background: #1e293b;
-  border: 1px solid #475569;
-  color: #ffffff;
-  padding: 4px 8px;
-  border-radius: 4px;
-  outline: none;
-  font-size: 12px;
-  cursor: pointer;
-  transition: border-color 0.2s;
-}
-
-.global-role-select:hover {
-  border-color: var(--primary-color);
-}
-
-.global-role-btn {
-  background: var(--primary-color);
-  color: #ffffff;
-  border: none;
-  padding: 4px 12px;
-  border-radius: 4px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s;
-  font-size: 12px;
-}
-
-.global-role-btn:hover {
-  background: var(--primary-hover);
-}
-
-.global-role-btn.logout {
-  background: #ef4444;
-}
-
-.global-role-btn.logout:hover {
-  background: #dc2626;
-}
-
-/* Shift main content down for the role header if not absolute positioned */
-.with-global-role-header {
-  position: relative;
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: hsl(210, 20%, 8%);
+    --foreground: hsl(30, 20%, 96%);
+    --primary: hsl(142, 55%, 38%);
+    --primary-hover: hsl(142, 60%, 44%);
+    --primary-light: hsl(142, 40%, 14%);
+    --accent: hsl(32, 80%, 55%);
+    --accent-hover: hsl(32, 85%, 60%);
+    --accent-light: hsl(32, 60%, 16%);
+    --card: hsl(210, 20%, 12%);
+    --border: hsl(210, 15%, 18%);
+    --text-muted: hsl(210, 10%, 70%);
+    --shadow: rgba(0, 0, 0, 0.25);
+    --shadow-lg: rgba(0, 0, 0, 0.4);
+    --sentiment-pos-light: hsl(142, 40%, 15%);
+    --sentiment-neu-light: hsl(38, 60%, 15%);
+    --sentiment-neg-light: hsl(0, 50%, 15%);
+  }
+  .glass { background: rgba(20, 24, 28, 0.7); border: 1px solid rgba(255,255,255,0.05); }
 }

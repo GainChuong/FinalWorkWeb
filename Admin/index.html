@@ -9,6 +9,7 @@
   <title>Admin Panel - ReFashion Platform</title>
   <link rel="stylesheet" href="../css/maincss.css">
   <link rel="stylesheet" href="../css/admin.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
@@ -27,6 +28,18 @@
         <li class="nav-item" data-target="settings-sec">Settings & Campaigns</li>
         <li class="nav-item" data-target="revenue-sec">Revenue & Withdrawals</li>
       </ul>
+      <div class="sidebar-footer" style="padding: 20px 24px; border-top: 1px solid rgba(255,255,255,0.1); margin-top: auto; display:flex; flex-direction:column; gap:12px;">
+        <div class="user-profile" style="display:flex; align-items:center; gap:12px;">
+          <div style="width:36px; height:36px; border-radius:50%; background:#10B981; color:white; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:14px; flex-shrink:0;">A</div>
+          <div class="user-info" style="display:flex; flex-direction:column; overflow:hidden;">
+            <span class="user-name" style="font-size:13px; font-weight:600; color:white; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Admin ReFashion</span>
+            <span class="user-role" style="font-size:11px; color:#94A3B8;">Administrator</span>
+          </div>
+        </div>
+        <button onclick="RefashionAuth.logout()" class="btn btn-outline" style="width:100%; justify-content:center; color:#94A3B8; border-color:rgba(255,255,255,0.2); font-size:11px; padding:8px 16px; text-transform:none; letter-spacing:0;">
+          <i class="fas fa-sign-out-alt" style="margin-right:8px;"></i>Đăng xuất
+        </button>
+      </div>
     </aside>
 
     <!-- Main Content -->

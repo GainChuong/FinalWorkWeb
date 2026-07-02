@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cửa Hàng Xanh - ReFashion</title>
+  <meta name="description" content="ReFashion - Hệ sinh thái thời trang tuần hoàn kết nối người mua, nhà thiết kế tái sinh và quản trị viên minh bạch.">
+  <meta property="og:title" content="ReFashion - Thời trang Tái sinh & Bền vững">
+  <meta property="og:description" content="Hệ sinh thái thời trang tuần hoàn kết nối người mua, nhà thiết kế tái sinh và quản trị viên minh bạch.">
+  <link rel="stylesheet" href="../css/maincss.css" />
+  <link rel="stylesheet" href="../css/buyer.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+</head>
+<body>
+  <div id="navbar-container"></div>
+
+  <main class="page-main">
+    <section class="shop-section">
+      <div class="container">
+        <div class="shop-header">
+          <span class="badge badge-primary" style="margin-bottom:0.5rem">Bộ Sưu Tập Xanh</span>
+          <h1>Cửa Hàng Thời Trang Bền Vững</h1>
+          <p style="color:var(--text-muted);font-size:1rem;margin-top:0.5rem">Hiển thị <strong id="shop-result-count">0</strong> sản phẩm thân thiện với môi trường</p>
+        </div>
+
+        <div class="shop-toolbar">
+          <div class="result-count" id="shop-result-label"></div>
+          <div class="sort-group">
+            <select id="shop-sort">
+              <option value="default">Sắp xếp mặc định</option>
+              <option value="price-asc">Giá: Thấp đến Cao</option>
+              <option value="price-desc">Giá: Cao đến Thấp</option>
+              <option value="sentiment">Chỉ số Xanh (AI)</option>
+            </select>
+            <button id="filter-reset" class="btn btn-outline" style="border-radius:10px;font-size:0.85rem"><i class="fa-solid fa-arrow-rotate-left" style="margin-right:0.25rem"></i>Đặt Lại</button>
+          </div>
+        </div>
+
+        <div class="shop-layout">
+          <aside class="shop-sidebar">
+            <div class="filter-section">
+              <div class="filter-search-wrap">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="filter-search" placeholder="Tìm kiếm sản phẩm xanh..." />
+                <button id="filter-search-clear" class="filter-clear-btn" style="display:none"><i class="fa-solid fa-xmark"></i></button>
+              </div>
+            </div>
+
+            <div class="filter-section">
+              <h3>Danh Mục</h3>
+              <div class="filter-radio-group">
+                <label><input type="radio" name="category" value="all" checked /><span>Tất Cả</span></label>
+                <label><input type="radio" name="category" value="jacket" /><span>Áo Khoác</span></label>
+                <label><input type="radio" name="category" value="backpack" /><span>Balo & Túi</span></label>
+                <label><input type="radio" name="category" value="tshirt" /><span>Áo Thun</span></label>
+                <label><input type="radio" name="category" value="pants" /><span>Quần</span></label>
+                <label><input type="radio" name="category" value="shoes" /><span>Giày</span></label>
+              </div>
+            </div>
+
+            <div class="filter-section">
+              <h3>Eco-Score</h3>
+              <div class="filter-radio-group">
+                <label><input type="radio" name="ecoscore" value="all" checked /><span>Tất Cả</span></label>
+                <label><input type="radio" name="ecoscore" value="A+" /><span>A+ (Xuất Sắc)</span></label>
+                <label><input type="radio" name="ecoscore" value="A" /><span>A (Tốt)</span></label>
+                <label><input type="radio" name="ecoscore" value="B" /><span>B (Khá)</span></label>
+              </div>
+            </div>
+
+            <div class="filter-section">
+              <h3>Chất Liệu</h3>
+              <select id="filter-material" class="filter-select">
+                <option value="all">Tất Cả</option>
+                <option value="Recycled">Tái Chế (Recycled)</option>
+                <option value="Organic">Hữu Cơ (Organic)</option>
+                <option value="Hemp">Sợi Gai Dầu (Hemp)</option>
+                <option value="Bamboo">Sợi Tre (Bamboo)</option>
+                <option value="Canvas">Canvas Tái Sinh</option>
+              </select>
+            </div>
+          </aside>
+
+          <div>
+            <div class="product-grid" id="shop-product-grid"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-container"></div>
+
+  <script src="../js/mainjs.js"></script>
+  <script src="../js/buyer.js"></script>
+</body>
+</html>
