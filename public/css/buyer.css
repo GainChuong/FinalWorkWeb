@@ -1,0 +1,131 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap");
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+body {
+    background: #f7faf7;
+    color: #222;
+    padding: 30px 70px;
+}
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 70px;
+}
+.logo {
+    font-size: 30px;
+    font-weight: 800;
+    color: #2e7d32;
+}
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 35px;
+}
+nav a {
+    text-decoration: none;
+    color: #444;
+    transition: 0.3s;
+}
+nav a:hover {
+    color: #4caf50;
+}
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.nav-actions i {
+    font-size: 18px;
+    cursor: pointer;
+}
+.btn-outline {
+    border: 1px solid #4caf50;
+    background: transparent;
+    padding: 10px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+}
+.btn-primary {
+    border: none;
+    background: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+}
+.hero-content {
+    text-align: center;
+}
+.hero-content h1 {
+    font-size: 78px;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    font-weight: 800;
+}
+.hero-content p {
+    color: #666;
+    font-size: 18px;
+    margin-bottom: 50px;
+}
+.gallery {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 25px;
+}
+.card {
+    overflow: hidden;
+    border-radius: 30px;
+    transition: 0.4s;
+}
+.card:hover {
+    transform: translateY(-10px);
+}
+.card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.tall {
+    width: 220px;
+    height: 380px;
+}
+.center-card {
+    width: 240px;
+}
+.center-card img {
+    height: 300px;
+    border-radius: 30px;
+}
+.explore-btn {
+    width: 100%;
+    margin-top: 15px;
+    padding: 18px;
+    border: none;
+    background: #1d1d1d;
+    color: white;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 16px;
+}
+.impact {
+    margin-top: 70px;
+    display: flex;
+    justify-content: center;
+    gap: 70px;
+}
+.impact-box {
+    text-align: center;
+}
+.impact-box h2 {
+    color: #2e7d32;
+    font-size: 38px;
+}
+.impact-box p {
+    color: #666;
+}

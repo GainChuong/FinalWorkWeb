@@ -5,20 +5,22 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 
-// Demo account (hardcoded)
-const DEMO_ACCOUNT = {
-  email: "refashion@gmail.com",
-  password: "1234567890@Abc"
-};
+// Demo accounts
+const DEMO_ACCOUNTS = [
+  { label: "Buyer",  email: "buyer@refashion.vn",  password: "buyer123"  },
+  { label: "Seller", email: "seller@refashion.vn", password: "seller123" },
+  { label: "Admin",  email: "admin@refashion.vn",  password: "admin123"  },
+];
 
 function LoginContent() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [demoIndex, setDemoIndex] = useState(0);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { login, loginWithGoogle } = useAuth();
+  const { login, loginWithGoogle, user } = useAuth();
   const [googleLoading, setGoogleLoading] = useState(false);
 
   const redirectTo = searchParams.get("redirect") || "/";
@@ -39,7 +41,16 @@ function LoginContent() {
 
     const success = login(email, password);
     if (success) {
-      router.push(redirectTo);
+      // Read redirect from localStorage immediately after login() sets state
+      // Use window.location.href for full-page navigation (needed for vanilla HTML portals)
+      try {
+        const stored = localStorage.getItem("refashion_current_user");
+        const parsed = stored ? JSON.parse(stored) : null;
+        const dest = parsed?.redirect || redirectTo;
+        window.location.href = dest;
+      } catch {
+        window.location.href = redirectTo;
+      }
     } else {
       setErrors({ password: "Email hoặc mật khẩu không đúng. Vui lòng thử lại." });
     }
@@ -62,9 +73,11 @@ function LoginContent() {
   };
 
   const fillDemoAccount = () => {
-    setEmail(DEMO_ACCOUNT.email);
-    setPassword(DEMO_ACCOUNT.password);
+    const acc = DEMO_ACCOUNTS[demoIndex % DEMO_ACCOUNTS.length];
+    setEmail(acc.email);
+    setPassword(acc.password);
     setErrors({});
+    setDemoIndex(prev => prev + 1);
   };
 
   return (
@@ -230,11 +243,12 @@ function LoginContent() {
               padding: "1rem", backdropFilter: "blur(4px)", border: "1px solid rgba(255,255,255,0.2)"
             }}>
               <p style={{ fontSize: "0.8rem", fontWeight: 700, marginBottom: "0.5rem", display: "flex", alignItems: "center", gap: "0.35rem" }}>
-                <i className="fa-solid fa-circle-info"></i> Tài khoản Demo
+                <i className="fa-solid fa-circle-info"></i> Tài khoản Demo (click "Dùng tài khoản Demo" để chuyển)
               </p>
-              <p style={{ fontSize: "0.78rem", opacity: 0.9, lineHeight: 1.6, fontFamily: "monospace" }}>
-                📧 refashion@gmail.com<br />
-                🔑 1234567890@Abc
+              <p style={{ fontSize: "0.78rem", opacity: 0.9, lineHeight: 1.8, fontFamily: "monospace" }}>
+                📧 buyer@refashion.vn / buyer123<br />
+                📧 seller@refashion.vn / seller123<br />
+                📧 admin@refashion.vn / admin123
               </p>
             </div>
           </div>

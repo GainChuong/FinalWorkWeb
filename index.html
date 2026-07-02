@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta name="description" content="ReFashion - Hệ sinh thái thời trang tuần hoàn kết nối người mua, nhà thiết kế tái sinh và quản trị viên minh bạch.">
+  <meta property="og:title" content="ReFashion - Thời trang Tái sinh & Bền vững">
+  <meta property="og:description" content="Hệ sinh thái thời trang tuần hoàn kết nối người mua, nhà thiết kế tái sinh và quản trị viên minh bạch.">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ReFashion - Thời trang Tái sinh & Bền vững</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/maincss.css">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      background: radial-gradient(circle at 10% 20%, rgba(5, 150, 105, 0.05) 0%, transparent 40%),
+                  radial-gradient(circle at 90% 80%, rgba(16, 185, 129, 0.04) 0%, transparent 40%),
+                  #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow-x: hidden;
+    }
+
+    .hero-container {
+      max-width: 1200px;
+      margin: 60px auto;
+      padding: 0 24px;
+      text-align: center;
+    }
+
+    .badge-promo {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(5, 150, 105, 0.08);
+      color: var(--primary-color);
+      border: 1px solid rgba(5, 150, 105, 0.2);
+      padding: 8px 16px;
+      border-radius: 9999px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 24px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    h1.hero-title {
+      font-family: var(--font-heading);
+      font-size: 56px;
+      font-weight: 800;
+      color: #0f172a;
+      line-height: 1.15;
+      margin-bottom: 20px;
+      letter-spacing: -1px;
+    }
+
+    h1.hero-title span {
+      background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-desc {
+      max-width: 680px;
+      margin: 0 auto 40px auto;
+      color: #475569;
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    .roles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 32px;
+      margin: 40px 0;
+      text-align: left;
+    }
+
+    .role-card {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 380px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .role-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--primary-color);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .role-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-lg);
+      border-color: rgba(5, 150, 105, 0.3);
+    }
+
+    .role-card:hover::before {
+      opacity: 1;
+    }
+
+    .role-icon {
+      font-size: 36px;
+      color: var(--primary-color);
+      margin-bottom: 24px;
+    }
+
+    .role-name {
+      font-family: var(--font-heading);
+      font-size: 24px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 12px;
+    }
+
+    .role-desc-text {
+      color: #64748b;
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .role-features {
+      list-style: none;
+      margin-bottom: 28px;
+    }
+
+    .role-features li {
+      font-size: 13px;
+      color: #475569;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .role-features li i {
+      color: #10b981;
+      font-size: 12px;
+    }
+
+    .btn-action {
+      background: #0f172a;
+      color: white;
+      text-decoration: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 14px;
+      text-align: center;
+      transition: all 0.2s;
+      display: block;
+      margin-top: auto;
+    }
+
+    .role-card:hover .btn-action {
+      background: var(--primary-color);
+      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.2);
+    }
+
+    .demo-accounts {
+      max-width: 800px;
+      background: #ffffff;
+      border: 1px dashed var(--primary-color);
+      border-radius: 12px;
+      margin: 40px auto;
+      padding: 24px;
+      text-align: left;
+    }
+
+    .demo-title {
+      font-family: var(--font-heading);
+      font-size: 18px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .demo-title i {
+      color: var(--primary-color);
+    }
+
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .demo-item {
+      background: var(--bg-light);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 16px;
+    }
+
+    .demo-role {
+      font-weight: 700;
+      color: var(--primary-color);
+      font-size: 14px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .demo-role span {
+      background: rgba(5, 150, 105, 0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 500;
+    }
+
+    .demo-cred {
+      font-size: 12px;
+      color: #475569;
+      font-family: var(--font-mono);
+      margin-top: 4px;
+    }
+
+    footer {
+      background: #0f172a;
+      color: #94a3b8;
+      padding: 30px 24px;
+      text-align: center;
+      font-size: 13px;
+      border-top: 1px solid #1e293b;
+    }
+
+    footer a {
+      color: #34d399;
+      text-decoration: none;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero Section -->
+  <div class="hero-container">
+    <div class="badge-promo">
+      <i class="fa-solid fa-leaf"></i> Nền tảng Thời trang Tái chế & Bền vững hàng đầu
+    </div>
+    <h1 class="hero-title">Thời trang Tái sinh<br>Kiến tạo <span>Tương lai Xanh</span></h1>
+    <p class="hero-desc">
+      Hệ sinh thái thời trang tuần hoàn ReFashion kết nối người mua có trách nhiệm với môi trường, các nhà thiết kế tái chế sáng tạo và ban quản trị minh bạch.
+    </p>
+
+    <!-- Roles Selection Grid -->
+    <div class="roles-grid">
+      
+      <!-- Buyer Portal -->
+      <div class="role-card">
+        <div>
+          <div class="role-icon"><i class="fa-solid fa-bag-shopping"></i></div>
+          <h3 class="role-name">Người Mua (Buyer)</h3>
+          <p class="role-desc-text">Khám phá và mua sắm các thiết kế độc đáo làm từ vải tái chế, nhận điểm thưởng GreenCoins bảo vệ môi trường.</p>
+          <ul class="role-features">
+            <li><i class="fa-solid fa-check"></i> Xem bộ sưu tập thời trang tuần hoàn</li>
+            <li><i class="fa-solid fa-check"></i> Đánh giá độ bền và tính bền vững</li>
+            <li><i class="fa-solid fa-check"></i> Nhận GreenCoins khi mua hàng xanh</li>
+          </ul>
+        </div>
+        <a href="buyer/index.html" class="btn-action">Vào Trang Mua Sắm</a>
+      </div>
+
+      <!-- Seller/Designer Portal -->
+      <div class="role-card">
+        <div>
+          <div class="role-icon"><i class="fa-solid fa-scissors"></i></div>
+          <h3 class="role-name">Nhà Thiết Kế (Seller)</h3>
+          <p class="role-desc-text">Quản lý gian hàng tái chế chuyên nghiệp, đăng tải các sản phẩm may mặc thân thiện môi trường và theo dõi chỉ số CO₂ giảm thiểu.</p>
+          <ul class="role-features">
+            <li><i class="fa-solid fa-check"></i> Dashboard doanh thu thời gian thực</li>
+            <li><i class="fa-solid fa-check"></i> Đo lường tác động môi trường (CO₂)</li>
+            <li><i class="fa-solid fa-check"></i> Đăng bán thiết kế upcycled nhanh chóng</li>
+          </ul>
+        </div>
+        <a href="seller/seller_dashboard.html" class="btn-action">Vào Seller Center</a>
+      </div>
+
+      <!-- Admin Portal -->
+      <div class="role-card">
+        <div>
+          <div class="role-icon"><i class="fa-solid fa-chart-line"></i></div>
+          <h3 class="role-name">Quản Trị Viên (Admin)</h3>
+          <p class="role-desc-text">Kiểm duyệt gian hàng, đánh giá chất lượng sản phẩm bền vững và phê duyệt các giao dịch rút tiền nhanh chóng.</p>
+          <ul class="role-features">
+            <li><i class="fa-solid fa-check"></i> Dashboard tổng quan hoạt động</li>
+            <li><i class="fa-solid fa-check"></i> Quản lý danh mục & kiểm duyệt shop</li>
+            <li><i class="fa-solid fa-check"></i> Phê duyệt thanh toán của Seller</li>
+          </ul>
+        </div>
+        <a href="admin/index.html" class="btn-action">Vào Admin Panel</a>
+      </div>
+
+    </div>
+
+    <!-- Demo accounts credentials table -->
+    <div class="demo-accounts">
+      <div class="demo-title">
+        <i class="fa-solid fa-key"></i> Thông tin tài khoản thử nghiệm (Demo Authentication)
+      </div>
+      <p class="role-desc-text" style="margin-bottom: 16px;">Sử dụng các tài khoản bên dưới để đăng nhập tại trang Login và trải nghiệm phân quyền hệ thống.</p>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <div class="demo-role">Buyer Account <span>Khách hàng</span></div>
+          <div class="demo-cred"><strong>Email:</strong> buyer@refashion.vn</div>
+          <div class="demo-cred"><strong>Pass:</strong> buyer123</div>
+        </div>
+        <div class="demo-item">
+          <div class="demo-role">Seller Account <span>Thiết kế</span></div>
+          <div class="demo-cred"><strong>Email:</strong> seller@refashion.vn</div>
+          <div class="demo-cred"><strong>Pass:</strong> seller123</div>
+        </div>
+        <div class="demo-item">
+          <div class="demo-role">Admin Account <span>Quản trị</span></div>
+          <div class="demo-cred"><strong>Email:</strong> admin@refashion.vn</div>
+          <div class="demo-cred"><strong>Pass:</strong> admin123</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2026 ReFashion Platform. Phát triển bởi <a href="#">GainChuong / GreenCommerce</a>. Bản quyền được bảo lưu.</p>
+  </footer>
+
+  <!-- Check session user redirection -->
+  <script src="js/mainjs.js"></script>
+  <script>
+    // In root index.html, if there's a logged-in user, redirect to their dashboard automatically
+    const session = getSession();
+    if (session) {
+      const account = MOCK_ACCOUNTS.find(a => a.role === session.role);
+      if (account) {
+        window.location.href = account.redirect.replace('../', './');
+      }
+    }
+  </script>
+</body>
+</html>

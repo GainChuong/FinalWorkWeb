@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta name="description" content="ReFashion - Hệ sinh thái thời trang tuần hoàn kết nối người mua, nhà thiết kế tái sinh và quản trị viên minh bạch.">
+  <meta property="og:title" content="ReFashion - Thời trang Tái sinh & Bền vững">
+  <meta property="og:description" content="Hệ sinh thái thời trang tuần hoàn kết nối người mua, nhà thiết kế tái sinh và quản trị viên minh bạch.">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReFashion Seller Center - Designer Portal</title>
+    <!-- Google Fonts with Vietnamese diacritics support -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/maincss.css">
+    <link rel="stylesheet" href="../css/seller.css">
+    <!-- FontAwesome for icons (mock) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js for interactive reports -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1 class="brand-logo">ReFashion</h1>
+                <span class="brand-tagline">Seller Center</span>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <button class="nav-btn active" data-target="dashboard">
+                    <i class="fas fa-chart-line"></i> Tổng Quan
+                </button>
+                <button class="nav-btn" data-target="profile">
+                    <i class="fas fa-store"></i> Hồ Sơ Gian Hàng
+                </button>
+                <button class="nav-btn" data-target="products">
+                    <i class="fas fa-box-open"></i> Quản Lý Sản Phẩm
+                </button>
+                <button class="nav-btn" data-target="orders">
+                    <i class="fas fa-shopping-bag"></i> Quản Lý Đơn Hàng
+                </button>
+                <button class="nav-btn" data-target="vouchers">
+                    <i class="fas fa-ticket-alt"></i> Mã Giảm Giá
+                </button>
+                <button class="nav-btn" data-target="chat">
+                    <i class="fas fa-comments"></i> Chat Trực Tiếp
+                    <span class="badge-accent notification-badge">3</span>
+                </button>
+                <button class="nav-btn" data-target="upcycling">
+                    <i class="fas fa-recycle"></i> Nhận Đồ Cũ
+                    <span class="badge-highlight notification-badge">Mới</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="greencoin-wallet">
+                    <span><i class="fas fa-leaf"></i> GREENCOIN</span>
+                    <span class="text-mono">1,250 GC</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Top Header -->
+            <header class="top-header">
+  <meta name="description" content="ReFashion - Hệ sinh thái thời trang tuần hoàn kết nối người mua, nhà thiết kế tái sinh và quản trị viên minh bạch.">
+  <meta property="og:title" content="ReFashion - Thời trang Tái sinh & Bền vững">
+  <meta property="og:description" content="Hệ sinh thái thời trang tuần hoàn kết nối người mua, nhà thiết kế tái sinh và quản trị viên minh bạch.">
+                <div class="header-search">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" class="input-editorial" placeholder="Tìm kiếm đơn hàng, sản phẩm...">
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="icon-btn pulse-green"><i class="fas fa-bell"></i></button>
+                    <div class="user-profile">
+                        <img src="https://ui-avatars.com/api/?name=Designer+Studio&background=059669&color=fff" alt="Avatar" class="avatar">
+                        <div class="user-info">
+                            <span class="user-name">Designer Studio</span>
+                            <span class="user-role badge-editorial">Seller</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Views Container -->
+            <div class="views-container">
+                
+                <!-- DASHBOARD VIEW -->
+                <section id="dashboard" class="view-section active">
+                    <div class="section-header">
+                        <h2 class="text-display">Tổng Quan Doanh Thu</h2>
+                        <div class="header-controls">
+                            <button id="btn-toggle-simulation" class="btn-editorial">
+                                <span class="realtime-indicator"></span>
+                                <span id="simulation-text">Mô Phỏng Live: Tắt</span>
+                            </button>
+                            <button id="btn-download-report" class="btn-editorial btn-primary-editorial">Tải Báo Cáo <i class="fas fa-download"></i></button>
+                        </div>
+                    </div>
+                    
+                    <div class="stats-grid">
+                        <div class="card-editorial float-anim" style="animation-delay: 0s;">
+                            <div class="stat-title">Doanh Thu Tháng</div>
+                            <div class="stat-value text-mono" id="stat-revenue">12,500,000đ</div>
+                            <div class="stat-trend positive"><i class="fas fa-arrow-up"></i> <span id="stat-revenue-trend">15% so với tháng trước</span></div>
+                        </div>
+                        <div class="card-editorial float-anim" style="animation-delay: 0.2s;">
+                            <div class="stat-title">Đơn Hàng Mới</div>
+                            <div class="stat-value text-mono" id="stat-orders">24</div>
+                            <div class="stat-trend pending"><i class="fas fa-clock"></i> <span id="stat-orders-trend">Chờ xử lý</span></div>
+                        </div>
+                        <div class="card-editorial float-anim" style="animation-delay: 0.4s;">
+                            <div class="stat-title">Giảm CO₂</div>
+                            <div class="stat-value text-mono highlight-green" id="stat-environment">-45 Kg CO₂</div>
+                            <div class="stat-trend positive"><span id="stat-environment-trend">Từ 15 sản phẩm Upcycling</span></div>
+                        </div>
+                        <div class="card-editorial float-anim" style="animation-delay: 0.6s;">
+                            <div class="stat-title">GreenCoin Tích Lũy</div>
+                            <div class="stat-value text-mono highlight-lime" id="stat-greencoin">1,250 GC</div>
+                            <div class="stat-trend positive"><i class="fas fa-leaf"></i> <span id="stat-greencoin-trend">Đang tích lũy giao dịch</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Charts Grid -->
+                    <div class="charts-grid mt-4">
+                        <div class="card-editorial chart-card">
+                            <div class="chart-header-container">
+                                <h3 class="chart-title">Doanh Thu Theo Thời Gian</h3>
+                                <div class="chart-tabs">
+                                    <button class="chart-tab active" data-period="weekly">Tuần này</button>
+                                    <button class="chart-tab" data-period="monthly">Tháng này</button>
+                                </div>
+                            </div>
+                            <div class="chart-canvas-wrapper">
+                                <canvas id="revenueChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="card-editorial chart-card">
+                            <div class="chart-header-container">
+                                <h3 class="chart-title">Phân Phối Doanh Số</h3>
+                                <span class="badge-editorial">Danh mục</span>
+                            </div>
+                            <div class="chart-canvas-wrapper">
+                                <canvas id="categoryChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="charts-grid-full mt-4">
+                        <div class="card-editorial chart-card">
+                            <div class="chart-header-container">
+                                <h3 class="chart-title">Thống Kê Thu Nhận Đồ Cũ & Tiết Kiệm CO₂ Từng Tuần</h3>
+                                <span class="badge-editorial badge-accent">Chỉ số tuần hoàn</span>
+                            </div>
+                            <div class="chart-canvas-wrapper-full">
+                                <canvas id="environmentalChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PROFILE VIEW -->
+                <section id="profile" class="view-section">
+                    <div class="section-header">
+                        <h2 class="text-display">Hồ Sơ Gian Hàng</h2>
+                        <span class="badge-editorial badge-accent">Đã Phê Duyệt</span>
+                    </div>
+                    
+                    <div class="card-editorial">
+                        <form class="profile-form">
+                            <div class="form-group">
+                                <label>Tên Shop</label>
+                                <input type="text" class="input-editorial" value="Designer Studio ReFashion" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Mô Tả Cửa Hàng</label>
+                                <textarea class="input-editorial" rows="4">Chuyên tái chế đồ Denim cũ thành các sản phẩm thời trang cao cấp độc bản.</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Địa Chỉ Lấy Hàng</label>
+                                <input type="text" class="input-editorial" value="123 Nguyễn Văn Linh, Quận 7, TP.HCM">
+                            </div>
+                             <div class="form-group">
+                                <label>Logo (Kéo thả hoặc Click chọn ảnh)</label>
+                                <div class="upload-area" id="logo-upload-area">
+                                    <input type="file" id="logo-file-input" accept="image/*" style="display: none;">
+                                    <div class="upload-placeholder" id="logo-upload-placeholder">
+                                        <i class="fas fa-cloud-upload-alt"></i>
+                                        <span>Kéo thả ảnh logo vào đây hoặc bấm để chọn tệp</span>
+                                    </div>
+                                    <div class="upload-preview-container" id="logo-upload-preview-container" style="display: none;">
+                                        <img src="" alt="Logo Preview" class="upload-preview-img" id="logo-preview-img">
+                                        <span class="upload-preview-text">Nhấp để thay đổi ảnh</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn-editorial btn-primary-editorial">Cập Nhật Hồ Sơ</button>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+
+                <!-- PRODUCTS VIEW -->
+                <section id="products" class="view-section">
+                    <div class="section-header">
+                        <h2 class="text-display">Sản Phẩm Upcycling</h2>
+                        <button id="btn-add-product" class="btn-editorial btn-primary-editorial"><i class="fas fa-plus"></i> Đăng Sản Phẩm Mới</button>
+                    </div>
+                    
+                    <div class="card-editorial">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Sản Phẩm</th>
+                                    <th>Giá Bán</th>
+                                    <th>Kho</th>
+                                    <th>Trạng Thái</th>
+                                    <th>Thao Tác</th>
+                                </tr>
+                            </thead>
+                            <tbody id="products-table-body">
+                                <tr>
+                                    <td>
+                                        <div class="product-info-cell">
+                                            <div class="product-img mock-img-1"></div>
+                                            <div>
+                                                <strong>Reworked Denim Jacket</strong><br>
+                                                <span class="text-sans">Xanh / Size L</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-mono">1,200,000đ</td>
+                                    <td>5</td>
+                                    <td><span class="badge-editorial badge-accent">Đang Bán</span></td>
+                                    <td>
+                                        <button class="icon-btn"><i class="fas fa-edit"></i></button>
+                                        <button class="icon-btn delete"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="product-info-cell">
+                                            <div class="product-img mock-img-2"></div>
+                                            <div>
+                                                <strong>Vintage Patchwork Bag</strong><br>
+                                                <span class="text-sans">Nhiều màu / Free Size</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-mono">850,000đ</td>
+                                    <td>2</td>
+                                    <td><span class="badge-editorial badge-accent">Đang Bán</span></td>
+                                    <td>
+                                        <button class="icon-btn"><i class="fas fa-edit"></i></button>
+                                        <button class="icon-btn delete"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- ORDERS VIEW -->
+                <section id="orders" class="view-section">
+                    <div class="section-header">
+                        <h2 class="text-display">Quản Lý Đơn Hàng</h2>
+                    </div>
+                    
+                    <div class="tabs-editorial">
+                        <button class="tab-item active">Chờ Xác Nhận (2)</button>
+                        <button class="tab-item">Chờ Lấy Hàng (5)</button>
+                        <button class="tab-item">Đang Giao (1)</button>
+                        <button class="tab-item">Đã Giao</button>
+                    </div>
+
+                    <div class="card-editorial mt-4">
+                        <div class="order-item">
+                            <div class="order-header">
+                                <span class="text-mono">Mã ĐH: #ORD-9872</span>
+                                <span class="badge-editorial badge-highlight">Chờ Xác Nhận</span>
+                            </div>
+                            <div class="order-body">
+                                <div class="product-info-cell">
+                                    <div class="product-img mock-img-1"></div>
+                                    <div>
+                                        <strong>Reworked Denim Jacket</strong> x 1<br>
+                                        <span class="text-sans">Khách hàng: Nguyễn Văn A</span>
+                                    </div>
+                                </div>
+                                <div class="order-price text-mono">1,200,000đ</div>
+                            </div>
+                            <div class="order-footer">
+                                <button class="btn-editorial">Hủy Đơn</button>
+                                <button class="btn-editorial btn-primary-editorial">Xác Nhận & Chuẩn Bị Hàng</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VOUCHERS VIEW -->
+                <section id="vouchers" class="view-section">
+                    <div class="section-header">
+                        <h2 class="text-display">Mã Giảm Giá Shop</h2>
+                        <button class="btn-editorial btn-primary-editorial"><i class="fas fa-plus"></i> Tạo Voucher Mới</button>
+                    </div>
+                    
+                    <div class="card-editorial">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Mã Voucher</th>
+                                    <th>Giảm Giá</th>
+                                    <th>Điều Kiện</th>
+                                    <th>Lượt Dùng</th>
+                                    <th>Trạng Thái</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong class="text-mono shimmer-text">DESIGNER10</strong></td>
+                                    <td>10% (Tối đa 50k)</td>
+                                    <td>Đơn từ 300k</td>
+                                    <td>15/100</td>
+                                    <td><span class="badge-editorial badge-accent">Đang Chạy</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- CHAT VIEW -->
+                <section id="chat" class="view-section">
+                    <div class="chat-container card-editorial">
+                        <div class="chat-sidebar">
+                            <div class="chat-contact active">
+                                <img src="https://ui-avatars.com/api/?name=NVA&background=0F172A&color=fff" alt="Avatar">
+                                <div class="contact-info">
+                                    <strong>Nguyễn Văn A</strong>
+                                    <span class="last-msg">Sản phẩm này còn size M không shop?</span>
+                                </div>
+                            </div>
+                            <div class="chat-contact">
+                                <img src="https://ui-avatars.com/api/?name=Tran+B&background=D97706&color=fff" alt="Avatar">
+                                <div class="contact-info">
+                                    <strong>Trần B</strong>
+                                    <span class="last-msg">Cảm ơn shop nhé!</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chat-main">
+                            <div class="chat-header">
+                                <strong>Nguyễn Văn A</strong>
+                                <span class="badge-editorial">Đang Hoạt Động</span>
+                            </div>
+                            <div class="chat-messages">
+                                <div class="message incoming">
+                                    <div class="msg-content">Sản phẩm Reworked Denim Jacket còn size M không shop ơi?</div>
+                                    <div class="msg-time">10:45 AM</div>
+                                </div>
+                                <div class="message outgoing">
+                                    <div class="msg-content">Dạ chào bạn, sản phẩm này bên mình là độc bản nên hiện chỉ có size L thôi ạ. Nhưng có thể điều chỉnh form một chút nếu bạn thích.</div>
+                                    <div class="msg-time">10:47 AM</div>
+                                </div>
+                            </div>
+                            <div class="chat-input-area">
+                                <input type="text" class="input-editorial" placeholder="Nhập tin nhắn...">
+                                <button class="btn-editorial btn-primary-editorial"><i class="fas fa-paper-plane"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- UPCYCLING TASKS VIEW -->
+                <section id="upcycling" class="view-section">
+                    <div class="section-header">
+                        <h2 class="text-display">Nhận Đồ Cũ (Upcycling)</h2>
+                        <span class="badge-editorial badge-highlight">2 Nhiệm Vụ Mới</span>
+                    </div>
+
+                    <div class="grid-2col">
+                        <div class="card-editorial float-anim">
+                            <div class="task-header">
+                                <span class="text-mono">Task: #UPC-112</span>
+                                <span class="badge-editorial badge-highlight">Chờ Nhận Đồ</span>
+                            </div>
+                            <p><strong>Khách hàng gửi:</strong> 2 quần Jeans cũ</p>
+                            <p><strong>Yêu cầu thiết kế:</strong> Tái chế thành túi xách đeo chéo phong cách bụi bặm.</p>
+                            <p><strong>Người gửi:</strong> Lê Thị C (Đã xác nhận vận chuyển)</p>
+                            <div class="mt-4">
+                                <button class="btn-editorial btn-primary-editorial w-100">Xác Nhận Đã Nhận Đồ</button>
+                            </div>
+                        </div>
+
+                        <div class="card-editorial">
+                            <div class="task-header">
+                                <span class="text-mono">Task: #UPC-089</span>
+                                <span class="badge-editorial badge-accent">Đang Thiết Kế</span>
+                            </div>
+                            <p><strong>Khách hàng gửi:</strong> Áo sơ mi cũ</p>
+                            <p><strong>Yêu cầu thiết kế:</strong> May lại thành Crop-top.</p>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar" style="width: 60%"></div>
+                            </div>
+                            <p class="text-sans mt-2">Tiến độ: 60%</p>
+                            <div class="mt-4">
+                                <button class="btn-editorial w-100">Cập Nhật Trạng Thái</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Add New Product Modal -->
+    <div id="add-product-modal" class="modal-backdrop">
+        <div class="modal-content card-editorial">
+            <div class="modal-header">
+                <h3 class="text-display">Đăng Sản Phẩm Mới</h3>
+                <button class="close-modal-btn" id="btn-close-product-modal">&times;</button>
+            </div>
+            <form id="add-product-form">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Tên Sản Phẩm Upcycling</label>
+                        <input type="text" id="new-product-name" class="input-editorial" placeholder="VD: Custom Denim Corset" required>
+                    </div>
+                    <div class="grid-2col">
+                        <div class="form-group">
+                            <label>Phân Loại</label>
+                            <select id="new-product-category" class="input-editorial" style="height: 46px;" required>
+                                <option value="Denim Jacket">Denim Jacket</option>
+                                <option value="Patchwork Bag">Patchwork Bag</option>
+                                <option value="Restyled Tops">Restyled Tops</option>
+                                <option value="Phụ Kiện Khác">Phụ Kiện Khác</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Kích Cỡ / Màu Sắc</label>
+                            <input type="text" id="new-product-variant" class="input-editorial" placeholder="VD: Xanh / Size M" required>
+                        </div>
+                    </div>
+                    <div class="grid-2col">
+                        <div class="form-group">
+                            <label>Giá Bán (đ)</label>
+                            <input type="number" id="new-product-price" class="input-editorial" placeholder="VD: 550000" min="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Số Lượng Kho</label>
+                            <input type="number" id="new-product-stock" class="input-editorial" placeholder="VD: 5" min="1" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Ảnh sản phẩm</label>
+                        <div class="upload-area" id="product-upload-area" style="padding: 20px; background: rgba(5, 150, 105, 0.01);">
+                            <input type="file" id="product-file-input" accept="image/*" style="display: none;">
+                            <div id="product-upload-placeholder">
+                                <i class="fas fa-image" style="font-size: 24px; color: var(--accent-green); margin-bottom: 8px;"></i>
+                                <span style="font-size: 12px; display: block; color: #666;">Nhấp để chọn ảnh sản phẩm hoặc kéo thả vào đây</span>
+                            </div>
+                            <div id="product-upload-preview-container" style="display: none; display: flex; align-items: center; justify-content: center; gap: 12px; flex-direction: column;">
+                                <img src="" alt="Product Preview" style="width: 70px; height: 70px; object-fit: cover; border-radius: var(--radius-sm); border: var(--border-main);" id="product-preview-img">
+                                <span style="font-size: 11px; display: block; color: var(--accent-green); font-weight: 600;">Nhấp để chọn ảnh khác</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-editorial" id="btn-cancel-product-modal">Hủy</button>
+                    <button type="submit" class="btn-editorial btn-primary-editorial">Đăng Bán Ngay</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="../js/mainjs.js"></script>
+    <script src="../js/seller.js"></script>
+</body>
+</html>

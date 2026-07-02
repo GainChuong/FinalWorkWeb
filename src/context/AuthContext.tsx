@@ -13,6 +13,8 @@ export interface UserData {
   greenCoin: number;
   photoUrl?: string;
   authProvider?: "local" | "google";
+  role?: "Buyer" | "Seller" | "Admin";
+  redirect?: string;
 }
 
 export interface CartItem {
@@ -93,11 +95,18 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Demo account
+// Role-based accounts (mirrors datasets/accounts.json)
+const ROLE_ACCOUNTS = [
+  { email: "buyer@refashion.vn",  password: "buyer123",  role: "Buyer"  as const, name: "Người Mua Demo",   redirect: "/buyer/index.html" },
+  { email: "seller@refashion.vn", password: "seller123", role: "Seller" as const, name: "Designer Studio",  redirect: "/seller/seller_dashboard.html" },
+  { email: "admin@refashion.vn",  password: "admin123",  role: "Admin"  as const, name: "Admin ReFashion",  redirect: "/admin/index.html" },
+];
+
+// Legacy demo account
 const DEMO_ACCOUNT = {
   email: "refashion@gmail.com",
   password: "1234567890@Abc",
-  username: "ReFashion Admin",
+  username: "ReFashion Demo",
   phone: "0912 345 678",
 };
 
@@ -174,7 +183,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   // ======= AUTH METHODS =======
   const login = useCallback((email: string, password: string): boolean => {
-    // Check demo account
+    // 1. Check role-based accounts (buyer / seller / admin)
+    const roleAccount = ROLE_ACCOUNTS.find(
+      (a) => a.email.toLowerCase() === email.toLowerCase().trim() && a.password === password
+    );
+    if (roleAccount) {
+      const userData: UserData = {
+        username: roleAccount.name,
+        email: roleAccount.email,
+        phone: "",
+        joinDate: new Date().toLocaleDateString("vi-VN"),
+        greenCoin: 100,
+        role: roleAccount.role,
+        redirect: roleAccount.redirect,
+      };
+      setUser(userData);
+      // Write to localStorage immediately so redirect can be read synchronously
+      saveToStorage("refashion_current_user", userData);
+      return true;
+    }
+
+    // 2. Check legacy demo account
     if (email === DEMO_ACCOUNT.email && password === DEMO_ACCOUNT.password) {
       setUser({
         username: DEMO_ACCOUNT.username,
@@ -182,11 +211,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         phone: DEMO_ACCOUNT.phone,
         joinDate: "01/01/2026",
         greenCoin: 500,
+        role: "Buyer",
       });
       return true;
     }
 
-    // Check registered users
+    // 3. Check registered users (localStorage)
     const users = loadFromStorage<Array<{
       username: string;
       email: string;
@@ -204,6 +234,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         phone: found.phone || "",
         joinDate: found.joinDate || new Date().toLocaleDateString("vi-VN"),
         greenCoin: found.greenCoin ?? 100,
+        role: "Buyer",
       });
       return true;
     }

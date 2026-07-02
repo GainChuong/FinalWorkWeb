@@ -1,0 +1,110 @@
+{
+  "products": [
+    {
+      "id": "P101",
+      "name": "Upcycled Denim Jacket",
+      "category": "Denim Jacket",
+      "variant": "Size M - Xanh Nhạt",
+      "price": 1200000,
+      "stock": 5,
+      "store": "Eco Wear",
+      "status": "Active",
+      "image": "../images/fashion1.jpg"
+    },
+    {
+      "id": "P102",
+      "name": "Patchwork Denim Totebag",
+      "category": "Patchwork Bag",
+      "variant": "Màu Nâu Đất",
+      "price": 350000,
+      "stock": 12,
+      "store": "Eco Wear",
+      "status": "Active",
+      "image": "../images/fashion2.jpg"
+    },
+    {
+      "id": "P103",
+      "name": "Restyled Flannel Shirt",
+      "category": "Restyled Tops",
+      "variant": "Size L - Kẻ Caro Đỏ",
+      "price": 450000,
+      "stock": 8,
+      "store": "Eco Wear",
+      "status": "Active",
+      "image": "../images/fashion3.jpg"
+    },
+    {
+      "id": "P104",
+      "name": "Patchwork Denim Jeans",
+      "category": "Denim Jacket",
+      "variant": "Size 32 - Xanh Đậm",
+      "price": 850000,
+      "stock": 3,
+      "store": "Eco Wear",
+      "status": "Active",
+      "image": "../images/fashion4.jpg"
+    },
+    {
+      "id": "P105",
+      "name": "Vintage Silk Scarf",
+      "category": "Phụ Kiện Khác",
+      "variant": "Màu Be Vintage",
+      "price": 280000,
+      "stock": 20,
+      "store": "Retro Chic",
+      "status": "Reported",
+      "image": "../images/fashion5.jpg"
+    },
+    {
+      "id": "P106",
+      "name": "Corduroy Upcycled Cap",
+      "category": "Phụ Kiện Khác",
+      "variant": "Màu Xanh Rêu",
+      "price": 250000,
+      "stock": 15,
+      "store": "Eco Wear",
+      "status": "Active",
+      "image": "../images/fashion1.jpg"
+    },
+    {
+      "id": "P107",
+      "name": "Refashioned Summer Dress",
+      "category": "Restyled Tops",
+      "variant": "Size S - Hoa Nhỏ",
+      "price": 680000,
+      "stock": 6,
+      "store": "Retro Chic",
+      "status": "Active",
+      "image": "../images/fashion2.jpg"
+    }
+  ],
+  "categories": [
+    { "id": "C1", "name": "Denim Reimagined", "itemsCount": 120 },
+    { "id": "C2", "name": "Vintage Dresses", "itemsCount": 85 },
+    { "id": "C3", "name": "Patchwork Bags", "itemsCount": 60 },
+    { "id": "C4", "name": "Phụ Kiện Tái Chế", "itemsCount": 45 }
+  ],
+  "users": [
+    { "id": "U01", "name": "Nguyễn Văn A", "role": "Buyer", "status": "Active" },
+    { "id": "U02", "name": "Trần Thị B", "role": "Designer", "status": "Active" },
+    { "id": "U03", "name": "Lê Văn C", "role": "Buyer", "status": "Locked" },
+    { "id": "U04", "name": "Phạm Minh Đức", "role": "Buyer", "status": "Active" },
+    { "id": "U05", "name": "Vũ Thanh Hằng", "role": "Designer", "status": "Active" }
+  ],
+  "shops": [
+    { "id": "S01", "designer": "Phạm D", "requestedAt": "2026-06-01", "status": "Pending" },
+    { "id": "S02", "designer": "Hoàng E", "requestedAt": "2026-06-03", "status": "Pending" }
+  ],
+  "withdrawals": [
+    { "id": "W01", "designer": "Phạm D", "amount": "2,500,000 VND", "status": "Pending" },
+    { "id": "W02", "designer": "Trần Thị B", "amount": "1,200,000 VND", "status": "Pending" }
+  ],
+  "mockOrders": [
+    { "customer": "Trần Thị Mai", "product": "Upcycled Denim Totebag", "price": 350000, "co2": 1.8, "gc": 35 },
+    { "customer": "Lê Hoàng Long", "product": "Reworked Denim Jacket", "price": 1200000, "co2": 4.5, "gc": 120 },
+    { "customer": "Phạm Minh Đức", "product": "Restyled Flannel Shirt", "price": 450000, "co2": 2.2, "gc": 45 },
+    { "customer": "Vũ Thanh Hằng", "product": "Patchwork Denim Jeans", "price": 850000, "co2": 3.1, "gc": 85 },
+    { "customer": "Nguyễn Duy Anh", "product": "Corduroy Upcycled Cap", "price": 250000, "co2": 1.2, "gc": 25 },
+    { "customer": "Đặng Kim Ngân", "product": "Refashioned Summer Dress", "price": 680000, "co2": 2.8, "gc": 68 }
+  ]
+}
