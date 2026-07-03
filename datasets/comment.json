@@ -1,0 +1,119 @@
+{
+  "conversations": [
+    {
+      "id": "conv_001",
+      "buyer": { "name": "Nguyễn Văn A", "avatar": "https://ui-avatars.com/api/?name=NVA&background=0F172A&color=fff" },
+      "store": "Eco Wear",
+      "storeLogo": "../images/store_eco_wear.png",
+      "lastMessage": "Cảm ơn shop nhé!",
+      "lastTime": "2026-07-03T10:47:00",
+      "unread": 0,
+      "status": "active",
+      "messages": [
+        { "sender": "buyer", "text": "Sản phẩm Reworked Denim Jacket còn size M không shop ơi?", "time": "2026-07-03T10:45:00" },
+        { "sender": "store", "text": "Dạ chào bạn, sản phẩm này bên mình là độc bản nên hiện chỉ có size L thôi ạ. Nhưng có thể điều chỉnh form một chút nếu bạn thích.", "time": "2026-07-03T10:47:00" },
+        { "sender": "buyer", "text": "Vậy để mình suy nghĩ thêm nha. Cảm ơn shop!", "time": "2026-07-03T10:50:00" },
+        { "sender": "store", "text": "Dạ vâng ạ, có gì bạn cứ nhắn tin cho shop nhé!", "time": "2026-07-03T10:52:00" },
+        { "sender": "buyer", "text": "Cảm ơn shop nhé!", "time": "2026-07-03T10:55:00" }
+      ]
+    },
+    {
+      "id": "conv_002",
+      "buyer": { "name": "Trần B", "avatar": "https://ui-avatars.com/api/?name=Tran+B&background=D97706&color=fff" },
+      "store": "Eco Wear",
+      "storeLogo": "../images/store_eco_wear.png",
+      "lastMessage": "Ok để mình đặt hàng luôn",
+      "lastTime": "2026-07-03T09:30:00",
+      "unread": 1,
+      "status": "active",
+      "messages": [
+        { "sender": "buyer", "text": "Shop ơi, áo thun từ vải thừa còn size L không ạ?", "time": "2026-07-03T09:15:00" },
+        { "sender": "store", "text": "Dạ còn ạ. Size L màu trắng và đen đều còn hàng.", "time": "2026-07-03T09:18:00" },
+        { "sender": "buyer", "text": "Cho mình đặt 1 cái màu trắng size L nhé.", "time": "2026-07-03T09:25:00" },
+        { "sender": "store", "text": "Dạ vâng ạ, cảm ơn bạn đã tin tưởng shop!", "time": "2026-07-03T09:28:00" },
+        { "sender": "buyer", "text": "Ok để mình đặt hàng luôn", "time": "2026-07-03T09:30:00" }
+      ]
+    },
+    {
+      "id": "conv_003",
+      "buyer": { "name": "Lê Thị C", "avatar": "https://ui-avatars.com/api/?name=Le+Thi+C&background=831843&color=fff" },
+      "store": "Eco Wear",
+      "storeLogo": "../images/store_eco_wear.png",
+      "lastMessage": "Bao giờ shop giao hàng ạ?",
+      "lastTime": "2026-07-02T16:20:00",
+      "unread": 2,
+      "status": "active",
+      "messages": [
+        { "sender": "buyer", "text": "Chào shop, mình đã đặt áo khoác tái chế hôm qua.", "time": "2026-07-02T14:00:00" },
+        { "sender": "store", "text": "Dạ, cảm ơn bạn ạ. Đơn hàng đang được đóng gói.", "time": "2026-07-02T14:30:00" },
+        { "sender": "buyer", "text": "Bao giờ shop giao hàng ạ?", "time": "2026-07-02T16:20:00" }
+      ]
+    },
+    {
+      "id": "conv_004",
+      "buyer": { "name": "Phạm Văn D", "avatar": "https://ui-avatars.com/api/?name=Pham+Van+D&background=065f46&color=fff" },
+      "store": "Denim Craft",
+      "storeLogo": "../images/store_denim_craft.png",
+      "lastMessage": "Tuyệt vời! Mình rất thích phong cách này",
+      "lastTime": "2026-07-01T15:30:00",
+      "unread": 0,
+      "status": "active",
+      "messages": [
+        { "sender": "buyer", "text": "Chiếc quần jeans Denim Tái Bản có nhập size 34 không shop?", "time": "2026-07-01T14:00:00" },
+        { "sender": "store", "text": "Hiện tại tụi mình chỉ có đến size 32 thôi bạn ạ.", "time": "2026-07-01T14:15:00" },
+        { "sender": "buyer", "text": "Tiếc quá, mình mua 2 cái size 32 vậy.", "time": "2026-07-01T14:20:00" },
+        { "sender": "store", "text": "Dạ vâng, cảm ơn bạn rất nhiều ạ!", "time": "2026-07-01T14:25:00" },
+        { "sender": "buyer", "text": "Tuyệt vời! Mình rất thích phong cách này", "time": "2026-07-01T15:30:00" }
+      ]
+    },
+    {
+      "id": "conv_005",
+      "buyer": { "name": "Hoàng Thị E", "avatar": "https://ui-avatars.com/api/?name=Hoang+Thi+E&background=701a75&color=fff" },
+      "store": "Denim Craft",
+      "storeLogo": "../images/store_denim_craft.png",
+      "lastMessage": "Cảm ơn shop nhiều ạ!",
+      "lastTime": "2026-06-30T11:00:00",
+      "unread": 1,
+      "status": "active",
+      "messages": [
+        { "sender": "buyer", "text": "Túi Patchwork Vải Mộc có nhiều màu không shop?", "time": "2026-06-30T10:00:00" },
+        { "sender": "store", "text": "Dạ, túi patchwork mỗi cái là độc bản ạ, màu sắc phụ thuộc vào vải thừa của xưởng.", "time": "2026-06-30T10:15:00" },
+        { "sender": "buyer", "text": "Vậy shop có thể chụp thêm ảnh các mẫu khác không?", "time": "2026-06-30T10:30:00" },
+        { "sender": "store", "text": "Dạ, shop sẽ chụp và gửi bạn sau ạ.", "time": "2026-06-30T10:45:00" },
+        { "sender": "buyer", "text": "Cảm ơn shop nhiều ạ!", "time": "2026-06-30T11:00:00" }
+      ]
+    },
+    {
+      "id": "conv_006",
+      "buyer": { "name": "Minh T", "avatar": "https://ui-avatars.com/api/?name=Minh+T&background=1e3a8a&color=fff" },
+      "store": "Hemp & Bamboo",
+      "storeLogo": "../images/store_hemp_bamboo.png",
+      "lastMessage": "Shop có ship hỏa tốc không ạ?",
+      "lastTime": "2026-07-03T08:00:00",
+      "unread": 3,
+      "status": "active",
+      "messages": [
+        { "sender": "buyer", "text": "Cho mình hỏi giày sneaker từ vải jeans cũ đi có êm không?", "time": "2026-07-03T07:30:00" },
+        { "sender": "store", "text": "Dạ rất êm ạ, đế cao su tự nhiên và lót giày EVA tái sinh siêu nhẹ.", "time": "2026-07-03T07:40:00" },
+        { "sender": "buyer", "text": "Shop có ship hỏa tốc không ạ?", "time": "2026-07-03T08:00:00" }
+      ]
+    },
+    {
+      "id": "conv_007",
+      "buyer": { "name": "Hương N", "avatar": "https://ui-avatars.com/api/?name=Huong+N&background=557A46&color=fff" },
+      "store": "Retro Chic",
+      "storeLogo": "../images/store_retro_chic.png",
+      "lastMessage": "Mình sẽ đặt hàng sau ạ",
+      "lastTime": "2026-07-02T18:00:00",
+      "unread": 0,
+      "status": "active",
+      "messages": [
+        { "sender": "buyer", "text": "Đầm tái chế từ áo cũ size M còn không shop?", "time": "2026-07-02T17:00:00" },
+        { "sender": "store", "text": "Dạ còn ạ, size M màu be mộc đang có sẵn.", "time": "2026-07-02T17:15:00" },
+        { "sender": "buyer", "text": "Giá còn thương lượng được không shop?", "time": "2026-07-02T17:30:00" },
+        { "sender": "store", "text": "Dạ giá niêm yết rồi ạ, không giảm thêm được. Nhưng được free ship ạ.", "time": "2026-07-02T17:45:00" },
+        { "sender": "buyer", "text": "Mình sẽ đặt hàng sau ạ", "time": "2026-07-02T18:00:00" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "dashboard": {
+    "months": [
+      {
+        "key": "2026-05",
+        "label": "Tháng 05, 2026",
+        "stats": {
+          "revenue": 8200000,
+          "orders": 16,
+          "co2_saved": 28,
+          "esg_score": 72,
+          "revenue_trend": "+8%",
+          "orders_trend": "Còn 3 đơn chờ",
+          "co2_trend": "Từ 10 sản phẩm Upcycling",
+          "environment_products": 10,
+          "environment_score_change": "+4 điểm vs tháng trước"
+        },
+        "charts": {
+          "revenue_weekly": [1800000, 2100000, 2400000, 1900000],
+          "revenue_daily": [800000, 1100000, 950000, 1400000, 1200000, 1800000, 950000],
+          "category": [35, 30, 20, 15],
+          "environmental_products": [8, 10, 6, 4],
+          "environmental_co2": [16, 22, 14, 10]
+        }
+      },
+      {
+        "key": "2026-06",
+        "label": "Tháng 06, 2026",
+        "stats": {
+          "revenue": 10500000,
+          "orders": 20,
+          "co2_saved": 36,
+          "esg_score": 80,
+          "revenue_trend": "+12%",
+          "orders_trend": "Còn 5 đơn chờ",
+          "co2_trend": "Từ 12 sản phẩm Upcycling",
+          "environment_products": 12,
+          "environment_score_change": "+8 điểm vs tháng trước"
+        },
+        "charts": {
+          "revenue_weekly": [2200000, 2800000, 3100000, 2400000],
+          "revenue_daily": [1000000, 1500000, 1200000, 1800000, 1600000, 2400000, 1000000],
+          "category": [40, 28, 18, 14],
+          "environmental_products": [10, 14, 8, 4],
+          "environmental_co2": [20, 28, 18, 10]
+        }
+      },
+      {
+        "key": "2026-07",
+        "label": "Tháng 07, 2026",
+        "stats": {
+          "revenue": 12500000,
+          "orders": 24,
+          "co2_saved": 45,
+          "esg_score": 85,
+          "revenue_trend": "+15%",
+          "orders_trend": "Chờ xử lý",
+          "co2_trend": "Từ sản phẩm Upcycling",
+          "environment_products": 15,
+          "environment_score_change": "+6 điểm vs tháng trước"
+        },
+        "charts": {
+          "revenue_weekly": [2800000, 3200000, 3800000, 2700000],
+          "revenue_daily": [1200000, 1800000, 1500000, 2200000, 1900000, 3100000, 2600000],
+          "category": [45, 25, 20, 10],
+          "environmental_products": [12, 18, 15, 22],
+          "environmental_co2": [25, 38, 30, 45]
+        }
+      }
+    ]
+  }
+}

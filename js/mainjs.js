@@ -104,7 +104,9 @@ var RefashionAuth = {
         joinDate: new Date().toLocaleDateString('vi-VN'),
         greenCoin: 100,
         role: account.role,
-        redirect: account.redirect
+        redirect: account.redirect,
+        store: account.store || '',
+        storeLogo: account.storeLogo || ''
       };
       this._saveUser(userData);
       setSession(account.email, account.role);
@@ -162,7 +164,7 @@ var RefashionAuth = {
     var cart = this._getCart();
     var existing = null;
     for (var i = 0; i < cart.length; i++) {
-      if (cart[i].productId === item.productId) {
+      if (cart[i].productId === item.productId && cart[i].variant === item.variant) {
         existing = cart[i];
         break;
       }
@@ -170,34 +172,31 @@ var RefashionAuth = {
     if (existing) {
       existing.quantity += 1;
     } else {
-      cart.push({ productId: item.productId, name: item.name, price: item.price, priceStr: item.priceStr, image: item.image, ecoScore: item.ecoScore, quantity: 1 });
+      cart.push({ productId: item.productId, name: item.name, price: item.price, priceStr: item.priceStr, image: item.image, variant: item.variant || 'Tiêu chuẩn', quantity: 1 });
     }
     this._saveCart(cart);
     return cart;
   },
 
-  removeFromCart: function(productId) {
+  removeFromCart: function(productId, variant) {
     var cart = this._getCart();
     var newCart = [];
     for (var i = 0; i < cart.length; i++) {
-      if (cart[i].productId !== productId) newCart.push(cart[i]);
+      if (!(cart[i].productId === productId && cart[i].variant === (variant || 'Tiêu chuẩn'))) {
+        newCart.push(cart[i]);
+      }
     }
     this._saveCart(newCart);
     return newCart;
   },
 
-  updateCartQuantity: function(productId, quantity) {
+  updateCartQuantity: function(productId, variant, quantity) {
     var cart = this._getCart();
     if (quantity <= 0) {
-      var newCart = [];
-      for (var i = 0; i < cart.length; i++) {
-        if (cart[i].productId !== productId) newCart.push(cart[i]);
-      }
-      this._saveCart(newCart);
-      return newCart;
+      return this.removeFromCart(productId, variant);
     }
     for (var i = 0; i < cart.length; i++) {
-      if (cart[i].productId === productId) {
+      if (cart[i].productId === productId && cart[i].variant === (variant || 'Tiêu chuẩn')) {
         cart[i].quantity = quantity;
         break;
       }
@@ -225,7 +224,10 @@ var RefashionAuth = {
       totalStr: total.toLocaleString('vi-VN') + ' \u0111',
       greenCoinEarned: greenCoinEarned,
       date: new Date().toLocaleDateString('vi-VN'),
-      status: 'processing'
+      status: 'pending',
+      phone: params.phone || '',
+      address: params.address || '',
+      note: params.note || ''
     };
     var orders = this._getOrders();
     orders.unshift(order);
@@ -328,12 +330,23 @@ var RefashionAuth = {
 };
 
 var SHOP_PRODUCTS = [
-  { id: '1', name: '\u00c1o Kho\u00e1c Gi\u00f3 Recycled Ocean-Plastic', category: 'jacket', price: 1250000, priceStr: '1,250,000 \u0111', image: 'https://images.unsplash.com/photo-1544441893-675973e31985?q=80&w=600', ecoScore: 'A+', sentimentScore: 98, material: 'Recycled Polyester', ratingCount: 124 },
-  { id: '2', name: 'Balo Leo N\u00fai Eco-Trail 30L', category: 'backpack', price: 1890000, priceStr: '1,890,000 \u0111', image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=600', ecoScore: 'A', sentimentScore: 95, material: 'Recycled Nylon', ratingCount: 89 },
-  { id: '3', name: '\u00c1o Thun Polo Organic Cotton', category: 'tshirt', price: 450000, priceStr: '450,000 \u0111', image: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=600', ecoScore: 'A+', sentimentScore: 97, material: 'Organic Cotton', ratingCount: 240 },
-  { id: '4', name: 'Qu\u1ea7n Kaki B\u1ec1n V\u1eefng S\u1ee3i Gai D\u1ea7u (Hemp)', category: 'pants', price: 890000, priceStr: '890,000 \u0111', image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?q=80&w=600', ecoScore: 'A', sentimentScore: 92, material: 'Hemp (S\u1ee3i Gai D\u1ea7u)', ratingCount: 56 },
-  { id: '5', name: 'T\u00fai \u0110eo Vai Canvas T\u00e1i Sinh', category: 'backpack', price: 180000, priceStr: '180,000 \u0111', image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600', ecoScore: 'B', sentimentScore: 90, material: 'Recycled Cotton', ratingCount: 42 },
-  { id: '6', name: 'Gi\u00e0y Th\u1ec3 Thao Eco-Step Bamboo Fiber', category: 'shoes', price: 1450000, priceStr: '1,450,000 \u0111', image: 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=600', ecoScore: 'A', sentimentScore: 94, material: 'Bamboo Fiber (S\u1ee3i Tre)', ratingCount: 75 }
+  { id: '1', name: 'Áo Khoác Gió Tái Chế', category: 'jacket', price: 1250000, priceStr: '1,250,000 đ', image: 'https://images.unsplash.com/photo-1544441893-675973e31985?q=80&w=600', sentimentScore: 73, ratingCount: 12, store: 'Eco Wear', storeLogo: '../images/store_eco_wear.png' },
+  { id: '2', name: 'Balo Tái Chế 30L', category: 'backpack', price: 1890000, priceStr: '1,890,000 đ', image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=600', sentimentScore: 88, ratingCount: 12, store: 'Hemp & Bamboo', storeLogo: '../images/store_hemp_bamboo.png' },
+  { id: '3', name: 'Áo Thun Từ Vải Thừa', category: 'tshirt', price: 450000, priceStr: '450,000 đ', image: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=600', sentimentScore: 90, ratingCount: 12, store: 'Eco Wear', storeLogo: '../images/store_eco_wear.png' },
+  { id: '4', name: 'Quần Kaki Từ Quần Cũ Tái Chế', category: 'pants', price: 890000, priceStr: '890,000 đ', image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?q=80&w=600', sentimentScore: 93, ratingCount: 12, store: 'Hemp & Bamboo', storeLogo: '../images/store_hemp_bamboo.png' },
+  { id: '5', name: 'Túi Đeo Vai Canvas Tái Sinh', category: 'backpack', price: 180000, priceStr: '180,000 đ', image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600', sentimentScore: 87, ratingCount: 12, store: 'Hemp & Bamboo', storeLogo: '../images/store_hemp_bamboo.png' },
+  { id: '6', name: 'Giày Thể Thao Từ Vải Tái Chế', category: 'shoes', price: 1450000, priceStr: '1,450,000 đ', image: 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=600', sentimentScore: 83, ratingCount: 12, store: 'Hemp & Bamboo', storeLogo: '../images/store_hemp_bamboo.png' },
+  { id: '7', name: 'Quần Jeans Denim Tái Bản', category: 'pants', price: 950000, priceStr: '950,000 đ', image: '../images/sh_denim_jeans.png', sentimentScore: 73, ratingCount: 12, store: 'Denim Craft', storeLogo: '../images/store_denim_craft.png' },
+  { id: '8', name: 'Áo Sơ Mi Denim Upcycled', category: 'tshirt', price: 650000, priceStr: '650,000 đ', image: '../images/sh_denim_shirt.png', sentimentScore: 87, ratingCount: 12, store: 'Eco Wear', storeLogo: '../images/store_eco_wear.png' },
+  { id: '9', name: 'Đầm Tái Chế Từ Áo Cũ', category: 'tshirt', price: 780000, priceStr: '780,000 đ', image: '../images/sh_linen_dress.png', sentimentScore: 85, ratingCount: 12, store: 'Retro Chic', storeLogo: '../images/store_retro_chic.png' },
+  { id: '10', name: 'Túi Patchwork Vải Mộc', category: 'backpack', price: 320000, priceStr: '320,000 đ', image: '../images/sh_patchwork_bag.png', sentimentScore: 82, ratingCount: 11, store: 'Denim Craft', storeLogo: '../images/store_denim_craft.png' },
+  { id: '11', name: 'Khăn Lụa Từ Vải Thừa Cao Cấp', category: 'others', price: 290000, priceStr: '290,000 đ', image: '../images/sh_silk_scarf.png', sentimentScore: 82, ratingCount: 11, store: 'Retro Chic', storeLogo: '../images/store_retro_chic.png' },
+  { id: '12', name: 'Áo Khoác Dạ Len Tái Chế', category: 'jacket', price: 1650000, priceStr: '1,650,000 đ', image: '../images/sh_wool_jacket.png', sentimentScore: 76, ratingCount: 11, store: 'Eco Wear', storeLogo: '../images/store_eco_wear.png' },
+  { id: '13', name: 'Giày Sneaker Từ Vải Jeans Cũ', category: 'shoes', price: 850000, priceStr: '850,000 đ', image: '../images/shoes.jpg', sentimentScore: 78, ratingCount: 11, store: 'Hemp & Bamboo', storeLogo: '../images/store_hemp_bamboo.png' },
+  { id: '14', name: 'Áo Sơ Mi Thêu Hoa Đậu Biếc Organic', category: 'tshirt', price: 520000, priceStr: '520,000 đ', image: 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?q=80&w=600', sentimentScore: 89, ratingCount: 11, store: 'Green Thread', storeLogo: '../images/store_green_thread.png' },
+  { id: '15', name: 'Chân Váy Đũi Thêu Tay Eco-Flora', category: 'pants', price: 680000, priceStr: '680,000 đ', image: 'https://images.unsplash.com/photo-1583496661160-fb48862c4a4e?q=80&w=600', sentimentScore: 87, ratingCount: 11, store: 'Green Thread', storeLogo: '../images/store_green_thread.png' },
+  { id: '16', name: 'Áo Cardigan Dệt Kim Hữu Cơ Cúc Gỗ', category: 'jacket', price: 950000, priceStr: '950,000 đ', image: 'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?q=80&w=600', sentimentScore: 85, ratingCount: 11, store: 'Zero Waste', storeLogo: '../images/store_zero_waste.png' },
+  { id: '17', name: 'Túi Tote Canvas Zero-Waste Khâu Tay', category: 'backpack', price: 220000, priceStr: '220,000 đ', image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600', sentimentScore: 82, ratingCount: 11, store: 'Zero Waste', storeLogo: '../images/store_zero_waste.png' }
 ];
 
 function loginUser(email, password) {
@@ -372,6 +385,16 @@ function runRoleGuard() {
       return;
     }
   }
+  if (currentPath.indexOf('/buyer/') !== -1 && session) {
+    if (session.role === 'Seller') {
+      window.location.href = '../seller/seller_dashboard.html';
+      return;
+    }
+    if (session.role === 'Admin') {
+      window.location.href = '../admin/index.html';
+      return;
+    }
+  }
 }
 
 function initApp() {
@@ -381,8 +404,13 @@ function initApp() {
     function(err) {
       console.warn('[mainjs] Falling back to inline accounts:', err.message);
       MOCK_ACCOUNTS = [
-        { email: 'buyer@refashion.vn', password: 'buyer123', role: 'Buyer', name: 'Ng\u01b0\u1eddi Mua Demo', redirect: '../buyer/index.html' },
-        { email: 'seller@refashion.vn', password: 'seller123', role: 'Seller', name: 'Designer Studio', redirect: '../seller/seller_dashboard.html' },
+        { email: 'buyer@refashion.vn', password: 'buyer123', role: 'Buyer', name: 'Người Mua Demo', redirect: '../buyer/index.html' },
+        { email: 'seller@refashion.vn', password: 'seller123', role: 'Seller', name: 'Eco Wear Store', redirect: '../seller/seller_dashboard.html', store: 'Eco Wear', storeLogo: '../images/store_eco_wear.png' },
+        { email: 'seller_hemp@refashion.vn', password: 'seller123', role: 'Seller', name: 'Hemp & Bamboo Store', redirect: '../seller/seller_dashboard.html', store: 'Hemp & Bamboo', storeLogo: '../images/store_hemp_bamboo.png' },
+        { email: 'seller_retro@refashion.vn', password: 'seller123', role: 'Seller', name: 'Retro Chic Store', redirect: '../seller/seller_dashboard.html', store: 'Retro Chic', storeLogo: '../images/store_retro_chic.png' },
+        { email: 'seller_denim@refashion.vn', password: 'seller123', role: 'Seller', name: 'Denim Craft Store', redirect: '../seller/seller_dashboard.html', store: 'Denim Craft', storeLogo: '../images/store_denim_craft.png' },
+        { email: 'seller_greenthread@refashion.vn', password: 'seller123', role: 'Seller', name: 'Green Thread Store', redirect: '../seller/seller_dashboard.html', store: 'Green Thread', storeLogo: '../images/store_green_thread.png' },
+        { email: 'seller_zerowaste@refashion.vn', password: 'seller123', role: 'Seller', name: 'Zero Waste Store', redirect: '../seller/seller_dashboard.html', store: 'Zero Waste', storeLogo: '../images/store_zero_waste.png' },
         { email: 'admin@refashion.vn', password: 'admin123', role: 'Admin', name: 'Admin ReFashion', redirect: '../admin/index.html' }
       ];
       runRoleGuard();
@@ -408,6 +436,7 @@ function renderNavbar(containerId, prefix) {
           '<li><a href="' + prefix + 'index.html" class="nav-link-item" id="nav-home">Trang Ch\u1ee7</a></li>' +
           '<li><a href="' + prefix + 'shop.html" class="nav-link-item" id="nav-shop">C\u1eeda H\u00e0ng</a></li>' +
           '<li><a href="' + prefix + 'community.html" class="nav-link-item" id="nav-community">GreenCoin & \u0110\u1ed5i Qu\u00e0</a></li>' +
+          '<li><a href="' + prefix + 'secondhand.html" class="nav-link-item" id="nav-secondhand">Ch\u1ee3 Secondhand</a></li>' +
           '<li><a href="' + prefix + 'about.html" class="nav-link-item" id="nav-about">V\u1ec1 ReFashion</a></li>' +
         '</ul></nav>' +
         '<div class="nav-actions-div">' +
@@ -530,6 +559,7 @@ function setActiveNav() {
     'cart.html': 'nav-cart',
     'checkout.html': 'nav-cart',
     'community.html': 'nav-community',
+    'secondhand.html': 'nav-secondhand',
     'about.html': 'nav-about',
     'profile.html': 'nav-home'
   };
@@ -549,6 +579,57 @@ function showToast(msg) {
   document.body.appendChild(toast);
   setTimeout(function() { if (toast.parentElement) toast.remove(); }, 3000);
 }
+
+// Sync seller products from localStorage into SHOP_PRODUCTS
+function syncSellerProducts() {
+  try {
+    for (var k = 0; k < localStorage.length; k++) {
+      var key = localStorage.key(k);
+      if (key && key.indexOf('refashion_seller_products_') === 0) {
+        var storeName = key.replace('refashion_seller_products_', '');
+        var stored = localStorage.getItem(key);
+        if (!stored) continue;
+        var sellerProds = JSON.parse(stored);
+        
+        var existingIds = {};
+        for (var i = 0; i < SHOP_PRODUCTS.length; i++) {
+          existingIds[String(SHOP_PRODUCTS[i].id)] = true;
+        }
+        
+        var storeLogo = '../images/store_' + storeName.toLowerCase().replace(/ & /g, '_').replace(/ /g, '_') + '.png';
+        
+        for (var j = 0; j < sellerProds.length; j++) {
+          var p = sellerProds[j];
+          var idStr = String(p.id);
+          if (existingIds[idStr]) continue;
+          
+          var minPrice = p.price || 0;
+          if (p.variants && p.variants.length > 0) {
+            var prices = p.variants.map(function(v) { return v.price || 0; });
+            minPrice = Math.min.apply(null, prices);
+          }
+          
+          var shopProd = {
+            id: idStr,
+            name: p.name,
+            category: p.category || 'others',
+            price: minPrice,
+            priceStr: minPrice.toLocaleString('vi-VN') + ' đ',
+            image: p.images && p.images.length > 0 ? p.images[0] : (p.image || '../images/store_logo.png'),
+            sentimentScore: 98,
+            ratingCount: 0,
+            store: storeName,
+            storeLogo: storeLogo
+          };
+          SHOP_PRODUCTS.push(shopProd);
+        }
+      }
+    }
+  } catch(e) {
+    console.error('Error syncing seller products into SHOP_PRODUCTS:', e);
+  }
+}
+syncSellerProducts();
 
 document.addEventListener('DOMContentLoaded', function() {
   initApp();

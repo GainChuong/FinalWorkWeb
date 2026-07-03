@@ -1,0 +1,1408 @@
+{
+  "1": [
+    {
+      "user": "Minh Anh",
+      "avatar": "M",
+      "rating": 5,
+      "date": "28/06/2026",
+      "comment": "Áo khoác siêu nhẹ và ấm. Chất liệu tái chế mà vẫn rất bền, đường may tỉ mỉ. Rất thích!"
+    },
+    {
+      "user": "Lan Hương",
+      "avatar": "L",
+      "rating": 4,
+      "date": "15/06/2026",
+      "comment": "Sản phẩm tốt, mặc thoải mái. Màu xanh biển đẹp. Trừ 1 sao vì hơi rộng so với mô tả."
+    },
+    {
+      "user": "Hồ Hoàng Hà",
+      "avatar": "H",
+      "rating": 4,
+      "date": "19/07/2026",
+      "comment": "Rộng hơn dự tính nhưng vẫn ok. Chất tốt. Ủng hộ đồ xanh!"
+    },
+    {
+      "user": "Lê Thị Yến",
+      "avatar": "L",
+      "rating": 5,
+      "date": "11/06/2026",
+      "comment": "Chất vải mềm mại, mặc rất thoải mái. Ủng hộ đồ xanh!"
+    },
+    {
+      "user": "Dương Bảo Quỳnh",
+      "avatar": "D",
+      "rating": 4,
+      "date": "15/06/2026",
+      "comment": "Bền, đẹp, giá hợp lý. Sản phẩm từ thiên nhiên an toàn."
+    },
+    {
+      "user": "Hà Gia Thảo",
+      "avatar": "H",
+      "rating": 5,
+      "date": "06/07/2026",
+      "comment": "Nên mua! Chất liệu thiên nhiên thoáng mát."
+    },
+    {
+      "user": "Trịnh Kim Hoa",
+      "avatar": "T",
+      "rating": 1,
+      "date": "21/07/2026",
+      "comment": "Đẹp và đáng tiền. Chất liệu tái chế làm mình bất ngờ."
+    },
+    {
+      "user": "Lê Kim Cường",
+      "avatar": "L",
+      "rating": 1,
+      "date": "21/07/2026",
+      "comment": "Phù hợp với nhu cầu sử dụng hàng ngày. Sẽ ủng hộ dài lâu."
+    },
+    {
+      "user": "Phan Thanh Long",
+      "avatar": "P",
+      "rating": 3,
+      "date": "14/05/2026",
+      "comment": "Mặc đẹp, vải co giãn tốt. Lưng quần vừa vặn."
+    },
+    {
+      "user": "Tô Huy Khoa",
+      "avatar": "T",
+      "rating": 4,
+      "date": "24/06/2026",
+      "comment": "Tiết kiệm điện, đèn trang trí lung linh."
+    },
+    {
+      "user": "Quách Kim Khang",
+      "avatar": "Q",
+      "rating": 3,
+      "date": "07/06/2026",
+      "comment": "Xinh xắn, chất da mềm. Đựng vừa đồ đi làm."
+    },
+    {
+      "user": "Trịnh Kim Hà",
+      "avatar": "T",
+      "rating": 5,
+      "date": "06/07/2026",
+      "comment": "Nhẹ, gấp gọn, tiện lợi mang đi du lịch."
+    }
+  ],
+  "2": [
+    {
+      "user": "Hoàng Nam",
+      "avatar": "H",
+      "rating": 5,
+      "date": "20/06/2026",
+      "comment": "Balo nhẹ, chịu nước tốt. Mang đi dã ngoại 2 ngày vẫn thoải mái. Chất liệu tái chế nhưng rất chắc chắn."
+    },
+    {
+      "user": "Thảo Vy",
+      "avatar": "T",
+      "rating": 4,
+      "date": "05/06/2026",
+      "comment": "Rộng rãi, nhiều ngăn. Giá hơi cao nhưng xứng đáng vì bảo vệ môi trường."
+    },
+    {
+      "user": "Hà Công Huy",
+      "avatar": "H",
+      "rating": 5,
+      "date": "19/05/2026",
+      "comment": "Sản phẩm chất lượng tốt, đúng như mô tả. Giao hàng nhanh. Bảo vệ môi trường là tốt."
+    },
+    {
+      "user": "Lê Hữu Tùng",
+      "avatar": "L",
+      "rating": 5,
+      "date": "21/06/2026",
+      "comment": "Xinh xắn, chất da mềm. Đựng vừa đồ đi làm. Hàng thân thiện môi trường."
+    },
+    {
+      "user": "Lâm Thị Chi",
+      "avatar": "L",
+      "rating": 3,
+      "date": "14/07/2026",
+      "comment": "Xinh xắn, chất da mềm. Đựng vừa đồ đi làm. Ủng hộ đồ xanh!"
+    },
+    {
+      "user": "Hoàng Công Bình",
+      "avatar": "H",
+      "rating": 5,
+      "date": "14/06/2026",
+      "comment": "Shop giao nhanh, sản phẩm chất lượng. Ủng hộ đồ xanh."
+    },
+    {
+      "user": "Châu Thế Ngân",
+      "avatar": "C",
+      "rating": 4,
+      "date": "15/06/2026",
+      "comment": "Chất cotton dày dặn, rất bền. Hàng thân thiện môi trường."
+    },
+    {
+      "user": "Tạ Hoàng Quyên",
+      "avatar": "T",
+      "rating": 3,
+      "date": "07/06/2026",
+      "comment": "Hàng may cẩn thận, đường chỉ đều. Form vừa vặn."
+    },
+    {
+      "user": "Hà Minh Bích",
+      "avatar": "H",
+      "rating": 5,
+      "date": "12/06/2026",
+      "comment": "Vải thoáng mát, thích hợp mùa hè."
+    },
+    {
+      "user": "Võ Quốc Tuyết",
+      "avatar": "V",
+      "rating": 5,
+      "date": "19/07/2026",
+      "comment": "Đeo nhẹ, quai đệm êm. Phù hợp đi phượt."
+    },
+    {
+      "user": "Mai Huy Phong",
+      "avatar": "M",
+      "rating": 4,
+      "date": "06/05/2026",
+      "comment": "Áo mặc mát, phù hợp đi làm. Màu trắng dễ phối."
+    },
+    {
+      "user": "Hoàng Công Long",
+      "avatar": "H",
+      "rating": 5,
+      "date": "15/06/2026",
+      "comment": "Nhẹ, gấp gọn, tiện lợi mang đi du lịch."
+    }
+  ],
+  "3": [
+    {
+      "user": "Quốc Bảo",
+      "avatar": "Q",
+      "rating": 5,
+      "date": "25/06/2026",
+      "comment": "Giày cực êm, đi cả ngày không mỏi. Thiết kế đẹp, chất lượng hơn mong đợi. Ủng hộ đồ tái chế!"
+    },
+    {
+      "user": "Diễm My",
+      "avatar": "D",
+      "rating": 5,
+      "date": "12/06/2026",
+      "comment": "Đôi giày thứ 2 mình mua ở shop. Chất lượng ổn định, form chuẩn."
+    },
+    {
+      "user": "Lương Huy Dũng",
+      "avatar": "L",
+      "rating": 5,
+      "date": "23/05/2026",
+      "comment": "Hàng tốt, hơi đắt nhưng xứng đáng vì chất lượng. Sản phẩm bền vững đáng mua."
+    },
+    {
+      "user": "Châu Quốc Tuyết",
+      "avatar": "C",
+      "rating": 5,
+      "date": "08/06/2026",
+      "comment": "Sản phẩm tái chế mà chất lượng quá tốt. Khuyên mọi người nên mua."
+    },
+    {
+      "user": "Đặng Gia Cúc",
+      "avatar": "Đ",
+      "rating": 3,
+      "date": "18/07/2026",
+      "comment": "Shop tư vấn nhiệt tình. Hàng đúng mô tả. Cảm ơn! Chất liệu tự nhiên tuyệt vời."
+    },
+    {
+      "user": "Võ Thị Phong",
+      "avatar": "V",
+      "rating": 5,
+      "date": "12/07/2026",
+      "comment": "Túi nhiều ngăn tiện lợi. Chất vải tái chế tốt."
+    },
+    {
+      "user": "Đỗ Quốc Quân",
+      "avatar": "Đ",
+      "rating": 5,
+      "date": "05/05/2026",
+      "comment": "Giao hàng nhanh, đóng gói cẩn thận. Sản phẩm đẹp. Bảo vệ môi trường là tốt."
+    },
+    {
+      "user": "Hoàng Xuân Hồng",
+      "avatar": "H",
+      "rating": 5,
+      "date": "16/05/2026",
+      "comment": "Đeo nhẹ, quai đệm êm. Phù hợp đi phượt."
+    },
+    {
+      "user": "Dương Hữu Hạnh",
+      "avatar": "D",
+      "rating": 1,
+      "date": "23/06/2026",
+      "comment": "Mặc đẹp, vải co giãn tốt. Lưng quần vừa vặn."
+    },
+    {
+      "user": "Trần Quốc Mai",
+      "avatar": "T",
+      "rating": 5,
+      "date": "03/07/2026",
+      "comment": "Mặc đẹp, vải co giãn tốt. Lưng quần vừa vặn."
+    },
+    {
+      "user": "Huỳnh Nhật Nhung",
+      "avatar": "H",
+      "rating": 5,
+      "date": "22/07/2026",
+      "comment": "Ủng hộ đồ bảo vệ môi trường! Chất lượng tốt."
+    },
+    {
+      "user": "Hồ Minh Tuấn",
+      "avatar": "H",
+      "rating": 5,
+      "date": "07/06/2026",
+      "comment": "Màu pastel dễ thương, mặc đi biển đẹp."
+    }
+  ],
+  "4": [
+    {
+      "user": "Thanh Tùng",
+      "avatar": "T",
+      "rating": 4,
+      "date": "22/06/2026",
+      "comment": "Quần mặc đẹp, vải dày dặn. Ống hơi dài so với mình nhưng nói chung ưng."
+    },
+    {
+      "user": "Yến Nhi",
+      "avatar": "Y",
+      "rating": 5,
+      "date": "01/06/2026",
+      "comment": ""
+    },
+    {
+      "user": "Quách Mạnh Hồng",
+      "avatar": "Q",
+      "rating": 5,
+      "date": "09/06/2026",
+      "comment": "Hàng tốt, hơi đắt nhưng xứng đáng vì chất lượng. Sản phẩm tái chế rất tốt."
+    },
+    {
+      "user": "Trịnh Ngọc Bích",
+      "avatar": "T",
+      "rating": 5,
+      "date": "23/05/2026",
+      "comment": "Đeo nhẹ, quai đệm êm. Phù hợp đi phượt. Sản phẩm tái chế rất tốt."
+    },
+    {
+      "user": "Đỗ Mạnh Huy",
+      "avatar": "Đ",
+      "rating": 5,
+      "date": "02/05/2026",
+      "comment": "Lần đầu mua đồ tái chế, chất lượng ok, giá hợp lý."
+    },
+    {
+      "user": "Trịnh Xuân Quân",
+      "avatar": "T",
+      "rating": 5,
+      "date": "05/05/2026",
+      "comment": "Bao bì tái chế thân thiện. Sản phẩm chất lượng."
+    },
+    {
+      "user": "Hà Hữu Liên",
+      "avatar": "H",
+      "rating": 4,
+      "date": "26/07/2026",
+      "comment": "Áo mặc mát, phù hợp đi làm. Màu trắng dễ phối. Bảo vệ môi trường là tốt."
+    },
+    {
+      "user": "Nguyễn Quốc Diễm",
+      "avatar": "N",
+      "rating": 5,
+      "date": "03/05/2026",
+      "comment": "Đi êm chân, đế chống trượt tốt. Size chuẩn."
+    },
+    {
+      "user": "Vũ Thế Hà",
+      "avatar": "V",
+      "rating": 4,
+      "date": "09/07/2026",
+      "comment": "Lần thứ 3 mua, chất lượng ổn định. Uy tín!"
+    },
+    {
+      "user": "Đặng Mạnh Tâm",
+      "avatar": "Đ",
+      "rating": 5,
+      "date": "13/07/2026",
+      "comment": "Giao hàng nhanh, đóng gói cẩn thận. Sản phẩm đẹp."
+    },
+    {
+      "user": "Dương Mạnh Khang",
+      "avatar": "D",
+      "rating": 4,
+      "date": "17/06/2026",
+      "comment": "Màu sắc trung thực, chất liệu dày dặn."
+    },
+    {
+      "user": "Vương Hữu Thảo",
+      "avatar": "V",
+      "rating": 5,
+      "date": "05/07/2026",
+      "comment": "Mặc đẹp, vải co giãn tốt. Lưng quần vừa vặn."
+    }
+  ],
+  "5": [
+    {
+      "user": "Đức Huy",
+      "avatar": "Đ",
+      "rating": 5,
+      "date": "30/06/2026",
+      "comment": "Áo sơ mi chất vải xịn, mặc mát. Form regular fit chuẩn. Tái chế mà tốt thế này thì quá ok."
+    },
+    {
+      "user": "Mỹ Linh",
+      "avatar": "M",
+      "rating": 4,
+      "date": "10/06/2026",
+      "comment": "Màu trắng tinh, may đẹp. Trừ 1 sao vì giao hơi trễ."
+    },
+    {
+      "user": "Trịnh Văn Quyên",
+      "avatar": "T",
+      "rating": 4,
+      "date": "27/07/2026",
+      "comment": "Vải thoáng mát, thích hợp mùa hè. Hàng thân thiện môi trường."
+    },
+    {
+      "user": "Tô Minh Tùng",
+      "avatar": "T",
+      "rating": 5,
+      "date": "16/06/2026",
+      "comment": "Chất cotton dày dặn, rất bền. Sản phẩm tái chế rất tốt."
+    },
+    {
+      "user": "Hoàng Thanh Thắng",
+      "avatar": "H",
+      "rating": 5,
+      "date": "23/05/2026",
+      "comment": "Sẽ giới thiệu bạn bè. Hàng Việt Nam chất lượng cao. Chất liệu tự nhiên tuyệt vời."
+    },
+    {
+      "user": "Huỳnh Gia Hương",
+      "avatar": "H",
+      "rating": 5,
+      "date": "27/07/2026",
+      "comment": "Mặc đẹp, vải co giãn tốt. Lưng quần vừa vặn. Sản phẩm bền vững đáng mua."
+    },
+    {
+      "user": "Hoàng Huy Sơn",
+      "avatar": "H",
+      "rating": 5,
+      "date": "01/07/2026",
+      "comment": "Mua online nhưng chất lượng không khác ngoài tiệm. Tuyệt! Sản phẩm tái chế rất tốt."
+    },
+    {
+      "user": "Ngô Gia Trung",
+      "avatar": "N",
+      "rating": 4,
+      "date": "21/05/2026",
+      "comment": "Màu sắc đẹp, đúng hình. Chất vải dày dặn."
+    },
+    {
+      "user": "Trần Huy Nguyệt",
+      "avatar": "T",
+      "rating": 2,
+      "date": "10/05/2026",
+      "comment": "Màu sắc trung thực, chất liệu dày dặn."
+    },
+    {
+      "user": "Châu Hữu Trường",
+      "avatar": "C",
+      "rating": 5,
+      "date": "21/05/2026",
+      "comment": "Ủng hộ đồ bảo vệ môi trường! Chất lượng tốt."
+    },
+    {
+      "user": "Đặng Mạnh Sơn",
+      "avatar": "Đ",
+      "rating": 3,
+      "date": "12/06/2026",
+      "comment": "Shop tư vấn nhiệt tình. Hàng đúng mô tả. Cảm ơn!"
+    },
+    {
+      "user": "Võ Văn Yến",
+      "avatar": "V",
+      "rating": 5,
+      "date": "14/06/2026",
+      "comment": "Ủng hộ đồ bảo vệ môi trường! Chất lượng tốt."
+    }
+  ],
+  "6": [
+    {
+      "user": "Anh Khoa",
+      "avatar": "A",
+      "rating": 5,
+      "date": "18/06/2026",
+      "comment": "Túi xách nhỏ xinh, chất da tái chế mềm mịn. Mang đi làm hàng ngày rất tiện."
+    },
+    {
+      "user": "Phương Trinh",
+      "avatar": "P",
+      "rating": 5,
+      "date": "02/06/2026",
+      "comment": "Rất thích! Thiết kế vintage độc đáo, không đụng hàng."
+    },
+    {
+      "user": "Đoàn Bảo Linh",
+      "avatar": "Đ",
+      "rating": 3,
+      "date": "18/07/2026",
+      "comment": "Chất vải mềm mại, mặc rất thoải mái. Bảo vệ môi trường là tốt."
+    },
+    {
+      "user": "Lý Hữu Hạnh",
+      "avatar": "L",
+      "rating": 4,
+      "date": "16/07/2026",
+      "comment": "Sản phẩm tốt, giao hàng đúng hẹn. Cảm ơn shop. Chất liệu tự nhiên tuyệt vời."
+    },
+    {
+      "user": "Mai Công Quyên",
+      "avatar": "M",
+      "rating": 5,
+      "date": "05/05/2026",
+      "comment": "Ủng hộ đồ bảo vệ môi trường! Chất lượng tốt."
+    },
+    {
+      "user": "Vương Xuân Vy",
+      "avatar": "V",
+      "rating": 5,
+      "date": "23/05/2026",
+      "comment": "Vải denim bền, lên form chuẩn. Sẽ mua thêm. Bảo vệ môi trường là tốt."
+    },
+    {
+      "user": "Châu Mạnh Khang",
+      "avatar": "C",
+      "rating": 4,
+      "date": "10/06/2026",
+      "comment": "Tiết kiệm điện, đèn trang trí lung linh."
+    },
+    {
+      "user": "Cao Công Long",
+      "avatar": "C",
+      "rating": 4,
+      "date": "07/05/2026",
+      "comment": "Sản phẩm tái chế mà chất lượng quá tốt. Khuyên mọi người nên mua."
+    },
+    {
+      "user": "Đinh Đức Tuyết",
+      "avatar": "Đ",
+      "rating": 4,
+      "date": "13/06/2026",
+      "comment": "Mình rất thích chất liệu thiên nhiên, an toàn cho da."
+    },
+    {
+      "user": "Hoàng Hữu Hải",
+      "avatar": "H",
+      "rating": 5,
+      "date": "04/06/2026",
+      "comment": "Nên mua! Chất liệu thiên nhiên thoáng mát."
+    },
+    {
+      "user": "Lưu Phương Thắng",
+      "avatar": "L",
+      "rating": 2,
+      "date": "07/07/2026",
+      "comment": "Mặc đẹp, vải co giãn tốt. Lưng quần vừa vặn."
+    },
+    {
+      "user": "Ngô Ngọc Trang",
+      "avatar": "N",
+      "rating": 4,
+      "date": "15/06/2026",
+      "comment": "Shop tư vấn nhiệt tình. Hàng đúng mô tả. Cảm ơn!"
+    }
+  ],
+  "7": [
+    {
+      "user": "Xuân Mai",
+      "avatar": "X",
+      "rating": 4,
+      "date": "19/06/2026",
+      "comment": "Đầm xinh, vải thoáng mát. Hơi ngắn một chút so với mình mong đợi."
+    },
+    {
+      "user": "Kim Ngân",
+      "avatar": "K",
+      "rating": 5,
+      "date": "08/06/2026",
+      "comment": "Màu vàng pastel siêu dễ thương. Mặc đi biển chụp ảnh rất đẹp!"
+    },
+    {
+      "user": "Lưu Văn Khang",
+      "avatar": "L",
+      "rating": 5,
+      "date": "01/06/2026",
+      "comment": "Quần mặc đẹp, ống hơi dài nhưng nói chung ưng. Sản phẩm bền vững đáng mua."
+    },
+    {
+      "user": "Cao Gia Hiền",
+      "avatar": "C",
+      "rating": 1,
+      "date": "09/05/2026",
+      "comment": "Chất cotton dày dặn, rất bền. Sản phẩm tái chế rất tốt."
+    },
+    {
+      "user": "Hoàng Thị Lan",
+      "avatar": "H",
+      "rating": 3,
+      "date": "14/05/2026",
+      "comment": "Sản phẩm hữu cơ rất tốt cho da. Mùi hương tự nhiên."
+    },
+    {
+      "user": "Lê Hoàng Hà",
+      "avatar": "L",
+      "rating": 4,
+      "date": "16/07/2026",
+      "comment": "Đồ tái chế chất lượng không thua hàng mới."
+    },
+    {
+      "user": "Tạ Bảo Hoa",
+      "avatar": "T",
+      "rating": 1,
+      "date": "10/06/2026",
+      "comment": "Quần mặc đẹp, ống hơi dài nhưng nói chung ưng. Sản phẩm bền vững đáng mua."
+    },
+    {
+      "user": "Lê Nhật Yến",
+      "avatar": "L",
+      "rating": 5,
+      "date": "06/06/2026",
+      "comment": "Xinh xắn, chất da mềm. Đựng vừa đồ đi làm."
+    },
+    {
+      "user": "Vương Nhật Phúc",
+      "avatar": "V",
+      "rating": 4,
+      "date": "15/05/2026",
+      "comment": "Shop tư vấn nhiệt tình. Hàng đúng mô tả. Cảm ơn!"
+    },
+    {
+      "user": "Lưu Huy Minh",
+      "avatar": "L",
+      "rating": 4,
+      "date": "27/07/2026",
+      "comment": "Hàng bền vững, thân thiện môi trường. Rất hài lòng."
+    },
+    {
+      "user": "Hồ Đức Vy",
+      "avatar": "H",
+      "rating": 4,
+      "date": "18/05/2026",
+      "comment": "Đồ handmade tỉ mỉ. Trân trọng công sức người làm."
+    },
+    {
+      "user": "Trần Thị Lan",
+      "avatar": "T",
+      "rating": 4,
+      "date": "18/05/2026",
+      "comment": "Mặc đẹp, vải co giãn tốt. Lưng quần vừa vặn."
+    }
+  ],
+  "8": [
+    {
+      "user": "Văn Trường",
+      "avatar": "V",
+      "rating": 4,
+      "date": "27/06/2026",
+      "comment": "Áo thun chất cotton dày dặn hơn tưởng tượng. In đẹp, màu sắc trung thực."
+    },
+    {
+      "user": "Bích Trâm",
+      "avatar": "B",
+      "rating": 5,
+      "date": "14/06/2026",
+      "comment": "Ủng hộ đồ tái chế từ vải thừa! Chất áo tốt, giá hợp lý. Sẽ mua thêm."
+    },
+    {
+      "user": "Lâm Xuân Vy",
+      "avatar": "L",
+      "rating": 5,
+      "date": "07/05/2026",
+      "comment": "Mặc lên người thoải mái và tự tin. Chất xanh tuyệt vời."
+    },
+    {
+      "user": "Đoàn Thị Sơn",
+      "avatar": "Đ",
+      "rating": 5,
+      "date": "01/05/2026",
+      "comment": "Sản phẩm chất lượng tốt, đúng như mô tả. Giao hàng nhanh. Sản phẩm bền vững đáng mua."
+    },
+    {
+      "user": "Huỳnh Quốc My",
+      "avatar": "H",
+      "rating": 4,
+      "date": "28/05/2026",
+      "comment": "Tiết kiệm điện, đèn trang trí lung linh."
+    },
+    {
+      "user": "Huỳnh Thị Hoa",
+      "avatar": "H",
+      "rating": 4,
+      "date": "25/06/2026",
+      "comment": "Đi êm chân, đế chống trượt tốt. Size chuẩn. Sản phẩm bền vững đáng mua."
+    },
+    {
+      "user": "Tạ Thế Sơn",
+      "avatar": "T",
+      "rating": 3,
+      "date": "22/05/2026",
+      "comment": "Giao hàng nhanh, đóng gói cẩn thận. Sản phẩm đẹp. Chất liệu tự nhiên tuyệt vời."
+    },
+    {
+      "user": "Cao Công Dũng",
+      "avatar": "C",
+      "rating": 4,
+      "date": "26/07/2026",
+      "comment": "Lần đầu mua đồ tái chế, chất lượng ok, giá hợp lý."
+    },
+    {
+      "user": "Vương Thế Diễm",
+      "avatar": "V",
+      "rating": 5,
+      "date": "06/05/2026",
+      "comment": "Sẽ giới thiệu bạn bè. Hàng Việt Nam chất lượng cao."
+    },
+    {
+      "user": "Hoàng Đức Vy",
+      "avatar": "H",
+      "rating": 4,
+      "date": "21/06/2026",
+      "comment": "Lần thứ 3 mua, chất lượng ổn định. Uy tín!"
+    },
+    {
+      "user": "Lý Thế Khoa",
+      "avatar": "L",
+      "rating": 5,
+      "date": "09/07/2026",
+      "comment": "Len dệt tay ấm áp, màu sắc tự nhiên."
+    },
+    {
+      "user": "Lâm Gia Quỳnh",
+      "avatar": "L",
+      "rating": 4,
+      "date": "21/06/2026",
+      "comment": "Đẹp hơn cả hình chụp. Rất ưng ý."
+    }
+  ],
+  "9": [
+    {
+      "user": "Gia Bảo",
+      "avatar": "G",
+      "rating": 5,
+      "date": "24/06/2026",
+      "comment": "Ghế đi xe đạp êm hơn hẳn ghế cũ. Lắp ráp đơn giản. Hàng tái chế tốt."
+    },
+    {
+      "user": "Nhật Lệ",
+      "avatar": "N",
+      "rating": 4,
+      "date": "07/06/2026",
+      "comment": "Chất lượng tốt nhưng hơi cồng kềnh khi mang vác."
+    },
+    {
+      "user": "Bùi Hoàng Anh",
+      "avatar": "B",
+      "rating": 5,
+      "date": "18/06/2026",
+      "comment": "Sản phẩm hữu cơ rất tốt cho da. Mùi hương tự nhiên."
+    },
+    {
+      "user": "Mai Công Thủy",
+      "avatar": "M",
+      "rating": 4,
+      "date": "22/07/2026",
+      "comment": "Đẹp và đáng tiền. Chất liệu tái chế làm mình bất ngờ."
+    },
+    {
+      "user": "Đặng Công Bích",
+      "avatar": "Đ",
+      "rating": 5,
+      "date": "01/07/2026",
+      "comment": "Đồ dùng bền, tiết kiệm chi phí mua sắm. Chất lượng ổn."
+    },
+    {
+      "user": "Trần Xuân Nhi",
+      "avatar": "T",
+      "rating": 4,
+      "date": "01/05/2026",
+      "comment": "Màu sắc tươi sáng, đường may đẹp. Rất hài lòng. Sản phẩm bền vững đáng mua."
+    },
+    {
+      "user": "Lưu Kim Ngân",
+      "avatar": "L",
+      "rating": 5,
+      "date": "10/05/2026",
+      "comment": "Bao bì tái chế thân thiện. Sản phẩm chất lượng."
+    },
+    {
+      "user": "Đỗ Quốc Thu",
+      "avatar": "Đ",
+      "rating": 3,
+      "date": "10/07/2026",
+      "comment": "Sản phẩm tái chế mà chất lượng quá tốt. Khuyên mọi người nên mua."
+    },
+    {
+      "user": "Đoàn Thế Khoa",
+      "avatar": "Đ",
+      "rating": 3,
+      "date": "20/05/2026",
+      "comment": "Form chuẩn, chất vải xịn."
+    },
+    {
+      "user": "Trần Bảo Mai",
+      "avatar": "T",
+      "rating": 5,
+      "date": "07/06/2026",
+      "comment": "Màu sắc trung thực, chất liệu dày dặn."
+    },
+    {
+      "user": "Lâm Xuân Phúc",
+      "avatar": "L",
+      "rating": 5,
+      "date": "07/07/2026",
+      "comment": "Đồ tái chế chất lượng không thua hàng mới."
+    },
+    {
+      "user": "Nguyễn Ngọc Loan",
+      "avatar": "N",
+      "rating": 3,
+      "date": "15/05/2026",
+      "comment": "Phù hợp với nhu cầu sử dụng hàng ngày. Sẽ ủng hộ dài lâu."
+    }
+  ],
+  "10": [
+    {
+      "user": "Tuấn Kiệt",
+      "avatar": "T",
+      "rating": 5,
+      "date": "21/06/2026",
+      "comment": "Tranh đẹp, khung gỗ chắc chắn. Hàng handmade tái chế có tâm."
+    },
+    {
+      "user": "Phan Kim Long",
+      "avatar": "P",
+      "rating": 4,
+      "date": "01/06/2026",
+      "comment": "Sẽ giới thiệu bạn bè. Hàng Việt Nam chất lượng cao. Bảo vệ môi trường là tốt."
+    },
+    {
+      "user": "Huỳnh Thanh Sen",
+      "avatar": "H",
+      "rating": 5,
+      "date": "12/06/2026",
+      "comment": "Bao bì tái chế thân thiện. Sản phẩm chất lượng."
+    },
+    {
+      "user": "Lý Quốc Bình",
+      "avatar": "L",
+      "rating": 4,
+      "date": "16/05/2026",
+      "comment": "Đồ dùng bền, tiết kiệm chi phí mua sắm. Chất lượng ổn."
+    },
+    {
+      "user": "Châu Gia Long",
+      "avatar": "C",
+      "rating": 4,
+      "date": "08/06/2026",
+      "comment": "Nên mua! Chất liệu thiên nhiên thoáng mát."
+    },
+    {
+      "user": "Tạ Huy Tuấn",
+      "avatar": "T",
+      "rating": 4,
+      "date": "11/05/2026",
+      "comment": "Đẹp hơn cả hình chụp. Rất ưng ý. Hàng thân thiện môi trường."
+    },
+    {
+      "user": "Đoàn Nhật Hà",
+      "avatar": "Đ",
+      "rating": 4,
+      "date": "24/07/2026",
+      "comment": "Đồ tái chế chất lượng không thua hàng mới."
+    },
+    {
+      "user": "Đinh Minh Chi",
+      "avatar": "Đ",
+      "rating": 1,
+      "date": "16/07/2026",
+      "comment": "Form chuẩn, chất vải xịn."
+    },
+    {
+      "user": "Tạ Thị Lan",
+      "avatar": "T",
+      "rating": 5,
+      "date": "19/05/2026",
+      "comment": "Phù hợp với nhu cầu sử dụng hàng ngày. Sẽ ủng hộ dài lâu."
+    },
+    {
+      "user": "Hồ Công Hương",
+      "avatar": "H",
+      "rating": 4,
+      "date": "08/05/2026",
+      "comment": "Màu sắc tươi sáng, đường may đẹp. Rất hài lòng."
+    },
+    {
+      "user": "Võ Gia Thắng",
+      "avatar": "V",
+      "rating": 5,
+      "date": "26/06/2026",
+      "comment": "Thiết kế tối giản mà tinh tế. Chất organic mềm mịn."
+    }
+  ],
+  "11": [
+    {
+      "user": "Hồng Đào",
+      "avatar": "H",
+      "rating": 5,
+      "date": "29/06/2026",
+      "comment": "Ví nhỏ gọn, da mềm. Nhiều ngăn đựng thẻ. Hàng tái chế mà đẹp không kém hàng mới."
+    },
+    {
+      "user": "Dương Hoàng Thủy",
+      "avatar": "D",
+      "rating": 5,
+      "date": "11/07/2026",
+      "comment": "Sản phẩm hữu cơ rất tốt cho da. Mùi hương tự nhiên."
+    },
+    {
+      "user": "Trịnh Nhật Yến",
+      "avatar": "T",
+      "rating": 5,
+      "date": "19/07/2026",
+      "comment": "Len dệt tay ấm áp, màu sắc tự nhiên. Bảo vệ môi trường là tốt."
+    },
+    {
+      "user": "Tô Mạnh Hà",
+      "avatar": "T",
+      "rating": 3,
+      "date": "24/06/2026",
+      "comment": "Quần mặc đẹp, ống hơi dài nhưng nói chung ưng. Bảo vệ môi trường là tốt."
+    },
+    {
+      "user": "Hà Hoàng Liên",
+      "avatar": "H",
+      "rating": 3,
+      "date": "02/07/2026",
+      "comment": "Mua online nhưng chất lượng không khác ngoài tiệm. Tuyệt! Bảo vệ môi trường là tốt."
+    },
+    {
+      "user": "Hồ Hoàng Hạnh",
+      "avatar": "H",
+      "rating": 3,
+      "date": "18/05/2026",
+      "comment": "Lần thứ 3 mua, chất lượng ổn định. Uy tín! Ủng hộ đồ xanh!"
+    },
+    {
+      "user": "Phạm Kim Ánh",
+      "avatar": "P",
+      "rating": 4,
+      "date": "02/05/2026",
+      "comment": "Nên mua! Chất liệu thiên nhiên thoáng mát."
+    },
+    {
+      "user": "Vương Văn Loan",
+      "avatar": "V",
+      "rating": 4,
+      "date": "08/07/2026",
+      "comment": "Sẽ giới thiệu bạn bè. Hàng Việt Nam chất lượng cao."
+    },
+    {
+      "user": "Tô Bảo Phúc",
+      "avatar": "T",
+      "rating": 4,
+      "date": "27/05/2026",
+      "comment": "Nên mua! Chất liệu thiên nhiên thoáng mát."
+    },
+    {
+      "user": "Hoàng Thế Trường",
+      "avatar": "H",
+      "rating": 4,
+      "date": "15/05/2026",
+      "comment": "Mua online nhưng chất lượng không khác ngoài tiệm. Tuyệt!"
+    },
+    {
+      "user": "Vũ Thanh Quân",
+      "avatar": "V",
+      "rating": 5,
+      "date": "24/05/2026",
+      "comment": "Ủng hộ đồ bảo vệ môi trường! Chất lượng tốt."
+    }
+  ],
+  "12": [
+    {
+      "user": "Phi Long",
+      "avatar": "P",
+      "rating": 4,
+      "date": "26/06/2026",
+      "comment": "Bộ ấm chén đẹp, men gốm mịn. Dùng làm quà tặng ý nghĩa."
+    },
+    {
+      "user": "Đoàn Huy Dung",
+      "avatar": "Đ",
+      "rating": 5,
+      "date": "18/06/2026",
+      "comment": "Chất cotton dày dặn, rất bền. Ủng hộ đồ xanh!"
+    },
+    {
+      "user": "Mai Bảo Linh",
+      "avatar": "M",
+      "rating": 4,
+      "date": "01/05/2026",
+      "comment": "Đeo nhẹ, quai đệm êm. Phù hợp đi phượt. Sản phẩm tái chế rất tốt."
+    },
+    {
+      "user": "Lưu Quốc Hải",
+      "avatar": "L",
+      "rating": 5,
+      "date": "02/07/2026",
+      "comment": "Lần thứ 3 mua, chất lượng ổn định. Uy tín! Sản phẩm tái chế rất tốt."
+    },
+    {
+      "user": "Phạm Nhật Phong",
+      "avatar": "P",
+      "rating": 3,
+      "date": "01/05/2026",
+      "comment": "Đi êm chân, đế chống trượt tốt. Size chuẩn. Hàng thân thiện môi trường."
+    },
+    {
+      "user": "Cao Thanh Thủy",
+      "avatar": "C",
+      "rating": 5,
+      "date": "27/06/2026",
+      "comment": "Lần đầu mua đồ tái chế, chất lượng ok, giá hợp lý."
+    },
+    {
+      "user": "Trịnh Huy Trinh",
+      "avatar": "T",
+      "rating": 3,
+      "date": "21/05/2026",
+      "comment": "Màu sắc đẹp, đúng hình. Chất vải dày dặn."
+    },
+    {
+      "user": "Lý Mạnh Bích",
+      "avatar": "L",
+      "rating": 3,
+      "date": "05/05/2026",
+      "comment": "Áo mặc mát, phù hợp đi làm. Màu trắng dễ phối."
+    },
+    {
+      "user": "Cao Công Phúc",
+      "avatar": "C",
+      "rating": 2,
+      "date": "16/05/2026",
+      "comment": "Nhẹ, gấp gọn, tiện lợi mang đi du lịch."
+    },
+    {
+      "user": "Đoàn Công Thắng",
+      "avatar": "Đ",
+      "rating": 3,
+      "date": "05/05/2026",
+      "comment": "Đầm xinh, vải thoáng mát. Mặc đi chơi rất đẹp."
+    },
+    {
+      "user": "Lâm Hoàng Liên",
+      "avatar": "L",
+      "rating": 5,
+      "date": "04/07/2026",
+      "comment": "Màu sắc tươi sáng, đường may đẹp. Rất hài lòng."
+    }
+  ],
+  "13": [
+    {
+      "user": "Cẩm Tú",
+      "avatar": "C",
+      "rating": 5,
+      "date": "23/06/2026",
+      "comment": "Chăn ga mềm mại, thoáng mát. Hoàn toàn tự nhiên nên rất an tâm cho làn da."
+    },
+    {
+      "user": "Tô Kim Khang",
+      "avatar": "T",
+      "rating": 5,
+      "date": "17/06/2026",
+      "comment": "Thiết kế tối giản mà tinh tế. Chất organic mềm mịn."
+    },
+    {
+      "user": "Lương Xuân Nguyệt",
+      "avatar": "L",
+      "rating": 5,
+      "date": "10/05/2026",
+      "comment": "Rất thích chất liệu tái chế vừa đẹp vừa bảo vệ môi trường."
+    },
+    {
+      "user": "Hồ Bảo Hoa",
+      "avatar": "H",
+      "rating": 3,
+      "date": "26/05/2026",
+      "comment": "Chất vải mềm mại, mặc rất thoải mái. Chất liệu tự nhiên tuyệt vời."
+    },
+    {
+      "user": "Ngô Mạnh Phong",
+      "avatar": "N",
+      "rating": 4,
+      "date": "14/06/2026",
+      "comment": "Bao bì đẹp, thiết kế sang trọng. Quà tặng ý nghĩa. Sản phẩm bền vững đáng mua."
+    },
+    {
+      "user": "Châu Hữu Nguyệt",
+      "avatar": "C",
+      "rating": 4,
+      "date": "28/05/2026",
+      "comment": "Xinh xắn, chất da mềm. Đựng vừa đồ đi làm. Sản phẩm bền vững đáng mua."
+    },
+    {
+      "user": "Lâm Công Diễm",
+      "avatar": "L",
+      "rating": 1,
+      "date": "26/05/2026",
+      "comment": "Shop tư vấn nhiệt tình. Hàng đúng mô tả. Cảm ơn!"
+    },
+    {
+      "user": "Nguyễn Công Hải",
+      "avatar": "N",
+      "rating": 5,
+      "date": "27/05/2026",
+      "comment": "Rất thích chất liệu tái chế vừa đẹp vừa bảo vệ môi trường."
+    },
+    {
+      "user": "Lê Huy Sen",
+      "avatar": "L",
+      "rating": 5,
+      "date": "14/07/2026",
+      "comment": "Sẽ giới thiệu bạn bè. Hàng Việt Nam chất lượng cao."
+    },
+    {
+      "user": "Cao Xuân My",
+      "avatar": "C",
+      "rating": 4,
+      "date": "25/06/2026",
+      "comment": "Hàng bền vững, thân thiện môi trường. Rất hài lòng."
+    },
+    {
+      "user": "Huỳnh Thị Liên",
+      "avatar": "H",
+      "rating": 2,
+      "date": "11/05/2026",
+      "comment": "Nên mua! Chất liệu thiên nhiên thoáng mát."
+    }
+  ],
+  "14": [
+    {
+      "user": "Duy Anh",
+      "avatar": "D",
+      "rating": 5,
+      "date": "17/06/2026",
+      "comment": "Đèn trang trí đẹp lung linh. Tiết kiệm điện. Làm tư vị trí góc học tập thêm ấm cúng."
+    },
+    {
+      "user": "Tạ Kim Trung",
+      "avatar": "T",
+      "rating": 5,
+      "date": "19/05/2026",
+      "comment": "Chất vải mềm mại, mặc rất thoải mái. Ủng hộ đồ xanh!"
+    },
+    {
+      "user": "Huỳnh Thế Nhung",
+      "avatar": "H",
+      "rating": 5,
+      "date": "02/06/2026",
+      "comment": "Hàng tốt, hơi đắt nhưng xứng đáng vì chất lượng. Sản phẩm bền vững đáng mua."
+    },
+    {
+      "user": "Hà Gia Liên",
+      "avatar": "H",
+      "rating": 4,
+      "date": "26/07/2026",
+      "comment": "Form chuẩn, chất vải xịn. Sản phẩm tái chế rất tốt."
+    },
+    {
+      "user": "Hoàng Xuân Thủy",
+      "avatar": "H",
+      "rating": 5,
+      "date": "26/07/2026",
+      "comment": "Màu sắc trung thực, chất liệu dày dặn. Bảo vệ môi trường là tốt."
+    },
+    {
+      "user": "Đỗ Hoàng Loan",
+      "avatar": "Đ",
+      "rating": 4,
+      "date": "15/07/2026",
+      "comment": "Đi êm chân, đế chống trượt tốt. Size chuẩn. Sản phẩm bền vững đáng mua."
+    },
+    {
+      "user": "Hoàng Minh Tuyết",
+      "avatar": "H",
+      "rating": 4,
+      "date": "04/05/2026",
+      "comment": "Mặc lên người thoải mái và tự tin. Chất xanh tuyệt vời."
+    },
+    {
+      "user": "Mai Thanh Dũng",
+      "avatar": "M",
+      "rating": 4,
+      "date": "18/07/2026",
+      "comment": "Mình rất thích chất liệu thiên nhiên, an toàn cho da."
+    },
+    {
+      "user": "Quách Phương Hằng",
+      "avatar": "Q",
+      "rating": 4,
+      "date": "09/07/2026",
+      "comment": "Màu pastel dễ thương, mặc đi biển đẹp."
+    },
+    {
+      "user": "Vũ Kim Quyên",
+      "avatar": "V",
+      "rating": 5,
+      "date": "25/07/2026",
+      "comment": "Hàng đẹp, đóng gói chuyên nghiệp. Sẽ quay lại."
+    },
+    {
+      "user": "Mai Xuân Anh",
+      "avatar": "M",
+      "rating": 4,
+      "date": "20/05/2026",
+      "comment": "Shop tư vấn nhiệt tình. Hàng đúng mô tả. Cảm ơn!"
+    }
+  ],
+  "15": [
+    {
+      "user": "Phương Nhung",
+      "avatar": "P",
+      "rating": 4,
+      "date": "11/06/2026",
+      "comment": "Khăn choàng chất len dệt tay ấm áp. Màu sắc tự nhiên. Giá hơi cao."
+    },
+    {
+      "user": "Hà Hoàng Diễm",
+      "avatar": "H",
+      "rating": 5,
+      "date": "06/07/2026",
+      "comment": "Mặc lên người thoải mái và tự tin. Chất xanh tuyệt vời."
+    },
+    {
+      "user": "Nguyễn Huy Hiền",
+      "avatar": "N",
+      "rating": 4,
+      "date": "19/06/2026",
+      "comment": "Bao bì đẹp, thiết kế sang trọng. Quà tặng ý nghĩa. Ủng hộ đồ xanh!"
+    },
+    {
+      "user": "Huỳnh Nhật Sơn",
+      "avatar": "H",
+      "rating": 5,
+      "date": "25/06/2026",
+      "comment": "Sản phẩm chất lượng tốt, đúng như mô tả. Giao hàng nhanh. Sản phẩm bền vững đáng mua."
+    },
+    {
+      "user": "Đỗ Gia Sơn",
+      "avatar": "Đ",
+      "rating": 4,
+      "date": "25/07/2026",
+      "comment": "Mặc đẹp, vải co giãn tốt. Lưng quần vừa vặn. Bảo vệ môi trường là tốt."
+    },
+    {
+      "user": "Dương Mạnh Quỳnh",
+      "avatar": "D",
+      "rating": 4,
+      "date": "16/07/2026",
+      "comment": "Túi nhiều ngăn tiện lợi. Chất vải tái chế tốt."
+    },
+    {
+      "user": "Lâm Hữu Quyên",
+      "avatar": "L",
+      "rating": 3,
+      "date": "16/06/2026",
+      "comment": "Chất cotton dày dặn, rất bền."
+    },
+    {
+      "user": "Vũ Hoàng Mai",
+      "avatar": "V",
+      "rating": 5,
+      "date": "19/06/2026",
+      "comment": "Mặc lên người thoải mái và tự tin. Chất xanh tuyệt vời."
+    },
+    {
+      "user": "Cao Quốc Tuấn",
+      "avatar": "C",
+      "rating": 5,
+      "date": "18/07/2026",
+      "comment": "Đẹp và đáng tiền. Chất liệu tái chế làm mình bất ngờ."
+    },
+    {
+      "user": "Châu Công Ánh",
+      "avatar": "C",
+      "rating": 5,
+      "date": "23/05/2026",
+      "comment": "Sẽ giới thiệu bạn bè. Hàng Việt Nam chất lượng cao."
+    },
+    {
+      "user": "Lý Quốc Trung",
+      "avatar": "L",
+      "rating": 4,
+      "date": "05/07/2026",
+      "comment": "Đi êm chân, đế chống trượt tốt. Size chuẩn."
+    }
+  ],
+  "16": [
+    {
+      "user": "Trọng Nhân",
+      "avatar": "T",
+      "rating": 5,
+      "date": "06/06/2026",
+      "comment": "Set đồ jean tái chế cực chất! Quần áo lên form chuẩn, vải denim bền."
+    },
+    {
+      "user": "Hà Hữu Bình",
+      "avatar": "H",
+      "rating": 3,
+      "date": "19/07/2026",
+      "comment": "Sản phẩm tốt, giao hàng đúng hẹn. Cảm ơn shop. Hàng thân thiện môi trường."
+    },
+    {
+      "user": "Lý Huy Bình",
+      "avatar": "L",
+      "rating": 4,
+      "date": "22/07/2026",
+      "comment": "Bền, đẹp, giá hợp lý. Sản phẩm từ thiên nhiên an toàn."
+    },
+    {
+      "user": "Quách Ngọc Hằng",
+      "avatar": "Q",
+      "rating": 5,
+      "date": "26/07/2026",
+      "comment": "Mua tặng bạn, bạn khen nhiều. Chất tự nhiên yên tâm. Ủng hộ đồ xanh!"
+    },
+    {
+      "user": "Ngô Xuân Hà",
+      "avatar": "N",
+      "rating": 5,
+      "date": "24/07/2026",
+      "comment": "Form chuẩn, chất vải xịn. Ủng hộ đồ xanh!"
+    },
+    {
+      "user": "Dương Đức Diễm",
+      "avatar": "D",
+      "rating": 5,
+      "date": "01/07/2026",
+      "comment": "Áo mặc mát, phù hợp đi làm. Màu trắng dễ phối. Bảo vệ môi trường là tốt."
+    },
+    {
+      "user": "Phan Đức Bình",
+      "avatar": "P",
+      "rating": 4,
+      "date": "13/07/2026",
+      "comment": "Len dệt tay ấm áp, màu sắc tự nhiên."
+    },
+    {
+      "user": "Hoàng Xuân Hiền",
+      "avatar": "H",
+      "rating": 5,
+      "date": "14/07/2026",
+      "comment": "Đẹp và đáng tiền. Chất liệu tái chế làm mình bất ngờ."
+    },
+    {
+      "user": "Đặng Văn Ngân",
+      "avatar": "Đ",
+      "rating": 5,
+      "date": "23/07/2026",
+      "comment": "Đầm xinh, vải thoáng mát. Mặc đi chơi rất đẹp."
+    },
+    {
+      "user": "Ngô Công Bình",
+      "avatar": "N",
+      "rating": 1,
+      "date": "09/07/2026",
+      "comment": "Đẹp hơn cả hình chụp. Rất ưng ý."
+    },
+    {
+      "user": "Tạ Kim Diễm",
+      "avatar": "T",
+      "rating": 5,
+      "date": "20/07/2026",
+      "comment": "Áo khoác siêu nhẹ, giữ ấm tốt. Phù hợp du lịch."
+    }
+  ],
+  "17": [
+    {
+      "user": "Ánh Tuyết",
+      "avatar": "A",
+      "rating": 5,
+      "date": "03/06/2026",
+      "comment": "Son dưỡng tự nhiên dưỡng môi mềm mịn. Mùi hương dễ chịu. Bao bì tái chế rất đẹp."
+    },
+    {
+      "user": "Lý Kim Tuyết",
+      "avatar": "L",
+      "rating": 5,
+      "date": "24/05/2026",
+      "comment": "Áo mặc mát, phù hợp đi làm. Màu trắng dễ phối. Ủng hộ đồ xanh!"
+    },
+    {
+      "user": "Hà Huy Sen",
+      "avatar": "H",
+      "rating": 5,
+      "date": "12/06/2026",
+      "comment": "Quần mặc đẹp, ống hơi dài nhưng nói chung ưng. Hàng thân thiện môi trường."
+    },
+    {
+      "user": "Cao Minh Phong",
+      "avatar": "C",
+      "rating": 4,
+      "date": "08/07/2026",
+      "comment": "Xinh xắn, chất da mềm. Đựng vừa đồ đi làm. Hàng thân thiện môi trường."
+    },
+    {
+      "user": "Vũ Minh Thắng",
+      "avatar": "V",
+      "rating": 5,
+      "date": "02/07/2026",
+      "comment": "Chất cotton dày dặn, rất bền. Sản phẩm bền vững đáng mua."
+    },
+    {
+      "user": "Nguyễn Bảo Thu",
+      "avatar": "N",
+      "rating": 2,
+      "date": "16/07/2026",
+      "comment": "Hàng may cẩn thận, đường chỉ đều. Form vừa vặn. Hàng thân thiện môi trường."
+    },
+    {
+      "user": "Hoàng Thế Bích",
+      "avatar": "H",
+      "rating": 3,
+      "date": "18/07/2026",
+      "comment": "Mình rất thích chất liệu thiên nhiên, an toàn cho da."
+    },
+    {
+      "user": "Đặng Thị Thắng",
+      "avatar": "Đ",
+      "rating": 5,
+      "date": "14/06/2026",
+      "comment": "Sản phẩm hữu cơ rất tốt cho da. Mùi hương tự nhiên."
+    },
+    {
+      "user": "Lý Nhật Long",
+      "avatar": "L",
+      "rating": 4,
+      "date": "03/07/2026",
+      "comment": "Ủng hộ đồ bảo vệ môi trường! Chất lượng tốt."
+    },
+    {
+      "user": "Vũ Đức Ánh",
+      "avatar": "V",
+      "rating": 2,
+      "date": "08/05/2026",
+      "comment": "Màu sắc đẹp, đúng hình. Chất vải dày dặn."
+    },
+    {
+      "user": "Phan Huy Long",
+      "avatar": "P",
+      "rating": 5,
+      "date": "06/07/2026",
+      "comment": "Túi nhiều ngăn tiện lợi. Chất vải tái chế tốt."
+    }
+  ]
+}

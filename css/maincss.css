@@ -27,6 +27,8 @@
   --sentiment-neu-light: #F8F6F1;
   --sentiment-neg: #A6855B;
   --sentiment-neg-light: #EEE8DB;
+  --danger: #c0392b;
+  --danger-light: #fde8e8;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -84,7 +86,7 @@ button, input, textarea, select { font-family: inherit; outline: none; }
 .badge-success { background-color: var(--sentiment-pos-light); color: var(--sentiment-pos); }
 
 .navbar-header {
-  position: sticky; top: 0; left: 0; width: 100%;
+  position: fixed; top: 0; left: 0; width: 100%;
   z-index: 100; border-bottom: 1px solid var(--border);
   transition: all 0.3s ease;
 }
@@ -171,6 +173,8 @@ button, input, textarea, select { font-family: inherit; outline: none; }
     --sentiment-pos-light: hsl(142, 40%, 15%);
     --sentiment-neu-light: hsl(38, 60%, 15%);
     --sentiment-neg-light: hsl(0, 50%, 15%);
+    --danger: hsl(0, 70%, 55%);
+    --danger-light: hsl(0, 50%, 18%);
   }
   .glass { background: rgba(20, 24, 28, 0.7); border: 1px solid rgba(255,255,255,0.05); }
 }

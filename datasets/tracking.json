@@ -1,0 +1,233 @@
+{
+  "ORD-9872": {
+    "courier": "Giao Hàng Nhanh",
+    "estimatedDelivery": "05/07/2026",
+    "currentStep": 0,
+    "steps": [
+      { "status": "pending",    "label": "Chờ Xác Nhận",  "time": "02/07/2026 14:30", "completed": true },
+      { "status": "confirmed",  "label": "Đã Xác Nhận",    "time": null,                "completed": false },
+      { "status": "packed",     "label": "Đã Đóng Gói",    "time": null,                "completed": false },
+      { "status": "shipping",   "label": "Đang Giao",      "time": null,                "completed": false },
+      { "status": "completed",  "label": "Đã Giao",        "time": null,                "completed": false }
+    ],
+    "route": []
+  },
+  "ORD-9871": {
+    "courier": "Giao Hàng Nhanh",
+    "estimatedDelivery": "05/07/2026",
+    "currentStep": 0,
+    "steps": [
+      { "status": "pending",    "label": "Chờ Xác Nhận",  "time": "02/07/2026 11:15", "completed": true },
+      { "status": "confirmed",  "label": "Đã Xác Nhận",    "time": null,               "completed": false },
+      { "status": "packed",     "label": "Đã Đóng Gói",    "time": null,               "completed": false },
+      { "status": "shipping",   "label": "Đang Giao",      "time": null,               "completed": false },
+      { "status": "completed",  "label": "Đã Giao",        "time": null,               "completed": false }
+    ],
+    "route": []
+  },
+  "ORD-9870": {
+    "courier": "Giao Hàng Nhanh",
+    "estimatedDelivery": "04/07/2026",
+    "currentStep": 1,
+    "steps": [
+      { "status": "pending",    "label": "Chờ Xác Nhận",  "time": "01/07/2026 16:45", "completed": true },
+      { "status": "confirmed",  "label": "Đã Xác Nhận",    "time": "02/07/2026 08:00", "completed": true },
+      { "status": "packed",     "label": "Đã Đóng Gói",    "time": null,               "completed": false },
+      { "status": "shipping",   "label": "Đang Giao",      "time": null,               "completed": false },
+      { "status": "completed",  "label": "Đã Giao",        "time": null,               "completed": false }
+    ],
+    "route": []
+  },
+  "ORD-9869": {
+    "courier": "Best Express",
+    "estimatedDelivery": "04/07/2026",
+    "currentStep": 1,
+    "steps": [
+      { "status": "pending",    "label": "Chờ Xác Nhận",  "time": "01/07/2026 09:20", "completed": true },
+      { "status": "confirmed",  "label": "Đã Xác Nhận",    "time": "01/07/2026 15:00", "completed": true },
+      { "status": "packed",     "label": "Đã Đóng Gói",    "time": null,               "completed": false },
+      { "status": "shipping",   "label": "Đang Giao",      "time": null,               "completed": false },
+      { "status": "completed",  "label": "Đã Giao",        "time": null,               "completed": false }
+    ],
+    "route": []
+  },
+  "ORD-9868": {
+    "courier": "Giao Hàng Nhanh",
+    "estimatedDelivery": "03/07/2026",
+    "currentStep": 2,
+    "steps": [
+      { "status": "pending",    "label": "Chờ Xác Nhận",  "time": "30/06/2026 15:10", "completed": true },
+      { "status": "confirmed",  "label": "Đã Xác Nhận",    "time": "30/06/2026 17:30", "completed": true },
+      { "status": "packed",     "label": "Đã Đóng Gói",    "time": "01/07/2026 09:00", "completed": true },
+      { "status": "shipping",   "label": "Đang Giao",      "time": null,               "completed": false },
+      { "status": "completed",  "label": "Đã Giao",        "time": null,               "completed": false }
+    ],
+    "route": [
+      { "lat": 10.7755, "lng": 106.7019, "label": "Kho ReFashion", "address": "123 Nguyễn Huệ, Quận 1" },
+      { "lat": 10.7790, "lng": 106.6950, "label": "Trạm Q.3", "address": "Hai Bà Trưng, Quận 3" }
+    ]
+  },
+  "ORD-9867": {
+    "courier": "Best Express",
+    "estimatedDelivery": "03/07/2026",
+    "currentStep": 2,
+    "steps": [
+      { "status": "pending",    "label": "Chờ Xác Nhận",  "time": "30/06/2026 10:00", "completed": true },
+      { "status": "confirmed",  "label": "Đã Xác Nhận",    "time": "30/06/2026 14:00", "completed": true },
+      { "status": "packed",     "label": "Đã Đóng Gói",    "time": "01/07/2026 10:00", "completed": true },
+      { "status": "shipping",   "label": "Đang Giao",      "time": null,               "completed": false },
+      { "status": "completed",  "label": "Đã Giao",        "time": null,               "completed": false }
+    ],
+    "route": [
+      { "lat": 10.7755, "lng": 106.7019, "label": "Kho ReFashion", "address": "123 Nguyễn Huệ, Quận 1" },
+      { "lat": 10.7790, "lng": 106.6970, "label": "Trạm Q.1", "address": "Nguyễn Đình Chiểu, Quận 1" }
+    ]
+  },
+  "ORD-9866": {
+    "courier": "Giao Hàng Nhanh",
+    "estimatedDelivery": "02/07/2026",
+    "currentStep": 3,
+    "steps": [
+      { "status": "pending",    "label": "Chờ Xác Nhận",  "time": "29/06/2026 13:25", "completed": true },
+      { "status": "confirmed",  "label": "Đã Xác Nhận",    "time": "29/06/2026 16:00", "completed": true },
+      { "status": "packed",     "label": "Đã Đóng Gói",    "time": "30/06/2026 08:00", "completed": true },
+      { "status": "shipping",   "label": "Đang Giao",      "time": "30/06/2026 14:00", "completed": true },
+      { "status": "completed",  "label": "Đã Giao",        "time": null,               "completed": false }
+    ],
+    "route": [
+      { "lat": 10.7755, "lng": 106.7019, "label": "Kho ReFashion", "address": "123 Nguyễn Huệ, Quận 1" },
+      { "lat": 10.7940, "lng": 106.7090, "label": "Trạm Bình Thạnh", "address": "Xô Viết Nghệ Tĩnh, Bình Thạnh" },
+      { "lat": 10.8250, "lng": 106.7450, "label": "Trạm Thủ Đức", "address": "Quốc Lộ 13, Thủ Đức" },
+      { "lat": 10.8600, "lng": 106.7800, "label": "Điểm Đến", "address": "Phạm Văn Đồng, Thủ Đức" }
+    ]
+  },
+  "ORD-9865": {
+    "courier": "Best Express",
+    "estimatedDelivery": "01/07/2026",
+    "currentStep": 3,
+    "steps": [
+      { "status": "pending",    "label": "Chờ Xác Nhận",  "time": "28/06/2026 08:45", "completed": true },
+      { "status": "confirmed",  "label": "Đã Xác Nhận",    "time": "28/06/2026 11:00", "completed": true },
+      { "status": "packed",     "label": "Đã Đóng Gói",    "time": "28/06/2026 16:00", "completed": true },
+      { "status": "shipping",   "label": "Đang Giao",      "time": "29/06/2026 08:00", "completed": true },
+      { "status": "completed",  "label": "Đã Giao",        "time": null,               "completed": false }
+    ],
+    "route": [
+      { "lat": 10.7755, "lng": 106.7019, "label": "Kho ReFashion", "address": "123 Nguyễn Huệ, Quận 1" },
+      { "lat": 10.7940, "lng": 106.7090, "label": "Trạm Bình Thạnh", "address": "Xô Viết Nghệ Tĩnh, Bình Thạnh" },
+      { "lat": 10.7970, "lng": 106.7200, "label": "Trạm Phú Nhuận", "address": "Nguyễn Kiệm, Phú Nhuận" },
+      { "lat": 10.7980, "lng": 106.7100, "label": "Điểm Đến", "address": "Xô Viết Nghệ Tĩnh, Bình Thạnh" }
+    ]
+  },
+  "ORD-9864": {
+    "courier": "Giao Hàng Nhanh",
+    "estimatedDelivery": "30/06/2026",
+    "currentStep": 4,
+    "steps": [
+      { "status": "pending",    "label": "Chờ Xác Nhận",  "time": "27/06/2026 17:30", "completed": true },
+      { "status": "confirmed",  "label": "Đã Xác Nhận",    "time": "27/06/2026 20:00", "completed": true },
+      { "status": "packed",     "label": "Đã Đóng Gói",    "time": "28/06/2026 07:00", "completed": true },
+      { "status": "shipping",   "label": "Đang Giao",      "time": "28/06/2026 10:00", "completed": true },
+      { "status": "completed",  "label": "Đã Giao",        "time": "29/06/2026 15:30", "completed": true }
+    ],
+    "route": [
+      { "lat": 10.7755, "lng": 106.7019, "label": "Kho ReFashion", "address": "123 Nguyễn Huệ, Quận 1" },
+      { "lat": 10.7740, "lng": 106.7030, "label": "Trạm Q.1", "address": "Lý Tự Trọng, Quận 1" },
+      { "lat": 10.7730, "lng": 106.7020, "label": "Điểm Đến", "address": "Lý Tự Trọng, Quận 1" }
+    ]
+  },
+  "ORD-9863": {
+    "courier": "Best Express",
+    "estimatedDelivery": "29/06/2026",
+    "currentStep": 4,
+    "steps": [
+      { "status": "pending",    "label": "Chờ Xác Nhận",  "time": "26/06/2026 14:00", "completed": true },
+      { "status": "confirmed",  "label": "Đã Xác Nhận",    "time": "26/06/2026 17:00", "completed": true },
+      { "status": "packed",     "label": "Đã Đóng Gói",    "time": "27/06/2026 08:00", "completed": true },
+      { "status": "shipping",   "label": "Đang Giao",      "time": "27/06/2026 11:00", "completed": true },
+      { "status": "completed",  "label": "Đã Giao",        "time": "28/06/2026 10:15", "completed": true }
+    ],
+    "route": [
+      { "lat": 10.7755, "lng": 106.7019, "label": "Kho ReFashion", "address": "123 Nguyễn Huệ, Quận 1" },
+      { "lat": 10.7700, "lng": 106.6980, "label": "Trạm Q.1", "address": "Bùi Thị Xuân, Quận 1" },
+      { "lat": 10.7680, "lng": 106.6960, "label": "Điểm Đến", "address": "Bùi Thị Xuân, Quận 1" }
+    ]
+  },
+  "ORD-9862": {
+    "courier": "Giao Hàng Nhanh",
+    "estimatedDelivery": "28/06/2026",
+    "currentStep": 4,
+    "steps": [
+      { "status": "pending",    "label": "Chờ Xác Nhận",  "time": "25/06/2026 11:20", "completed": true },
+      { "status": "confirmed",  "label": "Đã Xác Nhận",    "time": "25/06/2026 14:00", "completed": true },
+      { "status": "packed",     "label": "Đã Đóng Gói",    "time": "26/06/2026 08:00", "completed": true },
+      { "status": "shipping",   "label": "Đang Giao",      "time": "26/06/2026 13:00", "completed": true },
+      { "status": "completed",  "label": "Đã Giao",        "time": "27/06/2026 11:30", "completed": true }
+    ],
+    "route": [
+      { "lat": 10.7755, "lng": 106.7019, "label": "Kho ReFashion", "address": "123 Nguyễn Huệ, Quận 1" },
+      { "lat": 10.7820, "lng": 106.6910, "label": "Trạm Q.3", "address": "Hai Bà Trưng, Quận 3" },
+      { "lat": 10.7870, "lng": 106.6850, "label": "Điểm Đến", "address": "Lê Văn Sỹ, Quận 3" }
+    ]
+  },
+  "ORD-9861": {
+    "courier": "Best Express",
+    "estimatedDelivery": "27/06/2026",
+    "currentStep": 4,
+    "steps": [
+      { "status": "pending",    "label": "Chờ Xác Nhận",  "time": "24/06/2026 09:15", "completed": true },
+      { "status": "confirmed",  "label": "Đã Xác Nhận",    "time": "24/06/2026 11:30", "completed": true },
+      { "status": "packed",     "label": "Đã Đóng Gói",    "time": "25/06/2026 08:00", "completed": true },
+      { "status": "shipping",   "label": "Đang Giao",      "time": "25/06/2026 14:00", "completed": true },
+      { "status": "completed",  "label": "Đã Giao",        "time": "26/06/2026 16:00", "completed": true }
+    ],
+    "route": [
+      { "lat": 10.7755, "lng": 106.7019, "label": "Kho ReFashion", "address": "123 Nguyễn Huệ, Quận 1" },
+      { "lat": 10.7775, "lng": 106.7040, "label": "Trạm Q.1", "address": "Nguyễn Thị Minh Khai, Quận 1" },
+      { "lat": 10.7760, "lng": 106.7030, "label": "Điểm Đến", "address": "Nguyễn Thị Minh Khai, Quận 1" }
+    ]
+  },
+  "ORD-9860": {
+    "courier": "Giao Hàng Nhanh",
+    "estimatedDelivery": "26/06/2026",
+    "currentStep": 4,
+    "steps": [
+      { "status": "pending",    "label": "Chờ Xác Nhận",  "time": "23/06/2026 16:40", "completed": true },
+      { "status": "confirmed",  "label": "Đã Xác Nhận",    "time": "23/06/2026 19:00", "completed": true },
+      { "status": "packed",     "label": "Đã Đóng Gói",    "time": "24/06/2026 07:30", "completed": true },
+      { "status": "shipping",   "label": "Đang Giao",      "time": "24/06/2026 13:00", "completed": true },
+      { "status": "completed",  "label": "Đã Giao",        "time": "25/06/2026 09:45", "completed": true }
+    ],
+    "route": [
+      { "lat": 10.7755, "lng": 106.7019, "label": "Kho ReFashion", "address": "123 Nguyễn Huệ, Quận 1" },
+      { "lat": 10.7940, "lng": 106.7090, "label": "Trạm Bình Thạnh", "address": "Xô Viết Nghệ Tĩnh, Bình Thạnh" },
+      { "lat": 10.7980, "lng": 106.7160, "label": "Điểm Đến", "address": "Điện Biên Phủ, Bình Thạnh" }
+    ]
+  },
+  "ORD-9859": {
+    "courier": "Giao Hàng Nhanh",
+    "estimatedDelivery": null,
+    "currentStep": -1,
+    "steps": [
+      { "status": "pending",    "label": "Chờ Xác Nhận",  "time": "22/06/2026 10:30", "completed": true },
+      { "status": "confirmed",  "label": "Đã Xác Nhận",    "time": null,               "completed": false },
+      { "status": "packed",     "label": "Đã Đóng Gói",    "time": null,               "completed": false },
+      { "status": "shipping",   "label": "Đang Giao",      "time": null,               "completed": false },
+      { "status": "completed",  "label": "Đã Giao",        "time": null,               "completed": false }
+    ],
+    "route": []
+  },
+  "ORD-9858": {
+    "courier": "Best Express",
+    "estimatedDelivery": null,
+    "currentStep": -1,
+    "steps": [
+      { "status": "pending",    "label": "Chờ Xác Nhận",  "time": "21/06/2026 08:00", "completed": true },
+      { "status": "confirmed",  "label": "Đã Xác Nhận",    "time": null,               "completed": false },
+      { "status": "packed",     "label": "Đã Đóng Gói",    "time": null,               "completed": false },
+      { "status": "shipping",   "label": "Đang Giao",      "time": null,               "completed": false },
+      { "status": "completed",  "label": "Đã Giao",        "time": null,               "completed": false }
+    ],
+    "route": []
+  }
+}

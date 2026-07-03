@@ -1,0 +1,234 @@
+{
+  "orders": [
+    {
+      "id": "ORD-9872",
+      "createdAt": "2026-07-02T14:30:00",
+      "customer": {
+        "name": "Nguyễn Văn An",
+        "phone": "0901 234 567",
+        "address": "123 Nguyễn Huệ, Quận 1, TP. HCM"
+      },
+      "items": [
+        { "name": "Reworked Denim Jacket", "variant": "Xanh / Size L", "qty": 1, "price": 1200000, "image": "" }
+      ],
+      "total": 1200000,
+      "status": "pending",
+      "note": "Giao hàng giờ hành chính"
+    },
+    {
+      "id": "ORD-9871",
+      "createdAt": "2026-07-02T11:15:00",
+      "customer": {
+        "name": "Trần Thị Mai",
+        "phone": "0902 345 678",
+        "address": "456 Lê Lợi, Quận 3, TP. HCM"
+      },
+      "items": [
+        { "name": "Vintage Patchwork Bag", "variant": "Nâu / Free Size", "qty": 1, "price": 850000, "image": "" }
+      ],
+      "total": 850000,
+      "status": "pending",
+      "note": ""
+    },
+    {
+      "id": "ORD-9870",
+      "createdAt": "2026-07-01T16:45:00",
+      "customer": {
+        "name": "Lê Hoàng Long",
+        "phone": "0903 456 789",
+        "address": "789 Trần Hưng Đạo, Quận 5, TP. HCM"
+      },
+      "items": [
+        { "name": "Reworked Denim Jacket", "variant": "Xanh / Size M", "qty": 2, "price": 1200000, "image": "" }
+      ],
+      "total": 2400000,
+      "status": "confirmed",
+      "note": "Gói quà tặng"
+    },
+    {
+      "id": "ORD-9869",
+      "createdAt": "2026-07-01T09:20:00",
+      "customer": {
+        "name": "Phạm Minh Đức",
+        "phone": "0904 567 890",
+        "address": "12 Võ Văn Ngân, Thủ Đức, TP. HCM"
+      },
+      "items": [
+        { "name": "Restyled Flannel Shirt", "variant": "Đỏ / Size L", "qty": 1, "price": 450000, "image": "" },
+        { "name": "Corduroy Upcycled Cap", "variant": "Be / Free Size", "qty": 1, "price": 250000, "image": "" }
+      ],
+      "total": 700000,
+      "status": "confirmed",
+      "note": ""
+    },
+    {
+      "id": "ORD-9868",
+      "createdAt": "2026-06-30T15:10:00",
+      "customer": {
+        "name": "Vũ Thanh Hằng",
+        "phone": "0905 678 901",
+        "address": "567 Hai Bà Trưng, Quận 3, TP. HCM"
+      },
+      "items": [
+        { "name": "Patchwork Denim Jeans", "variant": "Xanh đậm / Size 32", "qty": 1, "price": 850000, "image": "" }
+      ],
+      "total": 850000,
+      "status": "packed",
+      "note": ""
+    },
+    {
+      "id": "ORD-9867",
+      "createdAt": "2026-06-30T10:00:00",
+      "customer": {
+        "name": "Đặng Kim Ngân",
+        "phone": "0906 789 012",
+        "address": "89 Nguyễn Đình Chiểu, Quận 1, TP. HCM"
+      },
+      "items": [
+        { "name": "Refashioned Summer Dress", "variant": "Hoa / Size M", "qty": 1, "price": 680000, "image": "" }
+      ],
+      "total": 680000,
+      "status": "packed",
+      "note": ""
+    },
+    {
+      "id": "ORD-9866",
+      "createdAt": "2026-06-29T13:25:00",
+      "customer": {
+        "name": "Nguyễn Duy Anh",
+        "phone": "0907 890 123",
+        "address": "234 Phạm Văn Đồng, Thủ Đức, TP. HCM"
+      },
+      "items": [
+        { "name": "Corduroy Upcycled Cap", "variant": "Xám / Free Size", "qty": 2, "price": 250000, "image": "" },
+        { "name": "Reworked Denim Jacket", "variant": "Đen / Size XL", "qty": 1, "price": 1200000, "image": "" }
+      ],
+      "total": 1700000,
+      "status": "shipping",
+      "note": ""
+    },
+    {
+      "id": "ORD-9865",
+      "createdAt": "2026-06-28T08:45:00",
+      "customer": {
+        "name": "Hoàng Minh Tâm",
+        "phone": "0908 901 234",
+        "address": "345 Xô Viết Nghệ Tĩnh, Quận Bình Thạnh, TP. HCM"
+      },
+      "items": [
+        { "name": "Vintage Patchwork Bag", "variant": "Đen / Free Size", "qty": 1, "price": 850000, "image": "" }
+      ],
+      "total": 850000,
+      "status": "shipping",
+      "note": "Giao trước 17h"
+    },
+    {
+      "id": "ORD-9864",
+      "createdAt": "2026-06-27T17:30:00",
+      "customer": {
+        "name": "Lý Thị Hoa",
+        "phone": "0909 012 345",
+        "address": "678 Lý Tự Trọng, Quận 1, TP. HCM"
+      },
+      "items": [
+        { "name": "Restyled Flannel Shirt", "variant": "Kẻ / Size M", "qty": 1, "price": 450000, "image": "" }
+      ],
+      "total": 450000,
+      "status": "completed",
+      "note": ""
+    },
+    {
+      "id": "ORD-9863",
+      "createdAt": "2026-06-26T14:00:00",
+      "customer": {
+        "name": "Trương Văn Hùng",
+        "phone": "0910 123 456",
+        "address": "90 Bùi Thị Xuân, Quận 1, TP. HCM"
+      },
+      "items": [
+        { "name": "Reworked Denim Jacket", "variant": "Xanh / Size L", "qty": 1, "price": 1200000, "image": "" },
+        { "name": "Corduroy Upcycled Cap", "variant": "Nâu / Free Size", "qty": 1, "price": 250000, "image": "" },
+        { "name": "Vintage Patchwork Bag", "variant": "Xanh rêu / Free Size", "qty": 1, "price": 850000, "image": "" }
+      ],
+      "total": 2300000,
+      "status": "completed",
+      "note": ""
+    },
+    {
+      "id": "ORD-9862",
+      "createdAt": "2026-06-25T11:20:00",
+      "customer": {
+        "name": "Đỗ Thúy Vi",
+        "phone": "0911 234 567",
+        "address": "123 Lê Văn Sỹ, Quận 3, TP. HCM"
+      },
+      "items": [
+        { "name": "Patchwork Denim Jeans", "variant": "Đen / Size 30", "qty": 1, "price": 850000, "image": "" }
+      ],
+      "total": 850000,
+      "status": "completed",
+      "note": ""
+    },
+    {
+      "id": "ORD-9861",
+      "createdAt": "2026-06-24T09:15:00",
+      "customer": {
+        "name": "Bùi Quốc Bảo",
+        "phone": "0912 345 678",
+        "address": "456 Nguyễn Thị Minh Khai, Quận 1, TP. HCM"
+      },
+      "items": [
+        { "name": "Refashioned Summer Dress", "variant": "Trắng / Size S", "qty": 1, "price": 680000, "image": "" }
+      ],
+      "total": 680000,
+      "status": "completed",
+      "note": ""
+    },
+    {
+      "id": "ORD-9860",
+      "createdAt": "2026-06-23T16:40:00",
+      "customer": {
+        "name": "Phan Thảo Nguyên",
+        "phone": "0913 456 789",
+        "address": "789 Điện Biên Phủ, Quận Bình Thạnh, TP. HCM"
+      },
+      "items": [
+        { "name": "Reworked Denim Jacket", "variant": "Đen / Size M", "qty": 1, "price": 1200000, "image": "" },
+        { "name": "Vintage Patchwork Bag", "variant": "Nâu / Free Size", "qty": 1, "price": 850000, "image": "" }
+      ],
+      "total": 2050000,
+      "status": "completed",
+      "note": ""
+    },
+    {
+      "id": "ORD-9859",
+      "createdAt": "2026-06-22T10:30:00",
+      "customer": {
+        "name": "Dương Mỹ Linh",
+        "phone": "0914 567 890",
+        "address": "12 Ngô Gia Tự, Quận 10, TP. HCM"
+      },
+      "items": [
+        { "name": "Restyled Flannel Shirt", "variant": "Ca rô / Size L", "qty": 1, "price": 450000, "image": "" }
+      ],
+      "total": 450000,
+      "status": "cancelled",
+      "note": "Khách hủy do thay đổi nhu cầu"
+    },
+    {
+      "id": "ORD-9858",
+      "createdAt": "2026-06-21T08:00:00",
+      "customer": {
+        "name": "Ngô Thanh Sơn",
+        "phone": "0915 678 901",
+        "address": "34 Hoàng Hoa Thám, Quận Tân Bình, TP. HCM"
+      },
+      "items": [
+        { "name": "Corduroy Upcycled Cap", "variant": "Xanh / Free Size", "qty": 3, "price": 250000, "image": "" }
+      ],
+      "total": 750000,
+      "status": "cancelled",
+      "note": "Hết hàng"
+    }
+  ]
+}

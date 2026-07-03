@@ -11,8 +11,55 @@
       "email": "seller@refashion.vn",
       "password": "seller123",
       "role": "Seller",
-      "name": "Designer Studio",
-      "redirect": "/seller/seller_dashboard.html"
+      "name": "Eco Wear Store",
+      "redirect": "/seller/seller_dashboard.html",
+      "store": "Eco Wear",
+      "storeLogo": "../images/store_eco_wear.png"
+    },
+    {
+      "email": "seller_hemp@refashion.vn",
+      "password": "seller123",
+      "role": "Seller",
+      "name": "Hemp & Bamboo Store",
+      "redirect": "/seller/seller_dashboard.html",
+      "store": "Hemp & Bamboo",
+      "storeLogo": "../images/store_hemp_bamboo.png"
+    },
+    {
+      "email": "seller_retro@refashion.vn",
+      "password": "seller123",
+      "role": "Seller",
+      "name": "Retro Chic Store",
+      "redirect": "/seller/seller_dashboard.html",
+      "store": "Retro Chic",
+      "storeLogo": "../images/store_retro_chic.png"
+    },
+    {
+      "email": "seller_denim@refashion.vn",
+      "password": "seller123",
+      "role": "Seller",
+      "name": "Denim Craft Store",
+      "redirect": "/seller/seller_dashboard.html",
+      "store": "Denim Craft",
+      "storeLogo": "../images/store_denim_craft.png"
+    },
+    {
+      "email": "seller_greenthread@refashion.vn",
+      "password": "seller123",
+      "role": "Seller",
+      "name": "Green Thread Store",
+      "redirect": "/seller/seller_dashboard.html",
+      "store": "Green Thread",
+      "storeLogo": "../images/store_green_thread.png"
+    },
+    {
+      "email": "seller_zerowaste@refashion.vn",
+      "password": "seller123",
+      "role": "Seller",
+      "name": "Zero Waste Store",
+      "redirect": "/seller/seller_dashboard.html",
+      "store": "Zero Waste",
+      "storeLogo": "../images/store_zero_waste.png"
     },
     {
       "email": "admin@refashion.vn",

@@ -2,87 +2,263 @@
   "products": [
     {
       "id": "P101",
-      "name": "Upcycled Denim Jacket",
-      "category": "Denim Jacket",
-      "variant": "Size M - Xanh Nhạt",
-      "price": 1200000,
-      "stock": 5,
+      "name": "Áo Khoác Gió Recycled Ocean-Plastic",
+      "category": "jacket",
+      "price": 1250000,
+      "stock": 45,
       "store": "Eco Wear",
       "status": "Active",
-      "image": "../images/fashion1.jpg"
+      "image": "https://images.unsplash.com/photo-1544441893-675973e31985?q=80&w=1200",
+      "variants": [
+        { "size": "S", "color": "Xanh Biển", "price": 1250000, "stock": 15 },
+        { "size": "M", "color": "Xanh Biển", "price": 1250000, "stock": 15 },
+        { "size": "L", "color": "Xanh Biển", "price": 1250000, "stock": 10 },
+        { "size": "XL", "color": "Xanh Biển", "price": 1280000, "stock": 5 }
+      ]
     },
     {
       "id": "P102",
-      "name": "Patchwork Denim Totebag",
-      "category": "Patchwork Bag",
-      "variant": "Màu Nâu Đất",
-      "price": 350000,
-      "stock": 12,
-      "store": "Eco Wear",
+      "name": "Balo Leo Núi Eco-Trail 30L",
+      "category": "backpack",
+      "price": 1890000,
+      "stock": 30,
+      "store": "Hemp & Bamboo",
       "status": "Active",
-      "image": "../images/fashion2.jpg"
+      "image": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=1200",
+      "variants": [
+        { "size": "30L", "color": "Xanh Rêu", "price": 1890000, "stock": 15 },
+        { "size": "30L", "color": "Xám", "price": 1890000, "stock": 15 }
+      ]
     },
     {
       "id": "P103",
-      "name": "Restyled Flannel Shirt",
-      "category": "Restyled Tops",
-      "variant": "Size L - Kẻ Caro Đỏ",
+      "name": "Áo Thun Polo Organic Cotton",
+      "category": "tshirt",
       "price": 450000,
-      "stock": 8,
+      "stock": 60,
       "store": "Eco Wear",
       "status": "Active",
-      "image": "../images/fashion3.jpg"
+      "image": "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=1200",
+      "variants": [
+        { "size": "S", "color": "Trắng", "price": 450000, "stock": 10 },
+        { "size": "M", "color": "Trắng", "price": 450000, "stock": 10 },
+        { "size": "L", "color": "Trắng", "price": 450000, "stock": 10 },
+        { "size": "S", "color": "Đen", "price": 450000, "stock": 10 },
+        { "size": "M", "color": "Đen", "price": 450000, "stock": 10 },
+        { "size": "L", "color": "Đen", "price": 450000, "stock": 10 }
+      ]
     },
     {
       "id": "P104",
-      "name": "Patchwork Denim Jeans",
-      "category": "Denim Jacket",
-      "variant": "Size 32 - Xanh Đậm",
-      "price": 850000,
-      "stock": 3,
-      "store": "Eco Wear",
+      "name": "Quần Kaki Bền Vững Sợi Gai Dầu (Hemp)",
+      "category": "pants",
+      "price": 890000,
+      "stock": 35,
+      "store": "Hemp & Bamboo",
       "status": "Active",
-      "image": "../images/fashion4.jpg"
+      "image": "https://images.unsplash.com/photo-1542272604-787c3835535d?q=80&w=1200",
+      "variants": [
+        { "size": "30", "color": "Be", "price": 890000, "stock": 10 },
+        { "size": "32", "color": "Be", "price": 890000, "stock": 15 },
+        { "size": "32", "color": "Đen", "price": 890000, "stock": 10 }
+      ]
     },
     {
       "id": "P105",
-      "name": "Vintage Silk Scarf",
-      "category": "Phụ Kiện Khác",
-      "variant": "Màu Be Vintage",
-      "price": 280000,
-      "stock": 20,
-      "store": "Retro Chic",
-      "status": "Reported",
-      "image": "../images/fashion5.jpg"
+      "name": "Túi Đeo Vai Canvas Tái Sinh",
+      "category": "backpack",
+      "price": 180000,
+      "stock": 40,
+      "store": "Hemp & Bamboo",
+      "status": "Active",
+      "image": "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=1200",
+      "variants": [
+        { "size": "Tiêu chuẩn", "color": "Trắng Ngà", "price": 180000, "stock": 25 },
+        { "size": "Tiêu chuẩn", "color": "Đen", "price": 180000, "stock": 15 }
+      ]
     },
     {
       "id": "P106",
-      "name": "Corduroy Upcycled Cap",
-      "category": "Phụ Kiện Khác",
-      "variant": "Màu Xanh Rêu",
-      "price": 250000,
-      "stock": 15,
-      "store": "Eco Wear",
+      "name": "Giày Thể Thao Eco-Step Bamboo Fiber",
+      "category": "shoes",
+      "price": 1450000,
+      "stock": 25,
+      "store": "Hemp & Bamboo",
       "status": "Active",
-      "image": "../images/fashion1.jpg"
+      "image": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=1200",
+      "variants": [
+        { "size": "39", "color": "Trắng", "price": 1450000, "stock": 5 },
+        { "size": "40", "color": "Trắng", "price": 1450000, "stock": 10 },
+        { "size": "41", "color": "Trắng", "price": 1450000, "stock": 10 }
+      ]
     },
     {
       "id": "P107",
-      "name": "Refashioned Summer Dress",
-      "category": "Restyled Tops",
-      "variant": "Size S - Hoa Nhỏ",
-      "price": 680000,
-      "stock": 6,
+      "name": "Đầm Linen Mộc Tự Nhiên",
+      "category": "tshirt",
+      "price": 780000,
+      "stock": 20,
       "store": "Retro Chic",
       "status": "Active",
-      "image": "../images/fashion2.jpg"
+      "image": "../images/sh_linen_dress.png",
+      "variants": [
+        { "size": "S", "color": "Be Mộc", "price": 780000, "stock": 5 },
+        { "size": "M", "color": "Be Mộc", "price": 780000, "stock": 10 },
+        { "size": "L", "color": "Be Mộc", "price": 800000, "stock": 5 }
+      ]
+    },
+    {
+      "id": "P108",
+      "name": "Quần Jeans Denim Tái Bản",
+      "category": "pants",
+      "price": 950000,
+      "stock": 28,
+      "store": "Denim Craft",
+      "status": "Active",
+      "image": "../images/sh_denim_jeans.png",
+      "variants": [
+        { "size": "30", "color": "Xanh Indigo", "price": 950000, "stock": 10 },
+        { "size": "32", "color": "Xanh Indigo", "price": 950000, "stock": 10 },
+        { "size": "32", "color": "Xanh Nhạt", "price": 950000, "stock": 8 }
+      ]
+    },
+    {
+      "id": "P109",
+      "name": "Áo Sơ Mi Denim Upcycled",
+      "category": "tshirt",
+      "price": 650000,
+      "stock": 24,
+      "store": "Eco Wear",
+      "status": "Active",
+      "image": "../images/sh_denim_shirt.png",
+      "variants": [
+        { "size": "S", "color": "Denim Patchwork", "price": 650000, "stock": 8 },
+        { "size": "M", "color": "Denim Patchwork", "price": 650000, "stock": 10 },
+        { "size": "L", "color": "Denim Patchwork", "price": 670000, "stock": 6 }
+      ]
+    },
+    {
+      "id": "P110",
+      "name": "Túi Patchwork Vải Mộc",
+      "category": "backpack",
+      "price": 320000,
+      "stock": 15,
+      "store": "Denim Craft",
+      "status": "Active",
+      "image": "../images/sh_patchwork_bag.png",
+      "variants": [
+        { "size": "Tiêu chuẩn", "color": "Canvas Patchwork", "price": 320000, "stock": 15 }
+      ]
+    },
+    {
+      "id": "P111",
+      "name": "Khăn Lụa Tự Nhiên Retro",
+      "category": "others",
+      "price": 290000,
+      "stock": 30,
+      "store": "Retro Chic",
+      "status": "Active",
+      "image": "../images/sh_silk_scarf.png",
+      "variants": [
+        { "size": "70x70cm", "color": "Đỏ Bordeaux", "price": 290000, "stock": 15 },
+        { "size": "70x70cm", "color": "Vàng Mù Tạt", "price": 290000, "stock": 15 }
+      ]
+    },
+    {
+      "id": "P112",
+      "name": "Áo Khoác Dạ Len Tái Chế",
+      "category": "jacket",
+      "price": 1650000,
+      "stock": 16,
+      "store": "Eco Wear",
+      "status": "Active",
+      "image": "../images/sh_wool_jacket.png",
+      "variants": [
+        { "size": "M", "color": "Nâu Đất", "price": 1650000, "stock": 5 },
+        { "size": "L", "color": "Nâu Đất", "price": 1650000, "stock": 5 },
+        { "size": "M", "color": "Ghi Xám", "price": 1650000, "stock": 3 },
+        { "size": "L", "color": "Ghi Xám", "price": 1650000, "stock": 3 }
+      ]
+    },
+    {
+      "id": "P113",
+      "name": "Giày Sneaker Vải Bố Canvas",
+      "category": "shoes",
+      "price": 850000,
+      "stock": 20,
+      "store": "Hemp & Bamboo",
+      "status": "Active",
+      "image": "../images/shoes.jpg",
+      "variants": [
+        { "size": "38", "color": "Trắng Ngà", "price": 850000, "stock": 5 },
+        { "size": "40", "color": "Trắng Ngà", "price": 850000, "stock": 5 },
+        { "size": "40", "color": "Đen Canvas", "price": 850000, "stock": 5 },
+        { "size": "42", "color": "Đen Canvas", "price": 870000, "stock": 5 }
+      ]
+    },
+    {
+      "id": "P114",
+      "name": "Áo Sơ Mi Thêu Hoa Đậu Biếc Organic",
+      "category": "tshirt",
+      "price": 520000,
+      "stock": 18,
+      "store": "Green Thread",
+      "status": "Active",
+      "image": "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?q=80&w=600",
+      "variants": [
+        { "size": "S", "color": "Trắng Thêu Xanh", "price": 520000, "stock": 8 },
+        { "size": "M", "color": "Trắng Thêu Xanh", "price": 520000, "stock": 10 }
+      ]
+    },
+    {
+      "id": "P115",
+      "name": "Chân Váy Đũi Thêu Tay Eco-Flora",
+      "category": "pants",
+      "price": 680000,
+      "stock": 12,
+      "store": "Green Thread",
+      "status": "Active",
+      "image": "https://images.unsplash.com/photo-1583496661160-fb48862c4a4e?q=80&w=600",
+      "variants": [
+        { "size": "M", "color": "Be Nhạt", "price": 680000, "stock": 6 },
+        { "size": "L", "color": "Be Nhạt", "price": 690000, "stock": 6 }
+      ]
+    },
+    {
+      "id": "P116",
+      "name": "Áo Cardigan Dệt Kim Hữu Cơ Cúc Gỗ",
+      "category": "jacket",
+      "price": 950000,
+      "stock": 15,
+      "store": "Zero Waste",
+      "status": "Active",
+      "image": "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?q=80&w=600",
+      "variants": [
+        { "size": "M", "color": "Kem Mộc", "price": 950000, "stock": 8 },
+        { "size": "L", "color": "Kem Mộc", "price": 950000, "stock": 7 }
+      ]
+    },
+    {
+      "id": "P117",
+      "name": "Túi Tote Canvas Zero-Waste Khâu Tay",
+      "category": "backpack",
+      "price": 220000,
+      "stock": 30,
+      "store": "Zero Waste",
+      "status": "Active",
+      "image": "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600",
+      "variants": [
+        { "size": "Tiêu chuẩn", "color": "Trắng Kem", "price": 220000, "stock": 30 }
+      ]
     }
   ],
   "categories": [
-    { "id": "C1", "name": "Denim Reimagined", "itemsCount": 120 },
-    { "id": "C2", "name": "Vintage Dresses", "itemsCount": 85 },
-    { "id": "C3", "name": "Patchwork Bags", "itemsCount": 60 },
-    { "id": "C4", "name": "Phụ Kiện Tái Chế", "itemsCount": 45 }
+    { "id": "C1", "name": "Áo Khoác", "itemsCount": 30 },
+    { "id": "C2", "name": "Balo & Túi", "itemsCount": 25 },
+    { "id": "C3", "name": "Áo Thun", "itemsCount": 20 },
+    { "id": "C4", "name": "Quần", "itemsCount": 10 },
+    { "id": "C5", "name": "Giày", "itemsCount": 8 },
+    { "id": "C6", "name": "Phụ Kiện Khác", "itemsCount": 7 }
   ],
   "users": [
     { "id": "U01", "name": "Nguyễn Văn A", "role": "Buyer", "status": "Active" },

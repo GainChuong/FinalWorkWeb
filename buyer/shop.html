@@ -30,7 +30,7 @@
               <option value="default">Sắp xếp mặc định</option>
               <option value="price-asc">Giá: Thấp đến Cao</option>
               <option value="price-desc">Giá: Cao đến Thấp</option>
-              <option value="sentiment">Chỉ số Xanh (AI)</option>
+
             </select>
             <button id="filter-reset" class="btn btn-outline" style="border-radius:10px;font-size:0.85rem"><i class="fa-solid fa-arrow-rotate-left" style="margin-right:0.25rem"></i>Đặt Lại</button>
           </div>
@@ -58,30 +58,11 @@
               </div>
             </div>
 
-            <div class="filter-section">
-              <h3>Eco-Score</h3>
-              <div class="filter-radio-group">
-                <label><input type="radio" name="ecoscore" value="all" checked /><span>Tất Cả</span></label>
-                <label><input type="radio" name="ecoscore" value="A+" /><span>A+ (Xuất Sắc)</span></label>
-                <label><input type="radio" name="ecoscore" value="A" /><span>A (Tốt)</span></label>
-                <label><input type="radio" name="ecoscore" value="B" /><span>B (Khá)</span></label>
-              </div>
-            </div>
 
-            <div class="filter-section">
-              <h3>Chất Liệu</h3>
-              <select id="filter-material" class="filter-select">
-                <option value="all">Tất Cả</option>
-                <option value="Recycled">Tái Chế (Recycled)</option>
-                <option value="Organic">Hữu Cơ (Organic)</option>
-                <option value="Hemp">Sợi Gai Dầu (Hemp)</option>
-                <option value="Bamboo">Sợi Tre (Bamboo)</option>
-                <option value="Canvas">Canvas Tái Sinh</option>
-              </select>
-            </div>
           </aside>
 
-          <div>
+          <div style="flex: 1;">
+            <div id="shop-banner-container" style="margin-bottom: 1.5rem;"></div>
             <div class="product-grid" id="shop-product-grid"></div>
           </div>
         </div>

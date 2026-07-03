@@ -3,31 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chi Tiết Sản Phẩm - ReFashion</title>
+  <title>Theo Dõi Đơn Hàng - ReFashion</title>
   <meta name="description" content="ReFashion - Hệ sinh thái thời trang tuần hoàn kết nối người mua, nhà thiết kế tái sinh và quản trị viên minh bạch.">
   <meta property="og:title" content="ReFashion - Thời trang Tái sinh & Bền vững">
   <meta property="og:description" content="Hệ sinh thái thời trang tuần hoàn kết nối người mua, nhà thiết kế tái sinh và quản trị viên minh bạch.">
   <link rel="stylesheet" href="../css/maincss.css" />
   <link rel="stylesheet" href="../css/buyer.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
   <div id="navbar-container"></div>
 
-  <main class="page-main" style="padding-top:90px">
-    <div id="detail-content" class="detail-page"></div>
+  <main class="page-main" style="padding-top:100px;min-height:60vh">
+    <div class="container">
+      <div id="tracking-content"></div>
+    </div>
   </main>
 
   <div id="footer-container"></div>
-
-  <!-- Size Chart Modal (hidden by default) -->
-  <div id="sizechart-modal" class="sizechart-modal">
-    <div class="sizechart-modal-content">
-      <button class="sizechart-modal-close" onclick="document.getElementById('sizechart-modal').classList.remove('show')">&times;</button>
-      <h3>Hướng Dẫn Chọn Size</h3>
-      <img id="sizechart-modal-img" src="" alt="Bảng size sản phẩm" />
-    </div>
-  </div>
 
   <script src="../js/mainjs.js"></script>
   <script src="../js/buyer.js"></script>

@@ -3,64 +3,1207 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Về ReFashion - Thời trang Bền vững</title>
-  <meta name="description" content="ReFashion - Hệ sinh thái thời trang tuần hoàn kết nối người mua, nhà thiết kế tái sinh và quản trị viên minh bạch.">
-  <meta property="og:title" content="ReFashion - Thời trang Tái sinh & Bền vững">
-  <meta property="og:description" content="Hệ sinh thái thời trang tuần hoàn kết nối người mua, nhà thiết kế tái sinh và quản trị viên minh bạch.">
+  <title>Câu Chuyện Thương Hiệu - ReFashion</title>
+  <meta name="description" content="Khám phá hành trình thời trang tuần hoàn, sứ mệnh xanh và phong cách sống bền vững cùng ReFashion.">
+  <meta property="og:title" content="ReFashion - Hành Trình Thời Trang Tuần Hoàn">
+  <meta property="og:description" content="Khám phá hành trình thời trang tuần hoàn, sứ mệnh xanh và phong cách sống bền vững cùng ReFashion.">
   <link rel="stylesheet" href="../css/maincss.css" />
   <link rel="stylesheet" href="../css/buyer.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
+  <style>
+    /* ===== BRAND STORY GLOBAL STYLES ===== */
+    html {
+      scroll-snap-type: none; /* JS-driven paging */
+    }
+
+    body.brandstory-body {
+      background-color: #F7F3EC !important;
+      color: var(--primary-hover) !important;
+      overflow: hidden;
+      height: 100dvh;
+    }
+
+    .brandstory-main {
+      height: 100dvh;
+      overflow-y: scroll;
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+      padding-bottom: 0;
+      /* hide scrollbar visually */
+      scrollbar-width: none;
+    }
+    .brandstory-main::-webkit-scrollbar { display: none; }
+
+    .story-container {
+      max-width: 1350px;
+      margin: 0 auto;
+      padding: 0 3rem;
+    }
+
+    /* Each section = exactly 100vh, snaps into view */
+    .story-section {
+      height: 100dvh;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 3rem;
+      align-items: center;
+      padding: 80px 0 40px;
+      position: relative;
+      overflow: hidden;
+      box-sizing: border-box;
+      /* Entrance animation — sections slide+fade in */
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1), transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* ===== CENTER-LAYOUT VARIANT (Sections 4 / 7 / 8) ===== */
+    /* Compact header + generous visual space — no clipping */
+    .story-section.center-layout {
+      padding: 64px 0 20px;
+      gap: 0;
+      align-items: stretch;
+    }
+
+    .center-layout .section-header {
+      flex-shrink: 0;
+      text-align: center;
+      padding-bottom: 1rem;
+    }
+
+    .center-layout .story-subtitle {
+      font-size: 0.9rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .center-layout .story-title {
+      font-size: clamp(1.65rem, 3.2vw, 2.6rem);
+      margin-bottom: 0.75rem;
+      line-height: 1.25;
+    }
+
+    .center-layout .story-text {
+      font-size: 1rem;
+      line-height: 1.65;
+      margin-bottom: 0;
+    }
+
+    .center-layout .section-visual {
+      flex: 1;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .story-section.reveal-active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (min-width: 1025px) {
+      .story-section.split-layout {
+        grid-template-columns: 1fr 1.25fr;
+        gap: 5rem;
+      }
+      .story-section.split-layout.media-left {
+        grid-template-columns: 1.25fr 1fr;
+        gap: 5rem;
+      }
+    }
+
+    /* Media Containers — use max-height instead of fixed aspect-ratio */
+    .story-media-wrapper {
+      position: relative;
+      border-radius: 24px;
+      overflow: hidden;
+      background-color: rgba(91, 116, 83, 0.05);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.04);
+      width: 100%;
+      max-height: 55vh;
+    }
+
+    .story-media-wrapper img,
+    .story-media-wrapper video {
+      width: 100%;
+      height: 100%;
+      max-height: 55vh;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Typography & Copywriting (Larger, more premium proportions) */
+    .story-subtitle {
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      font-size: 1.05rem;
+      letter-spacing: 0.18em;
+      color: var(--accent);
+      margin-bottom: 1.25rem;
+      display: inline-block;
+    }
+
+    .story-title {
+      font-family: var(--font-serif);
+      font-size: clamp(2.5rem, 5vw, 4.2rem);
+      color: var(--primary);
+      line-height: 1.2;
+      margin-bottom: 1.75rem;
+      font-weight: 600;
+    }
+
+    .story-text {
+      font-size: 1.25rem;
+      line-height: 1.85;
+      color: var(--text-muted);
+      margin-bottom: 2.5rem;
+    }
+
+    /* CTA Button styling (Scaled up) */
+    .story-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1.1rem 2.75rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1.05rem;
+      background-color: var(--primary);
+      color: white !important;
+      text-decoration: none;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease, box-shadow 0.3s ease;
+      border: none;
+      cursor: pointer;
+    }
+
+    .story-cta:hover {
+      transform: translateY(-6px);
+      background-color: var(--primary-hover);
+      box-shadow: 0 12px 24px rgba(91, 116, 83, 0.2);
+    }
+
+    /* Reveal-on-scroll Animations */
+    .reveal-element {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal-active .reveal-element {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .delay-1 { transition-delay: 0.15s; }
+    .delay-2 { transition-delay: 0.3s; }
+    .delay-3 { transition-delay: 0.45s; }
+    .delay-4 { transition-delay: 0.6s; }
+
+    /* Mouse Indicator */
+    .mouse-scroll-indicator {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 4rem;
+    }
+    
+    .mouse-outline {
+      width: 26px;
+      height: 44px;
+      border: 2px solid var(--primary-light);
+      border-radius: 20px;
+      position: relative;
+    }
+
+    .mouse-wheel {
+      width: 4px;
+      height: 8px;
+      background-color: var(--accent);
+      border-radius: 2px;
+      position: absolute;
+      top: 6px;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: scrollWheel 2s ease-in-out infinite;
+    }
+
+    @keyframes scrollWheel {
+      0% { transform: translate(-50%, 0); opacity: 1; }
+      50% { transform: translate(-50%, 8px); opacity: 0; }
+      100% { transform: translate(-50%, 0); opacity: 1; }
+    }
+
+    /* SECTION 1: HERO - Organic Blob (Larger display) */
+    .hero-story-section {
+      min-height: 90vh;
+      padding-top: 160px;
+      padding-bottom: 80px;
+    }
+
+    .organic-blob-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 580px;
+      aspect-ratio: 1/1;
+      background-color: rgba(91, 116, 83, 0.05);
+      border-radius: 60% 40% 70% 30% / 50% 60% 40% 50%;
+      overflow: hidden;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.05);
+      animation: morphBlob 12s ease-in-out infinite;
+      transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .organic-blob-wrapper video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scale(1.1);
+      transition: transform 2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal-active .organic-blob-wrapper video {
+      transform: scale(1);
+    }
+
+    @keyframes morphBlob {
+      0% { border-radius: 60% 40% 70% 30% / 50% 60% 40% 50%; }
+      50% { border-radius: 50% 60% 40% 70% / 60% 40% 60% 40%; }
+      100% { border-radius: 60% 40% 70% 30% / 50% 60% 40% 50%; }
+    }
+
+    /* SECTION 2: THE PROBLEM - Staggered Collage (Scaled up) */
+    .collage-container {
+      position: relative;
+      height: 560px;
+      width: 100%;
+    }
+
+    .collage-card {
+      position: absolute;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.06);
+      transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 1.2s ease, opacity 1s ease;
+    }
+
+    .card-landfill {
+      top: 0;
+      left: 0;
+      width: 70%;
+      height: 340px;
+      z-index: 2;
+    }
+
+    .card-forest {
+      bottom: 0;
+      right: 0;
+      width: 65%;
+      height: 320px;
+      z-index: 1;
+      opacity: 0.85;
+      filter: grayscale(20%);
+    }
+
+    .collage-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Parallax Scroll states */
+    .reveal-active .card-landfill {
+      transform: translateY(0);
+    }
+    .reveal-active .card-forest {
+      transform: translateY(-20px);
+    }
+
+    .card-forest.focused {
+      z-index: 3;
+      opacity: 1;
+      filter: grayscale(0%);
+      transform: translateY(-30px) scale(1.05);
+    }
+
+    .card-landfill.dimmed {
+      opacity: 0.6;
+      filter: grayscale(40%);
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .stat-number {
+      font-family: var(--font-serif);
+      font-size: clamp(3rem, 5.5vw, 4.2rem);
+      color: var(--accent);
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* SECTION 3: OUR BELIEF - Collage 4 Circular Images (Scaled up) */
+    .circle-collage-container {
+      position: relative;
+      width: 460px;
+      height: 460px;
+      margin: 0 auto;
+    }
+
+    .circle-item {
+      position: absolute;
+      width: 170px;
+      height: 170px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 4px solid #F7F3EC;
+      box-shadow: 0 10px 25px rgba(91,116,83,0.08);
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
+      cursor: pointer;
+    }
+
+    .circle-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .circle-item:hover {
+      transform: scale(1.15) rotate(3deg) !important;
+      z-index: 10;
+      box-shadow: 0 20px 40px rgba(166, 133, 91, 0.25);
+    }
+
+    .circle-top { top: 0; left: 50%; transform: translateX(-50%) translateY(20px); }
+    .circle-left { top: 50%; left: 0; transform: translateY(-50%) translateX(20px); }
+    .circle-right { top: 50%; right: 0; transform: translateY(-50%) translateX(-20px); }
+    .circle-bottom { bottom: 0; left: 50%; transform: translateX(-50%) translateY(-20px); }
+
+    .reveal-active .circle-top { transform: translateX(-50%) translateY(0); }
+    .reveal-active .circle-left { transform: translateY(-50%) translateX(0); }
+    .reveal-active .circle-right { transform: translateY(-50%) translateX(0); }
+    .reveal-active .circle-bottom { transform: translateX(-50%) translateY(0); }
+
+    /* SECTION 4: JOURNEY - Desktop Winding Timeline & SVG Path */
+    .timeline-wrapper {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      min-height: 380px;
+      margin: 0;
+    }
+
+    .timeline-svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+    
+    #timeline-path {
+      stroke: var(--primary-light);
+      stroke-width: 4;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: stroke-dashoffset 0.1s ease-out;
+    }
+
+    /* SVG Step Card Styles */
+    .timeline-svg-step-card {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      background: transparent;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal-active .timeline-svg-step-card {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .timeline-svg-step-card.right-align {
+      flex-direction: row;
+      text-align: right;
+    }
+
+    .timeline-svg-step-card.center-align {
+      flex-direction: column;
+      text-align: center;
+      gap: 0.75rem;
+    }
+
+    .timeline-svg-node {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background-color: #F7F3EC;
+      border: 3.5px solid var(--primary-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      color: var(--primary);
+      box-shadow: 0 6px 15px rgba(91,116,83,0.08);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      flex-shrink: 0;
+      cursor: pointer;
+      z-index: 3;
+    }
+
+    .timeline-svg-step-card:hover .timeline-svg-node {
+      transform: scale(1.15);
+      border-color: var(--accent);
+      color: var(--accent);
+      box-shadow: 0 10px 20px rgba(166, 133, 91, 0.15);
+    }
+
+    .timeline-svg-text {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .timeline-svg-step-title {
+      font-weight: 700;
+      font-size: 1.15rem;
+      color: var(--primary);
+      margin-bottom: 0.25rem;
+    }
+
+    .timeline-svg-step-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    /* SECTION 5: MARKETPLACE - Masonry Gallery (Scaled up) */
+    .masonry-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+      width: 100%;
+    }
+
+    .masonry-item {
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+      position: relative;
+    }
+
+    .masonry-large {
+      grid-row: span 2;
+      height: 620px;
+    }
+
+    .masonry-medium {
+      height: 294px;
+    }
+
+    .masonry-small {
+      height: 294px;
+    }
+
+    .masonry-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .masonry-item:hover img {
+      transform: scale(1.05);
+    }
+
+    @media (max-width: 768px) {
+      .masonry-container {
+        grid-template-columns: 1fr;
+      }
+      .masonry-large, .masonry-medium, .masonry-small {
+        height: 280px;
+        grid-row: auto;
+      }
+    }
+
+    /* SECTION 6: GREENCOIN - Central Dashboard with Orbiting Coins (Scaled up) */
+    .orbit-container {
+      position: relative;
+      padding: 3rem;
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      height: 500px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .greencoin-card {
+      background: rgba(255, 255, 255, 0.45);
+      backdrop-filter: blur(20px) saturate(120%);
+      -webkit-backdrop-filter: blur(20px) saturate(120%);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 24px;
+      padding: 3rem;
+      box-shadow: 0 30px 60px rgba(91, 116, 83, 0.05);
+      z-index: 2;
+      text-align: center;
+      width: 320px;
+      height: 240px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .orbiting-coin {
+      position: absolute;
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #A7B89A, #5B7453);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 800;
+      font-size: 1.35rem;
+      box-shadow: 0 10px 20px rgba(91, 116, 83, 0.25);
+      z-index: 3;
+    }
+
+    .coin-1 { top: 15%; left: 10%; animation: float1 5s ease-in-out infinite; }
+    .coin-2 { top: 10%; right: 10%; animation: float2 6s ease-in-out infinite; }
+    .coin-3 { bottom: 15%; left: 10%; animation: float3 7s ease-in-out infinite; }
+    .coin-4 { bottom: 10%; right: 10%; animation: float4 5.5s ease-in-out infinite; }
+    
+    @keyframes float1 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(-10px, -15px) scale(1.08); }
+    }
+    @keyframes float2 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(15px, -8px) scale(0.95); }
+    }
+    @keyframes float3 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(-8px, 12px) scale(1.05); }
+    }
+    @keyframes float4 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(12px, 15px) scale(0.9); }
+    }
+
+    /* SECTION 7: COMMUNITY - Network graph of avatars with Bezier connections */
+    .network-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      min-height: 320px;
+      margin-top: 1rem;
+    }
+
+    .network-svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+      overflow: visible;
+    }
+
+    #network-path-1, #network-path-2, #network-path-3, #network-path-4, #network-path-5 {
+      stroke: var(--primary-light);
+      stroke-width: 3;
+      fill: none;
+      stroke-dasharray: 8 8;
+      stroke-linecap: round;
+      animation: dashMove 25s linear infinite;
+      filter: drop-shadow(0 2px 4px rgba(91,116,83,0.15));
+      opacity: 0.85;
+    }
+
+    @keyframes dashMove {
+      to { stroke-dashoffset: -1000; }
+    }
+
+    .network-avatar-inner {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 4px solid #F7F3EC;
+      box-shadow: 0 12px 28px rgba(91,116,83,0.15);
+      transition: transform 0.4s ease, border-color 0.4s ease;
+      cursor: pointer;
+      z-index: 3;
+    }
+
+    .network-avatar-inner:hover {
+      transform: scale(1.2) rotate(3deg);
+      border-color: var(--accent);
+    }
+
+    .network-avatar-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Responsive timeline/network display */
+    .timeline-desktop-container,
+    .network-desktop-container {
+      display: block;
+    }
+    
+    .timeline-mobile-container,
+    .network-mobile-container {
+      display: none;
+    }
+    
+    @media (max-width: 768px) {
+      .timeline-desktop-container,
+      .network-desktop-container {
+        display: none !important;
+      }
+      
+      .timeline-mobile-container {
+        display: flex;
+        flex-direction: column;
+        gap: 2.5rem;
+        padding: 1.5rem 0;
+      }
+      
+      .timeline-mobile-container .timeline-step {
+        display: flex;
+        gap: 1.5rem;
+        align-items: flex-start;
+      }
+
+      .timeline-mobile-container .timeline-node {
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        background-color: #F7F3EC;
+        border: 2px solid var(--primary-light);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+        color: var(--primary);
+        box-shadow: 0 6px 15px rgba(91,116,83,0.05);
+        flex-shrink: 0;
+      }
+
+      .timeline-mobile-container .timeline-step-title {
+        font-weight: 700;
+        font-size: 1.15rem;
+        color: var(--primary);
+        margin-top: 0;
+        margin-bottom: 0.5rem;
+      }
+
+      .timeline-mobile-container .timeline-step-desc {
+        font-size: 0.95rem;
+        color: var(--text-muted);
+        line-height: 1.5;
+      }
+      
+      .network-mobile-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 2rem;
+        padding: 2rem 0;
+      }
+      
+      .network-mobile-avatar {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+        width: 120px;
+        text-align: center;
+      }
+      
+      .network-mobile-avatar img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #F7F3EC;
+        box-shadow: 0 8px 16px rgba(91,116,83,0.08);
+      }
+      
+      .network-mobile-name {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--primary);
+      }
+    }
+
+    /* SECTION 8: IMPACT & CTA - Full width media (fits within 100dvh section) */
+    .full-width-media-wrapper {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      min-height: 320px;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 20px 45px rgba(0,0,0,0.05);
+      margin-top: 1rem;
+      margin-bottom: 0;
+    }
+
+    .full-width-media-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .media-dark-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.45) 100%);
+      z-index: 1;
+    }
+
+    .floating-counters-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      max-width: 1000px;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+    }
+
+    .glass-counter-card {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(25px) saturate(110%);
+      -webkit-backdrop-filter: blur(25px) saturate(110%);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 20px;
+      padding: 2.5rem;
+      text-align: center;
+      color: white;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.4s ease;
+    }
+
+    .glass-counter-card:hover {
+      transform: translateY(-8px);
+      background-color: rgba(255, 255, 255, 0.22);
+    }
+
+    .glass-counter-card .stat-number {
+      color: #F7F3EC !important;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .glass-counter-card .stat-label {
+      color: rgba(255, 255, 255, 0.85);
+    }
+  </style>
 </head>
-<body>
+<body class="brandstory-body">
   <div id="navbar-container"></div>
 
-  <main class="page-main" style="padding-top:90px">
-    <div class="container">
-      <div style="text-align:center;padding:4rem 0">
-        <span class="badge badge-primary" style="margin-bottom:1rem">Giới Thiệu</span>
-        <h1 style="font-family:var(--font-serif);font-size:clamp(2rem,4vw,3.5rem);color:var(--primary);margin-bottom:1.5rem">Câu Chuyện Về ReFashion</h1>
-        <p style="max-width:700px;margin:0 auto 2rem auto;color:var(--text-muted);font-size:1.1rem;line-height:1.7">ReFashion là nền tảng thời trang tuần hoàn tiên phong, kết nối người mua có ý thức xanh với các sản phẩm thời trang bền vững, đồng thời tạo ra một cộng đồng quyên góp và tái chế quần áo cũ.</p>
-      </div>
+  <main class="brandstory-main">
+    <div class="story-container">
+      
+      <!-- SECTION 1: HERO (Organic Blob Layout) -->
+      <section class="story-section hero-story-section split-layout" id="section-1">
+        <div class="reveal-element">
+          <span class="story-subtitle">Về ReFashion</span>
+          <h1 class="story-title" style="font-size:clamp(2.25rem, 4.5vw, 3.75rem)">Thời Trang Tốt Hơn.<br>Rác Thải Ít Hơn.</h1>
+          <p class="story-text">Một kỷ nguyên mới của thời trang tuần hoàn, nơi mỗi món đồ cũ được tái sinh và tiếp tục hành trình xanh. Chúng tôi kết nối những tâm hồn yêu môi trường bằng phong cách thời trang có trách nhiệm.</p>
+          <a href="#section-2" class="story-cta">Khám Phá Câu Chuyện <i class="fa-solid fa-arrow-down" style="font-size:0.85rem"></i></a>
+          
+          <div class="mouse-scroll-indicator reveal-element delay-2">
+            <div class="mouse-outline">
+              <div class="mouse-wheel"></div>
+            </div>
+            <span style="font-size:0.75rem;font-family:var(--font-mono);letter-spacing:0.1em;color:var(--text-muted)">CUỘN XUỐNG</span>
+          </div>
+        </div>
+        
+        <div class="reveal-element delay-1" style="display:flex; justify-content:center; align-items:center">
+          <div class="organic-blob-wrapper">
+            <video autoplay loop muted playsinline>
+              <source src="../images/section1.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </section>
 
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2.5rem;padding-bottom:4rem">
-        <div style="background-color:var(--card);border-radius:20px;padding:2.5rem;border:1px solid var(--border);text-align:center">
-          <div style="font-size:3rem;margin-bottom:1.5rem">🌍</div>
-          <h3 style="font-weight:700;font-size:1.25rem;margin-bottom:0.75rem">Sứ Mệnh</h3>
-          <p style="color:var(--text-muted);font-size:0.9rem;line-height:1.6">Giảm thiểu rác thải thời trang bằng cách thúc đẩy kinh tế tuần hoàn, tái chế và sử dụng nguyên liệu bền vững.</p>
+      <!-- SECTION 2: THE PROBLEM (Staggered Collage) -->
+      <section class="story-section split-layout media-left" id="section-2">
+        <div class="collage-container reveal-element">
+          <div class="collage-card card-landfill">
+            <!-- Left focus of contrast image -->
+            <img src="../images/section2_landfill.png" alt="Bãi chôn lấp rác thải dệt may" />
+          </div>
+          <div class="collage-card card-forest" id="forest-collage-card">
+            <!-- Right focus of contrast image -->
+            <img src="../images/section2_forest.png" alt="Rừng xanh bảo vệ môi trường" />
+          </div>
         </div>
-        <div style="background-color:var(--card);border-radius:20px;padding:2.5rem;border:1px solid var(--border);text-align:center">
-          <div style="font-size:3rem;margin-bottom:1.5rem">🔬</div>
-          <h3 style="font-weight:700;font-size:1.25rem;margin-bottom:0.75rem">Công Nghệ</h3>
-          <p style="color:var(--text-muted);font-size:0.9rem;line-height:1.6">Ứng dụng AI phân tích cảm xúc khách hàng, truy xuất nguồn gốc sản phẩm và hệ thống thưởng GreenCoin minh bạch.</p>
+        
+        <div class="reveal-element delay-1">
+          <span class="story-subtitle">Thực Trạng Nhức Nhối</span>
+          <h2 class="story-title">Gánh Nặng Vô Hình Từ Tủ Đồ</h2>
+          <p class="story-text">Mỗi giây trôi qua, một xe tải đầy quần áo bị chôn lấp hoặc thiêu hủy trên toàn cầu. Hàng triệu tấn sợi tổng hợp khó phân hủy đang đè nặng lên các hệ sinh thái tự nhiên. ReFashion ra đời với quyết tâm thay đổi thực trạng đó ngay từ hôm nay.</p>
+          
+          <div class="stats-row">
+            <div>
+              <div class="stat-number" data-target="92" data-suffix="M+">0</div>
+              <div class="stat-label">Tấn rác thải dệt may bị bỏ phí mỗi năm trên hành tinh.</div>
+            </div>
+            <div>
+              <div class="stat-number" data-target="10" data-suffix="%">0</div>
+              <div class="stat-label">Lượng khí thải nhà kính toàn cầu đến từ công nghiệp thời trang.</div>
+            </div>
+          </div>
         </div>
-        <div style="background-color:var(--card);border-radius:20px;padding:2.5rem;border:1px solid var(--border);text-align:center">
-          <div style="font-size:3rem;margin-bottom:1.5rem">🤝</div>
-          <h3 style="font-weight:700;font-size:1.25rem;margin-bottom:0.75rem">Cộng Đồng</h3>
-          <p style="color:var(--text-muted);font-size:0.9rem;line-height:1.6">Hơn 12,000 thành viên đang cùng nhau hành động vì một tương lai thời trang bền vững và xanh hơn mỗi ngày.</p>
-        </div>
-      </div>
+      </section>
 
-      <div style="background-color:var(--card);border-radius:24px;border:1px solid var(--border);padding:3rem;box-shadow:0 10px 30px var(--shadow);margin-bottom:4rem">
-        <h2 style="font-family:var(--font-serif);font-size:1.75rem;color:var(--primary);margin-bottom:1.5rem">Cam Kết Của Chúng Tôi</h2>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem">
-          <div style="display:flex;align-items:flex-start;gap:1rem">
-            <div style="width:44px;height:44px;border-radius:12px;background-color:var(--sentiment-pos-light);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid fa-check" style="color:var(--sentiment-pos)"></i></div>
-            <div><h4 style="font-weight:700;font-size:0.95rem;margin-bottom:0.25rem">1% For The Planet</h4><p style="font-size:0.85rem;color:var(--text-muted)">Cam kết trích 1% doanh thu cho các tổ chức bảo vệ môi trường.</p></div>
-          </div>
-          <div style="display:flex;align-items:flex-start;gap:1rem">
-            <div style="width:44px;height:44px;border-radius:12px;background-color:var(--sentiment-pos-light);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid fa-check" style="color:var(--sentiment-pos)"></i></div>
-            <div><h4 style="font-weight:700;font-size:0.95rem;margin-bottom:0.25rem">Trung Hòa Carbon</h4><p style="font-size:0.85rem;color:var(--text-muted)">Mọi đơn hàng đều được trung hòa carbon thông qua các dự án trồng rừng.</p></div>
-          </div>
-          <div style="display:flex;align-items:flex-start;gap:1rem">
-            <div style="width:44px;height:44px;border-radius:12px;background-color:var(--sentiment-pos-light);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid fa-check" style="color:var(--sentiment-pos)"></i></div>
-            <div><h4 style="font-weight:700;font-size:0.95rem;margin-bottom:0.25rem">Bao Bì Tái Chế</h4><p style="font-size:0.85rem;color:var(--text-muted)">100% bao bì sản phẩm được làm từ giấy tái chế và phân hủy sinh học.</p></div>
-          </div>
-          <div style="display:flex;align-items:flex-start;gap:1rem">
-            <div style="width:44px;height:44px;border-radius:12px;background-color:var(--sentiment-pos-light);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid fa-check" style="color:var(--sentiment-pos)"></i></div>
-            <div><h4 style="font-weight:700;font-size:0.95rem;margin-bottom:0.25rem">Minh Bạch Chuỗi Cung Ứng</h4><p style="font-size:0.85rem;color:var(--text-muted)">Công khai thông tin nhà cung cấp và quy trình sản xuất từng sản phẩm.</p></div>
+      <!-- SECTION 3: OUR BELIEF (Collage 4 Circular Images) -->
+      <section class="story-section split-layout" id="section-3">
+        <div class="reveal-element">
+          <span class="story-subtitle">Niềm Tin Của Chúng Tôi</span>
+          <h2 class="story-title">Mỗi Tấm Vải Cũ Không Phải Rác Thải</h2>
+          <p class="story-text">Chúng tôi tin rằng mọi thớ vải đã qua sử dụng đều chứa đựng sợi dây liên kết của sự sáng tạo và câu chuyện cuộc sống để viết tiếp. Dưới bàn tay nghệ thuật của các nhà thiết kế Upcycling tại ReFashion, những chiếc quần jeans rách, những tấm kaki cũ kỹ được làm sạch, xử lý và thiết kế lại thành những món đồ thời trang cao cấp, mang đậm dấu ấn nghệ thuật thủ công độc bản.</p>
+        </div>
+        
+        <div class="reveal-element delay-1">
+          <div class="circle-collage-container">
+            <div class="circle-item circle-top">
+              <img src="../images/section3_1.png" alt="Upcycling step 1" />
+            </div>
+            <div class="circle-item circle-left">
+              <img src="../images/section3_2.png" alt="Upcycling step 2" />
+            </div>
+            <div class="circle-item circle-right">
+              <img src="../images/section3_3.png" alt="Upcycling step 3" />
+            </div>
+            <div class="circle-item circle-bottom">
+              <img src="../images/section3_4.png" alt="Upcycling step 4" />
+            </div>
           </div>
         </div>
-      </div>
+      </section>
+
+      <!-- SECTION 4: JOURNEY (Curved Timeline with SVG Path) -->
+      <section class="story-section center-layout" id="section-4" style="display:flex; flex-direction:column">
+        <div class="section-header reveal-element">
+          <span class="story-subtitle">Quy Trình Hoạt Động</span>
+          <h2 class="story-title">Hành Trình Tuần Hoàn Của Sợi Vải</h2>
+          <p class="story-text">Chu trình 5 bước khép kín — tối đa vòng đời sản phẩm, giảm thiểu nước sạch và khí thải CO₂.</p>
+        </div>
+        
+        <div class="section-visual reveal-element delay-1">
+        <div class="timeline-wrapper timeline-desktop-container">
+          <svg viewBox="0 0 1000 640" class="timeline-svg">
+            <path d="M 300 40 C 500 40, 650 80, 650 140 C 650 200, 300 200, 300 260 C 300 320, 650 320, 650 380 C 650 440, 580 500, 500 500" id="timeline-path"></path>
+            
+            <!-- Step 1 Card: Node at (300, 40) -->
+            <foreignObject x="0" y="0" width="326" height="80">
+              <div class="timeline-svg-step-card right-align">
+                <div class="timeline-svg-text">
+                  <div class="timeline-svg-step-title">1. Quyên Góp</div>
+                  <div class="timeline-svg-step-desc">Đóng góp quần áo cũ không còn dùng nữa cho hệ sinh thái.</div>
+                </div>
+                <div class="timeline-svg-node"><i class="fa-solid fa-gift"></i></div>
+              </div>
+            </foreignObject>
+
+            <!-- Step 2 Card: Node at (650, 140) -->
+            <foreignObject x="624" y="100" width="350" height="80">
+              <div class="timeline-svg-step-card">
+                <div class="timeline-svg-node"><i class="fa-solid fa-coins"></i></div>
+                <div class="timeline-svg-text">
+                  <div class="timeline-svg-step-title">2. Nhận GreenCoin</div>
+                  <div class="timeline-svg-step-desc">Mỗi lượt đóng góp được tích luỹ xu xanh sinh thái.</div>
+                </div>
+              </div>
+            </foreignObject>
+
+            <!-- Step 3 Card: Node at (300, 260) -->
+            <foreignObject x="0" y="220" width="326" height="80">
+              <div class="timeline-svg-step-card right-align">
+                <div class="timeline-svg-text">
+                  <div class="timeline-svg-step-title">3. Xử Lý & Làm Sạch</div>
+                  <div class="timeline-svg-step-desc">Đồ được giặt hấp sinh học và phân loại chuyên nghiệp.</div>
+                </div>
+                <div class="timeline-svg-node"><i class="fa-solid fa-soap"></i></div>
+              </div>
+            </foreignObject>
+
+            <!-- Step 4 Card: Node at (650, 380) -->
+            <foreignObject x="624" y="340" width="350" height="80">
+              <div class="timeline-svg-step-card">
+                <div class="timeline-svg-node"><i class="fa-solid fa-scissors"></i></div>
+                <div class="timeline-svg-text">
+                  <div class="timeline-svg-step-title">4. Tái Sinh (Upcycle)</div>
+                  <div class="timeline-svg-step-desc">Nghệ nhân ReFashion tái thiết kế thành tác phẩm độc bản.</div>
+                </div>
+              </div>
+            </foreignObject>
+
+            <!-- Step 5 Card: Node at (500, 500) -->
+            <foreignObject x="350" y="474" width="300" height="160">
+              <div class="timeline-svg-step-card center-align">
+                <div class="timeline-svg-node"><i class="fa-solid fa-bag-shopping"></i></div>
+                <div class="timeline-svg-text">
+                  <div class="timeline-svg-step-title">5. Tiêu Dùng Xanh</div>
+                  <div class="timeline-svg-step-desc">Mở bán các sản phẩm tuần hoàn độc bản cho Gen Z.</div>
+                </div>
+              </div>
+            </foreignObject>
+          </svg>
+        </div>
+
+        <!-- Mobile Timeline Fallback -->
+        <div class="timeline-mobile-container reveal-element delay-1">
+          <div class="timeline-step">
+            <div class="timeline-node"><i class="fa-solid fa-gift"></i></div>
+            <div>
+              <div class="timeline-step-title">1. Quyên Góp</div>
+              <div class="timeline-step-desc">Thành viên đóng góp quần áo cũ không còn dùng nữa cho hệ thống.</div>
+            </div>
+          </div>
+          <div class="timeline-step">
+            <div class="timeline-node"><i class="fa-solid fa-coins"></i></div>
+            <div>
+              <div class="timeline-step-title">2. Nhận GreenCoin</div>
+              <div class="timeline-step-desc">Mỗi lượt đóng góp hoặc mua sắm xanh đều được quy đổi thành coin sinh thái.</div>
+            </div>
+          </div>
+          <div class="timeline-step">
+            <div class="timeline-node"><i class="fa-solid fa-soap"></i></div>
+            <div>
+              <div class="timeline-step-title">3. Xử Lý & Làm Sạch</div>
+              <div class="timeline-step-desc">Đồ quyên góp được giặt hấp, phân loại kỹ lưỡng trước khi đưa vào thiết kế.</div>
+            </div>
+          </div>
+          <div class="timeline-step">
+            <div class="timeline-node"><i class="fa-solid fa-scissors"></i></div>
+            <div>
+              <div class="timeline-step-title">4. Tái Sinh (Upcycle)</div>
+              <div class="timeline-step-desc">Các nghệ nhân, nhà thiết kế upcycle cắt may thành sản phẩm nghệ thuật mới.</div>
+            </div>
+          </div>
+          <div class="timeline-step">
+            <div class="timeline-node"><i class="fa-solid fa-bag-shopping"></i></div>
+            <div>
+              <div class="timeline-step-title">5. Tiêu Dùng Xanh</div>
+              <div class="timeline-step-desc">Bộ sưu tập xanh được mở bán, bắt đầu một vòng đời sống động tiếp theo.</div>
+            </div>
+          </div>
+        </div>
+        </div><!-- /.section-visual -->
+
+      </section>
+
+      <!-- SECTION 5: MARKETPLACE (Masonry Gallery) -->
+      <section class="story-section split-layout media-left" id="section-5">
+        <div class="reveal-element">
+          <div class="masonry-container">
+            <div class="masonry-item masonry-large">
+              <img src="../images/section5_1.png" alt="Marketplace grid view 1" />
+            </div>
+            <div class="masonry-item masonry-medium">
+              <img src="../images/section5_2.png" alt="Marketplace grid view 2" />
+            </div>
+            <div class="masonry-item masonry-small">
+              <img src="../images/section5_3.png" alt="Marketplace grid view 3" />
+            </div>
+          </div>
+        </div>
+        
+        <div class="reveal-element delay-1">
+          <span class="story-subtitle">Chợ Cộng Đồng</span>
+          <h2 class="story-title">Nơi Giao Lưu & Kết Nối Gen Z</h2>
+          <p class="story-text">ReFashion không chỉ là một trang thương mại điện tử đơn thuần, chúng tôi xây dựng một điểm đến, một không gian tương tác năng động để những bạn trẻ thế hệ mới (Gen Z) chia sẻ niềm đam mê, tự do mua bán, ký gửi, quyên quyên góp quần áo cũ, cùng nhau định hình và lan tỏa xu hướng sống thân thiện với hành tinh.</p>
+        </div>
+      </section>
+
+      <!-- SECTION 6: GREENCOIN (Central Dashboard & Orbiting Coins) -->
+      <section class="story-section split-layout" id="section-6">
+        <div class="reveal-element">
+          <span class="story-subtitle">Hệ Thống Phần Thưởng</span>
+          <h2 class="story-title">Tích Lũy Điểm Xanh - GreenCoin</h2>
+          <p class="story-text">GreenCoin là hạt nhân liên kết cộng đồng sống xanh của ReFashion. Bằng cách thực hiện các hoạt động bảo vệ môi trường như đóng góp đồ cũ, mua sản phẩm tái sinh, viết đánh giá minh bạch, hệ thống sẽ tự động thưởng điểm sinh thái. Điểm tích lũy này có thể dùng để quy đổi mã giảm giá hoặc gửi quyên góp đóng góp cho các quỹ trồng rừng ngập mặn Việt Nam.</p>
+        </div>
+        
+        <div class="reveal-element delay-1">
+          <div class="orbit-container">
+            <div class="orbiting-coin coin-1">G</div>
+            <div class="orbiting-coin coin-2">G</div>
+            <div class="orbiting-coin coin-3">G</div>
+            <div class="orbiting-coin coin-4">G</div>
+            
+            <div class="greencoin-card">
+              <div class="glow-hologram"></div>
+              <div style="font-family:var(--font-mono);font-size:0.85rem;color:var(--accent);letter-spacing:0.1em;z-index:2">GREENCOIN HUB</div>
+              <div style="font-family:var(--font-serif);font-size:1.65rem;font-weight:700;color:var(--primary);margin-top:0.5rem;z-index:2">Hệ Sinh Thái Ví Thưởng</div>
+              <div style="font-size:0.85rem;color:var(--text-muted);margin-top:0.5rem;z-index:2;line-height:1.4">Tích hợp phần thưởng minh bạch tích lũy tự động.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 7: COMMUNITY (Network Graph of Avatars) -->
+      <section class="story-section center-layout" id="section-7" style="display:flex; flex-direction:column">
+        <div class="section-header reveal-element">
+          <span class="story-subtitle">Cộng Đồng Sáng Tạo</span>
+          <h2 class="story-title">Hội Ngộ Các Nhà Thiết Kế Xanh</h2>
+          <p class="story-text">Chúng tôi đồng hành cùng hệ sinh thái đa dạng: nhà thiết kế bền vững, sinh viên mỹ thuật, nghệ nhân thủ công và đại sứ môi trường — biến kinh tế tuần hoàn thành hành động thực tế.</p>
+        </div>
+        
+        <!-- Desktop Network Graph -->
+        <div class="section-visual">
+        <div class="network-container network-desktop-container reveal-element delay-1">
+          <svg viewBox="0 0 800 400" class="network-svg">
+            <path id="network-path-1" d="M 150 80 C 250 140, 500 -20, 600 60" />
+            <path id="network-path-2" d="M 150 80 C 200 160, 280 120, 380 200" />
+            <path id="network-path-3" d="M 600 60 C 520 120, 480 80, 380 200" />
+            <path id="network-path-4" d="M 380 200 C 450 250, 580 180, 650 260" />
+            <path id="network-path-5" d="M 380 200 C 300 280, 280 220, 200 320" />
+            
+            <!-- Node 1: Left Top -->
+            <foreignObject x="90" y="20" width="120" height="120">
+              <div class="network-avatar-inner" title="Linh Chi - Designer">
+                <img src="../images/community_1.png" alt="Linh Chi" />
+              </div>
+            </foreignObject>
+            
+            <!-- Node 2: Right Top -->
+            <foreignObject x="540" y="0" width="120" height="120">
+              <div class="network-avatar-inner" title="Minh Quân - Nghệ nhân">
+                <img src="../images/community_2.png" alt="Minh Quân" />
+              </div>
+            </foreignObject>
+            
+            <!-- Node 3: Center -->
+            <foreignObject x="320" y="140" width="120" height="120">
+              <div class="network-avatar-inner" title="Mai Anh - Đại sứ Xanh">
+                <img src="../images/fashion3_new.png" alt="Mai Anh" />
+              </div>
+            </foreignObject>
+            
+            <!-- Node 4: Right Bottom -->
+            <foreignObject x="590" y="200" width="120" height="120">
+              <div class="network-avatar-inner" title="Hoàng Đức - Upcycler">
+                <img src="../images/fashion4_new.png" alt="Hoàng Đức" />
+              </div>
+            </foreignObject>
+            
+            <!-- Node 5: Left Bottom -->
+            <foreignObject x="140" y="260" width="120" height="120">
+              <div class="network-avatar-inner" title="Quỳnh Vy - Eco Blogger">
+                <img src="../images/community_5.png" alt="Quỳnh Vy" />
+              </div>
+            </foreignObject>
+          </svg>
+        </div>
+        </div><!-- /.section-visual -->
+
+        <!-- Mobile Network List Fallback -->
+        <div class="network-mobile-container reveal-element delay-1">
+          <div class="network-mobile-avatar">
+            <img src="../images/community_1.png" alt="Linh Chi" />
+            <div class="network-mobile-name">Linh Chi</div>
+            <div style="font-size:0.75rem;color:var(--text-muted)">Designer</div>
+          </div>
+          <div class="network-mobile-avatar">
+            <img src="../images/community_2.png" alt="Minh Quân" />
+            <div class="network-mobile-name">Minh Quân</div>
+            <div style="font-size:0.75rem;color:var(--text-muted)">Nghệ nhân</div>
+          </div>
+          <div class="network-mobile-avatar">
+            <img src="../images/fashion3_new.png" alt="Mai Anh" />
+            <div class="network-mobile-name">Mai Anh</div>
+            <div style="font-size:0.75rem;color:var(--text-muted)">Đại sứ Xanh</div>
+          </div>
+          <div class="network-mobile-avatar">
+            <img src="../images/fashion4_new.png" alt="Hoàng Đức" />
+            <div class="network-mobile-name">Hoàng Đức</div>
+            <div style="font-size:0.75rem;color:var(--text-muted)">Upcycler</div>
+          </div>
+          <div class="network-mobile-avatar">
+            <img src="../images/community_5.png" alt="Quỳnh Vy" />
+            <div class="network-mobile-name">Quỳnh Vy</div>
+            <div style="font-size:0.75rem;color:var(--text-muted)">Eco Blogger</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 8: IMPACT & CTA (Full width media with floating counters) -->
+      <section class="story-section center-layout" id="section-8" style="display:flex; flex-direction:column; text-align:center">
+        <div class="section-header reveal-element" style="max-width: 800px; margin: 0 auto">
+          <span class="story-subtitle">Tác Động Tích Cực</span>
+          <h2 class="story-title">Hành Động Nhỏ, Tác Động Lớn</h2>
+          <p class="story-text">Từ chối thời trang nhanh, chọn thời trang tuần hoàn — mỗi lựa chọn của bạn là bảo vệ nguồn nước và bầu không khí Trái Đất.</p>
+        </div>
+        
+        <div class="full-width-media-wrapper reveal-element delay-1">
+          <div class="media-dark-overlay"></div>
+          <img src="../images/section8.png" alt="Tác động tích cực và trao quyền cho thời trang tuần hoàn" />
+          
+          <div class="floating-counters-overlay">
+            <div class="glass-counter-card">
+              <div class="stat-number" data-target="12450" data-suffix="+">0</div>
+              <div style="font-weight:700;margin:0.5rem 0 0.25rem 0;font-size:1rem;color:white">Sản phẩm tái sinh</div>
+              <div class="stat-label">Sợi cotton, denim cũ được cứu sống và nâng tầm nghệ thuật.</div>
+            </div>
+            <div class="glass-counter-card">
+              <div class="stat-number" data-target="3.2" data-suffix=" Tấn" data-decimal="1">0</div>
+              <div style="font-weight:700;margin:0.5rem 0 0.25rem 0;font-size:1rem;color:white">CO2 giảm thiểu</div>
+              <div class="stat-label">Tương đương khí thải của 160 cây cổ thụ lớn hấp thụ.</div>
+            </div>
+            <div class="glass-counter-card">
+              <div class="stat-number" data-target="8000" data-suffix="k Lít">0</div>
+              <div style="font-weight:700;margin:0.5rem 0 0.25rem 0;font-size:1rem;color:white">Nước sạch tiết kiệm</div>
+              <div class="stat-label">So với việc canh tác vải thô cotton công nghiệp truyền thống.</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="reveal-element delay-2" style="padding-bottom: 2rem">
+          <a href="shop.html" class="story-cta" style="animation: ctaPulse 2.5s infinite">Mua Sắm Ngay Hôm Nay <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </section>
+
     </div>
   </main>
 
@@ -68,5 +1211,136 @@
 
   <script src="../js/mainjs.js"></script>
   <script src="../js/buyer.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // 1. Reveal Elements on Scroll using IntersectionObserver
+      // ===== FULL-PAGE SCROLL ENGINE =====
+      const scroller = document.querySelector('.brandstory-main');
+      const sections = document.querySelectorAll('.story-section');
+
+      // Intersection Observer on the SCROLL CONTAINER (not window)
+      const observerOptions = {
+        root: scroller,
+        threshold: 0.45
+      };
+
+      const storyObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('reveal-active');
+            animateCounters(entry.target);
+
+            // SVG path draw for Section 4
+            if (entry.target.id === 'section-4') {
+              drawTimelinePath();
+            }
+          }
+        });
+      }, observerOptions);
+
+      sections.forEach(section => storyObserver.observe(section));
+
+      // Dot navigation (create dots sidebar)
+      const navDots = document.createElement('nav');
+      navDots.setAttribute('aria-label', 'Section navigation');
+      navDots.style.cssText = 'position:fixed;right:1.5rem;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:0.75rem;z-index:100;';
+      sections.forEach((sec, i) => {
+        const dot = document.createElement('button');
+        dot.setAttribute('aria-label', `Section ${i + 1}`);
+        dot.style.cssText = 'width:9px;height:9px;border-radius:50%;background:rgba(91,116,83,0.25);border:none;cursor:pointer;transition:all 0.3s ease;padding:0;';
+        dot.addEventListener('click', () => sec.scrollIntoView({ behavior: 'smooth' }));
+        navDots.appendChild(dot);
+      });
+      document.body.appendChild(navDots);
+
+      // Highlight active dot on scroll
+      const dotObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          const idx = Array.from(sections).indexOf(entry.target);
+          if (idx < 0) return;
+          const dot = navDots.children[idx];
+          if (entry.isIntersecting) {
+            dot.style.cssText += 'background:var(--primary);transform:scale(1.4);';
+          } else {
+            dot.style.background = 'rgba(91,116,83,0.25)';
+            dot.style.transform = 'scale(1)';
+          }
+        });
+      }, { root: scroller, threshold: 0.5 });
+      sections.forEach(sec => dotObserver.observe(sec));
+
+      // 2. Section 2 Focus Shifter
+      const forestCard = document.getElementById('forest-collage-card');
+      const section2 = document.getElementById('section-2');
+      const landfillCard = document.querySelector('.card-landfill');
+      if (scroller && section2 && forestCard && landfillCard) {
+        scroller.addEventListener('scroll', () => {
+          const rect = section2.getBoundingClientRect();
+          const midPoint = window.innerHeight / 2;
+          if (rect.top < midPoint && rect.bottom > midPoint) {
+            forestCard.classList.add('focused');
+            landfillCard.classList.add('dimmed');
+          } else {
+            forestCard.classList.remove('focused');
+            landfillCard.classList.remove('dimmed');
+          }
+        });
+      }
+
+      // 3. Section 4 SVG Path Drawing — triggered when section 4 becomes active
+      function drawTimelinePath() {
+        const path = document.getElementById('timeline-path');
+        if (!path) return;
+        const pathLength = path.getTotalLength();
+        path.style.strokeDasharray = pathLength;
+        path.style.strokeDashoffset = pathLength;
+        path.style.transition = 'none';
+        requestAnimationFrame(() => {
+          path.style.transition = 'stroke-dashoffset 2s cubic-bezier(0.22, 1, 0.36, 1)';
+          path.style.strokeDashoffset = '0';
+        });
+      }
+      
+      // 4. Count-Up Function with Support for Decimals
+      function animateCounters(section) {
+        const counters = section.querySelectorAll('.stat-number');
+        counters.forEach(counter => {
+          // Prevent multiple animations
+          if (counter.classList.contains('animated')) return;
+          counter.classList.add('animated');
+          
+          const rawTarget = counter.getAttribute('data-target');
+          const isDecimal = counter.getAttribute('data-decimal') === '1';
+          const target = parseFloat(rawTarget);
+          const suffix = counter.getAttribute('data-suffix') || '';
+          
+          const duration = 2000; // 2 seconds
+          const stepTime = 30;
+          const steps = duration / stepTime;
+          const increment = target / steps;
+          let current = 0;
+          
+          const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+              clearInterval(timer);
+              if (isDecimal) {
+                counter.textContent = target.toFixed(1) + suffix;
+              } else {
+                counter.textContent = Math.round(target).toLocaleString() + suffix;
+              }
+            } else {
+              if (isDecimal) {
+                counter.textContent = current.toFixed(1) + suffix;
+              } else {
+                counter.textContent = Math.floor(current).toLocaleString() + suffix;
+              }
+            }
+          }, stepTime);
+        });
+      }
+    });
+  </script>
 </body>
 </html>

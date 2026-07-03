@@ -1,2 +1,0 @@
-var h=require('http'),f=require('fs'),p=require('path'),r=__dirname;
-h.createServer(function(q,s){var u=q.url.split('?')[0];if(u==='/')u='/index.html';f.readFile(p.join(r,u),function(e,d){if(e){s.writeHead(404);s.end('404')}else{var m={html:'text/html',css:'text/css',js:'application/javascript',png:'image/png',jpg:'image/jpeg',svg:'image/svg+xml',json:'application/json'};s.writeHead(200,{'Content-Type':m[p.extname(u).slice(1)]||'text/plain'});s.end(d)}})}).listen(3456);
