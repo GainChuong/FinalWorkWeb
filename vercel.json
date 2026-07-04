@@ -1,0 +1,19 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/buyer/index.html" },
+    { "source": "/shop", "destination": "/buyer/shop.html" },
+    { "source": "/shop-detail", "destination": "/buyer/shop-detail.html" },
+    { "source": "/cart", "destination": "/buyer/cart.html" },
+    { "source": "/checkout", "destination": "/buyer/checkout.html" },
+    { "source": "/profile", "destination": "/buyer/profile.html" },
+    { "source": "/community", "destination": "/buyer/community.html" },
+    { "source": "/about", "destination": "/buyer/about.html" },
+    { "source": "/secondhand", "destination": "/buyer/secondhand.html" },
+    { "source": "/order-tracking", "destination": "/buyer/order-tracking.html" },
+    { "source": "/login", "destination": "/auth/login.html" },
+    { "source": "/register", "destination": "/auth/register.html" },
+    { "source": "/forgot", "destination": "/auth/forgot.html" },
+    { "source": "/seller/(.*)", "destination": "/seller/$1" },
+    { "source": "/admin/(.*)", "destination": "/admin/$1" }
+  ]
+}
