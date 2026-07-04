@@ -40,7 +40,7 @@ if (image && title && desc) {
 document.addEventListener("DOMContentLoaded", () => {
   // Login Form Submission
   const loginForm = document.querySelector("form");
-  if (loginForm && window.location.pathname.toLowerCase().includes("login.html")) {
+  if (loginForm && window.location.pathname.toLowerCase().indexOf("login") !== -1) {
     loginForm.addEventListener("submit", (e) => {
       e.preventDefault();
       const emailInput = loginForm.querySelector('input[type="email"]');
@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Registration Submission
-  if (window.location.pathname.toLowerCase().includes("register.html")) {
+  if (window.location.pathname.toLowerCase().indexOf("register") !== -1) {
     const regForm = document.querySelector("form");
     if (regForm) {
       regForm.addEventListener("submit", (e) => {
@@ -118,7 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Mock Forgot Password Submission
-  if (window.location.pathname.toLowerCase().includes("forgot.html")) {
+  if (window.location.pathname.toLowerCase().indexOf("forgot") !== -1) {
     const sendOtpBtn = document.getElementById("sendOtpBtn");
     const resetBtn = document.getElementById("resetBtn");
 

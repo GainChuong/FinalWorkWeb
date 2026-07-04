@@ -552,18 +552,20 @@ function renderFooter(containerId, prefix) {
 function setActiveNav() {
   var pathParts = window.location.pathname.split('/').filter(function(s) { return s !== ''; });
   var page = pathParts.length > 0 ? pathParts[pathParts.length - 1] : 'index.html';
+  var pageName = page.replace('.html', '');
   var map = {
-    'index.html': 'nav-home',
-    'shop.html': 'nav-shop',
-    'shop-detail.html': 'nav-shop',
-    'cart.html': 'nav-cart',
-    'checkout.html': 'nav-cart',
-    'community.html': 'nav-community',
-    'secondhand.html': 'nav-secondhand',
-    'about.html': 'nav-about',
-    'profile.html': 'nav-home'
+    'index': 'nav-home',
+    'buyer': 'nav-home',
+    'shop': 'nav-shop',
+    'shop-detail': 'nav-shop',
+    'cart': 'nav-cart',
+    'checkout': 'nav-cart',
+    'community': 'nav-community',
+    'secondhand': 'nav-secondhand',
+    'about': 'nav-about',
+    'profile': 'nav-home'
   };
-  var id = map[page];
+  var id = map[pageName];
   if (id) {
     var el = document.getElementById(id);
     if (el) { el.style.color = 'var(--primary)'; el.style.fontWeight = '600'; }

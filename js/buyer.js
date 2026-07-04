@@ -1111,8 +1111,7 @@ function initReviewSystem(product) {
 
 function loadExternalReviews(product, callback) {
   var xhr = new XMLHttpRequest();
-  var pagePath = window.location.pathname;
-  var base = pagePath.indexOf('/buyer/') !== -1 ? '../datasets/reviews.json' : 'datasets/reviews.json';
+  var base = '/datasets/reviews.json';
   xhr.open('GET', base, true);
   xhr.setRequestHeader('Accept', 'application/json');
   xhr.onreadystatechange = function () {
@@ -2297,23 +2296,49 @@ document.addEventListener('DOMContentLoaded', function() {
     return;
   }
 
-  var path = window.location.pathname;
-  var dir = path.substring(0, path.lastIndexOf('/'));
-  if (dir.length > 1 && !dir.endsWith('/buyer')) return;
+  var path = window.location.pathname.toLowerCase();
+  var isBuyerSection = path === '/' || path.indexOf('/buyer') === 0;
+  if (!isBuyerSection) return;
 
   var page = path.split('/').filter(function(s) { return s !== ''; }).pop() || 'index.html';
-  switch (page) {
-    case 'index.html': initBuyerPage(); break;
-    case 'shop.html': initShopPage(); break;
-    case 'shop-detail.html': initDetailPage(); break;
-    case 'cart.html': initCartPage(); break;
-    case 'checkout.html': initCheckoutPage(); break;
-    case 'momo-return.html': initMoMoReturnPage(); break;
-    case 'profile.html': initProfilePage(); break;
-    case 'community.html': initCommunityPage(); break;
-    case 'secondhand.html': initSecondhandPage(); break;
-    case 'order-tracking.html': initTrackingPage(); break;
-    case 'about.html': initAboutPage(); break;
-    default: initBuyerPage(); break;
+  var pageName = page.replace('.html', '');
+  switch (pageName) {
+    case 'index':
+    case 'buyer':
+      initBuyerPage();
+      break;
+    case 'shop':
+      initShopPage();
+      break;
+    case 'shop-detail':
+      initDetailPage();
+      break;
+    case 'cart':
+      initCartPage();
+      break;
+    case 'checkout':
+      initCheckoutPage();
+      break;
+    case 'momo-return':
+      initMoMoReturnPage();
+      break;
+    case 'profile':
+      initProfilePage();
+      break;
+    case 'community':
+      initCommunityPage();
+      break;
+    case 'secondhand':
+      initSecondhandPage();
+      break;
+    case 'order-tracking':
+      initTrackingPage();
+      break;
+    case 'about':
+      initAboutPage();
+      break;
+    default:
+      initBuyerPage();
+      break;
   }
 });
