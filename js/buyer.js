@@ -727,7 +727,7 @@ var PRODUCTS_DB = {
     name: 'Túi Tote Canvas Zero-Waste Khâu Tay',
     category: 'Sản Phẩm Khác',
     price: '220,000 đ',
-    image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600',
+    image: 'https://images.unsplash.com/photo-1590874103328-eac38a683ce7?q=80&w=1200',
     description: 'Túi tote được khâu tay chắc chắn từ vải canvas thô hữu cơ cao cấp.',
     carbonFootprint: '0.4 kg CO₂e',
     waterSaved: '200 Lít nước sạch',

@@ -346,7 +346,7 @@ var SHOP_PRODUCTS = [
   { id: '14', name: 'Áo Sơ Mi Thêu Hoa Đậu Biếc Organic', category: 'tshirt', price: 520000, priceStr: '520,000 đ', image: 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?q=80&w=600', sentimentScore: 89, ratingCount: 11, store: 'Green Thread', storeLogo: '../images/store_green_thread.png' },
   { id: '15', name: 'Chân Váy Đũi Thêu Tay Eco-Flora', category: 'pants', price: 680000, priceStr: '680,000 đ', image: 'https://images.unsplash.com/photo-1583496661160-fb48862c4a4e?q=80&w=600', sentimentScore: 87, ratingCount: 11, store: 'Green Thread', storeLogo: '../images/store_green_thread.png' },
   { id: '16', name: 'Áo Cardigan Dệt Kim Hữu Cơ Cúc Gỗ', category: 'jacket', price: 950000, priceStr: '950,000 đ', image: 'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?q=80&w=600', sentimentScore: 85, ratingCount: 11, store: 'Zero Waste', storeLogo: '../images/store_zero_waste.png' },
-  { id: '17', name: 'Túi Tote Canvas Zero-Waste Khâu Tay', category: 'backpack', price: 220000, priceStr: '220,000 đ', image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600', sentimentScore: 82, ratingCount: 11, store: 'Zero Waste', storeLogo: '../images/store_zero_waste.png' }
+  { id: '17', name: 'Túi Tote Canvas Zero-Waste Khâu Tay', category: 'backpack', price: 220000, priceStr: '220,000 đ', image: 'https://images.unsplash.com/photo-1590874103328-eac38a683ce7?q=80&w=600', sentimentScore: 82, ratingCount: 11, store: 'Zero Waste', storeLogo: '../images/store_zero_waste.png' }
 ];
 
 function loginUser(email, password) {
