@@ -147,7 +147,7 @@ var RefashionAuth = {
   logout: function() {
     localStorage.removeItem('refashion_current_user');
     clearSession();
-    window.location.href = _basePath + 'auth/login.html';
+    window.location.href = '/auth/login.html';
   },
 
   getCartCount: function() {
@@ -346,7 +346,7 @@ var SHOP_PRODUCTS = [
   { id: '14', name: 'Áo Sơ Mi Thêu Hoa Đậu Biếc Organic', category: 'tshirt', price: 520000, priceStr: '520,000 đ', image: 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?q=80&w=600', sentimentScore: 89, ratingCount: 11, store: 'Green Thread', storeLogo: '../images/store_green_thread.png' },
   { id: '15', name: 'Chân Váy Đũi Thêu Tay Eco-Flora', category: 'pants', price: 680000, priceStr: '680,000 đ', image: 'https://images.unsplash.com/photo-1583496661160-fb48862c4a4e?q=80&w=600', sentimentScore: 87, ratingCount: 11, store: 'Green Thread', storeLogo: '../images/store_green_thread.png' },
   { id: '16', name: 'Áo Cardigan Dệt Kim Hữu Cơ Cúc Gỗ', category: 'jacket', price: 950000, priceStr: '950,000 đ', image: 'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?q=80&w=600', sentimentScore: 85, ratingCount: 11, store: 'Zero Waste', storeLogo: '../images/store_zero_waste.png' },
-  { id: '17', name: 'Túi Tote Canvas Zero-Waste Khâu Tay', category: 'backpack', price: 220000, priceStr: '220,000 đ', image: 'https://images.unsplash.com/photo-1590874103328-eac38a683ce7?q=80&w=600', sentimentScore: 82, ratingCount: 11, store: 'Zero Waste', storeLogo: '../images/store_zero_waste.png' }
+  { id: '17', name: 'Túi Tote Canvas Zero-Waste Khâu Tay', category: 'backpack', price: 220000, priceStr: '220,000 đ', image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600', sentimentScore: 82, ratingCount: 11, store: 'Zero Waste', storeLogo: '../images/store_zero_waste.png' }
 ];
 
 function loginUser(email, password) {
@@ -374,24 +374,24 @@ function runRoleGuard() {
   if (currentPath.indexOf('/admin/') !== -1) {
     if (!session || session.role !== 'Admin') {
       alert('Access Denied: Requires Admin Role.');
-      window.location.href = _basePath + 'auth/login.html';
+      window.location.href = '/auth/login.html';
       return;
     }
   }
   if (currentPath.indexOf('/seller/') !== -1) {
     if (!session || session.role !== 'Seller') {
       alert('Access Denied: Requires Seller Role.');
-      window.location.href = _basePath + 'auth/login.html';
+      window.location.href = '/auth/login.html';
       return;
     }
   }
   if (currentPath.indexOf('/buyer/') !== -1 && session) {
     if (session.role === 'Seller') {
-      window.location.href = '../seller/seller_dashboard.html';
+      window.location.href = '/seller/seller_dashboard.html';
       return;
     }
     if (session.role === 'Admin') {
-      window.location.href = '../admin/index.html';
+      window.location.href = '/admin/index.html';
       return;
     }
   }
@@ -399,19 +399,19 @@ function runRoleGuard() {
 
 function initApp() {
   ajaxGetJSON(
-    _basePath + 'datasets/accounts.json',
+    '/datasets/accounts.json',
     function(data) { MOCK_ACCOUNTS = data.accounts || []; runRoleGuard(); },
     function(err) {
       console.warn('[mainjs] Falling back to inline accounts:', err.message);
       MOCK_ACCOUNTS = [
-        { email: 'buyer@refashion.vn', password: 'buyer123', role: 'Buyer', name: 'Người Mua Demo', redirect: '../buyer/index.html' },
-        { email: 'seller@refashion.vn', password: 'seller123', role: 'Seller', name: 'Eco Wear Store', redirect: '../seller/seller_dashboard.html', store: 'Eco Wear', storeLogo: '../images/store_eco_wear.png' },
-        { email: 'seller_hemp@refashion.vn', password: 'seller123', role: 'Seller', name: 'Hemp & Bamboo Store', redirect: '../seller/seller_dashboard.html', store: 'Hemp & Bamboo', storeLogo: '../images/store_hemp_bamboo.png' },
-        { email: 'seller_retro@refashion.vn', password: 'seller123', role: 'Seller', name: 'Retro Chic Store', redirect: '../seller/seller_dashboard.html', store: 'Retro Chic', storeLogo: '../images/store_retro_chic.png' },
-        { email: 'seller_denim@refashion.vn', password: 'seller123', role: 'Seller', name: 'Denim Craft Store', redirect: '../seller/seller_dashboard.html', store: 'Denim Craft', storeLogo: '../images/store_denim_craft.png' },
-        { email: 'seller_greenthread@refashion.vn', password: 'seller123', role: 'Seller', name: 'Green Thread Store', redirect: '../seller/seller_dashboard.html', store: 'Green Thread', storeLogo: '../images/store_green_thread.png' },
-        { email: 'seller_zerowaste@refashion.vn', password: 'seller123', role: 'Seller', name: 'Zero Waste Store', redirect: '../seller/seller_dashboard.html', store: 'Zero Waste', storeLogo: '../images/store_zero_waste.png' },
-        { email: 'admin@refashion.vn', password: 'admin123', role: 'Admin', name: 'Admin ReFashion', redirect: '../admin/index.html' }
+        { email: 'buyer@refashion.vn', password: 'buyer123', role: 'Buyer', name: 'Người Mua Demo', redirect: '/buyer/index.html' },
+        { email: 'seller@refashion.vn', password: 'seller123', role: 'Seller', name: 'Eco Wear Store', redirect: '/seller/seller_dashboard.html', store: 'Eco Wear', storeLogo: '../images/store_eco_wear.png' },
+        { email: 'seller_hemp@refashion.vn', password: 'seller123', role: 'Seller', name: 'Hemp & Bamboo Store', redirect: '/seller/seller_dashboard.html', store: 'Hemp & Bamboo', storeLogo: '../images/store_hemp_bamboo.png' },
+        { email: 'seller_retro@refashion.vn', password: 'seller123', role: 'Seller', name: 'Retro Chic Store', redirect: '/seller/seller_dashboard.html', store: 'Retro Chic', storeLogo: '../images/store_retro_chic.png' },
+        { email: 'seller_denim@refashion.vn', password: 'seller123', role: 'Seller', name: 'Denim Craft Store', redirect: '/seller/seller_dashboard.html', store: 'Denim Craft', storeLogo: '../images/store_denim_craft.png' },
+        { email: 'seller_greenthread@refashion.vn', password: 'seller123', role: 'Seller', name: 'Green Thread Store', redirect: '/seller/seller_dashboard.html', store: 'Green Thread', storeLogo: '../images/store_green_thread.png' },
+        { email: 'seller_zerowaste@refashion.vn', password: 'seller123', role: 'Seller', name: 'Zero Waste Store', redirect: '/seller/seller_dashboard.html', store: 'Zero Waste', storeLogo: '../images/store_zero_waste.png' },
+        { email: 'admin@refashion.vn', password: 'admin123', role: 'Admin', name: 'Admin ReFashion', redirect: '/admin/index.html' }
       ];
       runRoleGuard();
     }
@@ -425,26 +425,26 @@ function renderNavbar(containerId, prefix) {
   var user = RefashionAuth._getUser();
   var isLoggedIn = !!user;
   var cartCount = RefashionAuth.getCartCount();
-  var loginLink = prefix ? prefix + '../auth/login.html' : '../auth/login.html';
-  var registerLink = prefix ? prefix + '../auth/register.html' : '../auth/register.html';
+  var loginLink = '/auth/login.html';
+  var registerLink = '/auth/register.html';
 
   container.innerHTML =
     '<header class="navbar-header glass">' +
       '<div class="container" style="display:flex;justify-content:space-between;align-items:center;height:70px">' +
-        '<a href="' + prefix + 'index.html" class="logo-brand">ReFashion<span>Eco</span></a>' +
+        '<a href="/buyer/index.html" class="logo-brand">ReFashion<span>Eco</span></a>' +
         '<nav><ul class="nav-links-list">' +
-          '<li><a href="' + prefix + 'index.html" class="nav-link-item" id="nav-home">Trang Ch\u1ee7</a></li>' +
-          '<li><a href="' + prefix + 'shop.html" class="nav-link-item" id="nav-shop">C\u1eeda H\u00e0ng</a></li>' +
-          '<li><a href="' + prefix + 'community.html" class="nav-link-item" id="nav-community">GreenCoin & \u0110\u1ed5i Qu\u00e0</a></li>' +
-          '<li><a href="' + prefix + 'secondhand.html" class="nav-link-item" id="nav-secondhand">Ch\u1ee3 Secondhand</a></li>' +
-          '<li><a href="' + prefix + 'about.html" class="nav-link-item" id="nav-about">V\u1ec1 ReFashion</a></li>' +
+          '<li><a href="/buyer/index.html" class="nav-link-item" id="nav-home">Trang Ch\u1ee7</a></li>' +
+          '<li><a href="/buyer/shop.html" class="nav-link-item" id="nav-shop">C\u1eeda H\u00e0ng</a></li>' +
+          '<li><a href="/buyer/community.html" class="nav-link-item" id="nav-community">GreenCoin & \u0110\u1ed5i Qu\u00e0</a></li>' +
+          '<li><a href="/buyer/secondhand.html" class="nav-link-item" id="nav-secondhand">Ch\u1ee3 Secondhand</a></li>' +
+          '<li><a href="/buyer/about.html" class="nav-link-item" id="nav-about">V\u1ec1 ReFashion</a></li>' +
         '</ul></nav>' +
         '<div class="nav-actions-div">' +
           '<div style="position:relative;display:flex;align-items:center">' +
             '<input type="text" placeholder="T\u00ecm ki\u1ebfm s\u1ea3n ph\u1ea9m xanh..." style="padding:0.5rem 1rem 0.5rem 2.25rem;border-radius:30px;border:1px solid var(--border);background-color:var(--background);color:var(--foreground);font-size:0.85rem;width:200px" id="nav-search" />' +
             '<i class="fa-solid fa-magnifying-glass" style="position:absolute;left:0.85rem;color:var(--text-muted);font-size:0.85rem"></i>' +
           '</div>' +
-          '<a href="' + prefix + 'cart.html" style="position:relative;padding:0.5rem;cursor:pointer" id="nav-cart-link">' +
+          '<a href="/buyer/cart.html" style="position:relative;padding:0.5rem;cursor:pointer" id="nav-cart-link">' +
             '<i class="fa-solid fa-bag-shopping" style="font-size:1.2rem;color:var(--foreground)"></i>' +
             (cartCount > 0 ? '<span style="position:absolute;top:0;right:0;background-color:var(--accent);color:white;font-size:0.65rem;font-weight:700;border-radius:50%;width:16px;height:16px;display:flex;align-items:center;justify-content:center">' + cartCount + '</span>' : '') +
           '</a>' +
@@ -486,9 +486,9 @@ function renderNavbar(containerId, prefix) {
             '</div>' +
           '</div>' +
           '<div style="padding:0.5rem">' +
-            '<a href="' + prefix + 'profile.html" class="dropdown-link" style="display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1rem;border-radius:12px;font-size:0.9rem;font-weight:500;color:var(--foreground)"><i class="fa-solid fa-user" style="width:20px;text-align:center;color:var(--primary)"></i>H\u1ed3 s\u01a1 c\u00e1 nh\u00e2n</a>' +
-            '<a href="' + prefix + 'profile.html#orders" class="dropdown-link" style="display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1rem;border-radius:12px;font-size:0.9rem;font-weight:500;color:var(--foreground)"><i class="fa-solid fa-clock-rotate-left" style="width:20px;text-align:center;color:var(--accent)"></i>L\u1ecbch s\u1eed \u0111\u01a1n h\u00e0ng</a>' +
-            '<a href="' + prefix + 'community.html" class="dropdown-link" style="display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1rem;border-radius:12px;font-size:0.9rem;font-weight:500;color:var(--foreground)"><i class="fa-solid fa-leaf" style="width:20px;text-align:center;color:var(--sentiment-pos)"></i>GreenCoin & \u0110\u1ed5i qu\u00e0</a>' +
+            '<a href="/buyer/profile.html" class="dropdown-link" style="display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1rem;border-radius:12px;font-size:0.9rem;font-weight:500;color:var(--foreground)"><i class="fa-solid fa-user" style="width:20px;text-align:center;color:var(--primary)"></i>H\u1ed3 s\u01a1 c\u00e1 nh\u00e2n</a>' +
+            '<a href="/buyer/profile.html#orders" class="dropdown-link" style="display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1rem;border-radius:12px;font-size:0.9rem;font-weight:500;color:var(--foreground)"><i class="fa-solid fa-clock-rotate-left" style="width:20px;text-align:center;color:var(--accent)"></i>L\u1ecbch s\u1eed \u0111\u01a1n h\u00e0ng</a>' +
+            '<a href="/buyer/community.html" class="dropdown-link" style="display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1rem;border-radius:12px;font-size:0.9rem;font-weight:500;color:var(--foreground)"><i class="fa-solid fa-leaf" style="width:20px;text-align:center;color:var(--sentiment-pos)"></i>GreenCoin & \u0110\u1ed5i qu\u00e0</a>' +
             '<hr style="border:0;border-top:1px solid var(--border);margin:0.35rem 0.5rem" />' +
             '<button onclick="RefashionAuth.logout()" class="dropdown-link" style="display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1rem;border-radius:12px;font-size:0.9rem;font-weight:500;color:var(--sentiment-neg);width:100%;background:transparent;border:none;cursor:pointer;text-align:left;font-family:var(--font-sans)"><i class="fa-solid fa-right-from-bracket" style="width:20px;text-align:center"></i>\u0110\u0103ng xu\u1ea5t</button>' +
           '</div>';
@@ -517,11 +517,11 @@ function renderFooter(containerId, prefix) {
           '</div>' +
           '<div><h4 style="color:white;font-size:1rem;margin-bottom:1.2rem;text-transform:uppercase;letter-spacing:0.05em">Mua S\u1eafm & T\u00e1i Ch\u1ebf</h4>' +
             '<ul style="list-style:none;display:flex;flex-direction:column;gap:0.75rem;font-size:0.9rem">' +
-              '<li><a href="' + prefix + 'shop.html">T\u1ea5t c\u1ea3 s\u1ea3n ph\u1ea9m xanh</a></li>' +
-              '<li><a href="' + prefix + 'shop.html?eco=organic">V\u1ea3i h\u1eefu c\u01a1 (Organic)</a></li>' +
-              '<li><a href="' + prefix + 'shop.html?eco=recycled">V\u1eadt li\u1ec7u t\u00e1i ch\u1ebf</a></li>' +
-              '<li><a href="' + prefix + 'community.html">Quy\u00ean g\u00f3p qu\u1ea7n \u00e1o c\u0169</a></li>' +
-              '<li><a href="' + prefix + 'community.html">Quy tr\u00ecnh x\u1eed l\u00fd r\u00e1c th\u1ea3i</a></li>' +
+              '<li><a href="/buyer/shop.html">T\u1ea5t c\u1ea3 s\u1ea3n ph\u1ea9m xanh</a></li>' +
+              '<li><a href="/buyer/shop.html?eco=organic">V\u1ea3i h\u1eefu c\u01a1 (Organic)</a></li>' +
+              '<li><a href="/buyer/shop.html?eco=recycled">V\u1eadt li\u1ec7u t\u00e1i ch\u1ebf</a></li>' +
+              '<li><a href="/buyer/community.html">Quy\u00ean g\u00f3p qu\u1ea7n \u00e1o c\u0169</a></li>' +
+              '<li><a href="/buyer/community.html">Quy tr\u00ecnh x\u1eed l\u00fd r\u00e1c th\u1ea3i</a></li>' +
             '</ul>' +
           '</div>' +
           '<div><h4 style="color:white;font-size:1rem;margin-bottom:1.2rem;text-transform:uppercase;letter-spacing:0.05em">Chi\u1ebfn D\u1ecbch H\u00e0nh Tinh</h4>' +

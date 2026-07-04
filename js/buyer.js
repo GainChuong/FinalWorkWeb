@@ -29,7 +29,7 @@ function renderFeaturedProducts(prefix) {
             '<span class="product-rating-num">' + (p.sentimentScore / 20).toFixed(1) + '</span>' +
             '<span class="product-rating-count">(' + p.ratingCount + ' đánh giá)</span>' +
           '</div>' +
-          '<a href="' + prefix + 'shop-detail.html?id=' + p.id + '" class="btn btn-primary" style="width:100%;border-radius:10px;margin-top:12px;display:flex;align-items:center;justify-content:center;gap:6px"><i class="fa-solid fa-bolt"></i> Mua Ngay</a>' +
+          '<a href="/buyer/shop-detail.html?id=' + p.id + '" class="btn btn-primary" style="width:100%;border-radius:10px;margin-top:12px;display:flex;align-items:center;justify-content:center;gap:6px"><i class="fa-solid fa-bolt"></i> Mua Ngay</a>' +
         '</div>' +
       '</div>';
   }
@@ -52,7 +52,7 @@ function initBuyerPage() {
     cartLink.addEventListener('click', function(e) {
       if (!RefashionAuth.isLoggedIn) {
         e.preventDefault();
-        window.location.href = '../auth/login.html?redirect=cart.html';
+        window.location.href = '/auth/login.html?redirect=/buyer/cart.html';
       }
     });
   }
@@ -160,7 +160,7 @@ function renderShopBanner() {
         '<div style="display: flex; gap: 10px;">' +
           '<button type="button" class="btn btn-accent btn-chat-store" style="font-size: 0.8rem; padding: 10px 18px; border-radius: 12px; font-weight: 700; border: none; cursor: pointer;"><i class="fa-solid fa-comments"></i> Chat</button>' +
           '<button type="button" class="btn btn-outline btn-follow-store" style="font-size: 0.8rem; padding: 10px 18px; border-radius: 12px; font-weight: 700; border: 1.5px solid white; color: white; background: transparent; cursor: pointer; transition: all 0.2s;"><i class="fa-solid fa-plus"></i> Theo Dõi</button>' +
-          '<button type="button" class="btn btn-outline" style="font-size: 0.8rem; padding: 10px 14px; border-radius: 12px; font-weight: 700; border: 1.5px solid white; color: white; background: transparent; cursor: pointer; transition: all 0.2s;" onclick="window.location.href=\x27shop.html\x27" title="Xem tất cả cửa hàng"><i class="fa-solid fa-xmark"></i></button>' +
+          '<button type="button" class="btn btn-outline" style="font-size: 0.8rem; padding: 10px 14px; border-radius: 12px; font-weight: 700; border: 1.5px solid white; color: white; background: transparent; cursor: pointer; transition: all 0.2s;" onclick="window.location.href=\x27/buyer/shop.html\x27" title="Xem tất cả cửa hàng"><i class="fa-solid fa-xmark"></i></button>' +
         '</div>' +
       '</div>' +
     '</div>';
@@ -221,7 +221,7 @@ function renderShopProducts() {
             '<span class="product-rating-num">' + (p.sentimentScore / 20).toFixed(1) + '</span>' +
             '<span class="product-rating-count">(' + p.ratingCount + ' đánh giá)</span>' +
           '</div>' +
-          '<a href="shop-detail.html?id=' + p.id + '" class="btn btn-primary" style="width:100%;border-radius:10px;margin-top:12px;display:flex;align-items:center;justify-content:center;gap:6px"><i class="fa-solid fa-bolt"></i> Mua Ngay</a>' +
+          '<a href="/buyer/shop-detail.html?id=' + p.id + '" class="btn btn-primary" style="width:100%;border-radius:10px;margin-top:12px;display:flex;align-items:center;justify-content:center;gap:6px"><i class="fa-solid fa-bolt"></i> Mua Ngay</a>' +
         '</div>' +
       '</div>';
   }
@@ -269,7 +269,7 @@ function bindShopFilters() {
 /* ==================== CART PAGE ==================== */
 function initCartPage() {
   var user = RefashionAuth._getUser();
-  if (!user) { window.location.href = '../auth/login.html?redirect=cart.html'; return; }
+  if (!user) { window.location.href = '/auth/login.html?redirect=/buyer/cart.html'; return; }
   renderNavbar('navbar-container');
   renderFooter('footer-container');
   renderCart();
@@ -285,7 +285,7 @@ function renderCart() {
         '<div style="width:100px;height:100px;border-radius:50%;background-color:var(--primary-light);display:flex;align-items:center;justify-content:center;margin:0 auto 2rem auto"><i class="fa-solid fa-bag-shopping" style="font-size:2.5rem;color:var(--primary);opacity:0.5"></i></div>' +
         '<h2 style="font-family:var(--font-serif);font-size:1.75rem;margin-bottom:0.75rem">Gi\u1ecf h\u00e0ng tr\u1ed1ng</h2>' +
         '<p style="color:var(--text-muted);font-size:1rem;margin-bottom:2rem">B\u1ea1n ch\u01b0a th\u00eam s\u1ea3n ph\u1ea9m n\u00e0o v\u00e0o gi\u1ecf h\u00e0ng. H\u00e3y kh\u00e1m ph\u00e1 b\u1ed9 s\u01b0u t\u1eadp th\u1eddi trang xanh c\u1ee7a ch\u00fang t\u00f4i!</p>' +
-        '<a href="shop.html" class="btn btn-primary" style="padding:1rem 2.5rem;border-radius:14px;font-size:1rem"><i class="fa-solid fa-bag-shopping" style="margin-right:0.4rem"></i>Kh\u00e1m Ph\u00e1 C\u1eeda H\u00e0ng</a>' +
+        '<a href="/buyer/shop.html" class="btn btn-primary" style="padding:1rem 2.5rem;border-radius:14px;font-size:1rem"><i class="fa-solid fa-bag-shopping" style="margin-right:0.4rem"></i>Kh\u00e1m Ph\u00e1 C\u1eeda H\u00e0ng</a>' +
       '</div>';
     return;
   }
@@ -339,7 +339,7 @@ function renderCart() {
         '<hr style="border:0;border-top:2px solid var(--primary);margin-bottom:1.25rem" />' +
         '<div style="display:flex;justify-content:space-between;margin-bottom:1rem"><span style="font-size:1.15rem;font-weight:700">T\u1ed5ng c\u1ed9ng</span><span style="font-size:1.5rem;font-weight:900;color:var(--accent)">' + total.toLocaleString('vi-VN') + ' \u0111</span></div>' +
         '<div style="background-color:var(--sentiment-pos-light);border-radius:12px;padding:0.85rem 1rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:0.5rem;font-size:0.85rem;font-weight:600;color:var(--sentiment-pos)"><i class="fa-solid fa-leaf"></i> B\u1ea1n s\u1ebd nh\u1eadn \u0111\u01b0\u1ee3c +' + greenCoinEst + ' GreenCoin sau khi \u0111\u1eb7t h\u00e0ng!</div>' +
-        '<a href="checkout.html" class="btn btn-primary" style="width:100%;padding:1rem;border-radius:14px;font-size:1.05rem;font-weight:700;display:block;text-align:center"><i class="fa-solid fa-lock" style="margin-right:0.35rem"></i>Ti\u1ebfn H\u00e0nh Thanh To\u00e1n</a>' +
+        '<a href="/buyer/checkout.html" class="btn btn-primary" style="width:100%;padding:1rem;border-radius:14px;font-size:1.05rem;font-weight:700;display:block;text-align:center"><i class="fa-solid fa-lock" style="margin-right:0.35rem"></i>Ti\u1ebfn H\u00e0nh Thanh To\u00e1n</a>' +
         '<p style="text-align:center;font-size:0.75rem;color:var(--text-muted);margin-top:1rem"><i class="fa-solid fa-shield-halved" style="margin-right:0.25rem"></i>Thanh to\u00e1n an to\u00e0n & b\u1ea3o m\u1eadt</p>' +
       '</div>' +
     '</div>';
@@ -727,7 +727,7 @@ var PRODUCTS_DB = {
     name: 'Túi Tote Canvas Zero-Waste Khâu Tay',
     category: 'Sản Phẩm Khác',
     price: '220,000 đ',
-    image: 'https://images.unsplash.com/photo-1590874103328-eac38a683ce7?q=80&w=1200',
+    image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600',
     description: 'Túi tote được khâu tay chắc chắn từ vải canvas thô hữu cơ cao cấp.',
     carbonFootprint: '0.4 kg CO₂e',
     waterSaved: '200 Lít nước sạch',
@@ -1016,7 +1016,7 @@ function renderProductDetail(product) {
       }
 
       var user = RefashionAuth._getUser();
-      if (!user) { window.location.href = '../auth/login.html?redirect=shop-detail.html?id=' + product.id; return; }
+      if (!user) { window.location.href = '/auth/login.html?redirect=/buyer/shop-detail.html?id=' + product.id; return; }
       
       RefashionAuth.addToCart({
         productId: product.id,
@@ -1058,7 +1058,7 @@ function renderProductDetail(product) {
       }
 
       var user = RefashionAuth._getUser();
-      if (!user) { window.location.href = '../auth/login.html?redirect=shop-detail.html?id=' + product.id; return; }
+      if (!user) { window.location.href = '/auth/login.html?redirect=/buyer/shop-detail.html?id=' + product.id; return; }
 
       RefashionAuth.addToCart({
         productId: product.id,
@@ -1068,7 +1068,7 @@ function renderProductDetail(product) {
         image: product.image,
         variant: variantStr
       });
-      window.location.href = 'checkout.html';
+      window.location.href = '/buyer/checkout.html';
     });
   }
 }
@@ -1158,15 +1158,15 @@ function renderReviews(reviews) {
 
 function handleAddToCart(id, name, price, priceStr, image) {
   var user = RefashionAuth._getUser();
-  if (!user) { window.location.href = '../auth/login.html?redirect=shop-detail.html?id=' + id; return; }
+  if (!user) { window.location.href = '/auth/login.html?redirect=/buyer/shop-detail.html?id=' + id; return; }
   RefashionAuth.addToCart({ productId: id, name: name, price: price, priceStr: priceStr, image: image });
   showToast('\u0110\u00e3 th\u00eam "' + name + '" v\u00e0o gi\u1ecf h\u00e0ng!');
 }
 
 function handleBuyNow(id) {
   var user = RefashionAuth._getUser();
-  if (!user) { window.location.href = '../auth/login.html?redirect=checkout.html?buyNow=' + id; return; }
-  window.location.href = 'checkout.html?buyNow=' + id;
+  if (!user) { window.location.href = '/auth/login.html?redirect=/buyer/checkout.html?buyNow=' + id; return; }
+  window.location.href = '/buyer/checkout.html?buyNow=' + id;
 }
 
 /* ==================== CHECKOUT PAGE ==================== */
@@ -1174,7 +1174,7 @@ var PROVINCES = ['TP. H\u1ed3 Ch\u00ed Minh','H\u00e0 N\u1ed9i','\u0110\u00e0 N\
 
 function initCheckoutPage() {
   var user = RefashionAuth._getUser();
-  if (!user) { window.location.href = '../auth/login.html?redirect=checkout.html'; return; }
+  if (!user) { window.location.href = '/auth/login.html?redirect=/buyer/checkout.html'; return; }
   renderNavbar('navbar-container');
   renderFooter('footer-container');
   renderCheckoutForm();
@@ -1417,7 +1417,7 @@ function showSuccessView(orderId, total, gcEst) {
           '<p style="font-size:1.1rem;font-weight:800;color:var(--foreground)">\ud83d\udce6 ' + deliveryRange + '</p>' +
         '</div>' +
         '<div style="background-color:var(--sentiment-pos-light);border-radius:12px;padding:1rem;margin-bottom:2rem;display:inline-flex;align-items:center;gap:0.5rem;color:var(--sentiment-pos);font-weight:700;font-size:1rem"><i class="fa-solid fa-leaf"></i> B\u1ea1n \u0111\u01b0\u1ee3c c\u1ed9ng +' + (gcEst) + ' GreenCoin!</div>' +
-        '<div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap"><a href="profile.html" class="btn btn-primary" style="border-radius:12px;padding:0.85rem 2rem">Xem \u0110\u01a1n H\u00e0ng</a><a href="order-tracking.html?order=' + orderId + '" class="btn btn-outline" style="border-radius:12px;padding:0.85rem 2rem"><i class="fa-solid fa-truck" style="margin-right:0.3rem"></i>Theo D\u00f5i</a><a href="shop.html" class="btn btn-outline" style="border-radius:12px;padding:0.85rem 2rem">Ti\u1ebfp T\u1ee5c Mua S\u1eafm</a></div>' +
+        '<div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap"><a href="/buyer/profile.html" class="btn btn-primary" style="border-radius:12px;padding:0.85rem 2rem">Xem \u0110\u01a1n H\u00e0ng</a><a href="/buyer/order-tracking.html?order=' + orderId + '" class="btn btn-outline" style="border-radius:12px;padding:0.85rem 2rem"><i class="fa-solid fa-truck" style="margin-right:0.3rem"></i>Theo D\u00f5i</a><a href="/buyer/shop.html" class="btn btn-outline" style="border-radius:12px;padding:0.85rem 2rem">Ti\u1ebfp T\u1ee5c Mua S\u1eafm</a></div>' +
       '</div>' +
     '</div>';
 }
@@ -1425,7 +1425,7 @@ function showSuccessView(orderId, total, gcEst) {
 /* ==================== PROFILE PAGE ==================== */
 function initProfilePage() {
   var user = RefashionAuth._getUser();
-  if (!user) { window.location.href = '../auth/login.html?redirect=profile.html'; return; }
+  if (!user) { window.location.href = '/auth/login.html?redirect=/buyer/profile.html'; return; }
   renderNavbar('navbar-container');
   renderFooter('footer-container');
   renderProfile();
@@ -1464,7 +1464,7 @@ function renderProfile() {
       for (var j = 0; j < o.items.length; j++) {
         var item = o.items[j];
         itemsHtml +=
-          '<div onclick="window.location.href=\'shop-detail.html?id=' + item.id + '\'" style="cursor:pointer;display:flex;align-items:center;gap:0.75rem;background-color:var(--card);padding:0.6rem 1rem;border-radius:12px;border:1px solid var(--border);transition:all 0.25s ease;" onmouseover="this.style.borderColor=\'var(--primary)\';this.style.transform=\'translateY(-2px)\';" onmouseout="this.style.borderColor=\'var(--border)\';this.style.transform=\'none\';">' +
+          '<div onclick="window.location.href=\'/buyer/shop-detail.html?id=' + item.id + '\'" style="cursor:pointer;display:flex;align-items:center;gap:0.75rem;background-color:var(--card);padding:0.6rem 1rem;border-radius:12px;border:1px solid var(--border);transition:all 0.25s ease;" onmouseover="this.style.borderColor=\'var(--primary)\';this.style.transform=\'translateY(-2px)\';" onmouseout="this.style.borderColor=\'var(--border)\';this.style.transform=\'none\';">' +
             '<img src="' + item.image + '" style="width:40px;height:40px;border-radius:8px;object-fit:cover" />' +
             '<div><p style="font-size:0.8rem;font-weight:600;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + item.name + '</p><p style="font-size:0.72rem;color:var(--text-muted)">x' + item.quantity + ' \u2022 ' + item.priceStr + '</p></div>' +
           '</div>';
@@ -1479,8 +1479,8 @@ function renderProfile() {
           '<div style="margin-top:1.25rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;border-top:1px dashed var(--border);padding-top:1rem">' +
             '<div style="display:flex;align-items:center;gap:0.35rem;font-size:0.8rem;color:var(--sentiment-pos)"><i class="fa-solid fa-leaf"></i><span>+' + o.greenCoinEarned + ' GreenCoin \u0111\u01b0\u1ee3c c\u1ed9ng t\u1eeb \u0111\u01a1n h\u00e0ng n\u00e0y</span></div>' +
             '<div style="display:flex;gap:0.5rem">' +
-              '<button class="btn btn-outline" onclick="window.location.href=\'order-tracking.html?order=' + o.id + '\'" style="border-radius:8px;font-size:0.75rem;padding:6px 14px;height:auto;font-weight:700;border-color:var(--primary);color:var(--primary);cursor:pointer;transition:all 0.2s;" onmouseover="this.style.opacity=\'0.85\'" onmouseout="this.style.opacity=\'1\'"><i class="fa-solid fa-truck" style="margin-right:0.3rem"></i>Theo D\u00f5i</button>' +
-              '<button class="btn btn-primary" onclick="window.location.href=\'shop-detail.html?id=' + firstItemId + '\'" style="border-radius:8px;font-size:0.75rem;padding:6px 14px;height:auto;font-weight:700;background-color:var(--accent);border-color:var(--accent);color:var(--foreground);cursor:pointer;transition:all 0.2s;" onmouseover="this.style.opacity=\'0.85\'" onmouseout="this.style.opacity=\'1\'">Mua L\u1ea1i</button>' +
+              '<button class="btn btn-outline" onclick="window.location.href=\'/buyer/order-tracking.html?order=' + o.id + '\'" style="border-radius:8px;font-size:0.75rem;padding:6px 14px;height:auto;font-weight:700;border-color:var(--primary);color:var(--primary);cursor:pointer;transition:all 0.2s;" onmouseover="this.style.opacity=\'0.85\'" onmouseout="this.style.opacity=\'1\'"><i class="fa-solid fa-truck" style="margin-right:0.3rem"></i>Theo D\u00f5i</button>' +
+              '<button class="btn btn-primary" onclick="window.location.href=\'/buyer/shop-detail.html?id=' + firstItemId + '\'" style="border-radius:8px;font-size:0.75rem;padding:6px 14px;height:auto;font-weight:700;background-color:var(--accent);border-color:var(--accent);color:var(--foreground);cursor:pointer;transition:all 0.2s;" onmouseover="this.style.opacity=\'0.85\'" onmouseout="this.style.opacity=\'1\'">Mua L\u1ea1i</button>' +
             '</div>' +
           '</div>' +
         '</div>';
@@ -1610,7 +1610,7 @@ function renderCommunity() {
 
 function dailyCheckin() {
   var user = RefashionAuth._getUser();
-  if (!user) { window.location.href = '../auth/login.html?redirect=community.html'; return; }
+  if (!user) { window.location.href = '/auth/login.html?redirect=/buyer/community.html'; return; }
   var today = new Date().toLocaleDateString('vi-VN');
   var lastCheckin = user.lastCheckin || '';
   if (lastCheckin === today) {
@@ -1634,7 +1634,7 @@ function bindDonationForm(isLoggedIn) {
   if (!form) return;
   form.addEventListener('submit', function(e) {
     e.preventDefault();
-    if (!isLoggedIn) { window.location.href = '../auth/login.html?redirect=community.html'; return; }
+    if (!isLoggedIn) { window.location.href = '/auth/login.html?redirect=/buyer/community.html'; return; }
     var address = document.getElementById('donation-address').value.trim();
     if (!address) { showToast('Vui l\u00f2ng nh\u1eadp \u0111\u1ecba ch\u1ec9.'); return; }
     var coins = RefashionAuth.addDonation({
@@ -1656,7 +1656,7 @@ function bindDonationForm(isLoggedIn) {
 
 function handleRedeem(itemId) {
   var user = RefashionAuth._getUser();
-  if (!user) { window.location.href = '../auth/login.html?redirect=community.html'; return; }
+  if (!user) { window.location.href = '/auth/login.html?redirect=/buyer/community.html'; return; }
   var item = null;
   for (var i = 0; i < REWARDS_DB.length; i++) {
     if (REWARDS_DB[i].id === itemId) { item = REWARDS_DB[i]; break; }
@@ -2113,13 +2113,13 @@ function initAboutPage() {
 /* ==================== ORDER TRACKING ==================== */
 function initTrackingPage() {
   var user = RefashionAuth._getUser();
-  if (!user) { window.location.href = '../auth/login.html?redirect=order-tracking.html'; return; }
+  if (!user) { window.location.href = '/auth/login.html?redirect=/buyer/order-tracking.html'; return; }
   renderNavbar('navbar-container');
   renderFooter('footer-container');
   var params = new URLSearchParams(window.location.search);
   var orderId = params.get('order');
   if (!orderId) {
-    document.getElementById('tracking-content').innerHTML = '<div style="text-align:center;padding:4rem"><h3>Không tìm thấy đơn hàng</h3><a href="profile.html" class="btn btn-primary" style="border-radius:12px">Quay lại Hồ Sơ</a></div>';
+    document.getElementById('tracking-content').innerHTML = '<div style="text-align:center;padding:4rem"><h3>Không tìm thấy đơn hàng</h3><a href="/buyer/profile.html" class="btn btn-primary" style="border-radius:12px">Quay lại Hồ Sơ</a></div>';
     return;
   }
   renderOrderTracking(orderId);
@@ -2134,11 +2134,11 @@ function renderOrderTracking(orderId) {
     if (orders[i].id === orderId) { order = orders[i]; break; }
   }
   if (!order) {
-    container.innerHTML = '<div style="text-align:center;padding:4rem"><h3>Không tìm thấy đơn hàng</h3><a href="profile.html" class="btn btn-primary" style="border-radius:12px">Quay lại Hồ Sơ</a></div>';
+    container.innerHTML = '<div style="text-align:center;padding:4rem"><h3>Không tìm thấy đơn hàng</h3><a href="/buyer/profile.html" class="btn btn-primary" style="border-radius:12px">Quay lại Hồ Sơ</a></div>';
     return;
   }
   var xhr = new XMLHttpRequest();
-  xhr.open('GET', '../datasets/tracking.json', true);
+  xhr.open('GET', '/datasets/tracking.json', true);
   xhr.onload = function() {
     var trackingData = null;
     if (xhr.status === 200) {
@@ -2213,7 +2213,7 @@ function renderTrackingUI(container, order, trackingData) {
   var mapId = 'tracking-map-' + Date.now();
   container.innerHTML =
     '<div class="tracking-container">' +
-      '<a href="profile.html" class="tracking-back"><i class="fa-solid fa-arrow-left"></i> Quay l\u1ea1i H\u1ed3 S\u01a1</a>' +
+      '<a href="/buyer/profile.html" class="tracking-back"><i class="fa-solid fa-arrow-left"></i> Quay l\u1ea1i H\u1ed3 S\u01a1</a>' +
       '<div class="tracking-header">' +
         '<div>' +
           '<span class="tracking-badge">' + (isCancelled ? '\u0110\u00e3 H\u1ee7y' : (statusMap[currentStatus] ? statusMap[currentStatus].label : currentStatus)) + '</span>' +
@@ -2293,7 +2293,7 @@ function initTrackingMap(mapId, route) {
 document.addEventListener('DOMContentLoaded', function() {
   var session = RefashionAuth._getUser();
   if (session && (session.role === 'Seller' || session.role === 'Admin')) {
-    window.location.href = session.role === 'Seller' ? '../seller/seller_dashboard.html' : '../admin/index.html';
+    window.location.href = session.role === 'Seller' ? '/seller/seller_dashboard.html' : '/admin/index.html';
     return;
   }
 

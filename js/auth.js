@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
         RefashionAuth._saveUsers(users);
         alert("Đăng ký thành công! Vui lòng đăng nhập.");
-        window.location.href = "login.html";
+        window.location.href = "/auth/login.html";
       });
     }
   }
@@ -170,7 +170,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         RefashionAuth._saveUsers(users);
         alert("Khôi phục mật khẩu thành công!\nChuyển sang trang đăng nhập...");
-        window.location.href = "login.html";
+        window.location.href = "/auth/login.html";
       });
     }
   }
