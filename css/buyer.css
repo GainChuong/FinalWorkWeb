@@ -640,3 +640,372 @@
 .tracking-info-row:last-child { border-bottom: none; }
 .tracking-info-label { font-size: 0.8rem; color: var(--text-muted); flex-shrink: 0; }
 .tracking-greencoin { font-size: 1.25rem; font-weight: 800; color: var(--accent); display: flex; align-items: center; gap: 0.4rem; }
+
+/* ===== Explainable AI (XAI) & Digital Product Passport (DPP) ===== */
+.xai-explanation-content {
+  margin-top: 0.75rem;
+  font-size: 0.825rem;
+  font-weight: 500;
+  color: var(--foreground);
+  background: rgba(91, 116, 83, 0.08);
+  padding: 10px 14px;
+  border-radius: 12px;
+  border-left: 4px solid var(--primary);
+  line-height: 1.5;
+  text-align: left;
+  animation: fadeInUp 0.3s ease-out forwards;
+}
+
+.xai-title {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--primary);
+  font-weight: 700;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* DPP Modal Styles */
+.dpp-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(20, 24, 28, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 10000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  animation: fadeInDpp 0.3s forwards ease-out;
+  padding: 20px;
+}
+
+@keyframes fadeInDpp {
+  to { opacity: 1; }
+}
+
+.dpp-passport-container {
+  width: 900px;
+  max-width: 95vw;
+  max-height: 90vh;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.1);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: var(--font-sans);
+  animation: slideUpDpp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transform: translateY(40px);
+}
+
+@keyframes slideUpDpp {
+  to { transform: translateY(0); }
+}
+
+.dpp-passport-header {
+  background: var(--card);
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+}
+
+.dpp-passport-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+}
+
+.dpp-passport-title h3 {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0;
+}
+
+.dpp-passport-title p {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin: 2px 0 0 0;
+}
+
+.dpp-passport-close {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px;
+  transition: color 0.2s;
+}
+
+.dpp-passport-close:hover {
+  color: var(--danger);
+}
+
+.dpp-passport-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+  background: var(--background);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+@media (max-width: 850px) {
+  .dpp-passport-body {
+    grid-template-columns: 1fr;
+    padding: 16px;
+  }
+}
+
+.dpp-passport-col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.dpp-passport-card {
+  background: var(--card);
+  border-radius: 20px;
+  padding: 20px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 16px var(--shadow);
+}
+
+.card-section-title {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin: 0 0 12px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 8px;
+  text-align: left;
+}
+
+.dpp-prod-id {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+  text-align: left;
+}
+
+.dpp-badges-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.dpp-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.02em;
+}
+
+.dpp-badge-sdg {
+  background: rgba(91, 116, 83, 0.08);
+  border: 1px solid rgba(91, 116, 83, 0.2);
+  color: var(--primary);
+}
+
+.dpp-badge-esg {
+  background: rgba(166, 133, 91, 0.08);
+  border: 1px solid rgba(166, 133, 91, 0.2);
+  color: var(--accent);
+}
+
+/* Material composition card styles */
+.dpp-material-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.dpp-material-card {
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px;
+  text-align: center;
+}
+
+.dpp-material-pct {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.dpp-material-lbl {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+/* Timeline & Traceability elements */
+.dpp-timeline {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding-left: 10px;
+}
+
+.dpp-timeline::before {
+  content: '';
+  position: absolute;
+  left: 17px;
+  top: 10px;
+  bottom: 24px;
+  width: 2px;
+  background: var(--border);
+}
+
+.dpp-timeline-node {
+  position: relative;
+  padding-left: 32px;
+  padding-bottom: 16px;
+  text-align: left;
+}
+
+.dpp-timeline-node:last-child {
+  padding-bottom: 0;
+}
+
+.dpp-node-indicator {
+  position: absolute;
+  left: 0;
+  top: 4px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--card);
+  border: 2px solid var(--accent);
+  z-index: 2;
+  transition: all 0.3s;
+}
+
+.dpp-timeline-node.active .dpp-node-indicator {
+  border-color: var(--primary);
+  background: var(--primary);
+}
+
+.dpp-node-summary {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dpp-node-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--foreground);
+}
+
+.dpp-node-tier {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--primary);
+  text-transform: uppercase;
+}
+
+.dpp-node-chevron {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  transition: transform 0.2s;
+}
+
+.dpp-timeline-node.expanded .dpp-node-chevron {
+  transform: rotate(90deg);
+}
+
+.dpp-node-details {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.25s cubic-bezier(0, 1, 0, 1);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 6px;
+  line-height: 1.4;
+  background: var(--background);
+  padding: 0 10px;
+  border-radius: 8px;
+}
+
+.dpp-timeline-node.expanded .dpp-node-details {
+  max-height: 150px;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+}
+
+/* Stylist recommendations XAI button styling */
+.xai-btn-outline {
+  background: transparent;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 0.8rem;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 8px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.xai-btn-outline:hover {
+  background: rgba(91, 116, 83, 0.08);
+}
+
+.dpp-btn-outline {
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 0.8rem;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 8px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.dpp-btn-outline:hover {
+  background: rgba(166, 133, 91, 0.08);
+}

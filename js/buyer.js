@@ -209,7 +209,7 @@ function renderShopProducts() {
       '<div class="product-card">' +
         (sale ? '<span class="badge-sale-corner">Giảm 20%</span>' : '') +
         '<div class="product-img-wrap"><img src="' + p.image + '" alt="' + p.name + '" onerror="this.onerror=null;this.src=\'' + (p.storeLogo || '../images/store_logo.png') + '\'" /></div>' +
-        '<div class="product-info">' +
+        '<div class="product-info" style="display:flex; flex-direction:column">' +
           '<p class="product-category">' + p.store + '</p>' +
           '<h2 class="product-name" style="height:44px;overflow:hidden">' + p.name + '</h2>' +
           '<div class="product-price-row">' +
@@ -222,6 +222,12 @@ function renderShopProducts() {
             '<span class="product-rating-count">(' + p.ratingCount + ' đánh giá)</span>' +
           '</div>' +
           '<a href="/buyer/shop-detail.html?id=' + p.id + '" class="btn btn-primary" style="width:100%;border-radius:10px;margin-top:12px;display:flex;align-items:center;justify-content:center;gap:6px"><i class="fa-solid fa-bolt"></i> Mua Ngay</a>' +
+          '<button class="xai-btn-outline" onclick="toggleXaiExplanation(\'' + p.id + '\', \'xai-exp-' + p.id + '-' + i + '\')"><i class="fa-solid fa-wand-magic-sparkles"></i> Tại sao tôi thấy gợi ý này?</button>' +
+          '<div id="xai-exp-' + p.id + '-' + i + '" class="xai-explanation-content" style="display:none; margin-top: 10px;">' +
+            '<div class="xai-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Stylist AI Gợi Ý:</div>' +
+            getXaiExplanation(p) +
+          '</div>' +
+          '<button class="dpp-btn-outline" onclick="showDppModal(\'' + p.id + '\')"><i class="fa-solid fa-passport"></i> Xem Hộ Chiếu Số DPP</button>' +
         '</div>' +
       '</div>';
   }
@@ -897,6 +903,14 @@ function renderProductDetail(product) {
           '<div class="detail-actions" style="margin-top: 0.75rem; display: flex; gap: 10px; flex-wrap: wrap;">' +
             '<button class="btn btn-outline btn-add-cart" style="border-color:var(--primary);color:var(--primary); display: flex; align-items: center; justify-content: center; gap: 8px; border-radius: 12px;"><i class="fa-solid fa-bag-shopping"></i>Thêm vào Giỏ Hàng</button>' +
             '<button class="btn btn-primary btn-buy-now" style="display: flex; align-items: center; justify-content: center; gap: 8px; border-radius: 12px;"><i class="fa-solid fa-bolt"></i>Mua Ngay</button>' +
+          '</div>' +
+          '<div style="margin-top: 15px; display: flex; flex-direction: column; gap: 10px; width: 100%;">' +
+            '<button class="xai-btn-outline" onclick="toggleXaiExplanation(\'' + product.id + '\', \'detail-xai-exp\')"><i class="fa-solid fa-wand-magic-sparkles"></i> Tại sao tôi thấy gợi ý này?</button>' +
+            '<div id="detail-xai-exp" class="xai-explanation-content" style="display:none;">' +
+              '<div class="xai-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Stylist AI Gợi Ý:</div>' +
+              getXaiExplanation(product) +
+            '</div>' +
+            '<button class="dpp-btn-outline" onclick="showDppModal(\'' + product.id + '\')"><i class="fa-solid fa-passport"></i> Xem Hộ Chiếu Số DPP</button>' +
           '</div>' +
         '</div>' +
       '</div>' +
@@ -2342,3 +2356,834 @@ document.addEventListener('DOMContentLoaded', function() {
       break;
   }
 });
+
+/* ==================== Explainable AI (XAI) & Digital Product Passport (DPP) Core Engine ==================== */
+function getDppData(productId, title, category) {
+  if (!productId) {
+    productId = "UNKNOWN";
+  }
+  
+  // Resolve title and category from PRODUCTS_DB if not passed
+  if ((!title || !category) && typeof PRODUCTS_DB !== 'undefined' && PRODUCTS_DB[productId]) {
+    var p = PRODUCTS_DB[productId];
+    title = title || p.name || "Sản phẩm ReFashion";
+    category = category || p.category || "Chung";
+  } else {
+    title = title || "Sản phẩm ReFashion";
+    category = category || "Chung";
+  }
+
+  // Hash seed calculation
+  var hash = 0;
+  var idStr = productId.toString();
+  for (var i = 0; i < idStr.length; i++) {
+    hash = idStr.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  var seed = Math.abs(hash);
+
+  var dppId = 'RF-2026-' + (category.substring(0, 3).toUpperCase()) + '-' + (seed % 1000);
+  
+  // Deterministic block hash
+  var blockHashChars = '0123456789abcdef';
+  var blockHashStr = '0x';
+  for (var k = 0; k < 40; k++) {
+    blockHashStr += blockHashChars[Math.floor(Math.abs(Math.sin(seed + k)) * 16 + 16) % 16];
+  }
+  var blockHash = blockHashStr;
+
+  // Deterministic random helper based on the product seed
+  var pseudoRandom = function(offset, min, max, isInt) {
+    var val = Math.abs(Math.sin(seed + offset)) * 1000;
+    var rand = val - Math.floor(val);
+    var res = min + rand * (max - min);
+    return isInt ? Math.round(res) : res;
+  };
+
+  // Define input parameters based on category
+  var l_ij, l_jm, l_im, xi, e_m, g_m, t_c, e_r, E_new_production;
+  var collected_mass, reused_mass, scrap_mass, output_mass, estimated_waste, actual_waste;
+  
+  e_r = 2.68; // CO2 per liter fuel (kg CO2/L) - standard chemical constant
+
+  var materials = [];
+  var waterSaved = 0;
+  var tier4Name = "";
+  var tier4Loc = "";
+  var tier4Cert = "";
+  var tier4Desc = "";
+  var materialOrigin = "";
+
+  var catLower = (category || "").toLowerCase();
+  if (catLower.indexOf("áo khoác") !== -1 || catLower.indexOf("khoác") !== -1 || catLower.indexOf("jacket") !== -1) {
+    var pct1 = pseudoRandom(1, 75, 85, true);
+    materials = [
+      { name: "Repurposed Denim scrap", pct: pct1 },
+      { name: "Recycled Polyester lining", pct: 100 - pct1 }
+    ];
+    waterSaved = pseudoRandom(2, 3100, 3800, true);
+    l_ij = pseudoRandom(3, 35, 55, true);
+    l_jm = pseudoRandom(4, 100, 140, true);
+    l_im = pseudoRandom(5, 60, 100, true);
+    xi = pseudoRandom(6, 0.84, 0.92);
+    e_m = pseudoRandom(7, 1.0, 1.4);
+    g_m = pseudoRandom(8, 0.13, 0.17);
+    t_c = 200;
+    E_new_production = pseudoRandom(9, 19.0, 25.0);
+    collected_mass = pseudoRandom(10, 90, 110, true);
+    reused_mass = Math.round(collected_mass * pseudoRandom(11, 0.81, 0.87));
+    scrap_mass = Math.round(collected_mass * pseudoRandom(12, 0.09, 0.13));
+    output_mass = reused_mass + Math.round(scrap_mass * 0.4);
+    estimated_waste = Math.round(collected_mass * pseudoRandom(13, 0.45, 0.55));
+    actual_waste = scrap_mass;
+    tier4Name = "Texas Post-Consumer Salvage Depot";
+    tier4Loc = "Lubbock, Texas, USA";
+    tier4Cert = "GOTS, USDA Organic Verified";
+    tier4Desc = "High-grade discarded denim clothing collected from post-consumer collection hubs in the USA.";
+    materialOrigin = "Được thu gom và xử lý từ 2 chiếc quần Jeans cũ rách gối cùng với 1 chiếc áo khoác thô cũ bị hỏng khóa kéo tại khu vực Đà Nẵng.";
+  } else if (catLower.indexOf("áo thun") !== -1 || catLower.indexOf("thun") !== -1 || catLower.indexOf("tshirt") !== -1) {
+    var pct1 = pseudoRandom(1, 85, 95, true);
+    materials = [
+      { name: "Organic Cotton fibers", pct: pct1 },
+      { name: "Recycled Spandex", pct: 100 - pct1 }
+    ];
+    waterSaved = pseudoRandom(2, 1900, 2400, true);
+    l_ij = pseudoRandom(3, 20, 40, true);
+    l_jm = pseudoRandom(4, 80, 120, true);
+    l_im = pseudoRandom(5, 45, 75, true);
+    xi = pseudoRandom(6, 0.88, 0.95);
+    e_m = pseudoRandom(7, 0.3, 0.6);
+    g_m = pseudoRandom(8, 0.10, 0.14);
+    t_c = 300;
+    E_new_production = pseudoRandom(9, 7.0, 10.0);
+    collected_mass = pseudoRandom(10, 90, 110, true);
+    reused_mass = Math.round(collected_mass * pseudoRandom(11, 0.88, 0.94));
+    scrap_mass = Math.round(collected_mass * pseudoRandom(12, 0.04, 0.08));
+    output_mass = reused_mass + Math.round(scrap_mass * 0.5);
+    estimated_waste = Math.round(collected_mass * pseudoRandom(13, 0.25, 0.35));
+    actual_waste = scrap_mass;
+    tier4Name = "Aegean Rain-Fed Cotton Farms";
+    tier4Loc = "Izmir, Turkey";
+    tier4Cert = "GOTS Certified, Fair Trade";
+    tier4Desc = "100% organic cotton grown using purely natural rain irrigation without synthetic agricultural chemical sprays.";
+    materialOrigin = "Tái sinh từ 3 chiếc áo thun 100% cotton cũ gặp lỗi ố màu hoặc sờn rách vai thu gom từ các hộ gia đình.";
+  } else if (catLower.indexOf("quần") !== -1 || catLower.indexOf("pants") !== -1) {
+    var pct1 = pseudoRandom(1, 80, 90, true);
+    materials = [
+      { name: "Recycled Cotton Denim yarn", pct: pct1 },
+      { name: "Eco-Elastane stretch", pct: 100 - pct1 }
+    ];
+    waterSaved = pseudoRandom(2, 2600, 3200, true);
+    l_ij = pseudoRandom(3, 30, 50, true);
+    l_jm = pseudoRandom(4, 90, 130, true);
+    l_im = pseudoRandom(5, 55, 85, true);
+    xi = pseudoRandom(6, 0.85, 0.93);
+    e_m = pseudoRandom(7, 0.6, 1.0);
+    g_m = pseudoRandom(8, 0.12, 0.16);
+    t_c = 250;
+    E_new_production = pseudoRandom(9, 13.0, 17.0);
+    collected_mass = pseudoRandom(10, 90, 110, true);
+    reused_mass = Math.round(collected_mass * pseudoRandom(11, 0.84, 0.90));
+    scrap_mass = Math.round(collected_mass * pseudoRandom(12, 0.07, 0.11));
+    output_mass = reused_mass + Math.round(scrap_mass * 0.4);
+    estimated_waste = Math.round(collected_mass * pseudoRandom(13, 0.35, 0.45));
+    actual_waste = scrap_mass;
+    tier4Name = "Binh Duong Deadstock Textile Salvage";
+    tier4Loc = "Binh Duong, Vietnam";
+    tier4Cert = "GRS (Global Recycled Standard)";
+    tier4Desc = "Unused leftovers and cutting waste gathered from standard clothing manufacturing factories in Southern Vietnam.";
+    materialOrigin = "Chế tác kết hợp từ vải thừa tồn kho của các xưởng may gia công lớn và 1 chiếc quần kaki cũ bị hỏng cạp.";
+  } else if (catLower.indexOf("giày") !== -1 || catLower.indexOf("shoes") !== -1) {
+    var pct1 = pseudoRandom(1, 65, 75, true);
+    materials = [
+      { name: "Piñatex Pineapple fiber", pct: pct1 },
+      { name: "Recycled Rubber sole", pct: 100 - pct1 }
+    ];
+    waterSaved = pseudoRandom(2, 1500, 2000, true);
+    l_ij = pseudoRandom(3, 45, 65, true);
+    l_jm = pseudoRandom(4, 130, 170, true);
+    l_im = pseudoRandom(5, 75, 105, true);
+    xi = pseudoRandom(6, 0.80, 0.89);
+    e_m = pseudoRandom(7, 1.5, 2.1);
+    g_m = pseudoRandom(8, 0.14, 0.18);
+    t_c = 150;
+    E_new_production = pseudoRandom(9, 16.0, 20.0);
+    collected_mass = pseudoRandom(10, 90, 110, true);
+    reused_mass = Math.round(collected_mass * pseudoRandom(11, 0.78, 0.84));
+    scrap_mass = Math.round(collected_mass * pseudoRandom(12, 0.11, 0.16));
+    output_mass = reused_mass + Math.round(scrap_mass * 0.3);
+    estimated_waste = Math.round(collected_mass * pseudoRandom(13, 0.55, 0.65));
+    actual_waste = scrap_mass;
+    tier4Name = "Ananas Anam Agrarian Hub";
+    tier4Loc = "Manila, Philippines";
+    tier4Cert = "Certified B-Corp, Cradle to Cradle";
+    tier4Desc = "Extracted from useless pineapple leaves after harvest, creating supplementary circular income for local farming families.";
+    materialOrigin = "Đế giày làm từ cao su lốp xe phế thải băm nhỏ đúc nhiệt; thân giày dệt từ sợi dứa tự nhiên Piñatex kết hợp da vụn bọc sofa cũ hỏng.";
+  } else {
+    // Balo & Túi / Default
+    var pct1 = pseudoRandom(1, 70, 80, true);
+    materials = [
+      { name: "Upcycled Cotton Canvas", pct: pct1 },
+      { name: "Ocean-Bound PET Plastic", pct: 100 - pct1 }
+    ];
+    waterSaved = pseudoRandom(2, 2300, 2900, true);
+    l_ij = pseudoRandom(3, 40, 60, true);
+    l_jm = pseudoRandom(4, 110, 150, true);
+    l_im = pseudoRandom(5, 70, 100, true);
+    xi = pseudoRandom(6, 0.83, 0.91);
+    e_m = pseudoRandom(7, 0.8, 1.2);
+    g_m = pseudoRandom(8, 0.13, 0.17);
+    t_c = 180;
+    E_new_production = pseudoRandom(9, 12.0, 16.5);
+    collected_mass = pseudoRandom(10, 90, 110, true);
+    reused_mass = Math.round(collected_mass * pseudoRandom(11, 0.80, 0.86));
+    scrap_mass = Math.round(collected_mass * pseudoRandom(12, 0.10, 0.14));
+    output_mass = reused_mass + Math.round(scrap_mass * 0.4);
+    estimated_waste = Math.round(collected_mass * pseudoRandom(13, 0.40, 0.50));
+    actual_waste = scrap_mass;
+    tier4Name = "Phu Quoc Marine Plastic Cleanup Project";
+    tier4Loc = "Phu Quoc, Vietnam";
+    tier4Cert = "GRS, Higg Index Verified";
+    tier4Desc = "Discarded nylon fishing nets and ocean-bound plastic bottles recovered directly from sea waters and beaches.";
+    materialOrigin = "Tái sinh từ 1 tấm bạt xe tải cũ chịu lực cực cao bị rách nhẹ mép và vải lót từ các áo phao gió hỏng khóa kéo.";
+  }
+
+  // Calculate E_refashion
+  var d = 1;
+  var E_refashion = e_r * g_m * ( (l_ij / t_c) + (l_im / t_c) + (d * xi * l_jm) / t_c ) + d * e_m;
+  var netCarbonSaved = E_new_production - E_refashion;
+  var co2ReductionPct = (netCarbonSaved / E_new_production) * 100;
+
+  // Calculate Material Circularity Indicators:
+  var materialRecoveryRate = ((reused_mass / collected_mass) * 100).toFixed(1);
+  var scrapToOutput = ((scrap_mass / output_mass) * 100).toFixed(1);
+  var wasteReductionRatio = (100 - (actual_waste / estimated_waste) * 100).toFixed(1);
+  var landfillSaved = (estimated_waste - actual_waste).toFixed(2);
+
+  return {
+    seed: seed,
+    dppId: dppId,
+    blockHash: blockHash,
+    title: title,
+    category: category,
+    materials: materials,
+    waterSaved: waterSaved,
+    co2Emitted: E_refashion,
+    co2Saved: netCarbonSaved,
+    co2ReductionPct: co2ReductionPct,
+    materialRecoveryRate: materialRecoveryRate,
+    scrapToOutput: scrapToOutput,
+    wasteReductionRatio: wasteReductionRatio,
+    landfillSaved: landfillSaved,
+    transportDistance: l_ij + l_jm + l_im,
+    materialOrigin: materialOrigin,
+    tier4Name: tier4Name,
+    tier4Loc: tier4Loc,
+    tier4Cert: tier4Cert,
+    tier4Desc: tier4Desc,
+    tier3Name: "Chung Shing Eco-Spinning Mill",
+    tier3Loc: "Ho Chi Minh City, Vietnam",
+    tier3Cert: "Oeko-Tex Standard 100, bluesign",
+    tier3Desc: "Processes materials using high-efficiency closed-loop systems, filtering and recycling 98% of processing water.",
+    tier2Name: "ReFashion Upcycling Creative Studio",
+    tier2Loc: "Da Nang, Vietnam",
+    tier2Cert: "ISO 14001, GRS Certified Workshop",
+    tier2Desc: "Sorts, washes, cleans, and manually reconstructs post-consumer textile wastes using handcraft techniques.",
+    tier1Name: "ReFashion Da Nang Assembly Workshop",
+    tier1Loc: "Da Nang, Vietnam",
+    tier1Cert: "Fair Labor Association, SA8000",
+    tier1Desc: "Final sewing, branding, packaging, and sorting for direct-to-consumer distribution and logistics tracking."
+  };
+}
+
+function getLocalizedDpp(dpp, lang) {
+  var isEn = lang === 'en';
+  
+  var materialTranslations = {
+    "Repurposed Denim scrap": { vi: "Mảnh denim tái định hình", en: "Repurposed Denim scrap" },
+    "Recycled Polyester lining": { vi: "Lót polyester tái chế", en: "Recycled Polyester lining" },
+    "Organic Cotton fibers": { vi: "Sợi bông hữu cơ", en: "Organic Cotton fibers" },
+    "Recycled Spandex": { vi: "Chất co giãn tái chế", en: "Recycled Spandex" },
+    "Recycled Cotton Denim yarn": { vi: "Sợi cotton denim tái chế", en: "Recycled Cotton Denim yarn" },
+    "Eco-Elastane stretch": { vi: "Eco-Elastane co giãn", en: "Eco-Elastane stretch" },
+    "Piñatex Pineapple fiber": { vi: "Sợi dứa tự nhiên Piñatex", en: "Piñatex Pineapple fiber" },
+    "Recycled Rubber sole": { vi: "Đế cao su tái chế", en: "Recycled Rubber sole" },
+    "Upcycled Cotton Canvas": { vi: "Vải bạt cotton tái tạo", en: "Upcycled Cotton Canvas" },
+    "Ocean-Bound PET Plastic": { vi: "Nhựa PET cứu hộ đại dương", en: "Ocean-Bound PET Plastic" }
+  };
+
+  var localizedMaterials = dpp.materials.map(function(m) {
+    return {
+      pct: m.pct,
+      name: materialTranslations[m.name] ? (isEn ? materialTranslations[m.name].en : materialTranslations[m.name].vi) : m.name
+    };
+  });
+
+  var originTranslations = {
+    jacket: {
+      vi: "Được thu gom và xử lý từ 2 chiếc quần Jeans cũ rách gối cùng với 1 chiếc áo khoác thô cũ bị hỏng khóa kéo tại khu vực Đà Nẵng.",
+      en: "Collected and processed from 2 old knee-torn Jeans and 1 old canvas jacket with a broken zipper in the Da Nang area."
+    },
+    tshirt: {
+      vi: "Tái sinh từ 3 chiếc áo thun 100% cotton cũ gặp lỗi ố màu hoặc sờn rách vai thu gom từ các hộ gia đình.",
+      en: "Reborn from 3 old 100% cotton t-shirts with stains or worn shoulders collected from households."
+    },
+    pants: {
+      vi: "Chế tác kết hợp từ vải thừa tồn kho của các xưởng may gia công lớn và 1 chiếc quần kaki cũ bị hỏng cạp.",
+      en: "Crafted from surplus inventory of large garment factories and 1 old khaki pants with a damaged waistband."
+    },
+    shoes: {
+      vi: "Đế giày làm từ cao su lốp xe phế thải băm nhỏ đúc nhiệt; thân giày dệt từ sợi dứa tự nhiên Piñatex kết hợp da vụn bọc sofa cũ hỏng.",
+      en: "Shoe soles made from shredded waste tires heat-molded; shoe body woven from Piñatex natural pineapple fiber combined with scrap leather from old sofas."
+    },
+    default: {
+      vi: "Tái sinh từ 1 tấm bạt xe tải cũ chịu lực cực cao bị rách nhẹ mép và vải lót từ các áo phao gió hỏng khóa kéo.",
+      en: "Reborn from 1 old heavy-duty truck tarp with a slightly torn edge and lining fabric from damaged windbreaker life jackets."
+    }
+  };
+
+  var originKey = "default";
+  var catLower = (dpp.category || "").toLowerCase();
+  if (catLower.indexOf("áo khoác") !== -1 || catLower.indexOf("khoác") !== -1 || catLower.indexOf("jacket") !== -1) originKey = "jacket";
+  else if (catLower.indexOf("áo thun") !== -1 || catLower.indexOf("thun") !== -1 || catLower.indexOf("tshirt") !== -1) originKey = "tshirt";
+  else if (catLower.indexOf("quần") !== -1 || catLower.indexOf("pants") !== -1) originKey = "pants";
+  else if (catLower.indexOf("giày") !== -1 || catLower.indexOf("shoes") !== -1) originKey = "shoes";
+
+  var localizedOrigin = isEn ? originTranslations[originKey].en : originTranslations[originKey].vi;
+
+  var certifications = {
+    jacket: {
+      tier3: "bluesign, Global Recycled Standard",
+      tier2: "ISO 14001, GRS Certified Denim Workshop",
+      tier1: "Fair Labor Association, SA8000"
+    },
+    tshirt: {
+      tier3: "GOTS Certified, OEKO-TEX Standard 100",
+      tier2: "GRS Standard, Clean Clothes Campaign",
+      tier1: "WRAP Certified, SA8000"
+    },
+    pants: {
+      tier3: "Higg Index Verified, Oeko-Tex",
+      tier2: "GRS Certified, ISO 9001",
+      tier1: "Bag/Pants SA8000, Fair Wear Foundation"
+    },
+    shoes: {
+      tier3: "Cradle to Cradle, FSC Certified Rubber",
+      tier2: "B-Corp Standard, ISO 14001",
+      tier1: "SA8000, Fair Labor Certified"
+    },
+    default: {
+      tier3: "GRS Standard, Ocean Bound Plastic Certified",
+      tier2: "ISO 14001, GRS Certified Canvas Workshop",
+      tier1: "SA8000, Fair Labor Association"
+    }
+  };
+
+  var tier3Translations = {
+    jacket: {
+      name: { vi: "Nhà máy dệt kéo sợi Denim Đồng Nai", en: "Dong Nai Denim-Spinning Factory" },
+      loc: { vi: "Đồng Nai, Việt Nam", en: "Dong Nai, Vietnam" },
+      desc: { vi: "Tái chế và kéo sợi từ các mảnh vụn denim chất lượng cao thu hồi.", en: "Recycles and spins threads from recovered high-quality denim scraps." }
+    },
+    tshirt: {
+      name: { vi: "Nhà máy kéo sợi bông hữu cơ Phong Phú", en: "Phong Phu Organic Cotton Spinning Mill" },
+      loc: { vi: "TP. Hồ Chí Minh, Việt Nam", en: "Ho Chi Minh City, Vietnam" },
+      desc: { vi: "Kéo sợi bông hữu cơ tái sinh bằng máy dệt tự động tiêu tụ điện năng thấp.", en: "Spins regenerated organic cotton yarns using low-energy automated machinery." }
+    },
+    pants: {
+      name: { vi: "Xưởng kéo sợi cotton tái chế Hà Nội", en: "Hanoi Recycled Cotton Spinning Mill" },
+      loc: { vi: "Hà Nội, Việt Nam", en: "Hanoi, Vietnam" },
+      desc: { vi: "Xử lý phế phẩm may mặc công nghiệp thành các cuộn sợi cotton dệt quần bền chắc.", en: "Processes industrial garments waste into durable cotton spools for pants." }
+    },
+    shoes: {
+      name: { vi: "Nhà máy tinh luyện cao su phế liệu Bình Dương", en: "Binh Duong Tire Rubber Refining Plant" },
+      loc: { vi: "Bình Dương, Việt Nam", en: "Binh Duong, Vietnam" },
+      desc: { vi: "Tái chế cao su từ lốp xe cũ hỏng kết hợp tinh chế sợi dứa tự nhiên để chế tác đế và lót.", en: "Recycles scrap tire rubber and refines natural pineapple fibers for shoe soles and linings." }
+    },
+    default: {
+      name: { vi: "Nhà máy tái sinh nhựa biển Long An", en: "Long An Ocean Plastic Pellet Factory" },
+      loc: { vi: "Long An, Việt Nam", en: "Long An, Vietnam" },
+      desc: { vi: "Tái chế chai nhựa thu hồi từ đại dương thành hạt nhựa và sợi PET chịu lực cao làm vải bạt.", en: "Recycles ocean plastic bottles into high-tenacity PET fibers for heavy-duty bag canvas." }
+    }
+  };
+
+  var tier2Translations = {
+    jacket: {
+      name: { vi: "Xưởng tái chế áo khoác Sông Hồng", en: "Song Hong Jacket Upcycling Atelier" },
+      loc: { vi: "Nam Định, Việt Nam", en: "Nam Dinh, Vietnam" },
+      desc: { vi: "May tái cấu trúc, thiết kế các mảnh denim ghép nối và lót gió của áo cũ.", en: "Deconstructs, patches denim panels, and stitches inner windbreaker linings." }
+    },
+    tshirt: {
+      name: { vi: "Xưởng may sinh thái Huế Eco-Knitwear", en: "Hue Eco-Knitwear Creative Studio" },
+      loc: { vi: "Thừa Thiên Huế, Việt Nam", en: "Thua Thien Hue, Vietnam" },
+      desc: { vi: "Xử lý làm sạch, phân loại sợi và may tái tạo các phông cotton mềm mại.", en: "Cleanses, sorts fabric scraps, and reconstructs soft cotton t-shirts." }
+    },
+    pants: {
+      name: { vi: "Xưởng thiết kế quần tuần hoàn Đà Nẵng", en: "Da Nang Circular Trousers Atelier" },
+      loc: { vi: "Đà Nẵng, Việt Nam", en: "Da Nang, Vietnam" },
+      desc: { vi: "Cắt ghép, tạo mẫu và may quần kaki/denim thiết kế thời trang từ phế liệu sạch.", en: "Patterns, cuts, and assembles fashionable kaki/denim pants from clean scraps." }
+    },
+    shoes: {
+      name: { vi: "Xưởng đóng giày tuần hoàn Đồng Nai", en: "Dong Nai Footwear Craft Studio" },
+      loc: { vi: "Đồng Nai, Việt Nam", en: "Dong Nai, Vietnam" },
+      desc: { vi: "Tạo khuôn đế cao su lốp xe đúc nhiệt, ép keo sinh học dính thân sợi dứa tự nhiên.", en: "Heat-molds tire rubber soles and binds them with natural pineapple fiber bodies using bio-glues." }
+    },
+    default: {
+      name: { vi: "Xưởng thiết kế túi bạt ReFashion Sài Gòn", en: "ReFashion Saigon Canvas & Bag Studio" },
+      loc: { vi: "TP. Hồ Chí Minh, Việt Nam", en: "Ho Chi Minh City, Vietnam" },
+      desc: { vi: "May thủ công túi xách, balo chịu lực từ bạt xe tải phế thải và lưới nylon.", en: "Handcrafts heavy-duty bags and backpacks from discarded truck tarps and nylon nets." }
+    }
+  };
+
+  var tier1Translations = {
+    jacket: {
+      name: { vi: "Xưởng hoàn thiện áo khoác ReFashion Đà Nẵng", en: "ReFashion Da Nang Jacket Finisher" },
+      loc: { vi: "Đà Nẵng, Việt Nam", en: "Da Nang, Vietnam" },
+      desc: { vi: "Khâu cúc gỗ dừa, đính nhãn QR, ủi hơi nước và đóng gói hộp giấy Kraft tự hủy.", en: "Attaches coconut buttons, stamps QR passport, steam-irons, and packs in Kraft boxes." }
+    },
+    tshirt: {
+      name: { vi: "Trung tâm đóng gói & Giao nhận ReFashion Miền Trung", en: "ReFashion Central Finish & Pack Center" },
+      loc: { vi: "Thừa Thiên Huế, Việt Nam", en: "Thua Thien Hue, Vietnam" },
+      desc: { vi: "Ủi phẳng, gắn nhãn sinh học thông minh, kiểm tra chất lượng và xếp hộp carton tái chế.", en: "Presses, attaches smart bio-tags, inspects stitching quality, and packs in recycled cartons." }
+    },
+    pants: {
+      name: { vi: "Xưởng may hoàn thiện quần ReFashion Đà Nẵng", en: "ReFashion Da Nang Pants Assembly Hub" },
+      loc: { vi: "Đà Nẵng, Việt Nam", en: "Da Nang, Vietnam" },
+      desc: { vi: "Lắp khóa zip đồng tái chế, đính nhãn truy vết, kiểm thử độ co giãn và đóng gói.", en: "Attaches recycled copper zippers, prints passport tags, tests elasticity, and ships." }
+    },
+    shoes: {
+      name: { vi: "Xưởng hoàn thiện giày ReFashion Nam Sài Gòn", en: "ReFashion Saigon Footwear Finish Workshop" },
+      loc: { vi: "TP. Hồ Chí Minh, Việt Nam", en: "Ho Chi Minh City, Vietnam" },
+      desc: { vi: "Luồn dây giày dệt bông, đánh sáp bảo vệ tự nhiên, kiểm tra mối dán đế và xếp hộp gỗ tái sinh.", en: "Laces shoes, applies protective natural wax, tests sole adhesion, and packs in reclaimed wood boxes." }
+    },
+    default: {
+      name: { vi: "Trung tâm hoàn thiện & Logistics ReFashion Phía Nam", en: "ReFashion Southern Logistics & Finish Hub" },
+      loc: { vi: "TP. Hồ Chí Minh, Việt Nam", en: "Ho Chi Minh City, Vietnam" },
+      desc: { vi: "Đính khóa cài kim loại tái chế, kiểm tra chống nước bạt phủ, gắn QR passport và phân phối.", en: "Attaches recycled metal hardware, verifies tarp waterproof coating, mounts QR tag, and distributes." }
+    }
+  };
+
+  var journeyTranslations = {
+    jacket: {
+      repair: {
+        vi: "Gia cố đường may sờn vai, gia cố bọc cùi chỏ và thay khuy đồng đóng đinh bọc đồng bền chắc.",
+        en: "Reinforces worn shoulder seams, elbows, and replaces durable copper-clad buttons."
+      },
+      refurbish: {
+        vi: "Hấp khử trùng Ozone diệt khuẩn, phun phủ nano chống thấm nước nhẹ cho lớp denim mặt ngoài.",
+        en: "Ozone sanitizes to kill bacteria, applies water-resistant nano coating on denim exterior."
+      },
+      redesign: {
+        vi: "Phối ghép mảnh lót gió tái chế và túi hộp tiện lợi từ quần jeans cũ.",
+        en: "Upcycles recycled windbreaker linings and utility cargo pockets from old jeans."
+      }
+    },
+    tshirt: {
+      repair: {
+        vi: "Khâu mạng lại các lỗ sờn nhỏ bằng kỹ thuật thêu chìm chắp vá Sashiko nghệ thuật.",
+        en: "Mends small worn spots using subtle Sashiko art-darning techniques."
+      },
+      refurbish: {
+        vi: "Giặt xả enzym sinh học làm mềm sợi bông hữu cơ thô, loại bỏ các xơ vải thừa bề mặt.",
+        en: "Bio-enzyme washes to soften raw organic cotton fibers and eliminates surface lint."
+      },
+      redesign: {
+        vi: "Nhuộm màu tự nhiên từ lá trà/củ nâu cũ và tạo điểm nhấn chỉ thêu màu tương phản.",
+        en: "Naturally dyes using tea leaves/brown tubers and adds contrast stitch highlights."
+      }
+    },
+    pants: {
+      repair: {
+        vi: "Thay dây kéo khóa đồng tái chế mới, gia cố cạp lưng quần bằng vải lót gia cường.",
+        en: "Installs new recycled copper zippers, reinforces trouser waistband with lining fabrics."
+      },
+      refurbish: {
+        vi: "Sấy khử trùng Ozone y tế và xả làm mềm vải thô giúp mặc thoáng mát dễ chịu.",
+        en: "Ozone sanitizes and applies eco-softener to make canvas fabric breathable and soft."
+      },
+      redesign: {
+        vi: "Cắt ngắn thành quần ngố hoặc may thêm túi hộp bên hông thời trang tiện lợi.",
+        en: "Crops to shorter lengths or stitches stylish utility cargo pockets on the side."
+      }
+    },
+    shoes: {
+      repair: {
+        vi: "Gia khâu viền đế bằng chỉ sáp dù, dán ép lại keo sinh học chịu lực lực nén cao.",
+        en: "Stitches sole borders with waxed nylon thread, binds with high-tensile bio-glues."
+      },
+      refurbish: {
+        vi: "Khử mùi sâu bằng buồng ion âm, đánh sáp ong tự nhiên bảo vệ mặt da dứa Piñatex.",
+        en: "Deep deodorizes via negative-ion chambers, applies natural beeswax on Piñatex leather."
+      },
+      redesign: {
+        vi: "Thay lót giày bằng xốp EVA tái chế đàn hồi tốt và đổi dây giày dệt từ sợi dứa dẻo dai.",
+        en: "Upgrades insoles with recycled EVA foam and laces shoes with tough pineapple fibers."
+      }
+    },
+    default: {
+      repair: {
+        vi: "Gia cố góc túi chịu lực nặng, đính lại đinh tán kim loại và tay xách bằng bạt xe tải.",
+        en: "Reinforces high-stress bag corners, rivets metal studs, and strengthens truck-tarp straps."
+      },
+      refurbish: {
+        vi: "Vệ sinh sâu chống thấm nước bằng dung dịch sáp tự nhiên thân thiện môi trường.",
+        en: "Deep cleanses and applies eco-friendly natural wax for enhanced waterproof protection."
+      },
+      redesign: {
+        vi: "Gia công túi phụ tiện lợi từ phế liệu lót dù và dây đai an toàn ô tô cũ thu hồi.",
+        en: "Stitches inner utility pockets from surplus parachute lining and reclaimed car seatbelts."
+      }
+    }
+  };
+
+  var tier4Translations = {
+    "Texas Post-Consumer Salvage Depot": { vi: "Tổng kho thu hồi phế liệu dệt may Texas", en: "Texas Post-Consumer Salvage Depot" },
+    "Aegean Rain-Fed Cotton Farms": { vi: "Nông trang bông tự nhiên vùng Aegean", en: "Aegean Rain-Fed Cotton Farms" },
+    "Binh Duong Deadstock Textile Salvage": { vi: "Điểm thu hồi vải thừa tồn kho Bình Dương", en: "Binh Duong Deadstock Textile Salvage" },
+    "Ananas Anam Agrarian Hub": { vi: "Trung tâm nông nghiệp Ananas Anam", en: "Ananas Anam Agrarian Hub" },
+    "Phu Quoc Marine Plastic Cleanup Project": { vi: "Dự án làm sạch rác thải nhựa biển Phú Quốc", en: "Phu Quoc Marine Plastic Cleanup Project" }
+  };
+
+  var tier4LocTranslations = {
+    "Lubbock, Texas, USA": { vi: "Lubbock, Texas, Mỹ", en: "Lubbock, Texas, USA" },
+    "Izmir, Turkey": { vi: "Izmir, Thổ Nhĩ Kỳ", en: "Izmir, Turkey" },
+    "Binh Duong, Vietnam": { vi: "Bình Dương, Việt Nam", en: "Binh Duong, Vietnam" },
+    "Manila, Philippines": { vi: "Manila, Philippines", en: "Manila, Philippines" },
+    "Phu Quoc, Vietnam": { vi: "Phú Quốc, Việt Nam", en: "Phu Quoc, Vietnam" }
+  };
+
+  var tier4DescTranslations = {
+    "High-grade discarded denim clothing collected from post-consumer collection hubs in the USA.": {
+      vi: "Quần áo denim cũ bỏ đi chất lượng cao được thu gom từ các trung tâm cứu hộ quần áo cũ của Mỹ.",
+      en: "High-grade discarded denim clothing collected from post-consumer collection hubs in the USA."
+    },
+    "100% organic cotton grown using purely natural rain irrigation without synthetic agricultural chemical sprays.": {
+      vi: "100% bông hữu cơ được trồng thuần tự nhiên bằng nước mưa, không phun thuốc hóa học nông nghiệp.",
+      en: "100% organic cotton grown using purely natural rain irrigation without synthetic agricultural chemical sprays."
+    },
+    "Unused leftovers and cutting waste gathered from standard clothing manufacturing factories in Southern Vietnam.": {
+      vi: "Các góc vải thừa tồn kho và phế phẩm từ các xưởng sản xuất may mặc lớn tại miền Nam Việt Nam.",
+      en: "Unused leftovers and cutting waste gathered from standard clothing manufacturing factories in Southern Vietnam."
+    },
+    "Extracted from useless pineapple leaves after harvest, creating supplementary circular income for local farming families.": {
+      vi: "Sợi được chiết xuất từ lá dứa phế phẩm sau thu hoạch, giúp người dân có thêm thu nhập tuần hoàn.",
+      en: "Extracted from useless pineapple leaves after harvest, creating supplementary circular income for local farming families."
+    },
+    "Discarded nylon fishing nets and ocean-bound plastic bottles recovered directly from sea waters and beaches.": {
+      vi: "Lưới đánh cá cũ bị bỏ đi và chai nhựa được gom trực tiếp từ đại dương và bờ biển Phú Quốc.",
+      en: "Discarded nylon fishing nets and ocean-bound plastic bottles recovered directly from sea waters and beaches."
+    }
+  };
+
+  var t3 = tier3Translations[originKey] || tier3Translations.default;
+  var t2 = tier2Translations[originKey] || tier2Translations.default;
+  var t1 = tier1Translations[originKey] || tier1Translations.default;
+  var certs = certifications[originKey] || certifications.default;
+  var journey = journeyTranslations[originKey] || journeyTranslations.default;
+
+  return Object.assign({}, dpp, {
+    title: isEn && dpp.title === "Sản phẩm ReFashion" ? "ReFashion Product" : dpp.title,
+    category: isEn && dpp.category === "Chung" ? "General" : dpp.category,
+    materials: localizedMaterials,
+    materialOrigin: localizedOrigin,
+    tier4Name: tier4Translations[dpp.tier4Name] ? (isEn ? tier4Translations[dpp.tier4Name].en : tier4Translations[dpp.tier4Name].vi) : dpp.tier4Name,
+    tier4Loc: tier4LocTranslations[dpp.tier4Loc] ? (isEn ? tier4LocTranslations[dpp.tier4Loc].en : tier4LocTranslations[dpp.tier4Loc].vi) : dpp.tier4Loc,
+    tier4Cert: dpp.tier4Cert,
+    tier4Desc: tier4DescTranslations[dpp.tier4Desc] ? (isEn ? tier4DescTranslations[dpp.tier4Desc].en : tier4DescTranslations[dpp.tier4Desc].vi) : dpp.tier4Desc,
+    tier3Name: isEn ? t3.name.en : t3.name.vi,
+    tier3Loc: isEn ? t3.loc.en : t3.loc.vi,
+    tier3Cert: certs.tier3,
+    tier3Desc: isEn ? t3.desc.en : t3.desc.vi,
+    tier2Name: isEn ? t2.name.en : t2.name.vi,
+    tier2Loc: isEn ? t2.loc.en : t2.loc.vi,
+    tier2Cert: certs.tier2,
+    tier2Desc: isEn ? t2.desc.en : t2.desc.vi,
+    tier1Name: isEn ? t1.name.en : t1.name.vi,
+    tier1Loc: isEn ? t1.loc.en : t1.loc.vi,
+    tier1Cert: certs.tier1,
+    tier1Desc: isEn ? t1.desc.en : t1.desc.vi,
+    journeyRepair: isEn ? journey.repair.en : journey.repair.vi,
+    journeyRefurbish: isEn ? journey.refurbish.en : journey.refurbish.vi,
+    journeyRedesign: isEn ? journey.redesign.en : journey.redesign.vi
+  });
+}
+
+function renderDppBadges(sdg, esg) {
+  var html = '<div class="dpp-badges-row">';
+  if (sdg) {
+    html += '<span class="dpp-badge dpp-badge-sdg"><i class="fa-solid fa-seedling"></i> ' + sdg + '</span>';
+  }
+  if (esg) {
+    html += '<span class="dpp-badge dpp-badge-esg"><i class="fa-solid fa-leaf"></i> ' + esg + '</span>';
+  }
+  html += '</div>';
+  return html;
+}
+
+function showDppModal(productId) {
+  var dppRaw = getDppData(productId);
+  if (!dppRaw) return;
+
+  var lang = 'vi'; // Default to vi for FinalWorkWeb
+  var isEn = lang === 'en';
+  var dpp = getLocalizedDpp(dppRaw, lang);
+
+  var overlay = document.createElement('div');
+  overlay.id = 'dpp-modal';
+  overlay.className = 'dpp-modal-overlay';
+  overlay.innerHTML = 
+    '<div class="dpp-passport-container">' +
+      '<div class="dpp-passport-header">' +
+        '<div class="dpp-passport-title">' +
+          '<i class="fa-solid fa-passport" style="font-size: 1.8rem; color: var(--primary);"></i>' +
+          '<div>' +
+            '<h3>' + (isEn ? 'Digital Product Passport (DPP)' : 'Hộ Chiếu Sản Phẩm Kỹ Thuật Số (DPP)') + '</h3>' +
+            '<p>' + (isEn ? 'Product' : 'Sản phẩm') + ': <strong>' + dpp.title + '</strong> | ID: ' + dpp.dppId + '</p>' +
+          '</div>' +
+        '</div>' +
+        '<button class="dpp-passport-close" onclick="closeDppModal()"><i class="fa-solid fa-xmark"></i></button>' +
+      '</div>' +
+      
+      '<div class="dpp-passport-body">' +
+        
+        '<!-- Left Column: Identity, LCA, Origin & Composition -->' +
+        '<div class="dpp-passport-col">' +
+          
+          '<!-- Identity Card -->' +
+          '<div class="dpp-passport-card">' +
+            '<div class="dpp-prod-id">PRODUCT ID: ' + dpp.dppId + '</div>' +
+          '</div>' +
+
+          '<!-- Environmental LCA Impact Dashboard -->' +
+          '<div class="dpp-passport-card">' +
+            renderDppBadges(isEn ? "SDG 13: Climate Action" : "SDG 13: Hành động Khí hậu", isEn ? "ESG: Environmental - Carbon & Water Footprint" : "ESG: Môi trường - Dấu chân Carbon & Nước") +
+            '<h4 class="card-section-title"><i class="fa-solid fa-leaf" style="color:var(--primary)"></i> ' + (isEn ? 'Environmental Impact & LCA' : 'Chỉ Số Tác Động Môi Trường & LCA') + '</h4>' +
+            
+            '<div style="background: rgba(91, 116, 83, 0.05); border: 1px solid rgba(91, 116, 83, 0.15); border-radius: 8px; padding: 12px; font-size: 0.78rem; text-align: left; margin-bottom: 14px; color: var(--foreground); line-height: 1.4;">' +
+              '<i class="fa-solid fa-circle-info"></i> ' + (isEn 
+                ? 'ReFashion process emits <strong>' + dpp.co2Emitted.toFixed(2) + ' kg CO₂</strong> during transport & refurbishment, saving <strong>' + dpp.co2Saved.toFixed(2) + ' kg CO₂</strong> (<strong>' + dpp.co2ReductionPct.toFixed(0) + '%</strong> reduction) compared to producing a new product of the same type.'
+                : 'Quy trình Refashion phát sinh <strong>' + dpp.co2Emitted.toFixed(2) + ' kg CO₂</strong> trong quá trình vận chuyển & làm mới, tiết kiệm <strong>' + dpp.co2Saved.toFixed(2) + ' kg CO₂</strong> (giảm <strong>' + dpp.co2ReductionPct.toFixed(0) + '%</strong>) so với sản xuất sản phẩm mới cùng loại.') +
+            '</div>' +
+
+            '<!-- Material Flow / Workshop Efficiency -->' +
+            '<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 16px;">' +
+              '<div class="dpp-material-card">' +
+                '<div class="dpp-material-pct">' + dpp.materialRecoveryRate + '%</div>' +
+                '<div class="dpp-material-lbl">' + (isEn ? 'Material recovery' : 'Thu hồi vật liệu') + '</div>' +
+              '</div>' +
+              '<div class="dpp-material-card">' +
+                '<div class="dpp-material-pct">' + dpp.scrapToOutput + '%</div>' +
+                '<div class="dpp-material-lbl">' + (isEn ? 'Scrap to output rate' : 'Tỷ lệ phế liệu') + '</div>' +
+              '</div>' +
+              '<div class="dpp-material-card">' +
+                '<div class="dpp-material-pct">' + dpp.wasteReductionRatio + '%</div>' +
+                '<div class="dpp-material-lbl">' + (isEn ? 'Waste reduction' : 'Giảm thiểu rác') + '</div>' +
+              '</div>' +
+            '</div>' +
+            
+            '<p style="font-size: 0.65rem; color: var(--text-muted); margin-top: 10px; line-height: 1.3; text-align: left;">' +
+              (isEn ? '* Calculations apply a 65% displacement rate based on standard LCA studies.' : '* Tính toán áp dụng hệ số thay thế 65% theo nghiên cứu LCA tiêu chuẩn.') +
+            '</p>' +
+          '</div>' +
+
+          '<!-- Material Origin Card -->' +
+          '<div class="dpp-passport-card">' +
+            renderDppBadges(isEn ? "SDG 12: Responsible Consumption" : "SDG 12: Tiêu dùng Trách nhiệm", isEn ? "ESG: Environmental - Material Stewardship" : "ESG: Môi trường - Quản trị Nguyên liệu") +
+            '<h4 class="card-section-title"><i class="fa-solid fa-circle-nodes" style="color:var(--primary)"></i> ' + (isEn ? 'Material Origin' : 'Nguồn Gốc Nguyên Vật Liệu') + '</h4>' +
+            '<div style="font-size: 0.78rem; line-height: 1.45; text-align: left; color: var(--foreground); background: rgba(91, 116, 83, 0.05); border: 1px solid rgba(91, 116, 83, 0.15); border-radius: 8px; padding: 12px; display: flex; align-items: flex-start; gap: 10px;">' +
+              '<i class="fa-solid fa-leaf" style="color:var(--primary); margin-top: 3px; font-size: 0.95rem;"></i>' +
+              '<div>' +
+                '<strong>' + (isEn ? 'Collection details:' : 'Chi tiết nguồn thu gom:') + '</strong><br>' +
+                dpp.materialOrigin +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+
+          '<!-- Material Composition -->' +
+          '<div class="dpp-passport-card">' +
+            renderDppBadges(isEn ? "SDG 12: Responsible Consumption" : "SDG 12: Tiêu dùng Trách nhiệm", isEn ? "ESG: Environmental - Material Origin" : "ESG: Môi trường - Nguồn gốc Nguyên liệu") +
+            '<h4 class="card-section-title"><i class="fa-solid fa-dna" style="color:var(--primary)"></i> ' + (isEn ? 'Material Composition' : 'Thành Phần Chất Liệu') + '</h4>' +
+            '<div class="dpp-material-grid">' +
+              '<div class="dpp-material-card">' +
+                '<div class="dpp-material-pct">' + dpp.materials[0].pct + '%</div>' +
+                '<div class="dpp-material-lbl">' + dpp.materials[0].name + '</div>' +
+              '</div>' +
+              '<div class="dpp-material-card">' +
+                '<div class="dpp-material-pct">' + dpp.materials[1].pct + '%</div>' +
+                '<div class="dpp-material-lbl">' + dpp.materials[1].name + '</div>' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+
+        '</div>' +
+
+        '<!-- Right Column: Process, QC, Social & Supply Chain -->' +
+        '<div class="dpp-passport-col">' +
+
+          '<!-- 3R Renew Journey -->' +
+          '<div class="dpp-passport-card">' +
+            renderDppBadges(isEn ? "SDG 12: Responsible Consumption" : "SDG 12: Tiêu dùng Trách nhiệm", isEn ? "ESG: Environmental - Circular Economy" : "ESG: Môi trường - Kinh tế Tuần hoàn") +
+            '<h4 class="card-section-title"><i class="fa-solid fa-recycle" style="color:var(--primary)"></i> ' + (isEn ? 'Refurbishment Journey (3R)' : 'Hành Trình Làm Mới (3R)') + '</h4>' +
+            '<div style="display: flex; flex-direction: column; gap: 10px; text-align: left; font-size: 0.78rem;">' +
+              '<div>' +
+                '<strong>' + (isEn ? '🔧 Repair:' : '🔧 Repair (Sửa chữa):') + '</strong> ' + dpp.journeyRepair +
+              '</div>' +
+              '<div>' +
+                '<strong>' + (isEn ? '✨ Refurbish:' : '✨ Refurbish (Làm mới):') + '</strong> ' + dpp.journeyRefurbish +
+              '</div>' +
+              '<div>' +
+                '<strong>' + (isEn ? '✂️ Remaking/Redesign:' : '✂️ Remaking/Redesign (Thiết kế lại):') + '</strong> ' + dpp.journeyRedesign +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+
+          '<!-- Supply Chain Provenance & Transit -->' +
+          '<div class="dpp-passport-card">' +
+            renderDppBadges(isEn ? "SDG 9: Industry & Infrastructure" : "SDG 9: Công nghiệp & Hạ tầng", isEn ? "ESG: Environmental - Scope 3 Transport" : "ESG: Môi trường - Vận tải Phạm vi 3") +
+            '<h4 class="card-section-title"><i class="fa-solid fa-map-location-dot" style="color:var(--primary)"></i> ' + (isEn ? 'Supply Chain & Transit Transparency' : 'Chuỗi Cung Ứng & Minh Bạch Vận Tải') + '</h4>' +
+            '<div style="font-size: 0.75rem; text-align: left; margin-bottom: 12px; color: var(--text-muted);">' +
+              '<i class="fa-solid fa-truck-fast"></i> ' + (isEn 
+                ? 'Total supply chain transport distance: <strong>' + dpp.transportDistance + ' km</strong>.'
+                : 'Tổng quãng đường vận chuyển chuỗi cung ứng: <strong>' + dpp.transportDistance + ' km</strong>.') +
+            '</div>' +
+            '<div class="dpp-timeline">' +
+              
+              '<!-- Tier 1 -->' +
+              '<div class="dpp-timeline-node active expanded" id="dpp-node-1">' +
+                '<div class="dpp-node-indicator"></div>' +
+                '<div class="dpp-node-summary" onclick="toggleDppNode(1)">' +
+                  '<div>' +
+                    '<span class="dpp-node-tier">' + (isEn ? 'Tier 1: Assembly & Distribution' : 'Tier 1: Hoàn thiện & Phân Phối') + '</span>' +
+                    '<div class="dpp-node-title">' + dpp.tier1Name + '</div>' +
+                  '</div>' +
+                  '<i class="fa-solid fa-chevron-right dpp-node-chevron"></i>' +
+                '</div>' +
+                '<div class="dpp-node-details">' +
+                  '<p style="margin-bottom:3px;"><strong>' + (isEn ? 'Location' : 'Địa điểm') + ':</strong> ' + dpp.tier1Loc + '</p>' +
+                  '<p style="margin-bottom:3px;"><strong>' + (isEn ? 'Certification' : 'Chứng nhận') + ':</strong> <span style="color:var(--primary)">' + dpp.tier1Cert + '</span></p>' +
+                  '<p>' + dpp.tier1Desc + '</p>' +
+                '</div>' +
+              '</div>' +
+
+              '<!-- Tier 2 -->' +
+              '<div class="dpp-timeline-node" id="dpp-node-2">' +
+                '<div class="dpp-node-indicator"></div>' +
+                '<div class="dpp-node-summary" onclick="toggleDppNode(2)">' +
+                  '<div>' +
+                    '<span class="dpp-node-tier">' + (isEn ? 'Tier 2: Upcycling Creative Studio' : 'Tier 2: Xưởng Tái Tạo Thiết Kế') + '</span>' +
+                    '<div class="dpp-node-title">' + dpp.tier2Name + '</div>' +
+                  '</div>' +
+                  '<i class="fa-solid fa-chevron-right dpp-node-chevron"></i>' +
+                '</div>' +
+                '<div class="dpp-node-details">' +
+                  '<p style="margin-bottom:3px;"><strong>' + (isEn ? 'Location' : 'Địa điểm') + ':</strong> ' + dpp.tier2Loc + '</p>' +
+                  '<p style="margin-bottom:3px;"><strong>' + (isEn ? 'Certification' : 'Chứng nhận') + ':</strong> <span style="color:var(--primary)">' + dpp.tier2Cert + '</span></p>' +
+                  '<p>' + dpp.tier2Desc + '</p>' +
+                '</div>' +
+              '</div>' +
+
+              '<!-- Tier 3 -->' +
+              '<div class="dpp-timeline-node" id="dpp-node-3">' +
+                '<div class="dpp-node-indicator"></div>' +
+                '<div class="dpp-node-summary" onclick="toggleDppNode(3)">' +
+                  '<div>' +
+                    '<span class="dpp-node-tier">' + (isEn ? 'Tier 3: Fiber Processing & Spin-Opening' : 'Tier 3: Trạm Xử Lý Vải Mộc') + '</span>' +
+                    '<div class="dpp-node-title">' + dpp.tier3Name + '</div>' +
+                  '</div>' +
+                  '<i class="fa-solid fa-chevron-right dpp-node-chevron"></i>' +
+                '</div>' +
+                '<div class="dpp-node-details">' +
+                  '<p style="margin-bottom:3px;"><strong>' + (isEn ? 'Location' : 'Địa điểm') + ':</strong> ' + dpp.tier3Loc + '</p>' +
+                  '<p style="margin-bottom:3px;"><strong>' + (isEn ? 'Certification' : 'Chứng nhận') + ':</strong> <span style="color:var(--primary)">' + dpp.tier3Cert + '</span></p>' +
+                  '<p>' + dpp.tier3Desc + '</p>' +
+                '</div>' +
+              '</div>' +
+
+              '<!-- Tier 4 -->' +
+              '<div class="dpp-timeline-node" id="dpp-node-4">' +
+                '<div class="dpp-node-indicator"></div>' +
+                '<div class="dpp-node-summary" onclick="toggleDppNode(4)">' +
+                  '<div>' +
+                    '<span class="dpp-node-tier">' + (isEn ? 'Tier 4: Material Sourcing & Collection' : 'Tier 4: Nguồn Vật Liệu Thu Gom') + '</span>' +
+                    '<div class="dpp-node-title">' + dpp.tier4Name + '</div>' +
+                  '</div>' +
+                  '<i class="fa-solid fa-chevron-right dpp-node-chevron"></i>' +
+                '</div>' +
+                '<div class="dpp-node-details">' +
+                  '<p style="margin-bottom:3px;"><strong>' + (isEn ? 'Location' : 'Địa điểm') + ':</strong> ' + dpp.tier4Loc + '</p>' +
+                  '<p style="margin-bottom:3px;"><strong>' + (isEn ? 'Certification' : 'Chứng nhận') + ':</strong> <span style="color:var(--primary)">' + dpp.tier4Cert + '</span></p>' +
+                  '<p>' + dpp.tier4Desc + '</p>' +
+                '</div>' +
+              '</div>' +
+
+            '</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+
+  document.body.appendChild(overlay);
+}
+
+function closeDppModal() {
+  var modal = document.getElementById('dpp-modal');
+  if (modal) {
+    modal.parentNode.removeChild(modal);
+  }
+}
+
+function toggleDppNode(nodeId) {
+  var node = document.getElementById('dpp-node-' + nodeId);
+  if (!node) return;
+
+  var isExpanded = node.classList.contains('expanded');
+  
+  // Collapse all other nodes
+  for (var i = 1; i <= 4; i++) {
+    var otherNode = document.getElementById('dpp-node-' + i);
+    if (otherNode) {
+      otherNode.classList.remove('expanded');
+      otherNode.classList.remove('active');
+    }
+  }
+
+  // Toggle clicked node
+  if (!isExpanded) {
+    node.classList.add('expanded');
+    node.classList.add('active');
+  }
+}
+
+function toggleXaiExplanation(productId, elementId) {
+  var el = document.getElementById(elementId);
+  if (!el) return;
+  if (el.style.display === 'none' || el.style.display === '') {
+    el.style.display = 'block';
+  } else {
+    el.style.display = 'none';
+  }
+}
+
+function getXaiExplanation(p) {
+  var name = p.name || "";
+  var store = p.store || "";
+  
+  if (name.indexOf("Áo Khoác") !== -1 || name.indexOf("Jacket") !== -1) {
+    return "Sản phẩm được gợi ý vì đây là chiếc áo khoác gió tuần hoàn tiêu biểu từ " + store + ", giúp tiết kiệm năng lượng và giảm thiểu carbon đáng kể. Nó bổ sung hoàn hảo cho bộ trang phục ngoài trời của bạn, đồng thời nâng đỡ lối sống bền vững.";
+  } else if (name.indexOf("Balo") !== -1 || name.indexOf("Túi") !== -1) {
+    return "Chúng tôi gợi ý balo này dựa trên khả năng lưu trữ tối ưu của nó cho các hoạt động thể thao dã ngoại. Chế tác từ bạt và dù cũ siêu bền bỉ, balo là biểu trưng của thiết kế thông minh kéo dài vòng đời vật liệu.";
+  } else if (name.indexOf("Áo Thun") !== -1 || name.indexOf("T-shirt") !== -1) {
+    return "Áo thun cotton unisex được đề xuất vì tính đa dụng cực cao trong tủ đồ tối giản. Với 100% sợi dệt tự nhiên tái sinh và cúc vỏ dừa mộc mạc, sản phẩm mang lại sự mát mẻ tự nhiên và an lành cho làn da.";
+  } else if (name.indexOf("Quần") !== -1 || name.indexOf("Pants") !== -1) {
+    return "Được gợi ý nhờ thiết kế form đứng kaki cổ điển dễ phối hợp. Quy trình tái chế chất lượng cao từ quần cũ không chỉ gìn giữ chất liệu thô mộc đặc trưng mà còn giảm thiểu lượng rác thải dệt may xả ra môi trường.";
+  } else if (name.indexOf("Giày") !== -1 || name.indexOf("Shoes") !== -1 || name.indexOf("Dép") !== -1) {
+    return "Đôi giày/sandal thân thiện này sử dụng cao su tái chế và sợi dứa Piñatex bền chắc. Phù hợp cho những ai yêu thích dịch chuyển nhẹ nhàng, êm chân và ủng hộ nền kinh tế tuần hoàn, bảo vệ môi trường.";
+  }
+  return "Sản phẩm được khuyên dùng dựa trên sự tương tương thích cao với xu hướng thời trang bền vững. Nguồn nguyên liệu thu hồi chất lượng cao và quy trình hoàn thiện lành nghề mang lại phom dáng hiện đại và lâu bền.";
+}
+
+// Make them available on window scope for inline onclick events
+window.showDppModal = showDppModal;
+window.closeDppModal = closeDppModal;
+window.toggleDppNode = toggleDppNode;
+window.toggleXaiExplanation = toggleXaiExplanation;
+window.getXaiExplanation = getXaiExplanation;
