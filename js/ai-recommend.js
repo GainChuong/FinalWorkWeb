@@ -61,64 +61,42 @@ var AI_REC_SYSTEM = {
 
   activateAI: async function() {
     var self = this;
-    console.log('[AI Rec] Silently initiating deep learning models in the background...');
+    console.log('[AI Rec] Loading Xenova/all-MiniLM-L6-v2 (CORS-safe)...');
 
-    // Dynamic import of transformers library
     var script = document.createElement('script');
     script.type = 'module';
-    script.innerHTML = 
-      'import { env, SiglipTextModel, AutoTokenizer } from "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.0.0-alpha.19/+esm";\n' +
-      'window.env = env;\n' +
-      'window.SiglipTextModel = SiglipTextModel;\n' +
-      'window.AutoTokenizer = AutoTokenizer;\n' +
+    script.innerHTML =
+      'import { pipeline, env } from "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3/+esm";\n' +
+      'env.allowLocalModels = false;\n' +
+      'env.allowRemoteModels = true;\n' +
+      'window._rfPipelineFactory = pipeline;\n' +
       'window.dispatchEvent(new CustomEvent("transformersLoaded"));';
-    
     document.head.appendChild(script);
 
     window.addEventListener('transformersLoaded', async function() {
-      const model_id = 'Marqo/marqo-fashionSigLIP';
-      
       try {
-        console.log('[AI Rec] Loading model directly from standard Hugging Face...');
-        window.env.allowLocalModels = false;
-        window.env.allowRemoteModels = true;
-        window.env.remoteHost = 'https://huggingface.co/';
-        
-        // Load Tokenizer
-        self.tokenizer = await window.AutoTokenizer.from_pretrained(model_id);
-        
-        // Load Model (explicitly specify q8 for smaller download size and faster WASM inference)
-        self.model = await window.SiglipTextModel.from_pretrained(model_id, { dtype: 'q8' });
-        
-        console.log('[AI Rec] Remote model loaded successfully from standard Hugging Face! 🚀');
+        self.extractor = await window._rfPipelineFactory(
+          'feature-extraction',
+          'Xenova/all-MiniLM-L6-v2',
+          { dtype: 'q8' }
+        );
+        console.log('[AI Rec] Xenova model loaded successfully! 🚀');
         await self.computeRecommendations();
-        
-      } catch (remoteErr) {
-        console.warn('[AI Rec] Standard Hugging Face failed (CORS/network), trying Hugging Face Mirror...', remoteErr);
-        
-        try {
-          window.env.remoteHost = 'https://hf-mirror.com/';
-          self.tokenizer = await window.AutoTokenizer.from_pretrained(model_id);
-          self.model = await window.SiglipTextModel.from_pretrained(model_id, { dtype: 'q8' });
-          
-          console.log('[AI Rec] Remote model loaded successfully from Hugging Face Mirror! 🚀');
-          await self.computeRecommendations();
-          
-        } catch (mirrorErr) {
-          console.error('[AI Rec] Failed to load from all remote sources, using local fallback engine:', mirrorErr);
-          self.computeLocalSimilarity();
-        }
+      } catch (err) {
+        console.error('[AI Rec] Xenova model failed, using local fallback:', err);
+        self.computeLocalSimilarity();
       }
     });
 
-    // Timeout fallback (8 seconds) if CDN hangs
+    // Timeout fallback (15s) if CDN hangs
     setTimeout(function() {
-      if (!self.model && !self.tokenizer) {
+      if (!self.extractor) {
         console.warn('[AI Rec] Loading timeout. Reverting to local NLP similarity engine.');
         self.computeLocalSimilarity();
       }
-    }, 8500);
+    }, 15000);
   },
+
 
   getProductRealAttributes: function(product) {
     var gender = 'unisex';
@@ -292,39 +270,33 @@ var AI_REC_SYSTEM = {
 
     var combinedQuery = refTexts.join(' ').toLowerCase();
 
-    if (self.model && self.tokenizer) {
+    if (self.extractor) {
       try {
-        console.log('[AI Rec] Computing similarities using Marqo-FashionSigLIP embeddings...');
-        
+        console.log('[AI Rec] Computing similarities using Xenova/all-MiniLM-L6-v2...');
+
         // 1. Get query embedding
-        const queryInputs = self.tokenizer([combinedQuery], { padding: 'max_length', truncation: true });
-        const queryOutputs = await self.model(queryInputs);
-        const queryEmbeds = queryOutputs.text_embeds || queryOutputs.pooler_output || queryOutputs[0];
-        const normQueryEmbed = queryEmbeds.normalize().tolist()[0];
+        var queryOut = await self.extractor(combinedQuery, { pooling: 'mean', normalize: true });
+        var normQueryEmbed = Array.from(queryOut.data);
 
         // 2. Score all catalog products
         var len = SHOP_PRODUCTS.length;
         for (var idx = 0; idx < len; idx++) {
           var p = SHOP_PRODUCTS[idx];
-          
-          var cacheKey = 'rf_embed_' + p.id;
+
+          var cacheKey = 'rf_emb2_' + p.id;
           var normProdEmbed = null;
           try {
             var cached = localStorage.getItem(cacheKey);
-            if (cached) {
-              normProdEmbed = JSON.parse(cached);
-            }
+            if (cached) normProdEmbed = JSON.parse(cached);
           } catch(e) {}
 
           if (!normProdEmbed) {
             var attrs = self.extractAttributes(p);
-            var text = p.name + ' ' + (p.description || p.category) + ' ' + 
-                       (attrs.fabric || '') + ' ' + (attrs.pattern || '') + ' ' + 
+            var text = p.name + ' ' + (p.description || p.category) + ' ' +
+                       (attrs.fabric || '') + ' ' + (attrs.pattern || '') + ' ' +
                        (attrs.sleeve || '') + ' ' + (attrs.neckline || '');
-            const prodInputs = self.tokenizer([text], { padding: 'max_length', truncation: true });
-            const prodOutputs = await self.model(prodInputs);
-            const prodEmbeds = prodOutputs.text_embeds || prodOutputs.pooler_output || prodOutputs[0];
-            normProdEmbed = prodEmbeds.normalize().tolist()[0];
+            var prodOut = await self.extractor(text, { pooling: 'mean', normalize: true });
+            normProdEmbed = Array.from(prodOut.data);
             try {
               localStorage.setItem(cacheKey, JSON.stringify(normProdEmbed));
             } catch(e) {}
@@ -334,11 +306,11 @@ var AI_REC_SYSTEM = {
           for (var d = 0; d < normQueryEmbed.length; d++) {
             dotProd += normQueryEmbed[d] * normProdEmbed[d];
           }
-          var score = Math.max(0, Math.min(99, Math.round((dotProd + 1) * 50)));
+          // MiniLM cosine similarity range [-1,1] → map to [30,99]
+          var score = Math.max(30, Math.min(99, Math.round((dotProd + 1) * 34.5)));
           self.similarities[p.id] = score;
         }
 
-        // Cache computed similarities in localStorage
         try {
           localStorage.setItem('refashion_ai_similarities', JSON.stringify(self.similarities));
         } catch(e) {}
@@ -361,6 +333,7 @@ var AI_REC_SYSTEM = {
       renderFeaturedProducts();
     }
   },
+
 
   // Fallback smart similarity scoring
   computeLocalSimilarity: function() {
