@@ -67,7 +67,9 @@ var AI_REC_SYSTEM = {
     var script = document.createElement('script');
     script.type = 'module';
     script.innerHTML = 
-      'import { SiglipTextModel, AutoTokenizer } from "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.0.0-alpha.19/+esm";\n' +
+      'import { env, SiglipTextModel, AutoTokenizer } from "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.0.0-alpha.19/+esm";\n' +
+      'env.allowLocalModels = false;\n' +
+      'env.remoteHost = "https://hf-mirror.com/";\n' +
       'window.SiglipTextModel = SiglipTextModel;\n' +
       'window.AutoTokenizer = AutoTokenizer;\n' +
       'window.dispatchEvent(new CustomEvent("transformersLoaded"));';
