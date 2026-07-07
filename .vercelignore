@@ -1,0 +1,11 @@
+# Ignore large datasets
+/datasets/Virtual_try_on/
+/datasets/Marqo/
+
+# Ignore local scripts and workspace environments
+/scratch/
+/.agent/
+/.git/
+/.idea/
+/.vscode/
+/node_modules/
