@@ -317,7 +317,10 @@ var AI_REC_SYSTEM = {
           } catch(e) {}
 
           if (!normProdEmbed) {
-            var text = p.name + ' ' + (p.description || p.category);
+            var attrs = self.extractAttributes(p);
+            var text = p.name + ' ' + (p.description || p.category) + ' ' + 
+                       (attrs.fabric || '') + ' ' + (attrs.pattern || '') + ' ' + 
+                       (attrs.sleeve || '') + ' ' + (attrs.neckline || '');
             const prodInputs = self.tokenizer([text], { padding: 'max_length', truncation: true });
             const prodOutputs = await self.model(prodInputs);
             const prodEmbeds = prodOutputs.text_embeds || prodOutputs.pooler_output || prodOutputs[0];
@@ -383,6 +386,7 @@ var AI_REC_SYSTEM = {
       var text = (p.name + ' ' + p.category + ' ' + (p.description || '')).toLowerCase();
       var score = 30;
 
+      // 1. Text token matching
       var matches = 0;
       for (var t = 0; t < queryTokens.length; t++) {
         if (text.indexOf(queryTokens[t]) !== -1) {
@@ -391,13 +395,46 @@ var AI_REC_SYSTEM = {
       }
       
       if (queryTokens.length > 0) {
-        score += Math.round((matches / queryTokens.length) * 55);
+        score += Math.round((matches / queryTokens.length) * 20); // up to 20 points
       }
       
+      // 2. Granular attributes & category weights
       var attrs = this.extractAttributes(p);
-      if (this.profile.categories[attrs.category]) {
-        score += 10;
+      
+      // Category weight
+      if (attrs.category && this.profile.categories[attrs.category]) {
+        score += Math.min(10, this.profile.categories[attrs.category] * 2);
       }
+      
+      // Fabric / style weight
+      if (attrs.style && this.profile.styles[attrs.style]) {
+        score += Math.min(15, this.profile.styles[attrs.style] * 3);
+      }
+      
+      // Pattern weight
+      if (attrs.pattern && this.profile.styles[attrs.pattern]) {
+        score += Math.min(15, this.profile.styles[attrs.pattern] * 3);
+      }
+      
+      // Sleeve weight
+      if (attrs.sleeve && this.profile.styles[attrs.sleeve]) {
+        score += Math.min(10, this.profile.styles[attrs.sleeve] * 2);
+      }
+      
+      // Neckline weight
+      if (attrs.neckline && this.profile.styles[attrs.neckline]) {
+        score += Math.min(10, this.profile.styles[attrs.neckline] * 2);
+      }
+
+      // Keyword weights
+      var keywordBoost = 0;
+      var nameDescText = (p.name + ' ' + (p.description || '')).toLowerCase();
+      for (var kw in this.profile.keywords) {
+        if (this.profile.keywords[kw] > 0 && nameDescText.indexOf(kw) !== -1) {
+          keywordBoost += this.profile.keywords[kw] * 1.5;
+        }
+      }
+      score += Math.min(20, Math.round(keywordBoost));
       
       this.similarities[p.id] = Math.min(99, score);
     }
