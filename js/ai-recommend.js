@@ -213,7 +213,12 @@ var AI_REC_SYSTEM = {
     }
 
     this.saveProfile();
-    this.computeRecommendations();
+    // SYNC: always update similarities immediately so they're saved before page navigation
+    this.computeLocalSimilarity();
+    // ASYNC: upgrade with neural model only if already loaded (avoids unfinished async before navigate)
+    if (this.extractor) {
+      this.computeRecommendations();
+    }
   },
 
   trackView: function(productId) {
