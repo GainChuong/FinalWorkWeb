@@ -3695,16 +3695,18 @@ function renderVtonModels() {
 }
 
 function renderVtonGarment() {
-  var list = document.getElementById('vton-garments-list');
-  if (!list) return;
   var src = vtonState.currentProductClothFile || '';
-  list.innerHTML = '<div class="vton-garment-thumb active">' +
-    '<img src="' + src + '" alt="' + vtonState.currentProductName + '" onerror="this.src=\'../images/store_logo.png\'" />' +
-    '<span>' + vtonState.currentProductName + '</span>' +
-    '</div>';
   // Update workspace garment panel
   var wsGarment = document.getElementById('vton-ws-garment-img');
   if (wsGarment) wsGarment.src = src;
+
+  var list = document.getElementById('vton-garments-list');
+  if (list) {
+    list.innerHTML = '<div class="vton-garment-thumb active">' +
+      '<img src="' + src + '" alt="' + vtonState.currentProductName + '" onerror="this.src=\'../images/store_logo.png\'" />' +
+      '<span>' + vtonState.currentProductName + '</span>' +
+      '</div>';
+  }
 }
 
 function selectVtonModel(modelId) {

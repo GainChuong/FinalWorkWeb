@@ -1,3 +1,14 @@
 {
-    "liveServer.settings.port": 5501
+  "liveServer.settings.port": 5501,
+  "liveServer.settings.ignoreFiles": [
+    "**/datasets/Virtual_try_on/**",
+    "**/.git/**",
+    "**/node_modules/**"
+  ],
+  "files.watcherExclude": {
+    "**/datasets/Virtual_try_on/**": true
+  },
+  "search.exclude": {
+    "**/datasets/Virtual_try_on/**": true
+  }
 }
