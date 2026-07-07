@@ -66,7 +66,7 @@ var AI_REC_SYSTEM = {
 
   activateAI: async function() {
     var self = this;
-    console.log('[AI Rec] Loading Xenova/all-MiniLM-L6-v2 (CORS-safe)...');
+    console.log('[AI Rec] Loading Marqo/marqo-fashionSigLIP...');
 
     // Run local similarity engine immediately to bootstrap sorting and prevent 15-second empty state
     self.computeLocalSimilarity();
@@ -74,35 +74,34 @@ var AI_REC_SYSTEM = {
     var script = document.createElement('script');
     script.type = 'module';
     script.innerHTML =
-      'import { pipeline, env } from "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3/+esm";\n' +
+      'import { SiglipTextModel, AutoTokenizer, env } from "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3/+esm";\n' +
       'env.allowLocalModels = false;\n' +
       'env.allowRemoteModels = true;\n' +
-      'window._rfPipelineFactory = pipeline;\n' +
+      'window._rfTokenizer = AutoTokenizer;\n' +
+      'window._rfTextModel = SiglipTextModel;\n' +
       'window.dispatchEvent(new CustomEvent("transformersLoaded"));';
     document.head.appendChild(script);
 
     window.addEventListener('transformersLoaded', async function() {
       try {
-        self.extractor = await window._rfPipelineFactory(
-          'feature-extraction',
-          'Xenova/all-MiniLM-L6-v2',
-          { dtype: 'q8' }
-        );
-        console.log('[AI Rec] Xenova model loaded successfully! 🚀');
+        console.log('[AI Rec] Initializing tokenizer & text model from Marqo/marqo-fashionSigLIP...');
+        self.tokenizer = await window._rfTokenizer.from_pretrained('Marqo/marqo-fashionSigLIP');
+        self.textModel = await window._rfTextModel.from_pretrained('Marqo/marqo-fashionSigLIP', { dtype: 'q8' });
+        console.log('[AI Rec] Marqo/marqo-fashionSigLIP loaded successfully! 🚀');
         await self.computeRecommendations();
       } catch (err) {
-        console.error('[AI Rec] Xenova model failed, using local fallback:', err);
+        console.error('[AI Rec] Marqo/marqo-fashionSigLIP failed, using local fallback:', err);
         self.computeLocalSimilarity();
       }
     });
 
-    // Timeout fallback (15s) if CDN hangs
+    // Timeout fallback (25s) if CDN hangs
     setTimeout(function() {
-      if (!self.extractor) {
+      if (!self.textModel) {
         console.warn('[AI Rec] Loading timeout. Reverting to local NLP similarity engine.');
         self.computeLocalSimilarity();
       }
-    }, 15000);
+    }, 25000);
   },
 
 
@@ -244,7 +243,7 @@ var AI_REC_SYSTEM = {
     // SYNC: always update similarities immediately so they're saved before page navigation
     this.computeLocalSimilarity();
     // ASYNC: upgrade with neural model only if already loaded (avoids unfinished async before navigate)
-    if (this.extractor) {
+    if (this.textModel) {
       this.computeRecommendations();
     }
   },
@@ -303,20 +302,21 @@ var AI_REC_SYSTEM = {
 
     var combinedQuery = refTexts.join(' ').toLowerCase();
 
-    if (self.extractor) {
+    if (self.textModel && self.tokenizer) {
       try {
-        console.log('[AI Rec] Computing similarities using Xenova/all-MiniLM-L6-v2...');
+        console.log('[AI Rec] Computing similarities using Marqo/marqo-fashionSigLIP...');
 
         // 1. Get query embedding
-        var queryOut = await self.extractor(combinedQuery, { pooling: 'mean', normalize: true });
-        var normQueryEmbed = Array.from(queryOut.data);
+        var queryInputs = self.tokenizer([combinedQuery], { padding: 'max_length', truncation: true });
+        var { text_embeds: queryEmbeds } = await self.textModel(queryInputs);
+        var normQueryEmbed = queryEmbeds.normalize().tolist()[0];
 
         // 2. Score all catalog products
         var len = SHOP_PRODUCTS.length;
         for (var idx = 0; idx < len; idx++) {
           var p = SHOP_PRODUCTS[idx];
 
-          var cacheKey = 'rf_emb2_' + p.id;
+          var cacheKey = 'rf_siglip_' + p.id;
           var normProdEmbed = null;
           try {
             var cached = localStorage.getItem(cacheKey);
@@ -328,8 +328,9 @@ var AI_REC_SYSTEM = {
             var text = p.name + ' ' + (p.description || p.category) + ' ' +
                        (attrs.fabric || '') + ' ' + (attrs.pattern || '') + ' ' +
                        (attrs.sleeve || '') + ' ' + (attrs.neckline || '');
-            var prodOut = await self.extractor(text, { pooling: 'mean', normalize: true });
-            normProdEmbed = Array.from(prodOut.data);
+            var prodInputs = self.tokenizer([text], { padding: 'max_length', truncation: true });
+            var { text_embeds: prodEmbeds } = await self.textModel(prodInputs);
+            normProdEmbed = prodEmbeds.normalize().tolist()[0];
             try {
               localStorage.setItem(cacheKey, JSON.stringify(normProdEmbed));
             } catch(e) {}
@@ -339,8 +340,8 @@ var AI_REC_SYSTEM = {
           for (var d = 0; d < normQueryEmbed.length; d++) {
             dotProd += normQueryEmbed[d] * normProdEmbed[d];
           }
-          // MiniLM cosine similarity range [-1,1] → map to [30,99]
-          var score = Math.max(30, Math.min(99, Math.round((dotProd + 1) * 34.5)));
+          // Siglip cosine similarity range [-1,1] → map to [30,99]
+          var score = Math.max(30, Math.min(99, Math.round(30 + (dotProd + 1) * 34.5)));
           self.similarities[p.id] = score;
         }
 
