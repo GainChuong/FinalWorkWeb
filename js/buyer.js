@@ -2,9 +2,16 @@ function renderFeaturedProducts(prefix) {
   prefix = prefix || '';
   var grid = document.getElementById('featured-products-grid');
   if (!grid) return;
+  
+  var list = SHOP_PRODUCTS.slice();
+  if (typeof AI_REC_SYSTEM !== 'undefined' && AI_REC_SYSTEM.hasPreferences() && AI_REC_SYSTEM.similarities) {
+    list.sort(function(a, b) { return (AI_REC_SYSTEM.similarities[b.id] || 0) - (AI_REC_SYSTEM.similarities[a.id] || 0); });
+  }
+  
+  var displayList = list.slice(0, 4);
   var html = '';
-  for (var i = 0; i < SHOP_PRODUCTS.length; i++) {
-    var p = SHOP_PRODUCTS[i];
+  for (var i = 0; i < displayList.length; i++) {
+    var p = displayList[i];
     var stars = Math.round(p.sentimentScore / 20);
     var starHtml = '';
     for (var s = 0; s < 5; s++) {
@@ -13,10 +20,14 @@ function renderFeaturedProducts(prefix) {
     var sale = i % 3 === 1;
     var saleBadge = sale ? '<span class="badge-sale">-20%</span>' : '';
     var salePrice = sale ? '<span style="text-decoration:line-through;color:var(--text-muted);font-size:0.9rem;margin-right:6px">' + Math.round(p.price * 1.25).toLocaleString('vi-VN') + 'đ</span>' : '';
+    var aiBadge = (typeof AI_REC_SYSTEM !== 'undefined' && AI_REC_SYSTEM.initialized && AI_REC_SYSTEM.similarities[p.id] > 60 ? '<span class="ai-match-badge"><i class="fa-solid fa-wand-magic-sparkles"></i> Gợi Ý Cho Bạn</span>' : '');
     html +=
-      '<div class="product-card">' +
+      '<div class="product-card" style="cursor:pointer" onclick="goToDetail(\'' + p.id + '\')">' +
         (sale ? '<span class="badge-sale-corner">Giảm 20%</span>' : '') +
-        '<div class="product-img-wrap"><img src="' + p.image + '" alt="' + p.name + '" onerror="this.onerror=null;this.src=\'' + (p.storeLogo || '../images/store_logo.png') + '\'" /></div>' +
+        '<div class="product-img-wrap">' +
+          '<img src="' + p.image + '" alt="' + p.name + '" onerror="this.onerror=null;this.src=\'' + (p.storeLogo || '../images/store_logo.png') + '\'" />' +
+          aiBadge +
+        '</div>' +
         '<div class="product-info">' +
           '<p class="product-category">' + p.store + '</p>' +
           '<h2 class="product-name" style="height:44px;overflow:hidden">' + p.name + '</h2>' +
@@ -29,7 +40,7 @@ function renderFeaturedProducts(prefix) {
             '<span class="product-rating-num">' + (p.sentimentScore / 20).toFixed(1) + '</span>' +
             '<span class="product-rating-count">(' + p.ratingCount + ' đánh giá)</span>' +
           '</div>' +
-          '<a href="/buyer/shop-detail.html?id=' + p.id + '" class="btn btn-primary" style="width:100%;border-radius:10px;margin-top:12px;display:flex;align-items:center;justify-content:center;gap:6px"><i class="fa-solid fa-bolt"></i> Mua Ngay</a>' +
+          '<a href="javascript:void(0)" class="btn btn-primary" style="width:100%;border-radius:10px;margin-top:12px;display:flex;align-items:center;justify-content:center;gap:6px" onclick="event.stopPropagation(); goToDetail(\'' + p.id + '\')"><i class="fa-solid fa-eye"></i> Xem Chi Tiết</a>' +
         '</div>' +
       '</div>';
   }
@@ -68,18 +79,36 @@ function initBuyerPage() {
 
 /* ==================== SHOP PAGE ==================== */
 
-var shopState = { selectedCategory: 'all', selectedStore: 'all', searchQuery: '', sortBy: 'default' };
+var shopState = { selectedCategory: 'all', selectedStore: 'all', searchQuery: '', sortBy: 'default', currentPage: 1, itemsPerPage: 12 };
+
+function saveShopState() {
+  try {
+    sessionStorage.setItem('refashion_shop_state', JSON.stringify(shopState));
+  } catch (e) {}
+}
 
 function initShopPage() {
   renderNavbar('navbar-container');
   renderFooter('footer-container');
 
+  // Restore previous filters and pagination index
+  try {
+    var saved = sessionStorage.getItem('refashion_shop_state');
+    if (saved) {
+      var parsed = JSON.parse(saved);
+      shopState.selectedCategory = parsed.selectedCategory || 'all';
+      shopState.selectedStore = parsed.selectedStore || 'all';
+      shopState.searchQuery = parsed.searchQuery || '';
+      shopState.sortBy = parsed.sortBy || 'default';
+      shopState.currentPage = parsed.currentPage || 1;
+    }
+  } catch (e) {}
+
   var params = new URLSearchParams(window.location.search);
   var storeParam = params.get('store');
   if (storeParam) {
     shopState.selectedStore = storeParam;
-  } else {
-    shopState.selectedStore = 'all';
+    saveShopState();
   }
 
   renderShopBanner();
@@ -176,6 +205,11 @@ function filterShopProducts() {
   }
   if (shopState.sortBy === 'price-asc') result.sort(function(a, b) { return a.price - b.price; });
   else if (shopState.sortBy === 'price-desc') result.sort(function(a, b) { return b.price - a.price; });
+  else if (shopState.sortBy === 'ai-rec' || (shopState.sortBy === 'default' && typeof AI_REC_SYSTEM !== 'undefined' && AI_REC_SYSTEM.hasPreferences())) {
+    if (typeof AI_REC_SYSTEM !== 'undefined' && AI_REC_SYSTEM.similarities) {
+      result.sort(function(a, b) { return (AI_REC_SYSTEM.similarities[b.id] || 0) - (AI_REC_SYSTEM.similarities[a.id] || 0); });
+    }
+  }
   return result;
 }
 
@@ -183,6 +217,27 @@ function renderShopProducts() {
   var grid = document.getElementById('shop-product-grid');
   var count = document.getElementById('shop-result-count');
   if (!grid) return;
+
+  // Render skeleton screen if AI recommendations are compiling and not ready yet
+  if (typeof AI_REC_SYSTEM !== 'undefined' && AI_REC_SYSTEM.hasPreferences() && !AI_REC_SYSTEM.ready) {
+    var skeletonHtml = '';
+    for (var k = 0; k < 12; k++) {
+      skeletonHtml += 
+        '<div class="skeleton-card">' +
+          '<div class="skeleton-img"></div>' +
+          '<div class="skeleton-info">' +
+            '<div class="skeleton-line title"></div>' +
+            '<div class="skeleton-line price"></div>' +
+            '<div class="skeleton-line rating"></div>' +
+            '<div class="skeleton-btn"></div>' +
+          '</div>' +
+        '</div>';
+    }
+    grid.innerHTML = skeletonHtml;
+    var pagDiv = document.getElementById('shop-pagination');
+    if (pagDiv) pagDiv.innerHTML = '';
+    return;
+  }
   var results = filterShopProducts();
   if (count) count.innerHTML = results.length.toString();
   if (results.length === 0) {
@@ -192,23 +247,36 @@ function renderShopProducts() {
         '<h3 style="font-size:1.25rem;font-weight:700;margin-bottom:0.5rem">Kh\u00f4ng t\u00ecm th\u1ea5y s\u1ea3n ph\u1ea9m n\u00e0o</h3>' +
         '<p style="color:var(--text-muted);font-size:0.95rem">H\u00e3y th\u1eed x\u00f3a b\u1edbt c\u00e1c b\u1ed9 l\u1ecdc \u0111\u1ec3 t\u00ecm ki\u1ebfm th\u00eam s\u1ea3n ph\u1ea9m th\u00e2n thi\u1ec7n v\u1edbi m\u00f4i tr\u01b0\u1eddng kh\u00e1c nh\u00e9.</p>' +
       '</div>';
+    var pagDiv = document.getElementById('shop-pagination');
+    if (pagDiv) pagDiv.innerHTML = '';
     return;
   }
+
+  // Calculate pages
+  var startIndex = (shopState.currentPage - 1) * shopState.itemsPerPage;
+  var endIndex = Math.min(startIndex + shopState.itemsPerPage, results.length);
+  var pageProducts = results.slice(startIndex, endIndex);
+
   var html = '';
-  for (var i = 0; i < results.length; i++) {
-    var p = results[i];
+  for (var i = 0; i < pageProducts.length; i++) {
+    var p = pageProducts[i];
     var stars = Math.round(p.sentimentScore / 20);
     var starHtml = '';
     for (var s = 0; s < 5; s++) {
       starHtml += s < stars ? '<i class="fa-solid fa-star" style="color:var(--accent);font-size:0.75rem"></i>' : '<i class="fa-regular fa-star" style="color:var(--accent);font-size:0.75rem"></i>';
     }
-    var sale = i % 3 === 1;
+    var sale = ((startIndex + i) % 3 === 1); // Maintain consistency with global index
     var saleBadge = sale ? '<span class="badge-sale">-20%</span>' : '';
     var salePrice = sale ? '<span style="text-decoration:line-through;color:var(--text-muted);font-size:0.9rem;margin-right:6px">' + Math.round(p.price * 1.25).toLocaleString('vi-VN') + 'đ</span>' : '';
+    var aiBadge = (typeof AI_REC_SYSTEM !== 'undefined' && AI_REC_SYSTEM.initialized && AI_REC_SYSTEM.similarities[p.id] > 60 ? '<span class="ai-match-badge"><i class="fa-solid fa-wand-magic-sparkles"></i> Gợi Ý Cho Bạn</span>' : '');
     html +=
-      '<div class="product-card">' +
+      '<div class="product-card" style="cursor:pointer" onclick="goToDetail(\'' + p.id + '\')">' +
         (sale ? '<span class="badge-sale-corner">Giảm 20%</span>' : '') +
-        '<div class="product-img-wrap"><img src="' + p.image + '" alt="' + p.name + '" onerror="this.onerror=null;this.src=\'' + (p.storeLogo || '../images/store_logo.png') + '\'" /></div>' +
+        '<div class="product-img-wrap">' +
+          '<img src="' + p.image + '" alt="' + p.name + '" onerror="this.onerror=null;this.src=\'' + (p.storeLogo || '../images/store_logo.png') + '\'" />' +
+          (p.clothFile ? '<span style="position:absolute;bottom:8px;left:8px;background:rgba(91,116,83,0.9);color:white;font-size:0.65rem;font-weight:700;padding:3px 8px;border-radius:20px;display:flex;align-items:center;gap:4px"><i class=\'fa-solid fa-wand-magic-sparkles\'></i>Thử Đồ AI</span>' : '') +
+          aiBadge +
+        '</div>' +
         '<div class="product-info" style="display:flex; flex-direction:column">' +
           '<p class="product-category">' + p.store + '</p>' +
           '<h2 class="product-name" style="height:44px;overflow:hidden">' + p.name + '</h2>' +
@@ -221,44 +289,115 @@ function renderShopProducts() {
             '<span class="product-rating-num">' + (p.sentimentScore / 20).toFixed(1) + '</span>' +
             '<span class="product-rating-count">(' + p.ratingCount + ' đánh giá)</span>' +
           '</div>' +
-          '<a href="/buyer/shop-detail.html?id=' + p.id + '" class="btn btn-primary" style="width:100%;border-radius:10px;margin-top:12px;display:flex;align-items:center;justify-content:center;gap:6px"><i class="fa-solid fa-bolt"></i> Mua Ngay</a>' +
-          '<button class="xai-btn-outline" onclick="toggleXaiExplanation(\'' + p.id + '\', \'xai-exp-' + p.id + '-' + i + '\')"><i class="fa-solid fa-wand-magic-sparkles"></i> Tại sao tôi thấy gợi ý này?</button>' +
+          '<a href="javascript:void(0)" class="btn btn-primary" style="width:100%;border-radius:10px;margin-top:12px;display:flex;align-items:center;justify-content:center;gap:6px" onclick="event.stopPropagation(); goToDetail(\'' + p.id + '\')"><i class="fa-solid fa-eye"></i> Xem Chi Tiết</a>' +
+          '<button class="xai-btn-outline" onclick="event.stopPropagation(); toggleXaiExplanation(\'' + p.id + '\', \'xai-exp-' + p.id + '-' + i + '\')"><i class="fa-solid fa-wand-magic-sparkles"></i> Tại sao tôi thấy gợi ý này?</button>' +
           '<div id="xai-exp-' + p.id + '-' + i + '" class="xai-explanation-content" style="display:none; margin-top: 10px;">' +
             '<div class="xai-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Stylist AI Gợi Ý:</div>' +
-            getXaiExplanation(p) +
+            '<div class="xai-explanation-text">' + getXaiExplanation(p) + '</div>' +
           '</div>' +
-          '<button class="dpp-btn-outline" onclick="showDppModal(\'' + p.id + '\')"><i class="fa-solid fa-passport"></i> Xem Hộ Chiếu Số DPP</button>' +
+          '<button class="dpp-btn-outline" onclick="event.stopPropagation(); showDppModal(\'' + p.id + '\')"><i class="fa-solid fa-passport"></i> Xem Hộ Chiếu Số DPP</button>' +
         '</div>' +
       '</div>';
   }
   grid.innerHTML = html;
+
+  renderShopPagination(results.length);
 }
+
+function renderShopPagination(totalItems) {
+  var paginationContainer = document.getElementById('shop-pagination');
+  if (!paginationContainer) return;
+
+  var totalPages = Math.ceil(totalItems / shopState.itemsPerPage);
+  if (totalPages <= 1) {
+    paginationContainer.innerHTML = '';
+    return;
+  }
+
+  var html = '';
+  // Back button
+  html += '<button class="pagination-btn" ' + (shopState.currentPage === 1 ? 'disabled' : '') + ' onclick="changeShopPage(' + (shopState.currentPage - 1) + ')"><i class="fa-solid fa-chevron-left"></i></button>';
+
+  for (var i = 1; i <= totalPages; i++) {
+    if (i === shopState.currentPage) {
+      html += '<button class="pagination-btn active">' + i + '</button>';
+    } else {
+      html += '<button class="pagination-btn" onclick="changeShopPage(' + i + ')">' + i + '</button>';
+    }
+  }
+
+  // Next button
+  html += '<button class="pagination-btn" ' + (shopState.currentPage === totalPages ? 'disabled' : '') + ' onclick="changeShopPage(' + (shopState.currentPage + 1) + ')"><i class="fa-solid fa-chevron-right"></i></button>';
+
+  paginationContainer.innerHTML = html;
+}
+
+window.changeShopPage = function(page) {
+  shopState.currentPage = page;
+  saveShopState();
+  renderShopProducts();
+  var shopSection = document.querySelector('.shop-section');
+  if (shopSection) {
+    shopSection.scrollIntoView({ behavior: 'smooth' });
+  }
+};
 
 function bindShopFilters() {
   var catRadios = document.querySelectorAll('input[name="category"]');
   for (var i = 0; i < catRadios.length; i++) {
+    // Set checked state matching restored category value
+    if (catRadios[i].value === shopState.selectedCategory) {
+      catRadios[i].checked = true;
+    }
     catRadios[i].addEventListener('change', function() {
-      if (this.checked) { shopState.selectedCategory = this.value; renderShopProducts(); }
+      if (this.checked) {
+        shopState.selectedCategory = this.value;
+        shopState.currentPage = 1;
+        saveShopState();
+        renderShopProducts();
+      }
     });
   }
   var searchInput = document.getElementById('filter-search');
   if (searchInput) {
-    searchInput.addEventListener('input', function() { shopState.searchQuery = this.value; renderShopProducts(); });
+    // Restore search input text
+    searchInput.value = shopState.searchQuery;
+    searchInput.addEventListener('input', function() {
+      shopState.searchQuery = this.value;
+      shopState.currentPage = 1;
+      saveShopState();
+      renderShopProducts();
+    });
     var clearBtn = document.getElementById('filter-search-clear');
     if (clearBtn) clearBtn.addEventListener('click', function() {
       shopState.searchQuery = '';
       searchInput.value = '';
+      shopState.currentPage = 1;
+      saveShopState();
       renderShopProducts();
     });
   }
   var sortSelect = document.getElementById('shop-sort');
-  if (sortSelect) sortSelect.addEventListener('change', function() { shopState.sortBy = this.value; renderShopProducts(); });
+  if (sortSelect) {
+    // Restore sort dropdown choice
+    sortSelect.value = shopState.sortBy;
+    sortSelect.addEventListener('change', function() {
+      shopState.sortBy = this.value;
+      shopState.currentPage = 1;
+      saveShopState();
+      renderShopProducts();
+    });
+  }
   var resetBtn = document.getElementById('filter-reset');
   if (resetBtn) resetBtn.addEventListener('click', function() {
     shopState.selectedCategory = 'all';
     shopState.selectedStore = 'all';
     shopState.searchQuery = '';
     shopState.sortBy = 'default';
+    shopState.currentPage = 1;
+    try {
+      sessionStorage.removeItem('refashion_shop_state');
+    } catch(e) {}
     if (window.history.pushState) {
       var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname;
       window.history.pushState({path:newurl}, '', newurl);
@@ -801,15 +940,148 @@ function syncSellerProductsToDB() {
 }
 syncSellerProductsToDB();
 
+function goToDetail(productId) {
+  try { sessionStorage.setItem('rf_detail_product_id', productId); } catch(e) {}
+  for (var _i = 0; _i < SHOP_PRODUCTS.length; _i++) {
+    if (String(SHOP_PRODUCTS[_i].id) === String(productId)) {
+      try { sessionStorage.setItem('rf_detail_product', JSON.stringify(SHOP_PRODUCTS[_i])); } catch(e) {}
+      break;
+    }
+  }
+  window.location.href = '/buyer/shop-detail.html?id=' + productId;
+}
+window.goToDetail = goToDetail;
+
 function initDetailPage() {
   var params = new URLSearchParams(window.location.search);
-  var id = params.get('id') || '1';
-  var product = PRODUCTS_DB[id] || PRODUCTS_DB['1'];
+  var id = params.get('id') || '';
+  try {
+    if (!id) {
+      id = sessionStorage.getItem('rf_detail_product_id') || '';
+    }
+  } catch(e) {}
+  
   renderNavbar('navbar-container');
   renderFooter('footer-container');
-  renderProductDetail(product);
-  initReviewSystem(product);
+
+  var container = document.getElementById('detail-content');
+
+
+  function buildAndRender(zalandoProd) {
+    var p = {
+      id: zalandoProd.id,
+      name: zalandoProd.name,
+      category: zalandoProd.category === 'upper' ? 'Áo' : zalandoProd.category === 'lower' ? 'Quần' : 'Đồ Bộ',
+      price: zalandoProd.priceStr,
+      priceNum: zalandoProd.price,
+      image: zalandoProd.image,
+      description: zalandoProd.description || '',
+      carbonFootprint: '1.5 kg CO₂e (Giảm 55% so với sản phẩm mới)',
+      waterSaved: '1.200 Lít nước sạch',
+      details: [
+        'Chế tác từ chất liệu tái chế chất lượng cao.',
+        'Quy trình upcycling giảm thiểu rác thải dệt may.',
+        'Thiết kế bền vững, kéo dài vòng đời sản phẩm.',
+        'Mang lại giá trị kinh tế tuần hoàn cho cộng đồng.'
+      ],
+      store: zalandoProd.store,
+      storeLogo: zalandoProd.storeLogo,
+      clothFile: zalandoProd.clothFile,
+      garmentType: zalandoProd.garmentType || zalandoProd.category,
+      variants: [
+        { size: 'S', color: 'Mặc định', price: zalandoProd.price, stock: 15 },
+        { size: 'M', color: 'Mặc định', price: zalandoProd.price, stock: 20 },
+        { size: 'L', color: 'Mặc định', price: zalandoProd.price, stock: 10 }
+      ]
+    };
+    renderProductDetail(p);
+    initReviewSystem(p);
+  }
+
+  function findInProducts(products) {
+    for (var i = 0; i < products.length; i++) {
+      if (String(products[i].id) === String(id)) return products[i];
+    }
+    return null;
+  }
+
+  function showLoading() {
+    if (container) {
+      container.innerHTML =
+        '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;gap:1.5rem">' +
+          '<i class="fa-solid fa-spinner fa-spin" style="font-size:2.5rem;color:var(--primary)"></i>' +
+          '<p style="color:var(--text-muted);font-size:1.05rem">Đang tải thông tin sản phẩm...</p>' +
+        '</div>';
+    }
+  }
+
+  function showStaticFallback() {
+    var product = PRODUCTS_DB[id] || PRODUCTS_DB['1'];
+    renderProductDetail(product);
+    initReviewSystem(product);
+  }
+
+  // Helper to check sessionStorage cached product as last-resort fallback
+  function checkSessionCache() {
+    try {
+      var cached = sessionStorage.getItem('rf_detail_product');
+      if (cached) {
+        var parsed = JSON.parse(cached);
+        if (parsed && (String(parsed.id) === String(id) || (!id && parsed.id))) {
+          // If id was empty, we recover it from session cache
+          id = parsed.id;
+          buildAndRender(parsed);
+          return true;
+        }
+      }
+    } catch(e) {
+      console.warn('[ReFashion] Failed to load from sessionStorage cache:', e);
+    }
+    return false;
+  }
+
+  // 1. If SHOP_PRODUCTS already populated (catalog loaded before us), use it immediately
+  if (SHOP_PRODUCTS.length > 0) {
+    var found = findInProducts(SHOP_PRODUCTS);
+    if (found) { buildAndRender(found); return; }
+    if (checkSessionCache()) return;
+    showStaticFallback();
+    return;
+  }
+
+  // 2. Catalog not yet loaded — show spinner, then fetch catalog ourselves
+  showLoading();
+
+  var catalogUrl = '/datasets/zalando-catalog.json';
+  fetch(catalogUrl)
+    .then(function(r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    })
+    .then(function(data) {
+      var items = data.products || [];
+      // Populate SHOP_PRODUCTS if still empty (help mainjs.js)
+      if (SHOP_PRODUCTS.length === 0) {
+        Array.prototype.push.apply(SHOP_PRODUCTS, items);
+      }
+      var found = findInProducts(items);
+      if (found) {
+        buildAndRender(found);
+      } else if (checkSessionCache()) {
+        // Recovered from cache
+      } else {
+        showStaticFallback();
+      }
+    })
+    .catch(function(err) {
+      console.warn('[ReFashion] Detail page catalog fetch failed:', err.message);
+      if (!checkSessionCache()) {
+        showStaticFallback();
+      }
+    });
 }
+
+
 
 function renderProductDetail(product) {
   var container = document.getElementById('detail-content');
@@ -876,14 +1148,86 @@ function renderProductDetail(product) {
                        '<a href="shop.html?store=' + encodeURIComponent(product.store || 'Eco Wear') + '" class="btn btn-outline" style="font-size: 0.7rem; padding: 5px 10px; border-radius: 8px; border-color: var(--primary); color: var(--primary); font-weight: 600;">Xem Cửa Hàng</a>' +
                      '</div>';
 
-  var priceNum = parseInt(product.price.replace(/[^0-9]/g, ''), 10);
+  var priceNum = product.priceNum || parseInt((product.price || '0').replace(/[^0-9]/g, ''), 10);
+
+  // Store product globally for safe VTON button access
+  window._currentDetailProduct = product;
+
+  // Get base URL by stripping suffix
+  var mainImgUrl = product.image;
+  var baseImgUrl = mainImgUrl;
+  var hasSuffix = false;
+  var suffixes = ['_1_front.jpg', '_2_side.jpg', '_3_back.jpg', '_4_full.jpg', '_7_additional.jpg'];
+  for (var sIdx = 0; sIdx < suffixes.length; sIdx++) {
+    if (mainImgUrl.indexOf(suffixes[sIdx]) !== -1) {
+      baseImgUrl = mainImgUrl.substring(0, mainImgUrl.indexOf(suffixes[sIdx]));
+      hasSuffix = true;
+      break;
+    }
+  }
+
+  var galleryHtml = '';
+  if (hasSuffix) {
+    galleryHtml = '<div class="detail-image-gallery">';
+    var possibleAngles = [
+      { suffix: '_1_front.jpg', label: 'Chính diện' },
+      { suffix: '_2_side.jpg', label: 'Góc nghiêng' },
+      { suffix: '_3_back.jpg', label: 'Phía sau' },
+      { suffix: '_4_full.jpg', label: 'Toàn thân' },
+      { suffix: '_7_additional.jpg', label: 'Góc khác' }
+    ];
+    for (var aIdx = 0; aIdx < possibleAngles.length; aIdx++) {
+      var angle = possibleAngles[aIdx];
+      var imgPath = baseImgUrl + angle.suffix;
+      var isActive = (imgPath === mainImgUrl);
+      var activeClass = isActive ? ' active' : '';
+      
+      galleryHtml += 
+        '<div class="gallery-thumb-wrapper' + activeClass + '" ' +
+             'onclick="window.changeDetailImage(this, \'' + imgPath + '\')">' +
+          '<img src="' + imgPath + '" onerror="var p=this.parentElement;if(p)p.style.display=\'none\';" />' +
+        '</div>';
+    }
+    galleryHtml += '</div>';
+  }
+
+  // Define dynamic changeDetailImage function if not already defined
+  if (!window.changeDetailImage) {
+    window.changeDetailImage = function(element, imgUrl) {
+      var mainImg = document.getElementById('main-detail-img');
+      if (mainImg) {
+        mainImg.src = imgUrl;
+      }
+      var wrappers = document.querySelectorAll('.gallery-thumb-wrapper');
+      for (var i = 0; i < wrappers.length; i++) {
+        wrappers[i].classList.remove('active');
+      }
+      element.classList.add('active');
+    };
+  }
+
+
+  // Image column: main image + angle gallery
+  var imageColHtml =
+    '<div class="detail-image" style="display:flex;flex-direction:column;gap:14px;border:none;box-shadow:none;background:transparent;aspect-ratio:auto;overflow:visible">' +
+      '<div style="position:relative;border-radius:20px;overflow:hidden;border:1px solid var(--border);box-shadow:0 10px 30px var(--shadow);background-color:var(--card);aspect-ratio:1/1.2">' +
+        '<img id="main-detail-img" src="' + product.image + '" alt="' + product.name + '" style="width:100%;height:100%;object-fit:cover" onerror="this.onerror=null;this.src=\'' + (product.storeLogo || '../images/store_logo.png') + '\'" />' +
+      '</div>' +
+      galleryHtml +
+    '</div>';
+
+
+  var vtonBtnHtml = product.clothFile
+    ? '<button class="btn btn-primary" id="btn-open-vton" style="margin-top:10px;width:100%;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,#3d6b4f,#3b7a57);font-size:1rem;padding:14px" onclick="openVtonStudio(window._currentDetailProduct)"><i class="fa-solid fa-wand-magic-sparkles"></i>' + ' Th\u1eed \u0110\u1ed3 AI \u2013 Virtual Try-On' + '</button>'
+    : '';
+
   container.innerHTML =
     '<div class="container">' +
       '<div class="detail-breadcrumb"><a href="index.html">Trang chủ</a> / <a href="shop.html">Cửa hàng</a> / <span style="color:var(--primary);font-weight:600">' + product.name + '</span></div>' +
       '<div class="detail-grid">' +
-        '<div class="detail-image"><img src="' + product.image + '" alt="' + product.name + '" onerror="this.onerror=null;this.src=\'' + (product.storeLogo || '../images/store_logo.png') + '\'" /></div>' +
+        imageColHtml +
         '<div class="detail-info">' +
-          '<div class="detail-badges"><span class="badge badge-accent" style="font-size:0.8rem">1% For Planet</span></div>' +
+          '<div class="detail-badges"><span class="badge badge-accent" style="font-size:0.8rem">1% For Planet</span>' + (product.clothFile ? '<span class="badge" style="background:rgba(91,116,83,0.1);color:var(--primary);border:1px solid var(--primary);font-size:0.72rem;margin-left:6px"><i class="fa-solid fa-wand-magic-sparkles"></i> H\u1ed7 tr\u1ee3 Th\u1eed \u0110\u1ed3 AI</span>' : '') + '</div>' +
           '<h1 class="detail-name">' + product.name + '</h1>' +
           '<p class="detail-price" style="font-size: 1.75rem; font-weight: 900; color: var(--accent); margin: 0.5rem 0;">' + product.price + '</p>' +
           '<p class="detail-desc">' + product.description + '</p>' +
@@ -904,11 +1248,12 @@ function renderProductDetail(product) {
             '<button class="btn btn-outline btn-add-cart" style="border-color:var(--primary);color:var(--primary); display: flex; align-items: center; justify-content: center; gap: 8px; border-radius: 12px;"><i class="fa-solid fa-bag-shopping"></i>Thêm vào Giỏ Hàng</button>' +
             '<button class="btn btn-primary btn-buy-now" style="display: flex; align-items: center; justify-content: center; gap: 8px; border-radius: 12px;"><i class="fa-solid fa-bolt"></i>Mua Ngay</button>' +
           '</div>' +
+          vtonBtnHtml +
           '<div style="margin-top: 15px; display: flex; flex-direction: column; gap: 10px; width: 100%;">' +
             '<button class="xai-btn-outline" onclick="toggleXaiExplanation(\'' + product.id + '\', \'detail-xai-exp\')"><i class="fa-solid fa-wand-magic-sparkles"></i> Tại sao tôi thấy gợi ý này?</button>' +
             '<div id="detail-xai-exp" class="xai-explanation-content" style="display:none;">' +
               '<div class="xai-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Stylist AI Gợi Ý:</div>' +
-              getXaiExplanation(product) +
+              '<div class="xai-explanation-text">' + getXaiExplanation(product) + '</div>' +
             '</div>' +
             '<button class="dpp-btn-outline" onclick="showDppModal(\'' + product.id + '\')"><i class="fa-solid fa-passport"></i> Xem Hộ Chiếu Số DPP</button>' +
           '</div>' +
@@ -1477,7 +1822,7 @@ function renderProfile() {
       for (var j = 0; j < o.items.length; j++) {
         var item = o.items[j];
         itemsHtml +=
-          '<div onclick="window.location.href=\'/buyer/shop-detail.html?id=' + item.id + '\'" style="cursor:pointer;display:flex;align-items:center;gap:0.75rem;background-color:var(--card);padding:0.6rem 1rem;border-radius:12px;border:1px solid var(--border);transition:all 0.25s ease;" onmouseover="this.style.borderColor=\'var(--primary)\';this.style.transform=\'translateY(-2px)\';" onmouseout="this.style.borderColor=\'var(--border)\';this.style.transform=\'none\';">' +
+          '<div onclick="goToDetail(\'' + item.id + '\')" style="cursor:pointer;display:flex;align-items:center;gap:0.75rem;background-color:var(--card);padding:0.6rem 1rem;border-radius:12px;border:1px solid var(--border);transition:all 0.25s ease;" onmouseover="this.style.borderColor=\'var(--primary)\';this.style.transform=\'translateY(-2px)\';" onmouseout="this.style.borderColor=\'var(--border)\';this.style.transform=\'none\';">' +
             '<img src="' + item.image + '" style="width:40px;height:40px;border-radius:8px;object-fit:cover" />' +
             '<div><p style="font-size:0.8rem;font-weight:600;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + item.name + '</p><p style="font-size:0.72rem;color:var(--text-muted)">x' + item.quantity + ' \u2022 ' + item.priceStr + '</p></div>' +
           '</div>';
@@ -1493,7 +1838,7 @@ function renderProfile() {
             '<div style="display:flex;align-items:center;gap:0.35rem;font-size:0.8rem;color:var(--sentiment-pos)"><i class="fa-solid fa-leaf"></i><span>+' + o.greenCoinEarned + ' GreenCoin \u0111\u01b0\u1ee3c c\u1ed9ng t\u1eeb \u0111\u01a1n h\u00e0ng n\u00e0y</span></div>' +
             '<div style="display:flex;gap:0.5rem">' +
               '<button class="btn btn-outline" onclick="window.location.href=\'/buyer/order-tracking.html?order=' + o.id + '\'" style="border-radius:8px;font-size:0.75rem;padding:6px 14px;height:auto;font-weight:700;border-color:var(--primary);color:var(--primary);cursor:pointer;transition:all 0.2s;" onmouseover="this.style.opacity=\'0.85\'" onmouseout="this.style.opacity=\'1\'"><i class="fa-solid fa-truck" style="margin-right:0.3rem"></i>Theo D\u00f5i</button>' +
-              '<button class="btn btn-primary" onclick="window.location.href=\'/buyer/shop-detail.html?id=' + firstItemId + '\'" style="border-radius:8px;font-size:0.75rem;padding:6px 14px;height:auto;font-weight:700;background-color:var(--accent);border-color:var(--accent);color:var(--foreground);cursor:pointer;transition:all 0.2s;" onmouseover="this.style.opacity=\'0.85\'" onmouseout="this.style.opacity=\'1\'">Mua L\u1ea1i</button>' +
+              '<button class="btn btn-primary" onclick="goToDetail(\'' + firstItemId + '\')" style="border-radius:8px;font-size:0.75rem;padding:6px 14px;height:auto;font-weight:700;background-color:var(--accent);border-color:var(--accent);color:var(--foreground);cursor:pointer;transition:all 0.2s;" onmouseover="this.style.opacity=\'0.85\'" onmouseout="this.style.opacity=\'1\'">Mua L\u1ea1i</button>' +
             '</div>' +
           '</div>' +
         '</div>';
@@ -1530,12 +1875,26 @@ function renderProfile() {
         '<a href="community.html" class="btn btn-accent" style="border-radius:12px">Quy\u00ean G\u00f3p Ngay</a>' +
       '</div>';
   }
+  var genderStr = user.gender === 'men' ? 'Nam' : user.gender === 'women' ? 'Nữ' : 'Chưa cập nhật';
+  var birthYearStr = user.birthYear || 'Chưa cập nhật';
+  var addressStr = user.address || 'Chưa cập nhật';
+
   container.innerHTML =
     '<div class="profile-hero">' +
       '<div class="profile-hero-bg"><i class="fa-solid fa-leaf"></i></div>' +
       '<div class="profile-hero-content">' +
         '<div class="profile-avatar">' + user.username.charAt(0).toUpperCase() + '</div>' +
-        '<div class="profile-info"><h1>' + user.username + '</h1><div class="profile-meta"><span><i class="fa-solid fa-envelope" style="margin-right:0.4rem"></i>' + user.email + '</span><span><i class="fa-solid fa-phone" style="margin-right:0.4rem"></i>' + (user.phone || 'Ch\u01b0a c\u1eadp nh\u1eadt') + '</span><span><i class="fa-solid fa-calendar" style="margin-right:0.4rem"></i>Tham gia: ' + user.joinDate + '</span></div></div>' +
+        '<div class="profile-info">' +
+          '<h1>' + user.username + '</h1>' +
+          '<div class="profile-meta" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:0.5rem; margin-top:0.5rem;">' +
+            '<span><i class="fa-solid fa-envelope" style="width:16px;margin-right:0.4rem;color:var(--primary)"></i>Email: ' + user.email + '</span>' +
+            '<span><i class="fa-solid fa-phone" style="width:16px;margin-right:0.4rem;color:var(--primary)"></i>SĐT: ' + (user.phone || 'Chưa cập nhật') + '</span>' +
+            '<span><i class="fa-solid fa-venus-mars" style="width:16px;margin-right:0.4rem;color:var(--primary)"></i>Giới tính: ' + genderStr + '</span>' +
+            '<span><i class="fa-solid fa-calendar-days" style="width:16px;margin-right:0.4rem;color:var(--primary)"></i>Năm sinh: ' + birthYearStr + '</span>' +
+            '<span><i class="fa-solid fa-location-dot" style="width:16px;margin-right:0.4rem;color:var(--primary)"></i>Địa chỉ: ' + addressStr + '</span>' +
+            '<span><i class="fa-solid fa-calendar" style="width:16px;margin-right:0.4rem;color:var(--primary)"></i>Tham gia: ' + user.joinDate + '</span>' +
+          '</div>' +
+        '</div>' +
         '<div class="greencoin-badge"><p style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;font-weight:600;margin-bottom:0.35rem;color:var(--accent)">GreenCoin</p><p style="font-size:2.5rem;font-weight:900;display:flex;align-items:center;gap:0.5rem">' + (user.greenCoin || 0) + ' <i class="fa-solid fa-leaf" style="font-size:1.75rem;color:var(--accent)"></i></p></div>' +
       '</div>' +
     '</div>' +
@@ -3158,6 +3517,33 @@ function toggleXaiExplanation(productId, elementId) {
   if (!el) return;
   if (el.style.display === 'none' || el.style.display === '') {
     el.style.display = 'block';
+    
+    // If advanced AI_REC_SYSTEM is available, trigger Shapley XAI calculation dynamically
+    if (typeof AI_REC_SYSTEM !== 'undefined' && AI_REC_SYSTEM.initialized) {
+      var contentEl = el.querySelector('.xai-explanation-text');
+      if (contentEl && !contentEl.getAttribute('data-loaded')) {
+        contentEl.innerHTML = '<span style="color:var(--text-muted);font-size:0.8rem;"><i class="fa-solid fa-circle-notch fa-spin"></i> Đang phân tích giá trị đóng góp Shapley XAI...</span>';
+        
+        var product = null;
+        for (var i = 0; i < SHOP_PRODUCTS.length; i++) {
+          if (String(SHOP_PRODUCTS[i].id) === String(productId)) {
+            product = SHOP_PRODUCTS[i];
+            break;
+          }
+        }
+        if (product) {
+          AI_REC_SYSTEM.explainProduct(product).then(function(nlgText) {
+            contentEl.innerHTML = nlgText;
+            if (nlgText && nlgText.indexOf('khởi tạo') === -1 && nlgText.indexOf('đang tải') === -1) {
+              contentEl.setAttribute('data-loaded', 'true');
+            }
+          }).catch(function(err) {
+            console.error('[XAI] Failed to calculate Shapley explanation:', err);
+            contentEl.innerHTML = getXaiExplanation(product);
+          });
+        }
+      }
+    }
   } else {
     el.style.display = 'none';
   }
@@ -3187,3 +3573,403 @@ window.closeDppModal = closeDppModal;
 window.toggleDppNode = toggleDppNode;
 window.toggleXaiExplanation = toggleXaiExplanation;
 window.getXaiExplanation = getXaiExplanation;
+
+/* ==================== VTON STUDIO ==================== */
+
+var vtonState = {
+  selectedModelId: null,
+  userUploadedImage: null,
+  selectedGarmentId: null,
+  currentProductClothFile: null,
+  currentProductGarmentType: 'upper',
+  currentProductName: '',
+  currentProductPrice: 0,
+  currentProductPriceStr: '',
+  currentProductImage: '',
+  resultImageUrl: null,
+  simulateMode: true
+};
+
+var VTON_PRESET_MODELS = [
+  { id: 'model_m1', file: 'MEN-Denim-id_00000080-01_7_additional.jpg', name: 'Nam da trắng', gender: 'male',
+    url: '/datasets/Virtual_try_on/images/images/MEN-Denim-id_00000080-01_7_additional.jpg' },
+  { id: 'model_m2', file: 'MEN-Denim-id_00000089-02_7_additional.jpg', name: 'Nam 2', gender: 'male',
+    url: '/datasets/Virtual_try_on/images/images/MEN-Denim-id_00000089-02_7_additional.jpg' },
+  { id: 'model_m3', file: 'MEN-Denim-id_00000089-26_7_additional.jpg', name: 'Nam 3', gender: 'male',
+    url: '/datasets/Virtual_try_on/images/images/MEN-Denim-id_00000089-26_7_additional.jpg' },
+  { id: 'model_m4', file: 'MEN-Denim-id_00000182-01_7_additional.jpg', name: 'Nam 4', gender: 'male',
+    url: '/datasets/Virtual_try_on/images/images/MEN-Denim-id_00000182-01_7_additional.jpg' },
+  { id: 'model_f1', file: 'WOMEN-Blouses_Shirts-id_00000183-01_1_front.jpg', name: 'Nữ 1', gender: 'female',
+    url: '/datasets/Virtual_try_on/images/images/WOMEN-Blouses_Shirts-id_00000183-01_1_front.jpg' },
+  { id: 'model_f2', file: 'WOMEN-Blouses_Shirts-id_00000001-02_1_front.jpg', name: 'Nữ 2', gender: 'female',
+    url: '/datasets/Virtual_try_on/images/images/WOMEN-Blouses_Shirts-id_00000001-02_1_front.jpg' },
+  { id: 'model_f3', file: 'WOMEN-Sweaters-id_00005890-05_1_front.jpg', name: 'Nữ 3', gender: 'female',
+    url: '/datasets/Virtual_try_on/images/images/WOMEN-Sweaters-id_00005890-05_1_front.jpg' }
+];
+
+function getActiveModelImageUrl() {
+  if (vtonState.userUploadedImage) return vtonState.userUploadedImage;
+  var m = VTON_PRESET_MODELS.find(function(x) { return x.id === vtonState.selectedModelId; });
+  return m ? m.url : VTON_PRESET_MODELS[0].url;
+}
+
+function getGarmentImageUrl() {
+  return vtonState.currentProductClothFile || '';
+}
+
+function getGarmentType() {
+  var t = (vtonState.currentProductGarmentType || 'upper').toLowerCase();
+  if (t === 'lower') return 'lower';
+  if (t === 'overall') return 'overall';
+  return 'upper';
+}
+
+function openVtonStudio(product) {
+  if (!product || !product.clothFile) { showToast('Sản phẩm này chưa hỗ trợ thử đồ AI.'); return; }
+  vtonState.currentProductClothFile = product.clothFile;
+  vtonState.currentProductGarmentType = product.garmentType || product.category || 'upper';
+  vtonState.currentProductName = product.name || '';
+  vtonState.currentProductPrice = product.price || 0;
+  vtonState.currentProductPriceStr = product.priceStr || product.price || '';
+  vtonState.currentProductImage = product.image || '';
+  vtonState.resultImageUrl = null;
+
+  var modal = document.getElementById('vton-modal');
+  if (modal) modal.classList.add('show');
+
+  renderVtonModels();
+  renderVtonGarment();
+  resetVtonResult();
+
+  // Auto-select first model
+  if (!vtonState.selectedModelId) {
+    selectVtonModel(VTON_PRESET_MODELS[0].id);
+  } else {
+    selectVtonModel(vtonState.selectedModelId);
+  }
+
+  // Load Hugging Face token from local .env if available
+  loadHfTokenFromEnv();
+}
+
+function closeVtonStudio() {
+  var modal = document.getElementById('vton-modal');
+  if (modal) modal.classList.remove('show');
+}
+
+async function loadHfTokenFromEnv() {
+  try {
+    var response = await fetch('/.env');
+    if (!response.ok) return;
+    var text = await response.text();
+    var match = text.match(/HF_TOKEN\s*=\s*([^\r\n]+)/);
+    if (match && match[1]) {
+      var token = match[1].trim();
+      var input = document.getElementById('vton-api-token');
+      if (input) {
+        input.value = token;
+      }
+      // If we got a valid token, automatically disable simulation mode
+      var simCheck = document.getElementById('vton-simulate-check');
+      if (simCheck) {
+        simCheck.checked = false;
+        vtonState.simulateMode = false;
+      }
+    }
+  } catch (e) {
+    console.warn('Failed to load token from .env:', e);
+  }
+}
+
+function renderVtonModels() {
+  var list = document.getElementById('vton-models-list');
+  if (!list) return;
+  var html = '';
+  VTON_PRESET_MODELS.forEach(function(m) {
+    var active = m.id === vtonState.selectedModelId ? ' active' : '';
+    html += '<div class="vton-model-card' + active + '" onclick="selectVtonModel(\'' + m.id + '\')" title="' + m.name + '">' +
+              '<img class="vton-model-thumb" src="' + m.url + '" alt="' + m.name + '" onerror="this.onerror=null;this.src=\'../images/store_logo.png\'" />' +
+            '</div>';
+  });
+  list.innerHTML = html;
+}
+
+function renderVtonGarment() {
+  var list = document.getElementById('vton-garments-list');
+  if (!list) return;
+  var src = vtonState.currentProductClothFile || '';
+  list.innerHTML = '<div class="vton-garment-thumb active">' +
+    '<img src="' + src + '" alt="' + vtonState.currentProductName + '" onerror="this.src=\'../images/store_logo.png\'" />' +
+    '<span>' + vtonState.currentProductName + '</span>' +
+    '</div>';
+  // Update workspace garment panel
+  var wsGarment = document.getElementById('vton-ws-garment-img');
+  if (wsGarment) wsGarment.src = src;
+}
+
+function selectVtonModel(modelId) {
+  vtonState.selectedModelId = modelId;
+  vtonState.userUploadedImage = null;
+  renderVtonModels();
+  var wsModel = document.getElementById('vton-ws-model-img');
+  if (wsModel) wsModel.src = getActiveModelImageUrl();
+}
+
+function handleVtonUserUpload(event) {
+  var file = event.target.files[0];
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    vtonState.userUploadedImage = e.target.result;
+    vtonState.selectedModelId = null;
+    renderVtonModels();
+    var wsModel = document.getElementById('vton-ws-model-img');
+    if (wsModel) wsModel.src = e.target.result;
+    showToast('✅ Đã tải ảnh của bạn!');
+  };
+  reader.readAsDataURL(file);
+}
+
+function toggleSimulateMode(checkbox) {
+  vtonState.simulateMode = checkbox ? checkbox.checked : true;
+}
+
+function resetVtonResult() {
+  setVtonState('empty');
+  vtonState.resultImageUrl = null;
+}
+
+function setVtonState(state) {
+  var empty = document.getElementById('vton-state-empty');
+  var loading = document.getElementById('vton-state-loading');
+  var success = document.getElementById('vton-state-success');
+  if (empty) empty.style.display = state === 'empty' ? '' : 'none';
+  if (loading) loading.style.display = state === 'loading' ? '' : 'none';
+  if (success) success.style.display = state === 'success' ? '' : 'none';
+}
+
+function logVton(msg) {
+  // console logging removed for end-user clarity
+}
+
+
+function setVtonProgress(pct, text) {
+  var fill = document.getElementById('vton-progress-fill');
+  var label = document.getElementById('vton-progress-text');
+  if (fill) fill.style.width = pct + '%';
+  if (label) label.textContent = text || pct + '%';
+}
+
+function startVtonInference() {
+  var modelUrl = getActiveModelImageUrl();
+  var garmentUrl = getGarmentImageUrl();
+  if (!modelUrl) { showToast('Vui lòng chọn người mẫu!'); return; }
+  if (!garmentUrl) { showToast('Không tìm thấy ảnh trang phục.'); return; }
+
+  setVtonState('loading');
+  setVtonProgress(0, '0%');
+  runRealVtonAPI(modelUrl, garmentUrl);
+}
+
+function runSimulationMode(modelUrl, garmentUrl) {
+  logVton('Khởi động Simulation Engine...');
+  setVtonProgress(10, '10%');
+  setTimeout(function() { logVton('Phân tích hình dáng người mẫu...'); setVtonProgress(30, '30%'); }, 400);
+  setTimeout(function() { logVton('Ánh xạ điểm trang phục lên cơ thể...'); setVtonProgress(55, '55%'); }, 900);
+  setTimeout(function() { logVton('Tổng hợp kết quả hình ảnh...'); setVtonProgress(80, '80%'); }, 1500);
+  setTimeout(function() {
+    logVton('Hoàn tất! Đang hiển thị kết quả...');
+    setVtonProgress(100, '100%');
+    // Simulate overlay: show garment on model using CSS blending/actual product image
+    showVtonSuccess(modelUrl, vtonState.currentProductImage || garmentUrl);
+  }, 2200);
+}
+
+async function runRealVtonAPI(modelUrl, garmentUrl) {
+  logVton('Đang kết nối với Hugging Face Space (IDM-VTON)...');
+  setVtonProgress(5, '5%');
+  try {
+    var hfToken = '';
+    if (typeof AI_REC_SYSTEM !== 'undefined' && AI_REC_SYSTEM.hfToken) {
+      hfToken = AI_REC_SYSTEM.hfToken;
+    } else {
+      try {
+        var res = await fetch('/.env');
+        var text = await res.text();
+        var match = text.match(/HF_TOKEN\s*=\s*([^\s]+)/);
+        if (match && match[1]) {
+          hfToken = match[1].trim();
+        }
+      } catch(e) {}
+    }
+    var hfSpace = 'Gain1109/IDM-VTON';
+
+    logVton('Đang tải module Gradio Client...');
+    var { client, upload_files } = await import('https://cdn.jsdelivr.net/npm/@gradio/client@0.15.1/+esm');
+
+    logVton('Đang kết nối tới Space: ' + hfSpace);
+    setVtonProgress(15, '15%');
+    var connectOpts = hfToken ? { hf_token: hfToken } : {};
+    var clientInstance = await client(hfSpace, connectOpts);
+
+    logVton('Đang tải và chuẩn bị ảnh...');
+    setVtonProgress(30, '30%');
+    var modelBlob = await getBlobFromUrl(modelUrl);
+    var garmentBlob = await getBlobFromUrl(garmentUrl);
+
+    // Convert Blobs to Files so they have filenames and extensions for the Python backend
+    var modelFile = new File([modelBlob], 'model.jpg', { type: modelBlob.type || 'image/jpeg' });
+    var garmentFile = new File([garmentBlob], 'garment.jpg', { type: garmentBlob.type || 'image/jpeg' });
+
+    logVton('Đang tải ảnh model và trang phục lên Gradio server...');
+    setVtonProgress(40, '40%');
+    var uploadResult = await upload_files(clientInstance.config.root, [modelFile, garmentFile], hfToken);
+    if (!uploadResult || !uploadResult.files || uploadResult.files.length < 2) {
+      throw new Error('Tải ảnh lên Gradio server thất bại');
+    }
+    var modelUploadedPath = uploadResult.files[0];
+    var garmentUploadedPath = uploadResult.files[1];
+
+    logVton('Đang gửi yêu cầu inference...');
+    setVtonProgress(60, '60%');
+
+    var result = await clientInstance.predict('/tryon', [
+      { background: { path: modelUploadedPath, orig_name: 'model.jpg' }, layers: [], composite: null },
+      { path: garmentUploadedPath, orig_name: 'garment.jpg' },
+      vtonState.currentProductName || 'sustainable fashion item',
+      true,
+      false,
+      30,
+      42
+    ]);
+
+    logVton('Nhận kết quả từ API...');
+    setVtonProgress(90, '90%');
+
+    var resultData = result && result.data;
+    var resultImg = null;
+    if (resultData && resultData[0]) {
+      if (typeof resultData[0] === 'string') {
+        resultImg = resultData[0];
+      } else if (resultData[0] && resultData[0].url) {
+        resultImg = resultData[0].url;
+      }
+    }
+
+    if (!resultImg) throw new Error('API không trả về ảnh kết quả');
+
+    setVtonProgress(100, '100%');
+    logVton('Hoàn tất thử đồ AI!');
+    showVtonSuccess(modelUrl, resultImg);
+
+  } catch (err) {
+    logVton('Lỗi: ' + (err.message || String(err)));
+    setVtonProgress(0, '0%');
+    showToast('❌ Lỗi API: ' + (err.message || 'Không kết nối được').substring(0, 80));
+    setVtonState('empty');
+  }
+}
+
+async function getBlobFromUrl(url) {
+  if (url.startsWith('data:')) {
+    var parts = url.split(',');
+    var mime = parts[0].split(':')[1].split(';')[0];
+    var bytes = Uint8Array.from(atob(parts[1]), function(c) { return c.charCodeAt(0); });
+    return new Blob([bytes], { type: mime });
+  }
+  var response = await fetch(url);
+  return response.blob();
+}
+
+function showVtonSuccess(beforeUrl, afterUrl) {
+  vtonState.resultImageUrl = afterUrl;
+  var beforeImg = document.getElementById('vton-result-before-img');
+  var afterImg = document.getElementById('vton-result-after-img');
+  if (beforeImg) beforeImg.src = beforeUrl;
+  if (afterImg) afterImg.src = afterUrl;
+  setVtonState('success');
+  initCompareSlider();
+}
+
+function initCompareSlider() {
+  var container = document.querySelector('.compare-slider-container');
+  var slider = document.getElementById('vton-compare-slider-bar');
+  var afterDiv = document.querySelector('.compare-image-after');
+  if (!container || !slider || !afterDiv) return;
+
+  // Make sure the after container takes full width so clip-path works across the entire width
+  afterDiv.style.width = '100%';
+  slider.style.left = '50%';
+  afterDiv.style.clipPath = 'inset(0 50% 0 0)';
+
+  var dragging = false;
+
+  function startDrag(e) {
+    dragging = true;
+    if (e.cancelable) e.preventDefault();
+  }
+
+  function stopDrag() {
+    dragging = false;
+  }
+
+  function drag(e) {
+    if (!dragging) return;
+    var rect = container.getBoundingClientRect();
+    var clientX = e.clientX;
+    
+    // Support touch events
+    if (e.touches && e.touches[0]) {
+      clientX = e.touches[0].clientX;
+    }
+    
+    var x = Math.max(0, Math.min(clientX - rect.left, rect.width));
+    var pct = (x / rect.width) * 100;
+    slider.style.left = pct + '%';
+    afterDiv.style.clipPath = 'inset(0 ' + (100 - pct) + '% 0 0)';
+  }
+
+  // Mouse events
+  slider.addEventListener('mousedown', startDrag);
+  document.addEventListener('mouseup', stopDrag);
+  document.addEventListener('mousemove', drag);
+
+  // Touch events
+  slider.addEventListener('touchstart', startDrag, { passive: false });
+  document.addEventListener('touchend', stopDrag);
+  document.addEventListener('touchmove', drag, { passive: false });
+}
+
+function downloadVtonResult() {
+  if (!vtonState.resultImageUrl) { showToast('Chưa có ảnh kết quả để lưu.'); return; }
+  var a = document.createElement('a');
+  a.href = vtonState.resultImageUrl;
+  a.download = 'refashion-tryon-result.jpg';
+  a.click();
+}
+
+function addVtonProductToCart() {
+  var user = RefashionAuth._getUser();
+  if (!user) { showToast('Vui lòng đăng nhập để thêm vào giỏ!'); return; }
+  RefashionAuth.addToCart({
+    productId: 'z_' + Date.now(),
+    name: vtonState.currentProductName,
+    price: vtonState.currentProductPrice,
+    priceStr: vtonState.currentProductPriceStr,
+    image: vtonState.currentProductImage,
+    variant: 'M - Mặc định'
+  });
+  showToast('🛍️ Đã thêm "' + vtonState.currentProductName + '" vào giỏ hàng!');
+  closeVtonStudio();
+}
+
+// Expose VTON functions globally
+window.openVtonStudio = openVtonStudio;
+window.closeVtonStudio = closeVtonStudio;
+window.selectVtonModel = selectVtonModel;
+window.handleVtonUserUpload = handleVtonUserUpload;
+window.toggleSimulateMode = toggleSimulateMode;
+window.startVtonInference = startVtonInference;
+window.downloadVtonResult = downloadVtonResult;
+window.addVtonProductToCart = addVtonProductToCart;
+

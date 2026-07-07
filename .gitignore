@@ -44,3 +44,7 @@ next-env.d.ts
 .agent/
 .idea/
 .venv/
+
+# Ignore massive Virtual Try-On dataset
+/datasets/Virtual_try_on/
+

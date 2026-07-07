@@ -88,6 +88,110 @@ var RefashionAuth = {
   get donations() { return this._getDonations(); },
   get vouchers() { return this._getVouchers(); },
 
+  initializeUserProfile: function() {
+    var user = this._getUser();
+    if (!user || user.role !== 'Buyer') return;
+
+    var cart = this._getCart();
+    var orders = this._getOrders();
+    var clickStream = [];
+    try {
+      var cs = localStorage.getItem('refashion_click_stream');
+      if (cs) clickStream = JSON.parse(cs);
+    } catch(e) {}
+
+    // Structure profile
+    var profile = {
+      genders: {},
+      styles: {},
+      categories: {},
+      stores: {},
+      keywords: {}
+    };
+
+    // 1. Gender preference from user profile
+    if (user.gender) {
+      profile.genders[user.gender] = 10;
+    }
+
+    // Helper to track item attributes into profile
+    var trackItemInProfile = function(productId, weight) {
+      var p = null;
+      if (typeof SHOP_PRODUCTS !== 'undefined' && SHOP_PRODUCTS.length > 0) {
+        for (var i = 0; i < SHOP_PRODUCTS.length; i++) {
+          if (String(SHOP_PRODUCTS[i].id) === String(productId)) {
+            p = SHOP_PRODUCTS[i];
+            break;
+          }
+        }
+      }
+      if (p && typeof AI_REC_SYSTEM !== 'undefined') {
+        var attrs = AI_REC_SYSTEM.extractAttributes(p);
+        if (attrs.gender) {
+          profile.genders[attrs.gender] = (profile.genders[attrs.gender] || 0) + weight;
+        }
+        if (attrs.style) {
+          profile.styles[attrs.style] = (profile.styles[attrs.style] || 0) + weight;
+        }
+        if (attrs.pattern && attrs.pattern !== 'other' && attrs.pattern !== 'NA') {
+          profile.styles[attrs.pattern] = (profile.styles[attrs.pattern] || 0) + weight;
+        }
+        if (attrs.sleeve && attrs.sleeve !== 'NA') {
+          profile.styles[attrs.sleeve] = (profile.styles[attrs.sleeve] || 0) + weight;
+        }
+        if (attrs.neckline && attrs.neckline !== 'NA') {
+          profile.styles[attrs.neckline] = (profile.styles[attrs.neckline] || 0) + weight;
+        }
+        if (p.category) {
+          profile.categories[p.category] = (profile.categories[p.category] || 0) + weight;
+        }
+        var tokens = (p.name || '').toLowerCase().split(/\s+/).filter(function(t) {
+          return t.length > 2 && ['cho', 'choo', 'của', 'nam', 'nữ', 'thời', 'trang', 'màu', 'hiệu'].indexOf(t) === -1;
+        });
+        for (var k = 0; k < tokens.length; k++) {
+          profile.keywords[tokens[k]] = (profile.keywords[tokens[k]] || 0) + weight;
+        }
+      }
+    };
+
+    // 2. Order History (weight 5 per item purchased)
+    if (orders && orders.length > 0) {
+      for (var oIdx = 0; oIdx < orders.length; oIdx++) {
+        var oItems = orders[oIdx].items || [];
+        for (var itemIdx = 0; itemIdx < oItems.length; itemIdx++) {
+          trackItemInProfile(oItems[itemIdx].productId, 5);
+        }
+      }
+    }
+
+    // 3. Cart Items (weight 3 per item)
+    if (cart && cart.length > 0) {
+      for (var cIdx = 0; cIdx < cart.length; cIdx++) {
+        trackItemInProfile(cart[cIdx].productId, 3);
+      }
+    }
+
+    // 4. Click stream (weight 1 per item viewed)
+    if (clickStream && clickStream.length > 0) {
+      for (var csIdx = 0; csIdx < clickStream.length; csIdx++) {
+        trackItemInProfile(clickStream[csIdx], 1);
+      }
+    }
+
+    // Save profile to localStorage
+    localStorage.setItem('refashion_user_profile', JSON.stringify(profile));
+
+    // Reload recommendation engine similarities immediately
+    if (typeof AI_REC_SYSTEM !== 'undefined') {
+      AI_REC_SYSTEM.loadProfile();
+      if (AI_REC_SYSTEM.model) {
+        AI_REC_SYSTEM.computeRecommendations();
+      } else {
+        AI_REC_SYSTEM.computeLocalSimilarity();
+      }
+    }
+  },
+
   login: function(email, password) {
     var account = null;
     for (var i = 0; i < MOCK_ACCOUNTS.length; i++) {
@@ -98,11 +202,14 @@ var RefashionAuth = {
     }
     if (account) {
       var userData = {
-        username: account.name || account.email.split('@')[0],
+        username: account.username || account.name || account.email.split('@')[0],
         email: account.email,
-        phone: '',
-        joinDate: new Date().toLocaleDateString('vi-VN'),
-        greenCoin: 100,
+        phone: account.phone || '',
+        gender: account.gender || 'unisex',
+        address: account.address || '',
+        birthYear: account.birthYear || '',
+        joinDate: account.joinDate || new Date().toLocaleDateString('vi-VN'),
+        greenCoin: account.greenCoin || 500,
         role: account.role,
         redirect: account.redirect,
         store: account.store || '',
@@ -110,6 +217,20 @@ var RefashionAuth = {
       };
       this._saveUser(userData);
       setSession(account.email, account.role);
+
+      // Load specific user's cart, orders, and clickStream to make it active in the session
+      if (account.role === 'Buyer') {
+        if (account.cart) this._saveCart(account.cart);
+        if (account.orders) this._saveOrders(account.orders);
+        if (account.clickStream) {
+          localStorage.setItem('refashion_click_stream', JSON.stringify(account.clickStream));
+        } else {
+          localStorage.setItem('refashion_click_stream', JSON.stringify([]));
+        }
+        // Initialize their profile weights
+        this.initializeUserProfile();
+      }
+
       return userData;
     }
     if (email === 'refashion@gmail.com' && password === '1234567890@Abc') {
@@ -117,12 +238,16 @@ var RefashionAuth = {
         username: 'ReFashion Demo',
         email: 'refashion@gmail.com',
         phone: '0912 345 678',
+        gender: 'men',
+        address: '123 Đường Láng, Hà Nội',
+        birthYear: '1998',
         joinDate: '01/01/2026',
         greenCoin: 500,
         role: 'Buyer'
       };
       this._saveUser(demoUser);
       setSession(demoUser.email, demoUser.role);
+      this.initializeUserProfile();
       return demoUser;
     }
     var users = this._getUsers();
@@ -132,12 +257,16 @@ var RefashionAuth = {
           username: users[j].username,
           email: users[j].email,
           phone: users[j].phone || '',
+          gender: users[j].gender || 'unisex',
+          address: users[j].address || '',
+          birthYear: users[j].birthYear || '',
           joinDate: users[j].joinDate || new Date().toLocaleDateString('vi-VN'),
           greenCoin: users[j].greenCoin || 100,
           role: 'Buyer'
         };
         this._saveUser(regUser);
         setSession(regUser.email, regUser.role);
+        this.initializeUserProfile();
         return regUser;
       }
     }
@@ -175,6 +304,9 @@ var RefashionAuth = {
       cart.push({ productId: item.productId, name: item.name, price: item.price, priceStr: item.priceStr, image: item.image, variant: item.variant || 'Tiêu chuẩn', quantity: 1 });
     }
     this._saveCart(cart);
+    if (typeof AI_REC_SYSTEM !== 'undefined' && AI_REC_SYSTEM.trackCart) {
+      AI_REC_SYSTEM.trackCart(item.productId);
+    }
     return cart;
   },
 
@@ -234,6 +366,11 @@ var RefashionAuth = {
     this._saveOrders(orders);
     user.greenCoin = (user.greenCoin || 0) + greenCoinEarned;
     this._saveUser(user);
+    if (typeof AI_REC_SYSTEM !== 'undefined' && AI_REC_SYSTEM.trackPurchase) {
+      for (var i = 0; i < params.items.length; i++) {
+        AI_REC_SYSTEM.trackPurchase(params.items[i].productId);
+      }
+    }
     if (params.voucherCode) {
       var vouchers = this._getVouchers();
       for (var i = 0; i < vouchers.length; i++) {
@@ -329,25 +466,74 @@ var RefashionAuth = {
   }
 };
 
-var SHOP_PRODUCTS = [
-  { id: '1', name: 'Áo Khoác Gió Tái Chế', category: 'jacket', price: 1250000, priceStr: '1,250,000 đ', image: 'https://images.unsplash.com/photo-1544441893-675973e31985?q=80&w=600', sentimentScore: 73, ratingCount: 12, store: 'Eco Wear', storeLogo: '../images/store_eco_wear.png' },
-  { id: '2', name: 'Balo Tái Chế 30L', category: 'backpack', price: 1890000, priceStr: '1,890,000 đ', image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=600', sentimentScore: 88, ratingCount: 12, store: 'Hemp & Bamboo', storeLogo: '../images/store_hemp_bamboo.png' },
-  { id: '3', name: 'Áo Thun Từ Vải Thừa', category: 'tshirt', price: 450000, priceStr: '450,000 đ', image: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=600', sentimentScore: 90, ratingCount: 12, store: 'Eco Wear', storeLogo: '../images/store_eco_wear.png' },
-  { id: '4', name: 'Quần Kaki Từ Quần Cũ Tái Chế', category: 'pants', price: 890000, priceStr: '890,000 đ', image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?q=80&w=600', sentimentScore: 93, ratingCount: 12, store: 'Hemp & Bamboo', storeLogo: '../images/store_hemp_bamboo.png' },
-  { id: '5', name: 'Túi Đeo Vai Canvas Tái Sinh', category: 'backpack', price: 180000, priceStr: '180,000 đ', image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600', sentimentScore: 87, ratingCount: 12, store: 'Hemp & Bamboo', storeLogo: '../images/store_hemp_bamboo.png' },
-  { id: '6', name: 'Giày Thể Thao Từ Vải Tái Chế', category: 'shoes', price: 1450000, priceStr: '1,450,000 đ', image: 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=600', sentimentScore: 83, ratingCount: 12, store: 'Hemp & Bamboo', storeLogo: '../images/store_hemp_bamboo.png' },
-  { id: '7', name: 'Quần Jeans Denim Tái Bản', category: 'pants', price: 950000, priceStr: '950,000 đ', image: '../images/sh_denim_jeans.png', sentimentScore: 73, ratingCount: 12, store: 'Denim Craft', storeLogo: '../images/store_denim_craft.png' },
-  { id: '8', name: 'Áo Sơ Mi Denim Upcycled', category: 'tshirt', price: 650000, priceStr: '650,000 đ', image: '../images/sh_denim_shirt.png', sentimentScore: 87, ratingCount: 12, store: 'Eco Wear', storeLogo: '../images/store_eco_wear.png' },
-  { id: '9', name: 'Đầm Tái Chế Từ Áo Cũ', category: 'tshirt', price: 780000, priceStr: '780,000 đ', image: '../images/sh_linen_dress.png', sentimentScore: 85, ratingCount: 12, store: 'Retro Chic', storeLogo: '../images/store_retro_chic.png' },
-  { id: '10', name: 'Túi Patchwork Vải Mộc', category: 'backpack', price: 320000, priceStr: '320,000 đ', image: '../images/sh_patchwork_bag.png', sentimentScore: 82, ratingCount: 11, store: 'Denim Craft', storeLogo: '../images/store_denim_craft.png' },
-  { id: '11', name: 'Khăn Lụa Từ Vải Thừa Cao Cấp', category: 'others', price: 290000, priceStr: '290,000 đ', image: '../images/sh_silk_scarf.png', sentimentScore: 82, ratingCount: 11, store: 'Retro Chic', storeLogo: '../images/store_retro_chic.png' },
-  { id: '12', name: 'Áo Khoác Dạ Len Tái Chế', category: 'jacket', price: 1650000, priceStr: '1,650,000 đ', image: '../images/sh_wool_jacket.png', sentimentScore: 76, ratingCount: 11, store: 'Eco Wear', storeLogo: '../images/store_eco_wear.png' },
-  { id: '13', name: 'Giày Sneaker Từ Vải Jeans Cũ', category: 'shoes', price: 850000, priceStr: '850,000 đ', image: '../images/shoes.jpg', sentimentScore: 78, ratingCount: 11, store: 'Hemp & Bamboo', storeLogo: '../images/store_hemp_bamboo.png' },
-  { id: '14', name: 'Áo Sơ Mi Thêu Hoa Đậu Biếc Organic', category: 'tshirt', price: 520000, priceStr: '520,000 đ', image: 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?q=80&w=600', sentimentScore: 89, ratingCount: 11, store: 'Green Thread', storeLogo: '../images/store_green_thread.png' },
-  { id: '15', name: 'Chân Váy Đũi Thêu Tay Eco-Flora', category: 'pants', price: 680000, priceStr: '680,000 đ', image: 'https://images.unsplash.com/photo-1583496661160-fb48862c4a4e?q=80&w=600', sentimentScore: 87, ratingCount: 11, store: 'Green Thread', storeLogo: '../images/store_green_thread.png' },
-  { id: '16', name: 'Áo Cardigan Dệt Kim Hữu Cơ Cúc Gỗ', category: 'jacket', price: 950000, priceStr: '950,000 đ', image: 'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?q=80&w=600', sentimentScore: 85, ratingCount: 11, store: 'Zero Waste', storeLogo: '../images/store_zero_waste.png' },
-  { id: '17', name: 'Túi Tote Canvas Zero-Waste Khâu Tay', category: 'backpack', price: 220000, priceStr: '220,000 đ', image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600', sentimentScore: 82, ratingCount: 11, store: 'Zero Waste', storeLogo: '../images/store_zero_waste.png' }
-];
+// Catalog loaded from Zalando HD dataset (200 items).
+// Fallback: a few static items shown while fetch is in progress.
+var SHOP_PRODUCTS = [];
+
+(function loadZalandoCatalog() {
+  // Determine base path (works from both /buyer/* and /*)
+  var base = '';
+  if (window.location.pathname.indexOf('/buyer/') !== -1 ||
+      window.location.pathname.indexOf('/datasets/') !== -1) {
+    base = '../';
+  }
+  var url = base + 'datasets/zalando-catalog.json';
+
+  fetch(url)
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var items = (data.products || []).map(function(p) {
+        // Re-map image path to a root-relative path so it works from any page
+        var img = p.image;
+        if (img && img.indexOf('/datasets/') === 0) {
+          img = img; // keep root-relative as-is
+        }
+        return {
+          id: p.id,
+          name: p.name,
+          category: p.category,
+          garmentType: p.garmentType || 'upper',
+          price: p.price,
+          priceStr: p.priceStr,
+          image: img,
+          sentimentScore: p.sentimentScore,
+          ratingCount: p.ratingCount,
+          store: p.store,
+          storeLogo: p.storeLogo || '../images/store_eco_wear.png',
+          clothFile: p.clothFile,
+          description: p.description,
+          fabric: p.fabric,
+          colorPattern: p.colorPattern,
+          shape: p.shape
+        };
+      });
+      SHOP_PRODUCTS.length = 0;
+      Array.prototype.push.apply(SHOP_PRODUCTS, items);
+      syncSellerProducts();
+
+      // Sync and initialize the user's AI profile from their history
+      if (typeof RefashionAuth !== 'undefined' && typeof RefashionAuth.initializeUserProfile === 'function') {
+        RefashionAuth.initializeUserProfile();
+      }
+
+      // Re-render components already on the page
+      if (typeof renderShopProducts === 'function') renderShopProducts();
+      if (typeof renderFeaturedProducts === 'function') renderFeaturedProducts();
+      // Notify detail page if waiting
+      if (typeof window._onZalandoCatalogReady === 'function') {
+        window._onZalandoCatalogReady();
+        window._onZalandoCatalogReady = null;
+      }
+      document.dispatchEvent(new Event('zalandoCatalogReady'));
+      console.log('[ReFashion] Zalando catalog loaded:', items.length, 'products');
+    })
+    .catch(function(e) {
+      console.warn('[ReFashion] Zalando catalog fetch failed, using static fallback:', e.message);
+      // Keep whatever is in SHOP_PRODUCTS (may already have synced items)
+    });
+})();
+
+
 
 function loginUser(email, password) {
   var user = RefashionAuth.login(email, password);

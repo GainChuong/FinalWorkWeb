@@ -28,6 +28,7 @@
           <div class="sort-group">
             <select id="shop-sort">
               <option value="default">Sắp xếp mặc định</option>
+              <option value="ai-rec">Gợi ý AI (Marqo-SigLIP)</option>
               <option value="price-asc">Giá: Thấp đến Cao</option>
               <option value="price-desc">Giá: Cao đến Thấp</option>
 
@@ -46,15 +47,15 @@
               </div>
             </div>
 
+
+
             <div class="filter-section">
               <h3>Danh Mục</h3>
               <div class="filter-radio-group">
                 <label><input type="radio" name="category" value="all" checked /><span>Tất Cả</span></label>
-                <label><input type="radio" name="category" value="jacket" /><span>Áo Khoác</span></label>
-                <label><input type="radio" name="category" value="backpack" /><span>Balo & Túi</span></label>
-                <label><input type="radio" name="category" value="tshirt" /><span>Áo Thun</span></label>
-                <label><input type="radio" name="category" value="pants" /><span>Quần</span></label>
-                <label><input type="radio" name="category" value="shoes" /><span>Giày</span></label>
+                <label><input type="radio" name="category" value="upper" /><span>Áo</span></label>
+                <label><input type="radio" name="category" value="lower" /><span>Quần</span></label>
+                <label><input type="radio" name="category" value="overall" /><span>Đồ Bộ</span></label>
               </div>
             </div>
 
@@ -64,6 +65,7 @@
           <div style="flex: 1;">
             <div id="shop-banner-container" style="margin-bottom: 1.5rem;"></div>
             <div class="product-grid" id="shop-product-grid"></div>
+            <div id="shop-pagination" style="margin-top: 2rem; display: flex; justify-content: center; gap: 0.5rem; align-items: center; flex-wrap: wrap;"></div>
           </div>
         </div>
       </div>
@@ -74,5 +76,6 @@
 
   <script src="../js/mainjs.js"></script>
   <script src="../js/buyer.js"></script>
+  <script src="../js/ai-recommend.js"></script>
 </body>
 </html>

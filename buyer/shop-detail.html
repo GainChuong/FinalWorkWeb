@@ -29,7 +29,123 @@
     </div>
   </div>
 
-  <script src="../js/mainjs.js"></script>
-  <script src="../js/buyer.js"></script>
+  <!-- ReFashion AI Try-On Studio Modal -->
+  <div id="vton-modal" class="vton-modal">
+    <div class="vton-modal-content">
+      <button class="vton-modal-close" onclick="closeVtonStudio()">&times;</button>
+      
+      <div class="vton-header">
+        <h2><i class="fa-solid fa-wand-magic-sparkles" style="color: var(--primary);"></i> ReFashion AI Try-On Studio</h2>
+        <p>Thử đồ ảo tức thì với công nghệ AI sinh thời trang tuần hoàn</p>
+      </div>
+
+      <div class="vton-grid">
+        <!-- CỘT 1: CHỌN NGƯỜI MẪU -->
+        <div class="vton-col vton-col-models">
+          <h3><i class="fa-solid fa-user-tie"></i> 1. Chọn Người Mẫu</h3>
+          <div class="vton-models-list" id="vton-models-list">
+            <!-- Rendered dynamically in JS -->
+          </div>
+          <div class="vton-upload-area">
+            <button class="btn btn-outline btn-vton-upload" onclick="document.getElementById('vton-file-input').click()">
+              <i class="fa-solid fa-upload"></i> Tải ảnh chân dung của bạn
+            </button>
+            <input type="file" id="vton-file-input" accept="image/*" style="display: none;" onchange="handleVtonUserUpload(event)" />
+            <p class="upload-tip">Ảnh chụp chính diện, nền đơn giản, rõ phần thân trên</p>
+          </div>
+          
+          <h3 style="margin-top: 1.5rem;"><i class="fa-solid fa-shirt"></i> Chọn Trang Phục</h3>
+          <div class="vton-garments-list" id="vton-garments-list">
+            <!-- Rendered dynamically in JS -->
+          </div>
+        </div>
+
+        <!-- CỘT 2: KHÔNG GIAN THỬ ĐỒ -->
+        <div class="vton-col vton-col-workspace">
+          <h3><i class="fa-solid fa-shirt"></i> 2. Studio Xử Lý</h3>
+          <div class="vton-workspace">
+            <div class="vton-ws-card vton-ws-model">
+              <span class="ws-tag">Ảnh Người Mẫu</span>
+              <img id="vton-ws-model-img" src="" alt="Selected Model" />
+            </div>
+            <div class="vton-ws-connector">
+              <div class="connector-line"></div>
+              <div class="connector-badge"><i class="fa-solid fa-circle-nodes"></i></div>
+            </div>
+            <div class="vton-ws-card vton-ws-garment">
+              <span class="ws-tag">Sản Phẩm</span>
+              <img id="vton-ws-garment-img" src="" alt="Selected Garment" />
+            </div>
+          </div>
+
+          <div class="vton-actions">
+            <button id="btn-start-vton" class="btn btn-primary" onclick="startVtonInference()">
+              <i class="fa-solid fa-circle-play"></i> Bắt Đầu Thử Đồ AI
+            </button>
+          </div>
+
+
+        </div>
+
+        <!-- CỘT 3: KẾT QUẢ -->
+        <div class="vton-col vton-col-result">
+          <h3><i class="fa-solid fa-circle-check"></i> 3. Kết Quả Thử Đồ</h3>
+          <div class="vton-result-container" id="vton-result-container">
+            <!-- Trạng thái trống (Default) -->
+            <div class="vton-state-empty" id="vton-state-empty">
+              <div class="vton-empty-graphic">
+                <i class="fa-solid fa-shirt" style="font-size: 3rem; color: var(--border);"></i>
+              </div>
+              <p>Hãy chọn người mẫu và nhấn <strong>"Bắt Đầu Thử Đồ AI"</strong> để xem hình ảnh kết quả phối trang phục.</p>
+            </div>
+
+            <!-- Trạng thái Loading -->
+            <div class="vton-state-loading" id="vton-state-loading" style="display: none;">
+              <div class="sewing-animation">
+                <i class="fa-solid fa-needle needle-icon"></i>
+                <div class="stitch-dots">
+                  <span></span><span></span><span></span><span></span><span></span>
+                </div>
+              </div>
+              <h4>Đang dệt trang phục bằng AI...</h4>
+              <div class="progress-bar-wrap">
+                <div class="progress-bar-fill" id="vton-progress-fill"></div>
+              </div>
+              <span class="progress-text" id="vton-progress-text">0%</span>
+
+            </div>
+
+            <!-- Trạng thái hoàn thành -->
+            <div class="vton-state-success" id="vton-state-success" style="display: none;">
+              <div class="compare-slider-container">
+                <div class="compare-image-before">
+                  <img id="vton-result-before-img" src="" alt="Original model" />
+                </div>
+                <div class="compare-image-after">
+                  <img id="vton-result-after-img" src="" alt="VTON result" />
+                </div>
+                <div class="compare-slider-bar" id="vton-compare-slider-bar">
+                  <div class="compare-slider-button">
+                    <i class="fa-solid fa-left-right"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="vton-result-actions" style="margin-top: 15px; display: flex; gap: 8px;">
+                <button class="btn btn-outline" style="flex: 1;" onclick="downloadVtonResult()">
+                  <i class="fa-solid fa-download"></i> Lưu Ảnh
+                </button>
+                <button class="btn btn-primary" style="flex: 1.5;" onclick="addVtonProductToCart()">
+                  <i class="fa-solid fa-cart-plus"></i> Thêm vào Giỏ Hàng
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/mainjs.js?v=4"></script>
+  <script src="../js/buyer.js?v=4"></script>
 </body>
 </html>
