@@ -514,8 +514,57 @@ var AI_REC_SYSTEM = {
       });
       chartHtml += '</div>';
 
+      // Retrieve item-specific Circular Benchmarks from global getDppData
+      var dppHtml = '';
+      if (typeof getDppData === 'function') {
+        try {
+          var dpp = getDppData(product.id, product.name, product.category);
+          if (dpp) {
+            dppHtml += '<div class="xai-benchmarks" style="margin:12px 0;background:rgba(91,116,83,0.04);padding:10px;border-radius:8px;border:1px solid rgba(91,116,83,0.15);">';
+            dppHtml += '<div style="font-size:0.75rem;font-weight:700;color:var(--primary);margin-bottom:8px;display:flex;align-items:center;"><i class="fa-solid fa-chart-simple" style="margin-right:6px;"></i>Chỉ số Tuần hoàn của Sản phẩm (Benchmarks)</div>';
+            dppHtml += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.75rem;color:var(--text-dark);">';
+            
+            if (dpp.co2Saved) {
+              dppHtml += '<div><i class="fa-solid fa-cloud" style="color:#708C69;margin-right:5px;width:12px;"></i>Giảm phát thải: <strong>' + dpp.co2Saved.toFixed(1) + ' kg CO₂</strong></div>';
+            }
+            if (dpp.landfillSaved) {
+              dppHtml += '<div><i class="fa-solid fa-trash-arrow-up" style="color:#a6855b;margin-right:5px;width:12px;"></i>Tránh chôn lấp: <strong>' + dpp.landfillSaved.toFixed(1) + ' kg</strong></div>';
+            }
+            if (dpp.materialRecoveryRate) {
+              dppHtml += '<div><i class="fa-solid fa-recycle" style="color:#708C69;margin-right:5px;width:12px;"></i>Thu hồi vật liệu: <strong>' + dpp.materialRecoveryRate + '%</strong></div>';
+            }
+            if (dpp.transportDistance) {
+              dppHtml += '<div><i class="fa-solid fa-truck" style="color:#a6855b;margin-right:5px;width:12px;"></i>Vận chuyển: <strong>' + dpp.transportDistance + ' km</strong></div>';
+            }
+            dppHtml += '</div>';
+            
+            if (dpp.materials && dpp.materials.length > 0) {
+              var matTexts = dpp.materials.map(function(m) {
+                var nameVn = m.name;
+                if (nameVn === "Organic Cotton fibers") nameVn = "Sợi bông hữu cơ";
+                else if (nameVn === "Recycled Spandex") nameVn = "Spandex tái chế";
+                else if (nameVn === "Repurposed Denim scrap") nameVn = "Denim tái sinh";
+                else if (nameVn === "Recycled Polyester lining") nameVn = "Lót Polyester tái chế";
+                else if (nameVn === "Eco-Elastane stretch") nameVn = "Eco-Elastane co giãn";
+                else if (nameVn === "Recycled Cotton Denim yarn") nameVn = "Sợi Denim tái chế";
+                else if (nameVn === "Upcycled Chiffon fabric") nameVn = "Chiffon tái chế";
+                else if (nameVn === "Recycled Nylon lining") nameVn = "Lót Nylon tái chế";
+                else if (nameVn === "Bio-Synthetic weave") nameVn = "Sợi dệt sinh học";
+                else if (nameVn === "Recycled Linen fibers") nameVn = "Sợi Linen tái chế";
+                else if (nameVn === "Organic Cotton lining") nameVn = "Lót Cotton hữu cơ";
+                return '<strong>' + m.pct + '%</strong> ' + nameVn;
+              });
+              dppHtml += '<div style="font-size:0.7rem;margin-top:6px;border-top:1px dashed rgba(91,116,83,0.15);padding-top:6px;color:var(--text-muted);">Thành phần: ' + matTexts.join(' | ') + '</div>';
+            }
+            dppHtml += '</div>';
+          }
+        } catch(e) {
+          console.warn('[XAI] Failed to load DPP benchmarks in XAI:', e);
+        }
+      }
+ 
       var nlgText = this.generateNlgExplanation(shapleyResult, product);
-      return chartHtml + '<div style="font-size:0.8rem;line-height:1.45;color:var(--text-dark);text-align:justify;">' + nlgText + '</div>';
+      return chartHtml + dppHtml + '<div style="font-size:0.8rem;line-height:1.45;color:var(--text-dark);text-align:justify;">' + nlgText + '</div>';
 
     } catch(e) {
       console.error('[XAI] Error:', e);
