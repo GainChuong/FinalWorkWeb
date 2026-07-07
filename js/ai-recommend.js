@@ -196,7 +196,9 @@ var AI_REC_SYSTEM = {
       style: realAttrs.fabric, // map fabric as primary style keyword
       pattern: realAttrs.pattern,
       sleeve: realAttrs.sleeve,
-      neckline: realAttrs.neckline
+      neckline: realAttrs.neckline,
+      category: realAttrs.category,
+      gender: realAttrs.gender
     };
   },
 
@@ -216,6 +218,12 @@ var AI_REC_SYSTEM = {
     }
     if (attrs.neckline && attrs.neckline !== 'NA') {
       this.profile.styles[attrs.neckline] = (this.profile.styles[attrs.neckline] || 0) + weight;
+    }
+    if (attrs.category) {
+      this.profile.categories[attrs.category] = (this.profile.categories[attrs.category] || 0) + weight;
+    }
+    if (attrs.gender) {
+      this.profile.genders[attrs.gender] = (this.profile.genders[attrs.gender] || 0) + weight;
     }
 
     var tokens = (product.name || '').toLowerCase().split(/\s+/).filter(function(t) {
@@ -797,6 +805,15 @@ Important guidelines:
   hasPreferences: function() {
     for (var k in this.profile.categories) {
       if (this.profile.categories[k] > 0) return true;
+    }
+    for (var k in this.profile.styles) {
+      if (this.profile.styles[k] > 0) return true;
+    }
+    for (var k in this.profile.genders) {
+      if (this.profile.genders[k] > 0) return true;
+    }
+    for (var k in this.profile.keywords) {
+      if (this.profile.keywords[k] > 0) return true;
     }
     return false;
   }
