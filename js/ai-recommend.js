@@ -202,7 +202,6 @@ var AI_REC_SYSTEM = {
   extractAttributes: function(product) {
     var realAttrs = this.getProductRealAttributes(product);
     return {
-      gender: realAttrs.gender,
       style: realAttrs.fabric, // map fabric as primary style keyword
       pattern: realAttrs.pattern,
       sleeve: realAttrs.sleeve,
@@ -215,7 +214,6 @@ var AI_REC_SYSTEM = {
     if (!product) return;
     var attrs = this.extractAttributes(product);
 
-    this.profile.genders[attrs.gender] = (this.profile.genders[attrs.gender] || 0) + weight;
     this.profile.styles[attrs.style] = (this.profile.styles[attrs.style] || 0) + weight;
 
     // Save detailed attributes as styles so they get picked up as preferred query strings
@@ -274,14 +272,10 @@ var AI_REC_SYSTEM = {
     var refTexts = [];
     var totalInt = 0;
     for (var k in this.profile.categories) totalInt += this.profile.categories[k];
-    for (var k in this.profile.genders) totalInt += this.profile.genders[k];
     for (var k in this.profile.styles) totalInt += this.profile.styles[k];
     for (var k in this.profile.keywords) totalInt += this.profile.keywords[k];
     
     if (totalInt > 0) {
-      for (var gender in this.profile.genders) {
-        if (this.profile.genders[gender] > 0) refTexts.push(gender);
-      }
       for (var style in this.profile.styles) {
         if (this.profile.styles[style] > 0) refTexts.push(style);
       }
@@ -371,14 +365,10 @@ var AI_REC_SYSTEM = {
     var refTexts = [];
     var totalInt = 0;
     for (var k in this.profile.categories) totalInt += this.profile.categories[k];
-    for (var k in this.profile.genders) totalInt += this.profile.genders[k];
     for (var k in this.profile.styles) totalInt += this.profile.styles[k];
     for (var k in this.profile.keywords) totalInt += this.profile.keywords[k];
     
     if (totalInt > 0) {
-      for (var gender in this.profile.genders) {
-        if (this.profile.genders[gender] > 0) refTexts.push(gender);
-      }
       for (var style in this.profile.styles) {
         if (this.profile.styles[style] > 0) refTexts.push(style);
       }
@@ -408,9 +398,6 @@ var AI_REC_SYSTEM = {
       var attrs = this.extractAttributes(p);
       if (this.profile.categories[attrs.category]) {
         score += 10;
-      }
-      if (this.profile.genders[attrs.gender]) {
-        score += 5;
       }
       
       this.similarities[p.id] = Math.min(99, score);
@@ -506,9 +493,6 @@ var AI_REC_SYSTEM = {
     var attrs = self.extractAttributes(product);
     var features = [];
     
-    if (attrs.gender) {
-      features.push({ name: 'Gender', value: attrs.gender, type: 'gender' });
-    }
     if (attrs.style) { // style maps to fabric
       features.push({ name: 'Fabric', value: attrs.style, type: 'fabric' });
     }
@@ -536,9 +520,6 @@ var AI_REC_SYSTEM = {
       // Model-based embedding similarity score function
       var normQueryEmbed = null;
       var userQueryParts = [];
-      for (var gender in self.profile.genders) {
-        if (self.profile.genders[gender] > 0) userQueryParts.push(gender);
-      }
       for (var style in self.profile.styles) {
         if (self.profile.styles[style] > 0) userQueryParts.push(style);
       }
@@ -601,9 +582,6 @@ var AI_REC_SYSTEM = {
         var score = 30; // base score
         var subsetTypes = subset.map(function(f) { return f.type; });
 
-        if (subsetTypes.indexOf('gender') !== -1 && attrs.gender && self.profile.genders[attrs.gender]) {
-          score += 25;
-        }
         if (subsetTypes.indexOf('fabric') !== -1 && attrs.style && self.profile.styles[attrs.style]) {
           score += 20;
         }
@@ -685,10 +663,7 @@ var AI_REC_SYSTEM = {
       if (pct < 5) continue;
 
       var label = "";
-      if (c.type === 'gender') {
-        var gVal = features.find(function(f) { return f.type === 'gender'; }).value;
-        label = "gu chọn đồ " + (gVal === 'men' ? 'Nam cá tính' : gVal === 'women' ? 'Nữ thanh lịch' : 'Unisex hiện đại');
-      } else if (c.type === 'fabric') {
+      if (c.type === 'fabric') {
         var fVal = features.find(function(f) { return f.type === 'fabric'; }).value;
         var fabVn = {
           'cotton': 'chất vải Cotton thoáng mát',
@@ -783,10 +758,9 @@ var AI_REC_SYSTEM = {
     
     var prompt = `You are a professional fashion stylist. Write a very brief explanation (in Vietnamese, max 2-3 sentences, around 50-60 words) on why this product "${product.name}" is recommended.
 Use the following Shapley XAI feature contribution percentages to write a personalized stylist message:
-- Style preference: ${shapleyPct.style || 0}%
-- Category preference: ${shapleyPct.category || 0}%
-- Gender preference: ${shapleyPct.gender || 0}%
-- Brand preference: ${shapleyPct.store || 0}%
+- Fabric preference: ${shapleyPct.fabric || 0}%
+- Pattern preference: ${shapleyPct.pattern || 0}%
+- Shape preference (sleeve/neckline style): ${shapleyPct.shape || 0}%
 
 Important guidelines:
 - Speak directly to the customer in a warm, helpful Vietnamese tone.

@@ -109,11 +109,6 @@ var RefashionAuth = {
       keywords: {}
     };
 
-    // 1. Gender preference from user profile
-    if (user.gender) {
-      profile.genders[user.gender] = 10;
-    }
-
     // Helper to track item attributes into profile
     var trackItemInProfile = function(productId, weight) {
       var p = null;
@@ -127,9 +122,6 @@ var RefashionAuth = {
       }
       if (p && typeof AI_REC_SYSTEM !== 'undefined') {
         var attrs = AI_REC_SYSTEM.extractAttributes(p);
-        if (attrs.gender) {
-          profile.genders[attrs.gender] = (profile.genders[attrs.gender] || 0) + weight;
-        }
         if (attrs.style) {
           profile.styles[attrs.style] = (profile.styles[attrs.style] || 0) + weight;
         }
