@@ -3590,19 +3590,19 @@ var vtonState = {
 
 var VTON_PRESET_MODELS = [
   { id: 'model_m1', file: 'MEN-Denim-id_00000080-01_7_additional.jpg', name: 'Nam da trắng', gender: 'male',
-    url: '/datasets/Virtual_try_on/images/images/MEN-Denim-id_00000080-01_7_additional.jpg' },
+    url: '/images/products/MEN-Denim-id_00000080-01_7_additional.jpg' },
   { id: 'model_m2', file: 'MEN-Denim-id_00000089-02_7_additional.jpg', name: 'Nam 2', gender: 'male',
-    url: '/datasets/Virtual_try_on/images/images/MEN-Denim-id_00000089-02_7_additional.jpg' },
+    url: '/images/products/MEN-Denim-id_00000089-02_7_additional.jpg' },
   { id: 'model_m3', file: 'MEN-Denim-id_00000089-26_7_additional.jpg', name: 'Nam 3', gender: 'male',
-    url: '/datasets/Virtual_try_on/images/images/MEN-Denim-id_00000089-26_7_additional.jpg' },
+    url: '/images/products/MEN-Denim-id_00000089-26_7_additional.jpg' },
   { id: 'model_m4', file: 'MEN-Denim-id_00000182-01_7_additional.jpg', name: 'Nam 4', gender: 'male',
-    url: '/datasets/Virtual_try_on/images/images/MEN-Denim-id_00000182-01_7_additional.jpg' },
+    url: '/images/products/MEN-Denim-id_00000182-01_7_additional.jpg' },
   { id: 'model_f1', file: 'WOMEN-Blouses_Shirts-id_00000183-01_1_front.jpg', name: 'Nữ 1', gender: 'female',
-    url: '/datasets/Virtual_try_on/images/images/WOMEN-Blouses_Shirts-id_00000183-01_1_front.jpg' },
+    url: '/images/products/WOMEN-Blouses_Shirts-id_00000183-01_1_front.jpg' },
   { id: 'model_f2', file: 'WOMEN-Blouses_Shirts-id_00000001-02_1_front.jpg', name: 'Nữ 2', gender: 'female',
-    url: '/datasets/Virtual_try_on/images/images/WOMEN-Blouses_Shirts-id_00000001-02_1_front.jpg' },
+    url: '/images/products/WOMEN-Blouses_Shirts-id_00000001-02_1_front.jpg' },
   { id: 'model_f3', file: 'WOMEN-Sweaters-id_00005890-05_1_front.jpg', name: 'Nữ 3', gender: 'female',
-    url: '/datasets/Virtual_try_on/images/images/WOMEN-Sweaters-id_00005890-05_1_front.jpg' }
+    url: '/images/products/WOMEN-Sweaters-id_00005890-05_1_front.jpg' }
 ];
 
 function getActiveModelImageUrl() {
