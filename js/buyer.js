@@ -255,6 +255,8 @@ function renderShopProducts() {
   // Calculate pages
   var startIndex = (shopState.currentPage - 1) * shopState.itemsPerPage;
   var endIndex = Math.min(startIndex + shopState.itemsPerPage, results.length);
+  var pageProducts = results.slice(startIndex, endIndex);
+  var html = '';
   for (var i = 0; i < pageProducts.length; i++) {
     var p = pageProducts[i];
     var stars = Math.round(p.rating || 4.5);
