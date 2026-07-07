@@ -488,7 +488,7 @@ var SHOP_PRODUCTS = [];
           price: p.price,
           priceStr: p.priceStr,
           image: img,
-          sentimentScore: p.sentimentScore,
+          rating: p.rating || 4.5,
           ratingCount: p.ratingCount,
           store: p.store,
           storeLogo: p.storeLogo || '../images/store_eco_wear.png',
@@ -796,7 +796,7 @@ function syncSellerProducts() {
             price: minPrice,
             priceStr: minPrice.toLocaleString('vi-VN') + ' đ',
             image: p.images && p.images.length > 0 ? p.images[0] : (p.image || '../images/store_logo.png'),
-            sentimentScore: 98,
+            rating: 4.9,
             ratingCount: 0,
             store: storeName,
             storeLogo: storeLogo

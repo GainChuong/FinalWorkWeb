@@ -12,7 +12,7 @@ function renderFeaturedProducts(prefix) {
   var html = '';
   for (var i = 0; i < displayList.length; i++) {
     var p = displayList[i];
-    var stars = Math.round(p.sentimentScore / 20);
+    var stars = Math.round(p.rating || 4.5);
     var starHtml = '';
     for (var s = 0; s < 5; s++) {
       starHtml += s < stars ? '<i class="fa-solid fa-star" style="color:var(--accent);font-size:0.75rem"></i>' : '<i class="fa-regular fa-star" style="color:var(--accent);font-size:0.75rem"></i>';
@@ -37,7 +37,7 @@ function renderFeaturedProducts(prefix) {
           '</div>' +
           '<div class="product-rating-row">' +
             starHtml +
-            '<span class="product-rating-num">' + (p.sentimentScore / 20).toFixed(1) + '</span>' +
+            '<span class="product-rating-num">' + (p.rating || 4.5).toFixed(1) + '</span>' +
             '<span class="product-rating-count">(' + p.ratingCount + ' đánh giá)</span>' +
           '</div>' +
           '<a href="javascript:void(0)" class="btn btn-primary" style="width:100%;border-radius:10px;margin-top:12px;display:flex;align-items:center;justify-content:center;gap:6px" onclick="event.stopPropagation(); goToDetail(\'' + p.id + '\')"><i class="fa-solid fa-eye"></i> Xem Chi Tiết</a>' +
@@ -255,12 +255,9 @@ function renderShopProducts() {
   // Calculate pages
   var startIndex = (shopState.currentPage - 1) * shopState.itemsPerPage;
   var endIndex = Math.min(startIndex + shopState.itemsPerPage, results.length);
-  var pageProducts = results.slice(startIndex, endIndex);
-
-  var html = '';
   for (var i = 0; i < pageProducts.length; i++) {
     var p = pageProducts[i];
-    var stars = Math.round(p.sentimentScore / 20);
+    var stars = Math.round(p.rating || 4.5);
     var starHtml = '';
     for (var s = 0; s < 5; s++) {
       starHtml += s < stars ? '<i class="fa-solid fa-star" style="color:var(--accent);font-size:0.75rem"></i>' : '<i class="fa-regular fa-star" style="color:var(--accent);font-size:0.75rem"></i>';
@@ -282,11 +279,10 @@ function renderShopProducts() {
           '<h2 class="product-name" style="height:44px;overflow:hidden">' + p.name + '</h2>' +
           '<div class="product-price-row">' +
             '<span class="product-price">' + salePrice + p.priceStr + '</span>' +
-            saleBadge +
           '</div>' +
           '<div class="product-rating-row">' +
             starHtml +
-            '<span class="product-rating-num">' + (p.sentimentScore / 20).toFixed(1) + '</span>' +
+            '<span class="product-rating-num">' + (p.rating || 4.5).toFixed(1) + '</span>' +
             '<span class="product-rating-count">(' + p.ratingCount + ' đánh giá)</span>' +
           '</div>' +
           '<a href="javascript:void(0)" class="btn btn-primary" style="width:100%;border-radius:10px;margin-top:12px;display:flex;align-items:center;justify-content:center;gap:6px" onclick="event.stopPropagation(); goToDetail(\'' + p.id + '\')"><i class="fa-solid fa-eye"></i> Xem Chi Tiết</a>' +
