@@ -104,10 +104,9 @@ function initShopPage() {
     }
   } catch (e) {}
 
-  // If returning from a product detail view, reset to page 1 so re-sorted results are visible
+  // If returning from a product detail view, clear the transition flag while preserving current page
   try {
     if (sessionStorage.getItem('rf_from_detail') === '1') {
-      shopState.currentPage = 1;
       sessionStorage.removeItem('rf_from_detail');
     }
   } catch(e) {}

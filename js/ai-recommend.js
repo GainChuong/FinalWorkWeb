@@ -6,7 +6,8 @@ var AI_REC_SYSTEM = {
     styles: {},
     categories: {},
     stores: {},
-    keywords: {}
+    keywords: {},
+    history: []
   },
   initialized: false,
   ready: false, // set to true once similarities are loaded from cache or computed
@@ -38,6 +39,9 @@ var AI_REC_SYSTEM = {
       if (saved) {
         this.profile = JSON.parse(saved);
       }
+      if (!this.profile.history) {
+        this.profile.history = [];
+      }
       
       // Load similarity cache to prevent layout shift and keep sorted products on navigation back
       var cachedSim = localStorage.getItem('refashion_ai_similarities');
@@ -51,6 +55,7 @@ var AI_REC_SYSTEM = {
     }
   },
 
+
   saveProfile: function() {
     try {
       localStorage.setItem('refashion_user_profile', JSON.stringify(this.profile));
@@ -62,6 +67,9 @@ var AI_REC_SYSTEM = {
   activateAI: async function() {
     var self = this;
     console.log('[AI Rec] Loading Xenova/all-MiniLM-L6-v2 (CORS-safe)...');
+
+    // Run local similarity engine immediately to bootstrap sorting and prevent 15-second empty state
+    self.computeLocalSimilarity();
 
     var script = document.createElement('script');
     script.type = 'module';
@@ -212,6 +220,26 @@ var AI_REC_SYSTEM = {
       this.profile.keywords[t] = (this.profile.keywords[t] || 0) + weight;
     }
 
+    // Save to interaction history for interactive XAI explanation
+    if (!this.profile.history) {
+      this.profile.history = [];
+    }
+    var actionName = 'xem';
+    if (weight === 3) actionName = 'thêm vào giỏ';
+    if (weight === 5) actionName = 'mua';
+
+    var history = this.profile.history;
+    if (history.length === 0 || history[0].productId !== String(product.id) || history[0].action !== actionName) {
+      history.unshift({
+        productId: String(product.id),
+        name: product.name,
+        action: actionName,
+        attrs: attrs,
+        timestamp: Date.now()
+      });
+      if (history.length > 10) history.pop();
+    }
+
     this.saveProfile();
     // SYNC: always update similarities immediately so they're saved before page navigation
     this.computeLocalSimilarity();
@@ -355,6 +383,9 @@ var AI_REC_SYSTEM = {
       for (var kw in this.profile.keywords) {
         if (this.profile.keywords[kw] > 0) refTexts.push(kw);
       }
+    } else {
+      // Default sustainable/circular keywords to rank green products first if no user profile exists
+      refTexts.push('tái chế', 'organic', 'hữu cơ', 'bền vững', 'tuần hoàn');
     }
     var combinedQuery = refTexts.join(' ').toLowerCase();
     var queryTokens = combinedQuery.split(/\s+/).filter(Boolean);
@@ -432,13 +463,11 @@ var AI_REC_SYSTEM = {
     }
   },
 
-  // Asynchronously explains the recommendation using Shapley values and NLG
+  // Synchronously explain a product recommendation using rule-based Shapley + NLG (async wrapper for compatibility)
   explainProduct: async function(product) {
-    var self = this;
     try {
-      var shapleyResult = await self.computeShapleyValues(product);
+      var shapleyResult = this.computeShapleyValues(product);
       if (!shapleyResult || !shapleyResult.shapley) {
-        if (typeof getXaiExplanation === 'function') return getXaiExplanation(product);
         return "Sản phẩm được gợi ý nhờ tính tương thích cao với các tương tác trước đó của bạn.";
       }
 
@@ -452,201 +481,176 @@ var AI_REC_SYSTEM = {
         shapleyPct[k] = totalPositive > 0 ? Math.round((shapley[k] / totalPositive) * 100) : 0;
       }
 
-      // Generate visual Shapley contributions chart
-      var isLocalFallback = (!self.model || !self.tokenizer);
-      var chartHtml = '<div class="xai-shapley-chart" style="margin: 8px 0 12px 0; background:rgba(0,0,0,0.02); padding:10px; border-radius:8px; border:1px solid rgba(0,0,0,0.05);">';
-      chartHtml += '<div style="font-size:0.7rem; font-weight:700; text-transform:uppercase; margin-bottom:8px; color:var(--text-muted); display:flex; justify-content:space-between;"><span>Yếu tố đóng góp (Shapley Value)</span><span>' + (isLocalFallback ? 'Trọng số (Cục bộ)' : 'Trọng số (AI Model)') + '</span></div>';
-      
+      // Build Shapley bar chart HTML
       var chartFeatures = [];
       for (var k in shapley) {
         if (shapley[k] > 0) {
           var pct = shapleyPct[k];
-          var label = "";
-          var icon = "";
-          if (k === 'gender') { label = "Giới tính"; icon = "fa-venus-mars"; }
-          else if (k === 'fabric') { label = "Chất liệu"; icon = "fa-scissors"; }
-          else if (k === 'pattern') { label = "Họa tiết"; icon = "fa-palette"; }
-          else if (k === 'shape') { label = "Kiểu dáng"; icon = "fa-shirt"; }
-          if (label) {
-            chartFeatures.push({ label: label, icon: icon, pct: pct });
-          }
+          var label = '', icon = '';
+          if (k === 'fabric')  { label = 'Chất liệu'; icon = 'fa-scissors'; }
+          else if (k === 'pattern') { label = 'Họa tiết';  icon = 'fa-palette'; }
+          else if (k === 'sleeve')  { label = 'Kiểu tay';  icon = 'fa-shirt'; }
+          else if (k === 'neckline'){ label = 'Kiểu cổ';   icon = 'fa-circle-notch'; }
+          else if (k === 'category'){ label = 'Danh mục';  icon = 'fa-tag'; }
+          else if (k === 'keyword') { label = 'Từ khóa';   icon = 'fa-magnifying-glass'; }
+          if (label) chartFeatures.push({ label: label, icon: icon, pct: pct });
         }
       }
-      chartFeatures.sort(function(a,b) { return b.pct - a.pct; });
+      chartFeatures.sort(function(a, b) { return b.pct - a.pct; });
 
+      var chartHtml = '<div class="xai-shapley-chart" style="margin:8px 0 12px 0;background:rgba(0,0,0,0.02);padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.05);">';
+      chartHtml += '<div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;margin-bottom:8px;color:var(--text-muted);display:flex;justify-content:space-between;"><span>Yếu tố đóng góp (Shapley)</span><span>Trọng số</span></div>';
       chartFeatures.forEach(function(f) {
-        chartHtml += '<div style="margin-bottom: 6px;">' +
-          '<div style="display:flex; justify-content:space-between; font-size:0.75rem; margin-bottom:2px;">' +
-            '<span><i class="fa-solid ' + f.icon + '" style="margin-right:5px; color:var(--primary);"></i>' + f.label + '</span>' +
-            '<span style="font-weight:600;">+' + f.pct + '%</span>' +
-          '</div>' +
-          '<div style="height:6px; background:rgba(0,0,0,0.05); border-radius:3px; overflow:hidden;">' +
-            '<div style="height:100%; width:' + f.pct + '%; background:linear-gradient(90deg, var(--primary), #85e3b2); border-radius:3px;"></div>' +
-          '</div>' +
-        '</div>';
+        chartHtml +=
+          '<div style="margin-bottom:6px;">' +
+            '<div style="display:flex;justify-content:space-between;font-size:0.75rem;margin-bottom:2px;">' +
+              '<span><i class="fa-solid ' + f.icon + '" style="margin-right:5px;color:var(--primary);"></i>' + f.label + '</span>' +
+              '<span style="font-weight:600;">+' + f.pct + '%</span>' +
+            '</div>' +
+            '<div style="height:6px;background:rgba(0,0,0,0.05);border-radius:3px;overflow:hidden;">' +
+              '<div style="height:100%;width:' + f.pct + '%;background:linear-gradient(90deg,var(--primary),#85e3b2);border-radius:3px;"></div>' +
+            '</div>' +
+          '</div>';
       });
       chartHtml += '</div>';
 
-      var nlgText = self.generateNlgExplanation(shapleyResult, product);
-      return chartHtml + '<div style="font-size:0.8rem; line-height:1.45; color:var(--text-dark); text-align:justify;">' + nlgText + '</div>';
+      var nlgText = this.generateNlgExplanation(shapleyResult, product);
+      return chartHtml + '<div style="font-size:0.8rem;line-height:1.45;color:var(--text-dark);text-align:justify;">' + nlgText + '</div>';
 
     } catch(e) {
-      console.error('[XAI] Failed to compute Shapley values:', e);
-      if (typeof getXaiExplanation === 'function') {
-        return getXaiExplanation(product);
-      }
+      console.error('[XAI] Error:', e);
       return "Sản phẩm được gợi ý nhờ tính tương thích cao với các tương tác trước đó của bạn.";
     }
   },
 
-  // Compute exact Shapley values for a product's recommendation score based strictly on deep learning model or local profile weights fallback
-  computeShapleyValues: async function(product) {
-    var self = this;
 
-    // 1. Extract product's own actual attributes
+  // Compute Shapley values synchronously using rule-based profile weights (no model, no async)
+  computeShapleyValues: function(product) {
+    var self = this;
     var attrs = self.extractAttributes(product);
+
+    // Define feature set: only features with a known profile weight
     var features = [];
-    
-    if (attrs.style) { // style maps to fabric
-      features.push({ name: 'Fabric', value: attrs.style, type: 'fabric' });
+    if (attrs.style && self.profile.styles[attrs.style] > 0)
+      features.push({ name: 'Fabric',   value: attrs.style,    type: 'fabric',   weight: self.profile.styles[attrs.style] });
+    if (attrs.pattern && self.profile.styles[attrs.pattern] > 0)
+      features.push({ name: 'Pattern',  value: attrs.pattern,  type: 'pattern',  weight: self.profile.styles[attrs.pattern] });
+    if (attrs.sleeve && self.profile.styles[attrs.sleeve] > 0)
+      features.push({ name: 'Sleeve',   value: attrs.sleeve,   type: 'sleeve',   weight: self.profile.styles[attrs.sleeve] });
+    if (attrs.neckline && self.profile.styles[attrs.neckline] > 0)
+      features.push({ name: 'Neckline', value: attrs.neckline, type: 'neckline', weight: self.profile.styles[attrs.neckline] });
+    if (attrs.category && self.profile.categories[attrs.category] > 0)
+      features.push({ name: 'Category', value: attrs.category, type: 'category', weight: self.profile.categories[attrs.category] });
+
+    // Keyword contribution: sum of matching keyword weights
+    var kwWeight = 0;
+    var nameDescText = ((product.name || '') + ' ' + (product.description || '')).toLowerCase();
+    for (var kw in self.profile.keywords) {
+      if (self.profile.keywords[kw] > 0 && nameDescText.indexOf(kw) !== -1) {
+        kwWeight += self.profile.keywords[kw];
+      }
     }
-    if (attrs.pattern) {
-      features.push({ name: 'Pattern', value: attrs.pattern, type: 'pattern' });
-    }
-    var shapeVal = attrs.sleeve || attrs.neckline;
-    if (shapeVal) {
-      features.push({ name: 'Shape', value: shapeVal, type: 'shape' });
-    }
+    if (kwWeight > 0)
+      features.push({ name: 'Keyword', value: 'keyword', type: 'keyword', weight: kwWeight });
 
     var n = features.length;
     var shapley = {};
-    for (var i = 0; i < n; i++) {
-      shapley[features[i].type] = 0;
+    for (var i = 0; i < n; i++) shapley[features[i].type] = 0;
+
+    if (n === 0) return { features: features, shapley: shapley };
+
+    // Score function: sum of weights for a given feature subset
+    function scoreSubset(subset) {
+      var s = 30;
+      for (var j = 0; j < subset.length; j++) s += subset[j].weight * 3;
+      return Math.min(99, s);
     }
 
-    if (n === 0) {
-      return { features: features, shapley: shapley };
-    }
-
-    var getScoreFn;
-
-    if (self.model && self.tokenizer) {
-      // Model-based embedding similarity score function
-      var normQueryEmbed = null;
-      var userQueryParts = [];
-      for (var style in self.profile.styles) {
-        if (self.profile.styles[style] > 0) userQueryParts.push(style);
-      }
-      for (var kw in self.profile.keywords) {
-        if (self.profile.keywords[kw] > 0) userQueryParts.push(kw);
-      }
-      if (userQueryParts.length === 0) {
-        userQueryParts.push('sustainable circular clothing fashion');
-      }
-      var userQueryStr = userQueryParts.join(' ').toLowerCase();
-
-      var userCacheKey = 'rf_user_pref_embed_' + userQueryStr;
-      try {
-        var cachedUser = sessionStorage.getItem(userCacheKey);
-        if (cachedUser) {
-          normQueryEmbed = JSON.parse(cachedUser);
-        }
-      } catch(e) {}
-
-      if (!normQueryEmbed) {
-        const userInputs = self.tokenizer([userQueryStr], { padding: 'max_length', truncation: true });
-        const userOutputs = await self.model(userInputs);
-        const userEmbeds = userOutputs.text_embeds || userOutputs.pooler_output || userOutputs[0];
-        normQueryEmbed = userEmbeds.normalize().tolist()[0];
-        try {
-          sessionStorage.setItem(userCacheKey, JSON.stringify(normQueryEmbed));
-        } catch(e) {}
-      }
-
-      getScoreFn = async function(subset) {
-        var queryStr = subset.map(function(f) { return f.value; }).join(' ');
-        if (!queryStr.trim()) queryStr = 'sustainable circular clothing fashion';
-
-        var qCacheKey = 'rf_q_embed_' + queryStr;
-        var qEmbed = null;
-        try {
-          var cachedQ = sessionStorage.getItem(qCacheKey);
-          if (cachedQ) qEmbed = JSON.parse(cachedQ);
-        } catch(e) {}
-
-        if (!qEmbed) {
-          const qInputs = self.tokenizer([queryStr], { padding: 'max_length', truncation: true });
-          const qOutputs = await self.model(qInputs);
-          const qEmbeds = qOutputs.text_embeds || qOutputs.pooler_output || qOutputs[0];
-          qEmbed = qEmbeds.normalize().tolist()[0];
-          try {
-            sessionStorage.setItem(qCacheKey, JSON.stringify(qEmbed));
-          } catch(e) {}
-        }
-
-        var dot = 0;
-        for (var d = 0; d < normQueryEmbed.length; d++) {
-          dot += normQueryEmbed[d] * qEmbed[d];
-        }
-        return Math.max(0, Math.min(99, Math.round((dot + 1) * 50)));
-      };
-    } else {
-      // Local similarity score function fallback using profile weights
-      getScoreFn = async function(subset) {
-        var score = 30; // base score
-        var subsetTypes = subset.map(function(f) { return f.type; });
-
-        if (subsetTypes.indexOf('fabric') !== -1 && attrs.style && self.profile.styles[attrs.style]) {
-          score += 20;
-        }
-        if (subsetTypes.indexOf('pattern') !== -1 && attrs.pattern && self.profile.styles[attrs.pattern]) {
-          score += 15;
-        }
-        if (subsetTypes.indexOf('shape') !== -1 && shapeVal && self.profile.styles[shapeVal]) {
-          score += 10;
-        }
-        return score;
-      };
-    }
-
-    function fact(num) {
-      if (num <= 1) return 1;
-      return num * fact(num - 1);
-    }
+    function fact(num) { return num <= 1 ? 1 : num * fact(num - 1); }
 
     for (var i = 0; i < n; i++) {
-      var targetFeature = features[i];
-      var sumContribution = 0;
-      var restFeatures = features.filter(function(f, idx) { return idx !== i; });
-      var m = restFeatures.length;
-      var numSubsets = Math.pow(2, m);
-
-      for (var s = 0; s < numSubsets; s++) {
-        var subsetS = [];
-        for (var k = 0; k < m; k++) {
-          if ((s & (1 << k)) !== 0) {
-            subsetS.push(restFeatures[k]);
-          }
+      var target = features[i];
+      var rest = features.filter(function(f, idx) { return idx !== i; });
+      var m = rest.length;
+      var sum = 0;
+      for (var s = 0; s < Math.pow(2, m); s++) {
+        var sub = [];
+        for (var b = 0; b < m; b++) {
+          if (s & (1 << b)) sub.push(rest[b]);
         }
-        var subsetSUi = subsetS.concat([targetFeature]);
-
-        var scoreS = await getScoreFn(subsetS);
-        var scoreSUi = await getScoreFn(subsetSUi);
-
-        var sizeS = subsetS.length;
-        var weight = (fact(sizeS) * fact(n - sizeS - 1)) / fact(n);
-        sumContribution += weight * (scoreSUi - scoreS);
+        var subPlusI = sub.concat([target]);
+        var marginal = scoreSubset(subPlusI) - scoreSubset(sub);
+        var weight = (fact(sub.length) * fact(n - sub.length - 1)) / fact(n);
+        sum += weight * marginal;
       }
-      shapley[targetFeature.type] = Math.max(0, sumContribution);
+      shapley[target.type] = Math.max(0, sum);
     }
 
-    return {
-      features: features,
-      shapley: shapley
-    };
+    return { features: features, shapley: shapley };
   },
 
-  // Generates highly persuasive, natural Vietnamese NLG explanations using Shapley weights
+
+  getFabricVn: function(fab) {
+    return {
+      'cotton': 'Cotton',
+      'denim': 'Denim',
+      'leather': 'Da',
+      'furry': 'Lông',
+      'knitted': 'Dệt kim',
+      'chiffon': 'Voan Chiffon',
+      'other': 'vải sinh học'
+    }[fab] || 'chất liệu dệt';
+  },
+  getPatternVn: function(pat) {
+    return {
+      'pure color': 'trơn tối giản',
+      'striped': 'kẻ sọc',
+      'floral': 'hoa nhã nhặn',
+      'graphic': 'in hình',
+      'lattice': 'kẻ caro',
+      'color block': 'phối màu'
+    }[pat] || 'họa tiết';
+  },
+  getCategoryVn: function(cat) {
+    return {
+      'upper': 'áo thời trang',
+      'lower': 'quần/váy thời trang',
+      'outer': 'áo khoác'
+    }[cat] || 'trang phục';
+  },
+
+  findRelatedInteraction: function(product) {
+    if (!this.profile.history || this.profile.history.length === 0) return null;
+    var attrs = this.extractAttributes(product);
+    var matches = [];
+    for (var i = 0; i < this.profile.history.length; i++) {
+      var item = this.profile.history[i];
+      if (item.productId === String(product.id)) continue;
+      
+      var matchDesc = [];
+      if (item.attrs.style === attrs.style && attrs.style) {
+        matchDesc.push('chất liệu ' + this.getFabricVn(attrs.style));
+      }
+      if (item.attrs.pattern === attrs.pattern && attrs.pattern && attrs.pattern !== 'other') {
+        matchDesc.push('họa tiết ' + this.getPatternVn(attrs.pattern));
+      }
+      if (item.attrs.category === attrs.category && attrs.category) {
+        matchDesc.push('danh mục ' + this.getCategoryVn(attrs.category));
+      }
+      
+      if (matchDesc.length > 0) {
+        matches.push({
+          name: item.name,
+          action: item.action,
+          desc: matchDesc.join(' và ')
+        });
+        if (matches.length >= 2) break;
+      }
+    }
+    return matches;
+  },
+
+  // Generates highly persuasive, natural Vietnamese NLG explanations using Shapley weights and history
   generateNlgExplanation: function(shapleyResult, product) {
     if (!shapleyResult) {
       return "Thiết kế được gợi ý nhờ sở hữu kiểu dáng hiện đại và được hoàn thiện tinh xảo từ chất liệu dệt bền vững.";
@@ -666,10 +670,6 @@ var AI_REC_SYSTEM = {
     }
     contributions.sort(function(a, b) { return b.val - a.val; });
 
-    if (contributions.length === 0) {
-      return "Sản phẩm này phù hợp hoàn hảo với phong cách tối giản và xu hướng thời trang tuần hoàn của bạn.";
-    }
-
     var parts = [];
     for (var i = 0; i < contributions.length; i++) {
       var c = contributions[i];
@@ -679,60 +679,65 @@ var AI_REC_SYSTEM = {
       var label = "";
       if (c.type === 'fabric') {
         var fVal = features.find(function(f) { return f.type === 'fabric'; }).value;
-        var fabVn = {
-          'cotton': 'chất vải Cotton thoáng mát',
-          'denim': 'chất liệu Denim bụi bặm',
-          'leather': 'chất liệu Da (leather) sang trọng',
-          'furry': 'chất vải Lông (furry) ấm áp',
-          'knitted': 'chất len Dệt kim (knitted) mềm mại',
-          'chiffon': 'vải voan Chiffon nhẹ nhàng',
-          'other': 'chất vải dệt sinh học bền vững'
-        }[fVal] || 'chất liệu dệt thân thiện môi trường';
-        label = fabVn;
+        label = 'chất vải ' + self.getFabricVn(fVal) + ' thoáng mát';
       } else if (c.type === 'pattern') {
         var pVal = features.find(function(f) { return f.type === 'pattern'; }).value;
-        var patVn = {
-          'pure color': 'họa tiết trơn tối giản (pure color)',
-          'striped': 'họa tiết kẻ sọc (striped) năng động',
-          'floral': 'họa tiết hoa nhã nhặn (floral)',
-          'graphic': 'họa tiết in hình (graphic) thời thượng',
-          'lattice': 'họa tiết kẻ caro (lattice)',
-          'color block': 'họa tiết phối màu (color block) độc đáo',
-          'other': 'họa tiết dệt tinh tế'
-        }[pVal] || 'phong cách họa tiết trẻ trung';
-        label = patVn;
-      } else if (c.type === 'shape') {
-        var sVal = features.find(function(f) { return f.type === 'shape'; }).value;
-        var shapeVn = {
+        label = 'phong cách họa tiết ' + self.getPatternVn(pVal);
+      } else if (c.type === 'sleeve') {
+        var sVal = features.find(function(f) { return f.type === 'sleeve'; }).value;
+        var sleeveVn = {
           'sleeveless': 'kiểu dáng sát nách phóng khoáng',
           'short-sleeve': 'kiểu tay ngắn năng động',
           'medium-sleeve': 'kiểu lỡ tay thanh lịch',
           'long-sleeve': 'kiểu tay dài ấm áp',
-          'not long-sleeve': 'thiết kế phom tay năng động',
+          'not long-sleeve': 'thiết kế phom tay năng động'
+        }[sVal] || 'kiểu tay thời trang';
+        label = sleeveVn;
+      } else if (c.type === 'neckline') {
+        var nVal = features.find(function(f) { return f.type === 'neckline'; }).value;
+        var neckVn = {
           'V-shape neckline': 'thiết kế cổ chữ V tôn dáng',
           'square neckline': 'cổ vuông thanh lịch',
           'round neckline': 'cổ tròn cơ bản',
           'standing neckline': 'cổ đứng cổ điển',
-          'lapel neckline': 'cổ bẻ (lapel) chỉn chu',
+          'lapel neckline': 'cổ bẻ thanh lịch',
           'suspender neckline': 'cổ hai dây quyến rũ'
-        }[sVal] || 'phom dáng thiết kế tinh gọn';
-        label = shapeVn;
+        }[nVal] || 'dáng cổ áo tinh tế';
+        label = neckVn;
+      } else if (c.type === 'category') {
+        var cVal = features.find(function(f) { return f.type === 'category'; }).value;
+        label = 'nhóm sản phẩm ' + self.getCategoryVn(cVal);
       }
       if (label) parts.push(label);
     }
 
-    var text = "Stylist AI gợi ý sản phẩm này dựa trên các chỉ số tương thích với hành vi mua sắm của bạn. ";
-    if (parts.length === 1) {
-      text += "Thiết kế này đặc biệt đồng điệu nhờ tối ưu cho " + parts[0] + " của bạn.";
-    } else if (parts.length === 2) {
-      text += "Sản phẩm là gợi ý hoàn hảo dành cho bạn nhờ sự kết hợp giữa " + parts[0] + " và " + parts[1] + ".";
-    } else if (parts.length >= 3) {
-      text += "Thiết kế đáp ứng tối đa sở thích cá nhân nhờ hội tụ các yếu tố: " + parts[0] + ", " + parts[1] + " cùng với " + parts[2] + ".";
+    var text = "";
+
+    // 1. Interactive history connection
+    var related = self.findRelatedInteraction(product);
+    if (related && related.length > 0) {
+      var r = related[0];
+      text += "Stylist AI đề xuất sản phẩm này dựa trên hành vi mua sắm gần đây: Bạn đã <strong>" + r.action + "</strong> sản phẩm <em>\"" + r.name + "\"</em> (chung " + r.desc + "). ";
+      if (related.length > 1) {
+        var r2 = related[1];
+        text += "Đồng thời, bạn cũng từng <strong>" + r2.action + "</strong> sản phẩm <em>\"" + r2.name + "\"</em> (cùng " + r2.desc + "). ";
+      }
     } else {
-      text += "Sản phẩm có độ tương thích cao với phom dáng và phong cách thiết kế gần đây của bạn.";
+      text += "Stylist AI gợi ý sản phẩm này dựa trên các tương tác gần đây của bạn với phong cách thời trang tuần hoàn. ";
     }
 
-    // Material spec context from real product properties
+    // 2. Shapley feature matching
+    if (parts.length === 1) {
+      text += "Mẫu thiết kế này đặc biệt đồng điệu nhờ tối ưu tốt cho " + parts[0] + " của bạn.";
+    } else if (parts.length === 2) {
+      text += "Sản phẩm là lựa chọn tối ưu nhờ sự kết hợp lý tưởng giữa " + parts[0] + " và " + parts[1] + ".";
+    } else if (parts.length >= 3) {
+      text += "Thiết kế đáp ứng trọn vẹn sở thích cá nhân nhờ quy tụ các đặc tính: " + parts[0] + ", " + parts[1] + " cùng với " + parts[2] + ".";
+    } else {
+      text += "Sản phẩm có độ tương thích cao với phom dáng và chất liệu thiết kế ưa thích gần đây của bạn.";
+    }
+
+    // 3. Material spec context from real product properties
     var realAttrs = self.getProductRealAttributes(product);
     text += " Về đặc tính sản phẩm, ";
     if (realAttrs.fabric === 'cotton') {
@@ -765,56 +770,6 @@ var AI_REC_SYSTEM = {
     }
   },
 
-  // Call serverless LLM API (Llama-3) to write custom stylist explanations using Shapley context
-  generateLlmExplanation: async function(product, shapleyPct) {
-    var self = this;
-    var token = self.hfToken || '';
-    
-    var prompt = `You are a professional fashion stylist. Write a very brief explanation (in Vietnamese, max 2-3 sentences, around 50-60 words) on why this product "${product.name}" is recommended.
-Use the following Shapley XAI feature contribution percentages to write a personalized stylist message:
-- Fabric preference: ${shapleyPct.fabric || 0}%
-- Pattern preference: ${shapleyPct.pattern || 0}%
-- Shape preference (sleeve/neckline style): ${shapleyPct.shape || 0}%
-
-Important guidelines:
-- Speak directly to the customer in a warm, helpful Vietnamese tone.
-- Do NOT mention any technical terms like "Shapley", "XAI", "algorithm", "cosine", "vector", "percentage", or "score".
-- Transform these numbers into human-like descriptions (e.g. "Because you love casual unisex outfits...").
-- Output ONLY the explanation paragraph. No introductory greeting or chat headers.`;
-
-    try {
-      var response = await fetch(
-        'https://api-inference.huggingface.co/models/meta-llama/Meta-Llama-3-8B-Instruct',
-        {
-          method: 'POST',
-          headers: {
-            'Authorization': 'Bearer ' + token,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            inputs: `<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nYou are a professional Vietnamese fashion stylist chatbot.<|eot_id|><|start_header_id|>user<|end_header_id|>\n\n${prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n`,
-            parameters: {
-              max_new_tokens: 150,
-              temperature: 0.7,
-              return_full_text: false
-            }
-          }),
-          signal: AbortSignal.timeout(5000) // 5 seconds timeout limit
-        }
-      );
-
-      var data = await response.json();
-      if (Array.isArray(data) && data[0] && data[0].generated_text) {
-        var text = data[0].generated_text.trim();
-        text = text.replace(/<\|assistant\|>/g, '').replace(/assistant\n/g, '').trim();
-        return text;
-      }
-      throw new Error('API returned invalid format');
-    } catch(err) {
-      console.warn('[XAI LLM] API call failed, using high-quality fallback NLG:', err);
-      throw err;
-    }
-  },
 
   // Check if user has active preference profile
   hasPreferences: function() {
