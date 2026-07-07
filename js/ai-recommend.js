@@ -100,22 +100,34 @@ var AI_REC_SYSTEM = {
         await self.computeRecommendations();
         
       } catch (localErr) {
-        console.warn('[AI Rec] Local model load failed, falling back to remote Hugging Face...', localErr);
+        console.warn('[AI Rec] Local model load failed, trying standard Hugging Face...', localErr);
         
         try {
           window.env.allowLocalModels = false;
           window.env.allowRemoteModels = true;
-          window.env.remoteHost = 'https://hf-mirror.com/';
+          window.env.remoteHost = 'https://huggingface.co/';
           
           self.tokenizer = await window.AutoTokenizer.from_pretrained(model_id);
           self.model = await window.SiglipTextModel.from_pretrained(model_id, { dtype: 'q8' });
           
-          console.log('[AI Rec] Remote model loaded successfully from Hugging Face Mirror! 🚀');
+          console.log('[AI Rec] Remote model loaded successfully from standard Hugging Face! 🚀');
           await self.computeRecommendations();
           
         } catch (remoteErr) {
-          console.error('[AI Rec] Failed to load both local and remote model, using local fallback engine:', remoteErr);
-          self.computeLocalSimilarity();
+          console.warn('[AI Rec] Standard Hugging Face failed (CORS/network), trying Hugging Face Mirror...', remoteErr);
+          
+          try {
+            window.env.remoteHost = 'https://hf-mirror.com/';
+            self.tokenizer = await window.AutoTokenizer.from_pretrained(model_id);
+            self.model = await window.SiglipTextModel.from_pretrained(model_id, { dtype: 'q8' });
+            
+            console.log('[AI Rec] Remote model loaded successfully from Hugging Face Mirror! 🚀');
+            await self.computeRecommendations();
+            
+          } catch (mirrorErr) {
+            console.error('[AI Rec] Failed to load from all sources, using local fallback engine:', mirrorErr);
+            self.computeLocalSimilarity();
+          }
         }
       }
     });
