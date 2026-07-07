@@ -68,8 +68,7 @@ var AI_REC_SYSTEM = {
     script.type = 'module';
     script.innerHTML = 
       'import { env, SiglipTextModel, AutoTokenizer } from "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.0.0-alpha.19/+esm";\n' +
-      'env.allowLocalModels = false;\n' +
-      'env.remoteHost = "https://hf-mirror.com/";\n' +
+      'window.env = env;\n' +
       'window.SiglipTextModel = SiglipTextModel;\n' +
       'window.AutoTokenizer = AutoTokenizer;\n' +
       'window.dispatchEvent(new CustomEvent("transformersLoaded"));';
@@ -77,21 +76,47 @@ var AI_REC_SYSTEM = {
     document.head.appendChild(script);
 
     window.addEventListener('transformersLoaded', async function() {
+      const model_id = 'Marqo/marqo-fashionSigLIP';
+      
+      // Determine base path for local models
+      var base = '';
+      if (window.location.pathname.indexOf('/buyer/') !== -1) {
+        base = '../';
+      }
+      
       try {
-        const model_id = 'Marqo/marqo-fashionSigLIP';
-
+        console.log('[AI Rec] Attempting to load model locally from datasets...');
+        window.env.allowLocalModels = true;
+        window.env.allowRemoteModels = false;
+        window.env.localModelPath = base + 'datasets/';
+        
         // Load Tokenizer
         self.tokenizer = await window.AutoTokenizer.from_pretrained(model_id);
-
+        
         // Load Model (explicitly specify q8 for smaller download size and faster WASM inference)
         self.model = await window.SiglipTextModel.from_pretrained(model_id, { dtype: 'q8' });
-
-        console.log('[AI Rec] Model weights loaded successfully. Computing recommendations...');
+        
+        console.log('[AI Rec] Local model loaded successfully! ✅');
         await self.computeRecommendations();
-
-      } catch (err) {
-        console.error('[AI Rec] Failed to load Hugging Face model, using local fallback:', err);
-        self.computeLocalSimilarity();
+        
+      } catch (localErr) {
+        console.warn('[AI Rec] Local model load failed, falling back to remote Hugging Face...', localErr);
+        
+        try {
+          window.env.allowLocalModels = false;
+          window.env.allowRemoteModels = true;
+          window.env.remoteHost = 'https://hf-mirror.com/';
+          
+          self.tokenizer = await window.AutoTokenizer.from_pretrained(model_id);
+          self.model = await window.SiglipTextModel.from_pretrained(model_id, { dtype: 'q8' });
+          
+          console.log('[AI Rec] Remote model loaded successfully from Hugging Face Mirror! 🚀');
+          await self.computeRecommendations();
+          
+        } catch (remoteErr) {
+          console.error('[AI Rec] Failed to load both local and remote model, using local fallback engine:', remoteErr);
+          self.computeLocalSimilarity();
+        }
       }
     });
 

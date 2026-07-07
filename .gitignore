@@ -47,4 +47,5 @@ next-env.d.ts
 
 # Ignore massive Virtual Try-On dataset
 /datasets/Virtual_try_on/
+/datasets/Marqo/
 
