@@ -295,11 +295,7 @@ function renderShopProducts() {
             '<span class="product-rating-count">(' + p.ratingCount + ' đánh giá)</span>' +
           '</div>' +
           '<a href="javascript:void(0)" class="btn btn-primary" style="width:100%;border-radius:10px;margin-top:12px;display:flex;align-items:center;justify-content:center;gap:6px" onclick="event.stopPropagation(); goToDetail(\'' + p.id + '\')"><i class="fa-solid fa-eye"></i> Xem Chi Tiết</a>' +
-          '<button class="xai-btn-outline" onclick="event.stopPropagation(); toggleXaiExplanation(\'' + p.id + '\', \'xai-exp-' + p.id + '-' + i + '\')"><i class="fa-solid fa-wand-magic-sparkles"></i> Tại sao tôi thấy gợi ý này?</button>' +
-          '<div id="xai-exp-' + p.id + '-' + i + '" class="xai-explanation-content" style="display:none; margin-top: 10px;">' +
-            '<div class="xai-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Stylist AI Gợi Ý:</div>' +
-            '<div class="xai-explanation-text">' + getXaiExplanation(p) + '</div>' +
-          '</div>' +
+          '<button class="xai-btn-outline" onclick="event.stopPropagation(); showXaiModal(\'' + p.id + '\')"><i class="fa-solid fa-wand-magic-sparkles"></i> Tại sao tôi thấy gợi ý này?</button>' +
           '<button class="dpp-btn-outline" onclick="event.stopPropagation(); showDppModal(\'' + p.id + '\')"><i class="fa-solid fa-passport"></i> Xem Hộ Chiếu Số DPP</button>' +
         '</div>' +
       '</div>';
@@ -1261,11 +1257,7 @@ function renderProductDetail(product) {
           '</div>' +
           vtonBtnHtml +
           '<div style="margin-top: 15px; display: flex; flex-direction: column; gap: 10px; width: 100%;">' +
-            '<button class="xai-btn-outline" onclick="toggleXaiExplanation(\'' + product.id + '\', \'detail-xai-exp\')"><i class="fa-solid fa-wand-magic-sparkles"></i> Tại sao tôi thấy gợi ý này?</button>' +
-            '<div id="detail-xai-exp" class="xai-explanation-content" style="display:none;">' +
-              '<div class="xai-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Stylist AI Gợi Ý:</div>' +
-              '<div class="xai-explanation-text">' + getXaiExplanation(product) + '</div>' +
-            '</div>' +
+            '<button class="xai-btn-outline" onclick="showXaiModal(\'' + product.id + '\')"><i class="fa-solid fa-wand-magic-sparkles"></i> Tại sao tôi thấy gợi ý này?</button>' +
             '<button class="dpp-btn-outline" onclick="showDppModal(\'' + product.id + '\')"><i class="fa-solid fa-passport"></i> Xem Hộ Chiếu Số DPP</button>' +
           '</div>' +
         '</div>' +
@@ -3523,40 +3515,113 @@ function toggleDppNode(nodeId) {
   }
 }
 
-function toggleXaiExplanation(productId, elementId) {
-  var el = document.getElementById(elementId);
-  if (!el) return;
-  if (el.style.display === 'none' || el.style.display === '') {
-    el.style.display = 'block';
-    
-    // If advanced AI_REC_SYSTEM is available, trigger Shapley XAI calculation dynamically
-    if (typeof AI_REC_SYSTEM !== 'undefined' && AI_REC_SYSTEM.initialized) {
-      var contentEl = el.querySelector('.xai-explanation-text');
-      if (contentEl && !contentEl.getAttribute('data-loaded')) {
-        contentEl.innerHTML = '<span style="color:var(--text-muted);font-size:0.8rem;"><i class="fa-solid fa-circle-notch fa-spin"></i> Đang phân tích giá trị đóng góp Shapley XAI...</span>';
-        
-        var product = null;
-        for (var i = 0; i < SHOP_PRODUCTS.length; i++) {
-          if (String(SHOP_PRODUCTS[i].id) === String(productId)) {
-            product = SHOP_PRODUCTS[i];
-            break;
-          }
-        }
-        if (product) {
-          AI_REC_SYSTEM.explainProduct(product).then(function(nlgText) {
-            contentEl.innerHTML = nlgText;
-            if (nlgText && nlgText.indexOf('khởi tạo') === -1 && nlgText.indexOf('đang tải') === -1) {
-              contentEl.setAttribute('data-loaded', 'true');
-            }
-          }).catch(function(err) {
-            console.error('[XAI] Failed to calculate Shapley explanation:', err);
-            contentEl.innerHTML = getXaiExplanation(product);
-          });
-        }
+function showXaiModal(productId) {
+  // Close any existing XAI modal
+  closeXaiModal();
+
+  var product = null;
+  if (typeof SHOP_PRODUCTS !== 'undefined') {
+    for (var i = 0; i < SHOP_PRODUCTS.length; i++) {
+      if (String(SHOP_PRODUCTS[i].id) === String(productId)) {
+        product = SHOP_PRODUCTS[i];
+        break;
       }
     }
+  }
+  if (!product) return;
+
+  var overlay = document.createElement('div');
+  overlay.id = 'xai-modal';
+  overlay.className = 'xai-modal-overlay';
+  
+  // Set inline styles for backdrop and modal to ensure glassmorphism and responsiveness
+  overlay.style.position = 'fixed';
+  overlay.style.top = '0';
+  overlay.style.left = '0';
+  overlay.style.width = '100%';
+  overlay.style.height = '100%';
+  overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.4)';
+  overlay.style.backdropFilter = 'blur(6px)';
+  overlay.style.webKitBackdropFilter = 'blur(6px)';
+  overlay.style.zIndex = '10000';
+  overlay.style.display = 'flex';
+  overlay.style.alignItems = 'center';
+  overlay.style.justifyContent = 'center';
+  overlay.style.opacity = '0';
+  overlay.style.transition = 'opacity 0.25s ease';
+  
+  // Close modal when clicking backdrop
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) {
+      closeXaiModal();
+    }
+  });
+
+  var containerHtml = 
+    '<div class="xai-modal-container" style="background:#F8F6F1; border: 1px solid rgba(91, 116, 83, 0.25); border-radius: 16px; width: 90%; max-width: 500px; padding: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.15); position: relative; transform: scale(0.9); transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); max-height: 85vh; overflow-y: auto;">' +
+      '<button onclick="closeXaiModal()" style="position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 1.25rem; cursor: pointer; color: var(--text-muted); hover: color: var(--text-dark);"><i class="fa-solid fa-xmark"></i></button>' +
+      '<div style="display:flex; align-items:center; gap:8px; margin-bottom: 16px;">' +
+        '<i class="fa-solid fa-wand-magic-sparkles" style="font-size: 1.4rem; color: var(--primary);"></i>' +
+        '<h3 style="margin:0; font-family:\'Outfit\', sans-serif; font-weight:600; color:var(--primary); font-size:1.15rem;">Stylist AI giải thích</h3>' +
+      '</div>' +
+      '<div id="xai-modal-loading" style="font-size:0.85rem; color:var(--text-muted); text-align:center; padding: 20px 0;">' +
+        '<i class="fa-solid fa-circle-notch fa-spin" style="margin-right:6px;"></i> Đang phân tích đóng góp đặc tính Shapley...' +
+      '</div>' +
+      '<div id="xai-modal-content" style="display:none;"></div>' +
+    '</div>';
+
+  overlay.innerHTML = containerHtml;
+  document.body.appendChild(overlay);
+
+  // Trigger animations
+  setTimeout(function() {
+    overlay.style.opacity = '1';
+    var container = overlay.querySelector('.xai-modal-container');
+    if (container) container.style.transform = 'scale(1)';
+  }, 10);
+
+  // Fetch explanation
+  if (typeof AI_REC_SYSTEM !== 'undefined') {
+    AI_REC_SYSTEM.explainProduct(product).then(function(nlgText) {
+      var loadingEl = document.getElementById('xai-modal-loading');
+      var contentEl = document.getElementById('xai-modal-content');
+      if (loadingEl && contentEl) {
+        loadingEl.style.display = 'none';
+        contentEl.innerHTML = nlgText;
+        contentEl.style.display = 'block';
+      }
+    }).catch(function(err) {
+      console.error('[XAI Modal] Error:', err);
+      var loadingEl = document.getElementById('xai-modal-loading');
+      var contentEl = document.getElementById('xai-modal-content');
+      if (loadingEl && contentEl) {
+        loadingEl.style.display = 'none';
+        contentEl.innerHTML = '<div style="font-size:0.8rem; color:var(--text-dark);">' + getXaiExplanation(product) + '</div>';
+        contentEl.style.display = 'block';
+      }
+    });
   } else {
-    el.style.display = 'none';
+    var loadingEl = document.getElementById('xai-modal-loading');
+    var contentEl = document.getElementById('xai-modal-content');
+    if (loadingEl && contentEl) {
+      loadingEl.style.display = 'none';
+      contentEl.innerHTML = '<div style="font-size:0.8rem; color:var(--text-dark);">' + getXaiExplanation(product) + '</div>';
+      contentEl.style.display = 'block';
+    }
+  }
+}
+
+function closeXaiModal() {
+  var modal = document.getElementById('xai-modal');
+  if (modal) {
+    modal.style.opacity = '0';
+    var container = modal.querySelector('.xai-modal-container');
+    if (container) container.style.transform = 'scale(0.9)';
+    setTimeout(function() {
+      if (modal.parentNode) {
+        modal.parentNode.removeChild(modal);
+      }
+    }, 250);
   }
 }
 
@@ -3582,7 +3647,8 @@ function getXaiExplanation(p) {
 window.showDppModal = showDppModal;
 window.closeDppModal = closeDppModal;
 window.toggleDppNode = toggleDppNode;
-window.toggleXaiExplanation = toggleXaiExplanation;
+window.showXaiModal = showXaiModal;
+window.closeXaiModal = closeXaiModal;
 window.getXaiExplanation = getXaiExplanation;
 
 /* ==================== VTON STUDIO ==================== */
