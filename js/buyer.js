@@ -104,6 +104,14 @@ function initShopPage() {
     }
   } catch (e) {}
 
+  // If returning from a product detail view, reset to page 1 so re-sorted results are visible
+  try {
+    if (sessionStorage.getItem('rf_from_detail') === '1') {
+      shopState.currentPage = 1;
+      sessionStorage.removeItem('rf_from_detail');
+    }
+  } catch(e) {}
+
   var params = new URLSearchParams(window.location.search);
   var storeParam = params.get('store');
   if (storeParam) {
@@ -939,7 +947,13 @@ function syncSellerProductsToDB() {
 syncSellerProductsToDB();
 
 function goToDetail(productId) {
+  // Track interaction before navigating so profile is saved to localStorage
+  if (typeof AI_REC_SYSTEM !== 'undefined' && AI_REC_SYSTEM.trackView) {
+    AI_REC_SYSTEM.trackView(productId);
+  }
   try { sessionStorage.setItem('rf_detail_product_id', productId); } catch(e) {}
+  // Flag that we came from a product view so shop re-sorts on return
+  try { sessionStorage.setItem('rf_from_detail', '1'); } catch(e) {}
   for (var _i = 0; _i < SHOP_PRODUCTS.length; _i++) {
     if (String(SHOP_PRODUCTS[_i].id) === String(productId)) {
       try { sessionStorage.setItem('rf_detail_product', JSON.stringify(SHOP_PRODUCTS[_i])); } catch(e) {}

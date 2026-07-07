@@ -866,24 +866,4 @@ document.addEventListener('DOMContentLoaded', function() {
   }, 500);
 });
 
-// Hook goToDetail dynamically
-var originalGoToDetail = window.goToDetail;
-window.goToDetail = function(productId) {
-  if (typeof AI_REC_SYSTEM !== 'undefined') {
-    AI_REC_SYSTEM.trackView(productId);
-  }
-  if (typeof originalGoToDetail === 'function') {
-    originalGoToDetail(productId);
-  } else {
-    try {
-      sessionStorage.setItem('rf_detail_id', productId);
-      for (var i = 0; i < SHOP_PRODUCTS.length; i++) {
-        if (String(SHOP_PRODUCTS[i].id) === String(productId)) {
-          sessionStorage.setItem('rf_detail_product', JSON.stringify(SHOP_PRODUCTS[i]));
-          break;
-        }
-      }
-      window.location.href = '/buyer/shop-detail.html';
-    } catch(e) {}
-  }
-};
+
