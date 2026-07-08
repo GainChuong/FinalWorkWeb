@@ -204,18 +204,22 @@ document.addEventListener('DOMContentLoaded', function () {
     var newTxns = [];
     completedOrders.forEach(function (o) {
       var fee = Math.round((o.total || 0) * 0.05);
+      var sEmail = o.sellerEmail || 'admin@refashion.vn';
+      var bEmail = o.buyerEmail || 'unknown@example.com';
+      var customerName = (o.customer && o.customer.name) ? o.customer.name : ((o.customer && typeof o.customer === 'string') ? o.customer : bEmail.split('@')[0]);
+      
       newTxns.push({
         id: 'TXN-AUTO-' + String(transactions.length + newTxns.length + 1).padStart(5, '0'),
         orderId: o.id,
-        store: o.store || o.sellerEmail.split('@')[0],
-        sellerEmail: o.sellerEmail,
-        buyerEmail: o.buyerEmail,
-        buyerName: (o.customer && o.customer.name) || o.buyerEmail.split('@')[0],
+        store: o.store || sEmail.split('@')[0],
+        sellerEmail: sEmail,
+        buyerEmail: bEmail,
+        buyerName: customerName,
         amount: o.total || 0,
         platformFee: fee,
         netAmount: (o.total || 0) - fee,
         paymentMethod: o.paymentMethod || 'COD',
-        date: o.createdAt ? o.createdAt.split('T')[0] : new Date().toISOString().split('T')[0],
+        date: o.createdAt ? o.createdAt.split('T')[0] : (o.date ? o.date : new Date().toISOString().split('T')[0]),
         status: 'Settled'
       });
     });
