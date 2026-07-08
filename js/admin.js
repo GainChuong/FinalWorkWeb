@@ -53,6 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
   let categories = [];
   let withdrawals = [];
   let campaigns = [];
+  let transactions = [];
 
   let sellerStats = null;
   let allMonths = [];
@@ -123,19 +124,23 @@ document.addEventListener('DOMContentLoaded', function () {
     }));
     shops = [...approvedShops, ...pendingShops];
     
-    orders = (ordData.orders || []).map(o => ({
-      id: o.id,
-      orderRef: o.id,
-      customer: o.buyerEmail.split('@')[0],
-      email: o.buyerEmail,
-      store: o.sellerEmail === 'admin@refashion.vn' ? 'Eco Wear' : (o.sellerEmail.split('@')[0] + ' Store'),
-      items: o.items || [],
-      total: o.total || 0,
-      platformFee: (o.total || 0) * 0.05,
-      payment: o.paymentMethod || 'COD',
-      status: o.status || 'pending',
-      date: o.createdAt ? new Date(o.createdAt).toLocaleDateString('vi-VN') : (o.date ? new Date(o.date).toLocaleDateString('vi-VN') : '')
-    }));
+    orders = (ordData.orders || []).map(o => {
+      let bEmail = o.buyerEmail || 'unknown@example.com';
+      let sEmail = o.sellerEmail || 'admin@refashion.vn';
+      return {
+        id: o.id,
+        orderRef: o.id,
+        customer: (o.customer && o.customer.name) ? o.customer.name : bEmail.split('@')[0],
+        email: bEmail,
+        store: sEmail === 'admin@refashion.vn' ? 'Eco Wear' : (sEmail.split('@')[0] + ' Store'),
+        items: o.items || [],
+        total: o.total || 0,
+        platformFee: (o.total || 0) * 0.05,
+        payment: o.paymentMethod || 'COD',
+        status: o.status || 'pending',
+        date: o.createdAt ? new Date(o.createdAt).toLocaleDateString('vi-VN') : (o.date ? new Date(o.date).toLocaleDateString('vi-VN') : '')
+      };
+    });
     
     subscriptions = shopReqData.subscriptions || [];
     
