@@ -2827,18 +2827,18 @@ function renderCommunity() {
       redemptionsHtml += 
         '<div style="margin-top:4rem; border-top:1px solid var(--border); padding-top:3rem;">' +
           '<div style="text-align:center;margin-bottom:2.5rem">' +
-            '<h3 style="font-family:var(--font-serif);font-size:2rem;color:var(--primary);margin-bottom:0.5rem">Lịch sử đổi quà & điểm</h3>' +
-            '<p style="color:var(--text-muted);font-size:1rem">Xem danh sách các phần quà và hoạt động bạn đã đổi bằng GreenCoin.</p>' +
+            '<h3 style="font-family:var(--font-serif);font-size:2rem;color:var(--primary);margin-bottom:0.5rem">Reward & Points History</h3>' +
+            '<p style="color:var(--text-muted);font-size:1rem">View the list of rewards and activities you have redeemed using GreenCoin.</p>' +
           '</div>' +
           '<div style="background-color:var(--card); border-radius:24px; border:1px solid var(--border); padding:2rem; box-shadow:0 10px 30px var(--shadow); overflow-x:auto;">' +
             '<table style="width:100%; border-collapse:collapse; text-align:left; font-size:0.9rem; min-width:600px;">' +
               '<thead>' +
                 '<tr style="border-bottom:2px solid var(--border); color:var(--primary); font-weight:700;">' +
-                  '<th style="padding:1rem;">Mã giao dịch</th>' +
-                  '<th style="padding:1rem;">Phần quà / Hoạt động</th>' +
-                  '<th style="padding:1rem;">Mã Voucher (nếu có)</th>' +
-                  '<th style="padding:1rem;">Ngày đổi</th>' +
-                  '<th style="padding:1rem; text-align:right;">GreenCoin đã tiêu</th>' +
+                  '<th style="padding:1rem;">Transaction ID</th>' +
+                  '<th style="padding:1rem;">Reward / Activity</th>' +
+                  '<th style="padding:1rem;">Voucher Code (if any)</th>' +
+                  '<th style="padding:1rem;">Date Redeemed</th>' +
+                  '<th style="padding:1rem; text-align:right;">GreenCoin Spent</th>' +
                 '</tr>' +
               '</thead>' +
               '<tbody>';
@@ -2862,8 +2862,8 @@ function renderCommunity() {
     } else {
       redemptionsHtml +=
         '<div style="margin-top:4rem; border-top:1px solid var(--border); padding-top:3rem; text-align:center; color:var(--text-muted);">' +
-          '<h3 style="font-family:var(--font-serif);font-size:2rem;color:var(--primary);margin-bottom:0.5rem">Lịch sử đổi quà & điểm</h3>' +
-          '<p style="margin-bottom:1.5rem;">Bạn chưa thực hiện giao dịch đổi quà nào.</p>' +
+          '<h3 style="font-family:var(--font-serif);font-size:2rem;color:var(--primary);margin-bottom:0.5rem">Reward & Points History</h3>' +
+          '<p style="margin-bottom:1.5rem;">You have not made any reward redemptions yet.</p>' +
         '</div>';
     }
   }
@@ -3070,18 +3070,18 @@ function renderCommunity() {
       redemptionsHtml += 
         '<div style="margin-top:4rem; border-top:1px solid var(--border); padding-top:3rem;">' +
           '<div style="text-align:center;margin-bottom:2.5rem">' +
-            '<h3 style="font-family:var(--font-serif);font-size:2rem;color:var(--primary);margin-bottom:0.5rem">Lịch sử đổi quà & điểm</h3>' +
-            '<p style="color:var(--text-muted);font-size:1rem">Xem danh sách các phần quà và hoạt động bạn đã đổi bằng GreenCoin.</p>' +
+            '<h3 style="font-family:var(--font-serif);font-size:2rem;color:var(--primary);margin-bottom:0.5rem">Reward & Points History</h3>' +
+            '<p style="color:var(--text-muted);font-size:1rem">View the list of rewards and activities you have redeemed using GreenCoin.</p>' +
           '</div>' +
           '<div style="background-color:var(--card); border-radius:24px; border:1px solid var(--border); padding:2rem; box-shadow:0 10px 30px var(--shadow); overflow-x:auto;">' +
             '<table style="width:100%; border-collapse:collapse; text-align:left; font-size:0.9rem; min-width:600px;">' +
               '<thead>' +
                 '<tr style="border-bottom:2px solid var(--border); color:var(--primary); font-weight:700;">' +
-                  '<th style="padding:1rem;">Mã giao dịch</th>' +
-                  '<th style="padding:1rem;">Phần quà / Hoạt động</th>' +
-                  '<th style="padding:1rem;">Mã Voucher (nếu có)</th>' +
-                  '<th style="padding:1rem;">Ngày đổi</th>' +
-                  '<th style="padding:1rem; text-align:right;">GreenCoin đã tiêu</th>' +
+                  '<th style="padding:1rem;">Transaction ID</th>' +
+                  '<th style="padding:1rem;">Reward / Activity</th>' +
+                  '<th style="padding:1rem;">Voucher Code (if any)</th>' +
+                  '<th style="padding:1rem;">Date Redeemed</th>' +
+                  '<th style="padding:1rem; text-align:right;">GreenCoin Spent</th>' +
                 '</tr>' +
               '</thead>' +
               '<tbody>';
@@ -3105,8 +3105,8 @@ function renderCommunity() {
     } else {
       redemptionsHtml +=
         '<div style="margin-top:4rem; border-top:1px solid var(--border); padding-top:3rem; text-align:center; color:var(--text-muted);">' +
-          '<h3 style="font-family:var(--font-serif);font-size:2rem;color:var(--primary);margin-bottom:0.5rem">Lịch sử đổi quà & điểm</h3>' +
-          '<p style="margin-bottom:1.5rem;">Bạn chưa thực hiện giao dịch đổi quà nào.</p>' +
+          '<h3 style="font-family:var(--font-serif);font-size:2rem;color:var(--primary);margin-bottom:0.5rem">Reward & Points History</h3>' +
+          '<p style="margin-bottom:1.5rem;">You have not made any reward redemptions yet.</p>' +
         '</div>';
     }
   }
