@@ -1,0 +1,72 @@
+{
+  "subscriptions": [
+    {
+      "id": "SUB-001",
+      "store": "Retro Chic",
+      "email": "seller_retro@refashion.vn",
+      "designer": "Nguyễn Văn A",
+      "plan": "Pro",
+      "monthlyFee": 299000,
+      "products": 35,
+      "renewalDate": "2026-08-01",
+      "status": "Active"
+    },
+    {
+      "id": "SUB-002",
+      "store": "Eco Wear",
+      "email": "seller_eco@refashion.vn",
+      "designer": "Trần Thị B",
+      "plan": "Enterprise",
+      "monthlyFee": 599000,
+      "products": 120,
+      "renewalDate": "2026-07-25",
+      "status": "Active"
+    },
+    {
+      "id": "SUB-003",
+      "store": "Hemp & Bamboo",
+      "email": "seller_hemp@refashion.vn",
+      "designer": "Lê Ngọc C",
+      "plan": "Basic",
+      "monthlyFee": 99000,
+      "products": 12,
+      "renewalDate": "2026-08-10",
+      "status": "Active"
+    },
+    {
+      "id": "SUB-004",
+      "store": "Denim Craft",
+      "email": "seller_denim@refashion.vn",
+      "designer": "Phạm Văn D",
+      "plan": "Pro",
+      "monthlyFee": 299000,
+      "products": 45,
+      "renewalDate": "2026-07-30",
+      "status": "Active"
+    }
+  ],
+  "requests": [
+    {
+      "id": "REQ-101",
+      "store": "Vintage Soul",
+      "email": "vintage@example.com",
+      "designer": "Hoàng K",
+      "requestedAt": "2026-07-07",
+      "plan": "Basic",
+      "status": "Pending Review",
+      "bio": "I upcycle vintage clothes.",
+      "phone": "0912 345 678"
+    },
+    {
+      "id": "REQ-102",
+      "store": "Green Thread",
+      "email": "greenthread@example.com",
+      "designer": "Ngô L",
+      "requestedAt": "2026-07-08",
+      "plan": "Pro",
+      "status": "Pending Review",
+      "bio": "Sustainable fabrics.",
+      "phone": "0987 654 321"
+    }
+  ]
+}

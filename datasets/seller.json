@@ -1,72 +1,3638 @@
 {
-  "dashboard": {
-    "months": [
-      {
-        "key": "2026-05",
-        "label": "Tháng 05, 2026",
-        "stats": {
-          "revenue": 8200000,
-          "orders": 16,
-          "co2_saved": 28,
-          "esg_score": 72,
-          "revenue_trend": "+8%",
-          "orders_trend": "Còn 3 đơn chờ",
-          "co2_trend": "Từ 10 sản phẩm Upcycling",
-          "environment_products": 10,
-          "environment_score_change": "+4 điểm vs tháng trước"
+  "Eco Wear": {
+    "dashboard": {
+      "months": [
+        {
+          "key": "2026-01",
+          "label": "January 2026",
+          "stats": {
+            "revenue": 8104137,
+            "orders": 16,
+            "co2_saved": 40,
+            "esg_score": 71,
+            "revenue_trend": "+16%",
+            "orders_trend": "1 pending orders",
+            "co2_trend": "From 11 Upcycling products",
+            "environment_products": 18,
+            "environment_score_change": "+5 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2115455.4095446607,
+              1939521.4930816183,
+              2001475.4442602324,
+              1968414.435012529
+            ],
+            "revenue_daily": [
+              326278.85732352856,
+              256289.79868301412,
+              301995.07625208143,
+              247277.18131723735,
+              255968.17030213913,
+              337342.56698828,
+              320493.0414613111
+            ],
+            "category": [
+              16,
+              29,
+              7,
+              8
+            ],
+            "environmental_products": [
+              7,
+              12,
+              5,
+              13
+            ],
+            "environmental_co2": [
+              25,
+              37,
+              37,
+              11
+            ]
+          }
         },
-        "charts": {
-          "revenue_weekly": [1800000, 2100000, 2400000, 1900000],
-          "revenue_daily": [800000, 1100000, 950000, 1400000, 1200000, 1800000, 950000],
-          "category": [35, 30, 20, 15],
-          "environmental_products": [8, 10, 6, 4],
-          "environmental_co2": [16, 22, 14, 10]
-        }
-      },
-      {
-        "key": "2026-06",
-        "label": "Tháng 06, 2026",
-        "stats": {
-          "revenue": 10500000,
-          "orders": 20,
-          "co2_saved": 36,
-          "esg_score": 80,
-          "revenue_trend": "+12%",
-          "orders_trend": "Còn 5 đơn chờ",
-          "co2_trend": "Từ 12 sản phẩm Upcycling",
-          "environment_products": 12,
-          "environment_score_change": "+8 điểm vs tháng trước"
+        {
+          "key": "2026-02",
+          "label": "February 2026",
+          "stats": {
+            "revenue": 9819596,
+            "orders": 19,
+            "co2_saved": 33,
+            "esg_score": 76,
+            "revenue_trend": "+7%",
+            "orders_trend": "7 pending orders",
+            "co2_trend": "From 5 Upcycling products",
+            "environment_products": 22,
+            "environment_score_change": "+3 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2497378.205494992,
+              2473337.111312102,
+              2440446.2397315064,
+              2384119.077348684
+            ],
+            "revenue_daily": [
+              301696.6183259168,
+              393236.865557568,
+              380808.60982583434,
+              344376.4171017998,
+              311877.95535910584,
+              321100.1711969477,
+              359703.2799553422
+            ],
+            "category": [
+              31,
+              25,
+              17,
+              8
+            ],
+            "environmental_products": [
+              15,
+              18,
+              13,
+              17
+            ],
+            "environmental_co2": [
+              23,
+              28,
+              36,
+              16
+            ]
+          }
         },
-        "charts": {
-          "revenue_weekly": [2200000, 2800000, 3100000, 2400000],
-          "revenue_daily": [1000000, 1500000, 1200000, 1800000, 1600000, 2400000, 1000000],
-          "category": [40, 28, 18, 14],
-          "environmental_products": [10, 14, 8, 4],
-          "environmental_co2": [20, 28, 18, 10]
-        }
-      },
-      {
-        "key": "2026-07",
-        "label": "Tháng 07, 2026",
-        "stats": {
-          "revenue": 12500000,
-          "orders": 24,
-          "co2_saved": 45,
-          "esg_score": 85,
-          "revenue_trend": "+15%",
-          "orders_trend": "Chờ xử lý",
-          "co2_trend": "Từ sản phẩm Upcycling",
-          "environment_products": 15,
-          "environment_score_change": "+6 điểm vs tháng trước"
+        {
+          "key": "2026-03",
+          "label": "March 2026",
+          "stats": {
+            "revenue": 10027195,
+            "orders": 20,
+            "co2_saved": 42,
+            "esg_score": 89,
+            "revenue_trend": "+1%",
+            "orders_trend": "5 pending orders",
+            "co2_trend": "From 8 Upcycling products",
+            "environment_products": 22,
+            "environment_score_change": "+1 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2588015.2671806077,
+              2489006.0525395577,
+              2513337.393083304,
+              2591369.6965527567
+            ],
+            "revenue_daily": [
+              382977.5394367764,
+              351046.5013448662,
+              350423.65069123975,
+              315606.0305323373,
+              407804.3240813068,
+              352314.3800183842,
+              370366.9991575469
+            ],
+            "category": [
+              2,
+              14,
+              16,
+              9
+            ],
+            "environmental_products": [
+              13,
+              5,
+              19,
+              5
+            ],
+            "environmental_co2": [
+              38,
+              22,
+              19,
+              20
+            ]
+          }
         },
-        "charts": {
-          "revenue_weekly": [2800000, 3200000, 3800000, 2700000],
-          "revenue_daily": [1200000, 1800000, 1500000, 2200000, 1900000, 3100000, 2600000],
-          "category": [45, 25, 20, 10],
-          "environmental_products": [12, 18, 15, 22],
-          "environmental_co2": [25, 38, 30, 45]
+        {
+          "key": "2026-04",
+          "label": "April 2026",
+          "stats": {
+            "revenue": 8501331,
+            "orders": 17,
+            "co2_saved": 41,
+            "esg_score": 75,
+            "revenue_trend": "+0%",
+            "orders_trend": "2 pending orders",
+            "co2_trend": "From 9 Upcycling products",
+            "environment_products": 20,
+            "environment_score_change": "+8 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2056569.869285374,
+              2136939.0620293478,
+              2065138.0943773503,
+              2117512.6285002027
+            ],
+            "revenue_daily": [
+              279835.63963612355,
+              299699.9156419152,
+              326804.5591250091,
+              254993.10062904586,
+              267198.00757703895,
+              299764.0273430409,
+              331897.2283463442
+            ],
+            "category": [
+              8,
+              17,
+              9,
+              8
+            ],
+            "environmental_products": [
+              19,
+              19,
+              18,
+              7
+            ],
+            "environmental_co2": [
+              31,
+              22,
+              23,
+              36
+            ]
+          }
+        },
+        {
+          "key": "2026-05",
+          "label": "May 2026",
+          "stats": {
+            "revenue": 12182343,
+            "orders": 24,
+            "co2_saved": 41,
+            "esg_score": 73,
+            "revenue_trend": "+10%",
+            "orders_trend": "9 pending orders",
+            "co2_trend": "From 17 Upcycling products",
+            "environment_products": 9,
+            "environment_score_change": "+8 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2994462.5439331555,
+              3024424.363589984,
+              2957495.6610556333,
+              3053549.918193903
+            ],
+            "revenue_daily": [
+              455019.01573741843,
+              397054.09406890126,
+              483909.9724568996,
+              435560.13980941154,
+              413382.88252873276,
+              451723.35785127484,
+              451791.1389660505
+            ],
+            "category": [
+              4,
+              9,
+              5,
+              7
+            ],
+            "environmental_products": [
+              9,
+              14,
+              16,
+              18
+            ],
+            "environmental_co2": [
+              36,
+              34,
+              19,
+              38
+            ]
+          }
+        },
+        {
+          "key": "2026-06",
+          "label": "June 2026",
+          "stats": {
+            "revenue": 9145027,
+            "orders": 18,
+            "co2_saved": 39,
+            "esg_score": 74,
+            "revenue_trend": "+1%",
+            "orders_trend": "0 pending orders",
+            "co2_trend": "From 21 Upcycling products",
+            "environment_products": 7,
+            "environment_score_change": "+6 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2310435.796765363,
+              2214712.8331570467,
+              2246185.1553874663,
+              2313642.231332261
+            ],
+            "revenue_daily": [
+              282729.6935551558,
+              367276.86029812234,
+              290373.0700537443,
+              314583.414567036,
+              353603.17640597606,
+              304171.2367766972,
+              360178.5797371316
+            ],
+            "category": [
+              20,
+              12,
+              12,
+              8
+            ],
+            "environmental_products": [
+              17,
+              16,
+              14,
+              16
+            ],
+            "environmental_co2": [
+              17,
+              20,
+              39,
+              24
+            ]
+          }
+        },
+        {
+          "key": "2026-07",
+          "label": "July 2026",
+          "stats": {
+            "revenue": 12324567,
+            "orders": 24,
+            "co2_saved": 52,
+            "esg_score": 71,
+            "revenue_trend": "+3%",
+            "orders_trend": "2 pending orders",
+            "co2_trend": "From 14 Upcycling products",
+            "environment_products": 14,
+            "environment_score_change": "+8 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              3036586.0742026865,
+              3068347.0276481328,
+              3058004.1051312727,
+              3157541.397365723
+            ],
+            "revenue_daily": [
+              460450.480218345,
+              410335.8270158386,
+              463969.944336993,
+              430620.47410347854,
+              458700.3837166359,
+              473575.9347203041,
+              421136.1746891898
+            ],
+            "category": [
+              15,
+              22,
+              4,
+              1
+            ],
+            "environmental_products": [
+              13,
+              13,
+              18,
+              15
+            ],
+            "environmental_co2": [
+              10,
+              10,
+              13,
+              35
+            ]
+          }
+        },
+        {
+          "key": "2026-08",
+          "label": "August 2026",
+          "stats": {
+            "revenue": 9909108,
+            "orders": 19,
+            "co2_saved": 28,
+            "esg_score": 75,
+            "revenue_trend": "+17%",
+            "orders_trend": "4 pending orders",
+            "co2_trend": "From 11 Upcycling products",
+            "environment_products": 13,
+            "environment_score_change": "+8 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2448919.1325369896,
+              2572518.6720102397,
+              2560947.646814461,
+              2560442.525692443
+            ],
+            "revenue_daily": [
+              369100.7473715432,
+              347984.6287140434,
+              347309.7072913538,
+              393616.2250695863,
+              386780.1253478723,
+              332350.6193364628,
+              312575.11031260405
+            ],
+            "category": [
+              22,
+              22,
+              1,
+              3
+            ],
+            "environmental_products": [
+              5,
+              15,
+              9,
+              16
+            ],
+            "environmental_co2": [
+              32,
+              34,
+              19,
+              33
+            ]
+          }
+        },
+        {
+          "key": "2026-09",
+          "label": "September 2026",
+          "stats": {
+            "revenue": 10259370,
+            "orders": 20,
+            "co2_saved": 46,
+            "esg_score": 70,
+            "revenue_trend": "+15%",
+            "orders_trend": "4 pending orders",
+            "co2_trend": "From 18 Upcycling products",
+            "environment_products": 18,
+            "environment_score_change": "+7 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2621316.502084954,
+              2646630.2439302756,
+              2542581.817227154,
+              2533417.2597606317
+            ],
+            "revenue_daily": [
+              336407.99591055675,
+              387988.3152892216,
+              399445.9193280564,
+              338857.42882108013,
+              414116.8847261595,
+              403103.7109880034,
+              410874.62740571646
+            ],
+            "category": [
+              36,
+              1,
+              12,
+              5
+            ],
+            "environmental_products": [
+              18,
+              12,
+              17,
+              16
+            ],
+            "environmental_co2": [
+              31,
+              30,
+              10,
+              37
+            ]
+          }
+        },
+        {
+          "key": "2026-10",
+          "label": "October 2026",
+          "stats": {
+            "revenue": 11283258,
+            "orders": 22,
+            "co2_saved": 51,
+            "esg_score": 83,
+            "revenue_trend": "+1%",
+            "orders_trend": "0 pending orders",
+            "co2_trend": "From 14 Upcycling products",
+            "environment_products": 11,
+            "environment_score_change": "+9 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2781195.958720053,
+              2859662.472794482,
+              2776805.7386021125,
+              2891134.6103354464
+            ],
+            "revenue_daily": [
+              355130.25415264315,
+              429451.94752703805,
+              435314.3500809012,
+              374771.4932852807,
+              402413.9872028327,
+              353957.54113347613,
+              358138.0696049103
+            ],
+            "category": [
+              18,
+              6,
+              15,
+              4
+            ],
+            "environmental_products": [
+              14,
+              7,
+              13,
+              12
+            ],
+            "environmental_co2": [
+              23,
+              38,
+              36,
+              20
+            ]
+          }
+        },
+        {
+          "key": "2026-11",
+          "label": "November 2026",
+          "stats": {
+            "revenue": 9957414,
+            "orders": 19,
+            "co2_saved": 23,
+            "esg_score": 84,
+            "revenue_trend": "+15%",
+            "orders_trend": "9 pending orders",
+            "co2_trend": "From 16 Upcycling products",
+            "environment_products": 7,
+            "environment_score_change": "+7 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2411436.491661037,
+              2430143.398485303,
+              2577797.2911280394,
+              2525404.521743639
+            ],
+            "revenue_daily": [
+              399646.0836146055,
+              363396.852711131,
+              378998.9412016666,
+              381079.8474089685,
+              306895.42449871456,
+              331417.72934476,
+              319378.96061208483
+            ],
+            "category": [
+              23,
+              29,
+              5,
+              4
+            ],
+            "environmental_products": [
+              12,
+              10,
+              6,
+              12
+            ],
+            "environmental_co2": [
+              30,
+              33,
+              21,
+              32
+            ]
+          }
+        },
+        {
+          "key": "2026-12",
+          "label": "December 2026",
+          "stats": {
+            "revenue": 8107224,
+            "orders": 16,
+            "co2_saved": 37,
+            "esg_score": 79,
+            "revenue_trend": "+15%",
+            "orders_trend": "2 pending orders",
+            "co2_trend": "From 22 Upcycling products",
+            "environment_products": 5,
+            "environment_score_change": "+1 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2013947.7641360157,
+              1981194.6709899511,
+              2112613.818896541,
+              2031199.8441042083
+            ],
+            "revenue_daily": [
+              262965.8411565876,
+              302107.9466301965,
+              316672.40418555256,
+              295449.68815532763,
+              335504.043228025,
+              252154.25034631297,
+              307716.04470540065
+            ],
+            "category": [
+              29,
+              19,
+              11,
+              7
+            ],
+            "environmental_products": [
+              14,
+              5,
+              11,
+              13
+            ],
+            "environmental_co2": [
+              19,
+              15,
+              37,
+              19
+            ]
+          }
         }
-      }
-    ]
+      ]
+    }
+  },
+  "Hemp & Bamboo": {
+    "dashboard": {
+      "months": [
+        {
+          "key": "2026-01",
+          "label": "January 2026",
+          "stats": {
+            "revenue": 8498079,
+            "orders": 16,
+            "co2_saved": 37,
+            "esg_score": 85,
+            "revenue_trend": "+1%",
+            "orders_trend": "8 pending orders",
+            "co2_trend": "From 13 Upcycling products",
+            "environment_products": 9,
+            "environment_score_change": "+0 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2083096.9062391755,
+              2086612.4731146188,
+              2063806.5961762064,
+              2202367.6483729295
+            ],
+            "revenue_daily": [
+              297421.5877393624,
+              294381.45201551827,
+              311421.3180688723,
+              287376.35275787703,
+              322038.0125037334,
+              324905.018341327,
+              275733.9260851769
+            ],
+            "category": [
+              9,
+              21,
+              0,
+              3
+            ],
+            "environmental_products": [
+              17,
+              16,
+              17,
+              13
+            ],
+            "environmental_co2": [
+              12,
+              26,
+              27,
+              24
+            ]
+          }
+        },
+        {
+          "key": "2026-02",
+          "label": "February 2026",
+          "stats": {
+            "revenue": 12544274,
+            "orders": 25,
+            "co2_saved": 38,
+            "esg_score": 77,
+            "revenue_trend": "+10%",
+            "orders_trend": "2 pending orders",
+            "co2_trend": "From 14 Upcycling products",
+            "environment_products": 10,
+            "environment_score_change": "+7 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              3164206.1921618725,
+              3132772.0153055056,
+              3151559.182738292,
+              3196312.0391723323
+            ],
+            "revenue_daily": [
+              488305.8970069572,
+              456277.6155624766,
+              465242.7277844012,
+              413669.53708738077,
+              457150.30301382253,
+              419377.96298135334,
+              418435.75714914495
+            ],
+            "category": [
+              33,
+              15,
+              2,
+              7
+            ],
+            "environmental_products": [
+              6,
+              6,
+              12,
+              8
+            ],
+            "environmental_co2": [
+              30,
+              21,
+              32,
+              27
+            ]
+          }
+        },
+        {
+          "key": "2026-03",
+          "label": "March 2026",
+          "stats": {
+            "revenue": 12423093,
+            "orders": 24,
+            "co2_saved": 26,
+            "esg_score": 77,
+            "revenue_trend": "+10%",
+            "orders_trend": "8 pending orders",
+            "co2_trend": "From 24 Upcycling products",
+            "environment_products": 8,
+            "environment_score_change": "+4 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              3177508.778214735,
+              3127318.033568898,
+              3014528.476349824,
+              3169285.188375526
+            ],
+            "revenue_daily": [
+              464694.12203814683,
+              463868.150459049,
+              481560.37042580236,
+              419250.0225461007,
+              483356.84688758996,
+              420895.6210682089,
+              432404.00102875155
+            ],
+            "category": [
+              15,
+              14,
+              14,
+              7
+            ],
+            "environmental_products": [
+              19,
+              15,
+              8,
+              12
+            ],
+            "environmental_co2": [
+              10,
+              32,
+              31,
+              39
+            ]
+          }
+        },
+        {
+          "key": "2026-04",
+          "label": "April 2026",
+          "stats": {
+            "revenue": 9436896,
+            "orders": 18,
+            "co2_saved": 29,
+            "esg_score": 81,
+            "revenue_trend": "+16%",
+            "orders_trend": "5 pending orders",
+            "co2_trend": "From 13 Upcycling products",
+            "environment_products": 10,
+            "environment_score_change": "+5 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2291764.916854461,
+              2428337.4545939118,
+              2453433.195047043,
+              2399632.8872806365
+            ],
+            "revenue_daily": [
+              306826.3863231561,
+              345271.1271372255,
+              313699.06908480515,
+              300805.78637293895,
+              287316.2832233365,
+              353171.0726760954,
+              353016.54718502966
+            ],
+            "category": [
+              26,
+              28,
+              11,
+              4
+            ],
+            "environmental_products": [
+              14,
+              18,
+              6,
+              19
+            ],
+            "environmental_co2": [
+              10,
+              29,
+              16,
+              33
+            ]
+          }
+        },
+        {
+          "key": "2026-05",
+          "label": "May 2026",
+          "stats": {
+            "revenue": 8953040,
+            "orders": 17,
+            "co2_saved": 13,
+            "esg_score": 86,
+            "revenue_trend": "+5%",
+            "orders_trend": "5 pending orders",
+            "co2_trend": "From 13 Upcycling products",
+            "environment_products": 19,
+            "environment_score_change": "+4 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2186906.3543346236,
+              2257285.0366546577,
+              2301948.837700348,
+              2267803.0880094846
+            ],
+            "revenue_daily": [
+              294948.91372263664,
+              321472.8277427686,
+              331937.638817933,
+              298059.2371816257,
+              273297.08779281867,
+              308110.45293985796,
+              281191.640241426
+            ],
+            "category": [
+              33,
+              6,
+              1,
+              4
+            ],
+            "environmental_products": [
+              8,
+              16,
+              6,
+              8
+            ],
+            "environmental_co2": [
+              32,
+              30,
+              23,
+              29
+            ]
+          }
+        },
+        {
+          "key": "2026-06",
+          "label": "June 2026",
+          "stats": {
+            "revenue": 12707262,
+            "orders": 25,
+            "co2_saved": 13,
+            "esg_score": 84,
+            "revenue_trend": "+9%",
+            "orders_trend": "3 pending orders",
+            "co2_trend": "From 9 Upcycling products",
+            "environment_products": 8,
+            "environment_score_change": "+1 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              3097995.941164347,
+              3145182.4912358257,
+              3272689.374187409,
+              3147884.5259050867
+            ],
+            "revenue_daily": [
+              420393.05241167615,
+              447685.1783958436,
+              417915.39405911206,
+              428604.99745569815,
+              458698.2998440162,
+              485725.4513753273,
+              421373.66686659085
+            ],
+            "category": [
+              32,
+              10,
+              19,
+              0
+            ],
+            "environmental_products": [
+              9,
+              9,
+              17,
+              9
+            ],
+            "environmental_co2": [
+              32,
+              27,
+              24,
+              10
+            ]
+          }
+        },
+        {
+          "key": "2026-07",
+          "label": "July 2026",
+          "stats": {
+            "revenue": 10185376,
+            "orders": 20,
+            "co2_saved": 29,
+            "esg_score": 78,
+            "revenue_trend": "+16%",
+            "orders_trend": "7 pending orders",
+            "co2_trend": "From 20 Upcycling products",
+            "environment_products": 22,
+            "environment_score_change": "+8 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2513271.846517395,
+              2626443.783366327,
+              2512420.6817373456,
+              2556045.9492155174
+            ],
+            "revenue_daily": [
+              400896.16954396636,
+              335108.7631765289,
+              370241.9470861448,
+              406826.763158936,
+              385066.18619914574,
+              408457.0122649527,
+              359883.9255294995
+            ],
+            "category": [
+              10,
+              8,
+              11,
+              2
+            ],
+            "environmental_products": [
+              8,
+              14,
+              10,
+              8
+            ],
+            "environmental_co2": [
+              11,
+              10,
+              24,
+              21
+            ]
+          }
+        },
+        {
+          "key": "2026-08",
+          "label": "August 2026",
+          "stats": {
+            "revenue": 12355546,
+            "orders": 24,
+            "co2_saved": 22,
+            "esg_score": 73,
+            "revenue_trend": "+15%",
+            "orders_trend": "2 pending orders",
+            "co2_trend": "From 18 Upcycling products",
+            "environment_products": 13,
+            "environment_score_change": "+7 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              3074637.5517499214,
+              3162811.028902552,
+              3138761.4989864165,
+              3022984.3222171688
+            ],
+            "revenue_daily": [
+              418057.7331964482,
+              417397.747212828,
+              436108.5425799321,
+              489577.4296579869,
+              429574.3293187687,
+              416929.8944426242,
+              465286.12680095085
+            ],
+            "category": [
+              17,
+              16,
+              10,
+              5
+            ],
+            "environmental_products": [
+              16,
+              5,
+              7,
+              8
+            ],
+            "environmental_co2": [
+              10,
+              25,
+              37,
+              29
+            ]
+          }
+        },
+        {
+          "key": "2026-09",
+          "label": "September 2026",
+          "stats": {
+            "revenue": 10403895,
+            "orders": 20,
+            "co2_saved": 56,
+            "esg_score": 70,
+            "revenue_trend": "+19%",
+            "orders_trend": "9 pending orders",
+            "co2_trend": "From 9 Upcycling products",
+            "environment_products": 17,
+            "environment_score_change": "+5 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2665133.318387934,
+              2527007.294424571,
+              2676640.6930615255,
+              2644718.0996098574
+            ],
+            "revenue_daily": [
+              346498.5549138612,
+              410337.5614524129,
+              348016.05593010754,
+              380136.1834382927,
+              351370.4501294462,
+              360211.8232126347,
+              336443.17533147096
+            ],
+            "category": [
+              38,
+              1,
+              12,
+              6
+            ],
+            "environmental_products": [
+              6,
+              6,
+              19,
+              15
+            ],
+            "environmental_co2": [
+              12,
+              16,
+              35,
+              11
+            ]
+          }
+        },
+        {
+          "key": "2026-10",
+          "label": "October 2026",
+          "stats": {
+            "revenue": 10600049,
+            "orders": 21,
+            "co2_saved": 33,
+            "esg_score": 83,
+            "revenue_trend": "+11%",
+            "orders_trend": "6 pending orders",
+            "co2_trend": "From 19 Upcycling products",
+            "environment_products": 14,
+            "environment_score_change": "+0 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2672591.455291258,
+              2554828.139901772,
+              2664583.572133877,
+              2665445.288300692
+            ],
+            "revenue_daily": [
+              425441.16887051135,
+              400971.29140824586,
+              397261.7130829795,
+              416435.77726404776,
+              339266.4467494761,
+              350195.46465881245,
+              368317.2851922674
+            ],
+            "category": [
+              2,
+              18,
+              16,
+              2
+            ],
+            "environmental_products": [
+              17,
+              12,
+              8,
+              11
+            ],
+            "environmental_co2": [
+              21,
+              24,
+              33,
+              33
+            ]
+          }
+        },
+        {
+          "key": "2026-11",
+          "label": "November 2026",
+          "stats": {
+            "revenue": 10146609,
+            "orders": 20,
+            "co2_saved": 19,
+            "esg_score": 77,
+            "revenue_trend": "+1%",
+            "orders_trend": "3 pending orders",
+            "co2_trend": "From 15 Upcycling products",
+            "environment_products": 16,
+            "environment_score_change": "+0 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2522005.634126398,
+              2490019.070171174,
+              2513152.9232695685,
+              2523366.274748412
+            ],
+            "revenue_daily": [
+              314805.3519003312,
+              324067.53725803876,
+              382948.7154911837,
+              403424.6581731965,
+              315245.51216808736,
+              396558.7153897757,
+              325305.9845306879
+            ],
+            "category": [
+              27,
+              4,
+              5,
+              2
+            ],
+            "environmental_products": [
+              6,
+              12,
+              12,
+              14
+            ],
+            "environmental_co2": [
+              20,
+              38,
+              36,
+              21
+            ]
+          }
+        },
+        {
+          "key": "2026-12",
+          "label": "December 2026",
+          "stats": {
+            "revenue": 11497832,
+            "orders": 22,
+            "co2_saved": 43,
+            "esg_score": 83,
+            "revenue_trend": "+19%",
+            "orders_trend": "7 pending orders",
+            "co2_trend": "From 10 Upcycling products",
+            "environment_products": 20,
+            "environment_score_change": "+3 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2804054.7034027427,
+              2861059.211974086,
+              2913456.794072713,
+              2839029.513010298
+            ],
+            "revenue_daily": [
+              385672.3664400425,
+              444972.65956104663,
+              412710.25443188864,
+              414283.4568769232,
+              375998.8369468051,
+              427117.00634101644,
+              390930.2961878467
+            ],
+            "category": [
+              5,
+              28,
+              1,
+              8
+            ],
+            "environmental_products": [
+              14,
+              8,
+              16,
+              12
+            ],
+            "environmental_co2": [
+              38,
+              12,
+              26,
+              24
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "Retro Chic": {
+    "dashboard": {
+      "months": [
+        {
+          "key": "2026-01",
+          "label": "January 2026",
+          "stats": {
+            "revenue": 10949859,
+            "orders": 21,
+            "co2_saved": 34,
+            "esg_score": 71,
+            "revenue_trend": "+9%",
+            "orders_trend": "0 pending orders",
+            "co2_trend": "From 8 Upcycling products",
+            "environment_products": 19,
+            "environment_score_change": "+9 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2744087.645518949,
+              2660775.149582284,
+              2721600.0567243304,
+              2727390.8870693706
+            ],
+            "revenue_daily": [
+              429450.11545910407,
+              440046.22917253803,
+              352104.9949467024,
+              365984.20896598254,
+              432989.6395908029,
+              396165.8014207216,
+              374212.7771215147
+            ],
+            "category": [
+              21,
+              21,
+              14,
+              6
+            ],
+            "environmental_products": [
+              10,
+              8,
+              10,
+              14
+            ],
+            "environmental_co2": [
+              23,
+              22,
+              32,
+              17
+            ]
+          }
+        },
+        {
+          "key": "2026-02",
+          "label": "February 2026",
+          "stats": {
+            "revenue": 11862428,
+            "orders": 23,
+            "co2_saved": 18,
+            "esg_score": 82,
+            "revenue_trend": "+13%",
+            "orders_trend": "2 pending orders",
+            "co2_trend": "From 9 Upcycling products",
+            "environment_products": 7,
+            "environment_score_change": "+8 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              3032797.8182979147,
+              2993037.264481186,
+              2918778.0908815283,
+              2904714.5571176587
+            ],
+            "revenue_daily": [
+              450496.44206425594,
+              416942.38753522374,
+              408877.7639796533,
+              397558.13978736976,
+              425786.3016751708,
+              383175.9751515506,
+              435754.78667818254
+            ],
+            "category": [
+              19,
+              3,
+              3,
+              5
+            ],
+            "environmental_products": [
+              18,
+              5,
+              15,
+              7
+            ],
+            "environmental_co2": [
+              17,
+              37,
+              22,
+              14
+            ]
+          }
+        },
+        {
+          "key": "2026-03",
+          "label": "March 2026",
+          "stats": {
+            "revenue": 12669812,
+            "orders": 25,
+            "co2_saved": 18,
+            "esg_score": 84,
+            "revenue_trend": "+19%",
+            "orders_trend": "5 pending orders",
+            "co2_trend": "From 5 Upcycling products",
+            "environment_products": 16,
+            "environment_score_change": "+8 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              3164842.846351997,
+              3264557.3189082434,
+              3116853.2997732167,
+              3252528.6451100754
+            ],
+            "revenue_daily": [
+              475740.9978522492,
+              448906.3039915618,
+              427504.748696391,
+              448020.75930421165,
+              501835.02185148874,
+              428375.6468430796,
+              493057.2671413877
+            ],
+            "category": [
+              22,
+              4,
+              14,
+              1
+            ],
+            "environmental_products": [
+              7,
+              15,
+              18,
+              11
+            ],
+            "environmental_co2": [
+              30,
+              34,
+              34,
+              34
+            ]
+          }
+        },
+        {
+          "key": "2026-04",
+          "label": "April 2026",
+          "stats": {
+            "revenue": 8649455,
+            "orders": 17,
+            "co2_saved": 33,
+            "esg_score": 89,
+            "revenue_trend": "+4%",
+            "orders_trend": "2 pending orders",
+            "co2_trend": "From 5 Upcycling products",
+            "environment_products": 7,
+            "environment_score_change": "+9 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2079221.0500287886,
+              2111708.392156884,
+              2129977.066248154,
+              2184141.4391959277
+            ],
+            "revenue_daily": [
+              326145.9167811846,
+              286801.84515455965,
+              265843.28490917425,
+              259860.9258878476,
+              334335.6717806325,
+              314370.2196289242,
+              334526.76104711444
+            ],
+            "category": [
+              0,
+              24,
+              12,
+              3
+            ],
+            "environmental_products": [
+              18,
+              13,
+              8,
+              7
+            ],
+            "environmental_co2": [
+              32,
+              17,
+              30,
+              25
+            ]
+          }
+        },
+        {
+          "key": "2026-05",
+          "label": "May 2026",
+          "stats": {
+            "revenue": 12418411,
+            "orders": 24,
+            "co2_saved": 59,
+            "esg_score": 89,
+            "revenue_trend": "+8%",
+            "orders_trend": "0 pending orders",
+            "co2_trend": "From 19 Upcycling products",
+            "environment_products": 15,
+            "environment_score_change": "+4 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              3123542.43592351,
+              3198097.202244417,
+              3120236.488646823,
+              3164193.6911874744
+            ],
+            "revenue_daily": [
+              489079.56553033023,
+              455833.441485203,
+              457732.3042732286,
+              422632.53126219334,
+              486535.34517621004,
+              400120.1103833518,
+              393700.6816865359
+            ],
+            "category": [
+              20,
+              7,
+              13,
+              9
+            ],
+            "environmental_products": [
+              17,
+              17,
+              8,
+              19
+            ],
+            "environmental_co2": [
+              34,
+              11,
+              19,
+              26
+            ]
+          }
+        },
+        {
+          "key": "2026-06",
+          "label": "June 2026",
+          "stats": {
+            "revenue": 8000133,
+            "orders": 16,
+            "co2_saved": 34,
+            "esg_score": 74,
+            "revenue_trend": "+4%",
+            "orders_trend": "1 pending orders",
+            "co2_trend": "From 10 Upcycling products",
+            "environment_products": 24,
+            "environment_score_change": "+4 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2026803.428447311,
+              1974682.2030026983,
+              2065193.445746221,
+              2023727.8507600932
+            ],
+            "revenue_daily": [
+              315713.9706521529,
+              282711.4350649379,
+              327686.86135237553,
+              321591.7131463154,
+              314534.31684579083,
+              260836.8660598917,
+              271945.24674829224
+            ],
+            "category": [
+              10,
+              26,
+              16,
+              7
+            ],
+            "environmental_products": [
+              17,
+              16,
+              6,
+              5
+            ],
+            "environmental_co2": [
+              25,
+              23,
+              28,
+              10
+            ]
+          }
+        },
+        {
+          "key": "2026-07",
+          "label": "July 2026",
+          "stats": {
+            "revenue": 11533167,
+            "orders": 23,
+            "co2_saved": 21,
+            "esg_score": 71,
+            "revenue_trend": "+19%",
+            "orders_trend": "5 pending orders",
+            "co2_trend": "From 21 Upcycling products",
+            "environment_products": 19,
+            "environment_score_change": "+6 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2849102.378895172,
+              2970016.3330466254,
+              2805381.6890440495,
+              2848952.064471052
+            ],
+            "revenue_daily": [
+              445793.9290899432,
+              445828.0910043601,
+              453037.8400223351,
+              383418.1262665648,
+              420992.67083659937,
+              381395.7351328814,
+              377738.8708025348
+            ],
+            "category": [
+              8,
+              14,
+              9,
+              7
+            ],
+            "environmental_products": [
+              6,
+              13,
+              16,
+              8
+            ],
+            "environmental_co2": [
+              20,
+              34,
+              30,
+              15
+            ]
+          }
+        },
+        {
+          "key": "2026-08",
+          "label": "August 2026",
+          "stats": {
+            "revenue": 11704515,
+            "orders": 23,
+            "co2_saved": 48,
+            "esg_score": 87,
+            "revenue_trend": "+12%",
+            "orders_trend": "0 pending orders",
+            "co2_trend": "From 15 Upcycling products",
+            "environment_products": 10,
+            "environment_score_change": "+4 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2937680.5412190175,
+              2976367.162441025,
+              2952590.9348503826,
+              2840839.653000824
+            ],
+            "revenue_daily": [
+              431749.19429578126,
+              446289.1085713905,
+              396012.3725478809,
+              433025.40245076246,
+              466146.3081208026,
+              452300.39275772276,
+              382361.6435752445
+            ],
+            "category": [
+              30,
+              7,
+              17,
+              4
+            ],
+            "environmental_products": [
+              15,
+              14,
+              14,
+              19
+            ],
+            "environmental_co2": [
+              34,
+              12,
+              38,
+              10
+            ]
+          }
+        },
+        {
+          "key": "2026-09",
+          "label": "September 2026",
+          "stats": {
+            "revenue": 10566338,
+            "orders": 21,
+            "co2_saved": 21,
+            "esg_score": 75,
+            "revenue_trend": "+6%",
+            "orders_trend": "8 pending orders",
+            "co2_trend": "From 11 Upcycling products",
+            "environment_products": 11,
+            "environment_score_change": "+6 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2657020.8024224965,
+              2734383.3010375854,
+              2601198.972143296,
+              2732108.4418745637
+            ],
+            "revenue_daily": [
+              401123.3703694166,
+              378810.05910456507,
+              373123.44806223357,
+              415452.6736380306,
+              365044.6543374436,
+              354077.0875729681,
+              426892.6617941755
+            ],
+            "category": [
+              7,
+              7,
+              15,
+              7
+            ],
+            "environmental_products": [
+              10,
+              14,
+              19,
+              10
+            ],
+            "environmental_co2": [
+              24,
+              39,
+              24,
+              30
+            ]
+          }
+        },
+        {
+          "key": "2026-10",
+          "label": "October 2026",
+          "stats": {
+            "revenue": 12908453,
+            "orders": 25,
+            "co2_saved": 58,
+            "esg_score": 79,
+            "revenue_trend": "+16%",
+            "orders_trend": "4 pending orders",
+            "co2_trend": "From 20 Upcycling products",
+            "environment_products": 16,
+            "environment_score_change": "+2 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              3273115.842955419,
+              3140501.0276061525,
+              3295041.4689199706,
+              3184769.778219341
+            ],
+            "revenue_daily": [
+              498058.27516036335,
+              470055.9384609314,
+              451848.4257222774,
+              415696.4422674046,
+              457046.7251040236,
+              496122.09455169307,
+              489699.3452708717
+            ],
+            "category": [
+              20,
+              28,
+              16,
+              4
+            ],
+            "environmental_products": [
+              6,
+              8,
+              8,
+              12
+            ],
+            "environmental_co2": [
+              33,
+              31,
+              18,
+              13
+            ]
+          }
+        },
+        {
+          "key": "2026-11",
+          "label": "November 2026",
+          "stats": {
+            "revenue": 11327316,
+            "orders": 22,
+            "co2_saved": 22,
+            "esg_score": 82,
+            "revenue_trend": "+14%",
+            "orders_trend": "5 pending orders",
+            "co2_trend": "From 8 Upcycling products",
+            "environment_products": 21,
+            "environment_score_change": "+6 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2877431.1254756367,
+              2731899.8590586563,
+              2742017.9065711275,
+              2902455.1597090964
+            ],
+            "revenue_daily": [
+              438596.4871268129,
+              397871.7493414711,
+              418012.1673832579,
+              448924.1390729359,
+              454089.94772903074,
+              373408.61859262554,
+              383122.5816720648
+            ],
+            "category": [
+              18,
+              2,
+              5,
+              9
+            ],
+            "environmental_products": [
+              18,
+              18,
+              13,
+              7
+            ],
+            "environmental_co2": [
+              10,
+              21,
+              11,
+              28
+            ]
+          }
+        },
+        {
+          "key": "2026-12",
+          "label": "December 2026",
+          "stats": {
+            "revenue": 11244119,
+            "orders": 22,
+            "co2_saved": 45,
+            "esg_score": 84,
+            "revenue_trend": "+1%",
+            "orders_trend": "5 pending orders",
+            "co2_trend": "From 8 Upcycling products",
+            "environment_products": 18,
+            "environment_score_change": "+5 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2848254.2599158213,
+              2830818.0912045105,
+              2839472.8746609823,
+              2847601.160194888
+            ],
+            "revenue_daily": [
+              391602.0751152985,
+              448153.39832546655,
+              392930.5976285805,
+              406923.45680562535,
+              378483.5482020021,
+              399611.21413493936,
+              368983.94403973606
+            ],
+            "category": [
+              2,
+              11,
+              17,
+              1
+            ],
+            "environmental_products": [
+              9,
+              7,
+              12,
+              18
+            ],
+            "environmental_co2": [
+              13,
+              29,
+              23,
+              19
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "Denim Craft": {
+    "dashboard": {
+      "months": [
+        {
+          "key": "2026-01",
+          "label": "January 2026",
+          "stats": {
+            "revenue": 9773177,
+            "orders": 19,
+            "co2_saved": 56,
+            "esg_score": 86,
+            "revenue_trend": "+17%",
+            "orders_trend": "2 pending orders",
+            "co2_trend": "From 20 Upcycling products",
+            "environment_products": 24,
+            "environment_score_change": "+0 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2382996.624767752,
+              2469156.8266080753,
+              2399833.222186971,
+              2352876.4454939985
+            ],
+            "revenue_daily": [
+              340893.7611569585,
+              378143.32022223406,
+              362281.0976287067,
+              357059.1346252607,
+              321216.8239197264,
+              397202.604715073,
+              348127.14908291167
+            ],
+            "category": [
+              36,
+              13,
+              2,
+              7
+            ],
+            "environmental_products": [
+              11,
+              12,
+              15,
+              10
+            ],
+            "environmental_co2": [
+              23,
+              36,
+              30,
+              19
+            ]
+          }
+        },
+        {
+          "key": "2026-02",
+          "label": "February 2026",
+          "stats": {
+            "revenue": 9616859,
+            "orders": 19,
+            "co2_saved": 51,
+            "esg_score": 84,
+            "revenue_trend": "+9%",
+            "orders_trend": "8 pending orders",
+            "co2_trend": "From 10 Upcycling products",
+            "environment_products": 17,
+            "environment_score_change": "+8 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2408813.1887173657,
+              2392694.619173587,
+              2480632.878645498,
+              2429080.7254366297
+            ],
+            "revenue_daily": [
+              334365.8833447515,
+              350869.79326620547,
+              359685.3551629445,
+              352167.6639006803,
+              317008.2588734731,
+              319518.4833970483,
+              361592.1016394119
+            ],
+            "category": [
+              10,
+              9,
+              4,
+              5
+            ],
+            "environmental_products": [
+              5,
+              7,
+              13,
+              13
+            ],
+            "environmental_co2": [
+              38,
+              37,
+              38,
+              14
+            ]
+          }
+        },
+        {
+          "key": "2026-03",
+          "label": "March 2026",
+          "stats": {
+            "revenue": 12021303,
+            "orders": 24,
+            "co2_saved": 33,
+            "esg_score": 77,
+            "revenue_trend": "+1%",
+            "orders_trend": "8 pending orders",
+            "co2_trend": "From 13 Upcycling products",
+            "environment_products": 6,
+            "environment_score_change": "+9 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              3003535.537608903,
+              3051246.1398648694,
+              2924761.8332230584,
+              2979712.0255599367
+            ],
+            "revenue_daily": [
+              442195.47989084397,
+              469933.1831090025,
+              469606.9732145658,
+              461738.2802885639,
+              423511.3831513001,
+              409815.94834131974,
+              468160.50243065367
+            ],
+            "category": [
+              9,
+              2,
+              13,
+              1
+            ],
+            "environmental_products": [
+              13,
+              5,
+              9,
+              15
+            ],
+            "environmental_co2": [
+              10,
+              17,
+              27,
+              24
+            ]
+          }
+        },
+        {
+          "key": "2026-04",
+          "label": "April 2026",
+          "stats": {
+            "revenue": 8228648,
+            "orders": 16,
+            "co2_saved": 34,
+            "esg_score": 87,
+            "revenue_trend": "+5%",
+            "orders_trend": "8 pending orders",
+            "co2_trend": "From 5 Upcycling products",
+            "environment_products": 19,
+            "environment_score_change": "+0 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2002496.4477204524,
+              2119604.707338965,
+              2133086.732235384,
+              2155847.0694357445
+            ],
+            "revenue_daily": [
+              289843.2327235133,
+              329962.5579446528,
+              283776.98662622995,
+              340235.5967824878,
+              314124.9338209655,
+              319117.4234557644,
+              304271.69923503
+            ],
+            "category": [
+              23,
+              19,
+              3,
+              0
+            ],
+            "environmental_products": [
+              8,
+              6,
+              14,
+              6
+            ],
+            "environmental_co2": [
+              31,
+              26,
+              32,
+              18
+            ]
+          }
+        },
+        {
+          "key": "2026-05",
+          "label": "May 2026",
+          "stats": {
+            "revenue": 12458065,
+            "orders": 24,
+            "co2_saved": 47,
+            "esg_score": 88,
+            "revenue_trend": "+7%",
+            "orders_trend": "2 pending orders",
+            "co2_trend": "From 23 Upcycling products",
+            "environment_products": 11,
+            "environment_score_change": "+2 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              3147461.628379598,
+              3180461.7277414105,
+              3063759.694664103,
+              3016317.0356635964
+            ],
+            "revenue_daily": [
+              420250.6192319375,
+              472923.9951939379,
+              420468.3822180519,
+              399218.54879869,
+              457622.89161501953,
+              436774.13857770874,
+              414139.3488902146
+            ],
+            "category": [
+              5,
+              11,
+              15,
+              3
+            ],
+            "environmental_products": [
+              16,
+              7,
+              14,
+              12
+            ],
+            "environmental_co2": [
+              24,
+              26,
+              21,
+              23
+            ]
+          }
+        },
+        {
+          "key": "2026-06",
+          "label": "June 2026",
+          "stats": {
+            "revenue": 9962310,
+            "orders": 19,
+            "co2_saved": 19,
+            "esg_score": 70,
+            "revenue_trend": "+1%",
+            "orders_trend": "3 pending orders",
+            "co2_trend": "From 9 Upcycling products",
+            "environment_products": 23,
+            "environment_score_change": "+3 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2534222.6993111456,
+              2534415.5805097567,
+              2512718.065038154,
+              2520427.5666197636
+            ],
+            "revenue_daily": [
+              312991.41497706715,
+              353707.1767828178,
+              386014.91888073966,
+              343870.5272391399,
+              319472.07783292327,
+              394965.7007340815,
+              356534.7790190089
+            ],
+            "category": [
+              24,
+              18,
+              14,
+              0
+            ],
+            "environmental_products": [
+              14,
+              5,
+              11,
+              12
+            ],
+            "environmental_co2": [
+              10,
+              10,
+              16,
+              22
+            ]
+          }
+        },
+        {
+          "key": "2026-07",
+          "label": "July 2026",
+          "stats": {
+            "revenue": 12000817,
+            "orders": 24,
+            "co2_saved": 38,
+            "esg_score": 89,
+            "revenue_trend": "+4%",
+            "orders_trend": "8 pending orders",
+            "co2_trend": "From 14 Upcycling products",
+            "environment_products": 10,
+            "environment_score_change": "+1 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              3012911.3522848412,
+              3079183.620325396,
+              2978870.3310524602,
+              2973758.1313476004
+            ],
+            "revenue_daily": [
+              398502.8138254639,
+              379834.94192900404,
+              465309.8918244664,
+              448056.78513079125,
+              424434.49481927813,
+              426393.87408697867,
+              470181.40297493496
+            ],
+            "category": [
+              3,
+              9,
+              9,
+              2
+            ],
+            "environmental_products": [
+              13,
+              7,
+              19,
+              17
+            ],
+            "environmental_co2": [
+              16,
+              35,
+              10,
+              32
+            ]
+          }
+        },
+        {
+          "key": "2026-08",
+          "label": "August 2026",
+          "stats": {
+            "revenue": 9809875,
+            "orders": 19,
+            "co2_saved": 53,
+            "esg_score": 83,
+            "revenue_trend": "+18%",
+            "orders_trend": "9 pending orders",
+            "co2_trend": "From 14 Upcycling products",
+            "environment_products": 14,
+            "environment_score_change": "+0 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2464890.8951274254,
+              2543214.0079390537,
+              2518861.180559233,
+              2429950.851785757
+            ],
+            "revenue_daily": [
+              397949.90068778396,
+              330839.7737988909,
+              339684.6142520745,
+              309607.7101067919,
+              349202.7992613807,
+              334925.6407785958,
+              307763.8163184783
+            ],
+            "category": [
+              35,
+              4,
+              18,
+              4
+            ],
+            "environmental_products": [
+              16,
+              12,
+              9,
+              16
+            ],
+            "environmental_co2": [
+              33,
+              17,
+              11,
+              24
+            ]
+          }
+        },
+        {
+          "key": "2026-09",
+          "label": "September 2026",
+          "stats": {
+            "revenue": 9696392,
+            "orders": 19,
+            "co2_saved": 22,
+            "esg_score": 77,
+            "revenue_trend": "+6%",
+            "orders_trend": "4 pending orders",
+            "co2_trend": "From 21 Upcycling products",
+            "environment_products": 10,
+            "environment_score_change": "+0 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2491551.1822994966,
+              2428097.8601280954,
+              2379259.001330501,
+              2501383.6028201533
+            ],
+            "revenue_daily": [
+              344601.42245533457,
+              303486.83788276504,
+              376716.9864061389,
+              321166.2589691143,
+              299750.44246860815,
+              317273.4216316221,
+              326578.939662523
+            ],
+            "category": [
+              22,
+              19,
+              12,
+              3
+            ],
+            "environmental_products": [
+              8,
+              16,
+              17,
+              13
+            ],
+            "environmental_co2": [
+              32,
+              12,
+              39,
+              28
+            ]
+          }
+        },
+        {
+          "key": "2026-10",
+          "label": "October 2026",
+          "stats": {
+            "revenue": 12261385,
+            "orders": 24,
+            "co2_saved": 46,
+            "esg_score": 76,
+            "revenue_trend": "+10%",
+            "orders_trend": "0 pending orders",
+            "co2_trend": "From 10 Upcycling products",
+            "environment_products": 19,
+            "environment_score_change": "+0 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              3038083.3103038226,
+              3076861.1374613605,
+              3091931.9471285003,
+              3035840.2336776922
+            ],
+            "revenue_daily": [
+              476035.4277556713,
+              388415.67916801677,
+              466042.1718119397,
+              480323.3849575904,
+              467718.78788137424,
+              432231.6058609403,
+              475840.56983834406
+            ],
+            "category": [
+              18,
+              29,
+              18,
+              0
+            ],
+            "environmental_products": [
+              18,
+              7,
+              13,
+              13
+            ],
+            "environmental_co2": [
+              17,
+              29,
+              12,
+              10
+            ]
+          }
+        },
+        {
+          "key": "2026-11",
+          "label": "November 2026",
+          "stats": {
+            "revenue": 11494319,
+            "orders": 22,
+            "co2_saved": 30,
+            "esg_score": 81,
+            "revenue_trend": "+13%",
+            "orders_trend": "8 pending orders",
+            "co2_trend": "From 13 Upcycling products",
+            "environment_products": 9,
+            "environment_score_change": "+2 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2946919.674682654,
+              2925029.9232619544,
+              2950438.974707716,
+              2843246.636844191
+            ],
+            "revenue_daily": [
+              416463.1103483937,
+              418819.1395985226,
+              446414.3793941723,
+              396957.46498739254,
+              385446.94556334213,
+              382072.5073992401,
+              386012.11160033254
+            ],
+            "category": [
+              3,
+              3,
+              15,
+              5
+            ],
+            "environmental_products": [
+              19,
+              16,
+              8,
+              15
+            ],
+            "environmental_co2": [
+              32,
+              31,
+              27,
+              27
+            ]
+          }
+        },
+        {
+          "key": "2026-12",
+          "label": "December 2026",
+          "stats": {
+            "revenue": 11976014,
+            "orders": 23,
+            "co2_saved": 37,
+            "esg_score": 74,
+            "revenue_trend": "+13%",
+            "orders_trend": "7 pending orders",
+            "co2_trend": "From 20 Upcycling products",
+            "environment_products": 20,
+            "environment_score_change": "+4 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              3039126.959406682,
+              3093631.4779666313,
+              2980955.2371361586,
+              2924153.621232055
+            ],
+            "revenue_daily": [
+              469441.41933891515,
+              470626.3536506882,
+              423592.19910521223,
+              439146.5247833965,
+              443192.0782601089,
+              429085.60687466303,
+              441953.2933569886
+            ],
+            "category": [
+              34,
+              17,
+              10,
+              1
+            ],
+            "environmental_products": [
+              18,
+              9,
+              10,
+              18
+            ],
+            "environmental_co2": [
+              21,
+              26,
+              26,
+              30
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "Green Thread": {
+    "dashboard": {
+      "months": [
+        {
+          "key": "2026-01",
+          "label": "January 2026",
+          "stats": {
+            "revenue": 9537118,
+            "orders": 19,
+            "co2_saved": 44,
+            "esg_score": 87,
+            "revenue_trend": "+5%",
+            "orders_trend": "5 pending orders",
+            "co2_trend": "From 22 Upcycling products",
+            "environment_products": 14,
+            "environment_score_change": "+6 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2290418.2737282617,
+              2425423.3712713076,
+              2446959.849739486,
+              2482486.249599292
+            ],
+            "revenue_daily": [
+              323132.98094528745,
+              326274.3539182591,
+              323171.4838943247,
+              386768.4911254976,
+              317827.0873222817,
+              344483.1946265295,
+              341102.6584598811
+            ],
+            "category": [
+              4,
+              28,
+              4,
+              2
+            ],
+            "environmental_products": [
+              15,
+              19,
+              15,
+              7
+            ],
+            "environmental_co2": [
+              15,
+              27,
+              16,
+              12
+            ]
+          }
+        },
+        {
+          "key": "2026-02",
+          "label": "February 2026",
+          "stats": {
+            "revenue": 9620251,
+            "orders": 19,
+            "co2_saved": 18,
+            "esg_score": 78,
+            "revenue_trend": "+2%",
+            "orders_trend": "2 pending orders",
+            "co2_trend": "From 13 Upcycling products",
+            "environment_products": 15,
+            "environment_score_change": "+8 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2481627.0212314804,
+              2465933.861999423,
+              2351198.953392331,
+              2342250.8840098605
+            ],
+            "revenue_daily": [
+              319305.8097320157,
+              388001.82332165394,
+              371566.57975053194,
+              304555.0886458135,
+              368782.3848325686,
+              335326.9514990058,
+              312567.69860862946
+            ],
+            "category": [
+              38,
+              10,
+              4,
+              5
+            ],
+            "environmental_products": [
+              8,
+              6,
+              19,
+              19
+            ],
+            "environmental_co2": [
+              14,
+              24,
+              24,
+              24
+            ]
+          }
+        },
+        {
+          "key": "2026-03",
+          "label": "March 2026",
+          "stats": {
+            "revenue": 10126352,
+            "orders": 20,
+            "co2_saved": 32,
+            "esg_score": 89,
+            "revenue_trend": "+18%",
+            "orders_trend": "3 pending orders",
+            "co2_trend": "From 19 Upcycling products",
+            "environment_products": 17,
+            "environment_score_change": "+5 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2624036.401266922,
+              2434519.1509434837,
+              2554277.566819314,
+              2564473.1749062086
+            ],
+            "revenue_daily": [
+              325397.85315171536,
+              319502.0184088587,
+              366022.99209976185,
+              340979.64872328093,
+              397637.66970972397,
+              349481.8476506163,
+              363657.8618126956
+            ],
+            "category": [
+              0,
+              12,
+              15,
+              8
+            ],
+            "environmental_products": [
+              13,
+              8,
+              9,
+              15
+            ],
+            "environmental_co2": [
+              24,
+              19,
+              25,
+              28
+            ]
+          }
+        },
+        {
+          "key": "2026-04",
+          "label": "April 2026",
+          "stats": {
+            "revenue": 12400550,
+            "orders": 24,
+            "co2_saved": 55,
+            "esg_score": 88,
+            "revenue_trend": "+7%",
+            "orders_trend": "5 pending orders",
+            "co2_trend": "From 10 Upcycling products",
+            "environment_products": 20,
+            "environment_score_change": "+0 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              3050231.547474552,
+              3126037.6009791647,
+              3060496.2794836336,
+              3164098.7262157355
+            ],
+            "revenue_daily": [
+              420588.99902484467,
+              427514.59332331637,
+              453027.1183955027,
+              478551.72953253245,
+              434591.29004278796,
+              427422.14774937805,
+              413776.9180048116
+            ],
+            "category": [
+              29,
+              9,
+              5,
+              2
+            ],
+            "environmental_products": [
+              5,
+              18,
+              19,
+              17
+            ],
+            "environmental_co2": [
+              24,
+              18,
+              19,
+              10
+            ]
+          }
+        },
+        {
+          "key": "2026-05",
+          "label": "May 2026",
+          "stats": {
+            "revenue": 12196111,
+            "orders": 24,
+            "co2_saved": 34,
+            "esg_score": 83,
+            "revenue_trend": "+5%",
+            "orders_trend": "8 pending orders",
+            "co2_trend": "From 10 Upcycling products",
+            "environment_products": 17,
+            "environment_score_change": "+8 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              3066863.8534242045,
+              3110130.7858871543,
+              2966972.3922533165,
+              3059381.0500213415
+            ],
+            "revenue_daily": [
+              476454.0284358014,
+              406572.718728819,
+              409891.3095483249,
+              479325.7746738414,
+              403918.4352647089,
+              443655.271368476,
+              431817.6161501098
+            ],
+            "category": [
+              36,
+              2,
+              15,
+              8
+            ],
+            "environmental_products": [
+              17,
+              7,
+              11,
+              17
+            ],
+            "environmental_co2": [
+              28,
+              31,
+              37,
+              35
+            ]
+          }
+        },
+        {
+          "key": "2026-06",
+          "label": "June 2026",
+          "stats": {
+            "revenue": 12126515,
+            "orders": 24,
+            "co2_saved": 31,
+            "esg_score": 78,
+            "revenue_trend": "+10%",
+            "orders_trend": "4 pending orders",
+            "co2_trend": "From 20 Upcycling products",
+            "environment_products": 17,
+            "environment_score_change": "+8 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2989780.3187981816,
+              3018693.5055313744,
+              3025546.5467701205,
+              3018270.4912243644
+            ],
+            "revenue_daily": [
+              392267.7100623032,
+              385733.7593869582,
+              443279.92256550014,
+              477502.7743384441,
+              391220.78417532815,
+              441346.3704541136,
+              403026.90506247967
+            ],
+            "category": [
+              28,
+              22,
+              9,
+              0
+            ],
+            "environmental_products": [
+              10,
+              8,
+              9,
+              12
+            ],
+            "environmental_co2": [
+              16,
+              13,
+              22,
+              24
+            ]
+          }
+        },
+        {
+          "key": "2026-07",
+          "label": "July 2026",
+          "stats": {
+            "revenue": 11167579,
+            "orders": 22,
+            "co2_saved": 21,
+            "esg_score": 84,
+            "revenue_trend": "+18%",
+            "orders_trend": "5 pending orders",
+            "co2_trend": "From 15 Upcycling products",
+            "environment_products": 24,
+            "environment_score_change": "+5 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2810880.0581722776,
+              2790540.556419508,
+              2800064.686335127,
+              2853862.9758286234
+            ],
+            "revenue_daily": [
+              350668.1940000816,
+              395479.1266450213,
+              427825.99503792566,
+              361449.7486697196,
+              405715.3034619808,
+              370354.5742740853,
+              433729.80855446286
+            ],
+            "category": [
+              9,
+              24,
+              8,
+              9
+            ],
+            "environmental_products": [
+              13,
+              15,
+              9,
+              16
+            ],
+            "environmental_co2": [
+              33,
+              29,
+              26,
+              10
+            ]
+          }
+        },
+        {
+          "key": "2026-08",
+          "label": "August 2026",
+          "stats": {
+            "revenue": 9259159,
+            "orders": 18,
+            "co2_saved": 36,
+            "esg_score": 71,
+            "revenue_trend": "+13%",
+            "orders_trend": "6 pending orders",
+            "co2_trend": "From 15 Upcycling products",
+            "environment_products": 8,
+            "environment_score_change": "+6 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2330489.6982972804,
+              2366010.25045276,
+              2220504.8308890387,
+              2302360.018081504
+            ],
+            "revenue_daily": [
+              340808.5872059221,
+              307409.34797288163,
+              366716.73638282355,
+              334983.86805346044,
+              328853.3526933581,
+              359069.2246115659,
+              362749.65836082626
+            ],
+            "category": [
+              25,
+              21,
+              11,
+              3
+            ],
+            "environmental_products": [
+              14,
+              9,
+              15,
+              15
+            ],
+            "environmental_co2": [
+              26,
+              12,
+              30,
+              28
+            ]
+          }
+        },
+        {
+          "key": "2026-09",
+          "label": "September 2026",
+          "stats": {
+            "revenue": 10439781,
+            "orders": 20,
+            "co2_saved": 42,
+            "esg_score": 79,
+            "revenue_trend": "+4%",
+            "orders_trend": "6 pending orders",
+            "co2_trend": "From 9 Upcycling products",
+            "environment_products": 5,
+            "environment_score_change": "+8 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2642390.584606383,
+              2627227.841275025,
+              2537892.356958312,
+              2636222.186392757
+            ],
+            "revenue_daily": [
+              391738.000370849,
+              370248.3826974452,
+              360561.48653203365,
+              391215.61951826536,
+              343779.80254756793,
+              393211.28397362796,
+              340976.61648866965
+            ],
+            "category": [
+              9,
+              11,
+              3,
+              7
+            ],
+            "environmental_products": [
+              12,
+              18,
+              7,
+              13
+            ],
+            "environmental_co2": [
+              37,
+              18,
+              16,
+              12
+            ]
+          }
+        },
+        {
+          "key": "2026-10",
+          "label": "October 2026",
+          "stats": {
+            "revenue": 9741022,
+            "orders": 19,
+            "co2_saved": 17,
+            "esg_score": 73,
+            "revenue_trend": "+5%",
+            "orders_trend": "6 pending orders",
+            "co2_trend": "From 16 Upcycling products",
+            "environment_products": 19,
+            "environment_score_change": "+2 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2402347.387153239,
+              2478954.2324230582,
+              2406146.0398834324,
+              2526251.07702051
+            ],
+            "revenue_daily": [
+              384604.71009759675,
+              344326.76317621535,
+              376198.1060199647,
+              367927.52842497424,
+              328758.8385758214,
+              379012.98084484367,
+              386135.2730924664
+            ],
+            "category": [
+              23,
+              29,
+              4,
+              3
+            ],
+            "environmental_products": [
+              14,
+              17,
+              9,
+              11
+            ],
+            "environmental_co2": [
+              22,
+              31,
+              31,
+              20
+            ]
+          }
+        },
+        {
+          "key": "2026-11",
+          "label": "November 2026",
+          "stats": {
+            "revenue": 12292175,
+            "orders": 24,
+            "co2_saved": 20,
+            "esg_score": 81,
+            "revenue_trend": "+19%",
+            "orders_trend": "3 pending orders",
+            "co2_trend": "From 16 Upcycling products",
+            "environment_products": 15,
+            "environment_score_change": "+5 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              3044038.433077919,
+              3020485.315760457,
+              3108895.8565158364,
+              3063327.320973187
+            ],
+            "revenue_daily": [
+              415736.40153940197,
+              426573.9176218552,
+              437883.07649660134,
+              467364.05218567426,
+              400450.3857668026,
+              484282.28599837807,
+              439120.0050092919
+            ],
+            "category": [
+              32,
+              13,
+              2,
+              5
+            ],
+            "environmental_products": [
+              15,
+              10,
+              18,
+              19
+            ],
+            "environmental_co2": [
+              32,
+              12,
+              29,
+              20
+            ]
+          }
+        },
+        {
+          "key": "2026-12",
+          "label": "December 2026",
+          "stats": {
+            "revenue": 11086136,
+            "orders": 22,
+            "co2_saved": 55,
+            "esg_score": 75,
+            "revenue_trend": "+19%",
+            "orders_trend": "9 pending orders",
+            "co2_trend": "From 9 Upcycling products",
+            "environment_products": 9,
+            "environment_score_change": "+5 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2775124.444964974,
+              2745886.6532908045,
+              2831091.559297848,
+              2683321.5959749487
+            ],
+            "revenue_daily": [
+              415660.1519190269,
+              415104.298132762,
+              350035.38546700374,
+              403696.232677004,
+              436565.6108312983,
+              386674.3849416466,
+              379469.06264914456
+            ],
+            "category": [
+              32,
+              14,
+              2,
+              3
+            ],
+            "environmental_products": [
+              10,
+              12,
+              19,
+              7
+            ],
+            "environmental_co2": [
+              39,
+              28,
+              19,
+              20
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "Zero Waste": {
+    "dashboard": {
+      "months": [
+        {
+          "key": "2026-01",
+          "label": "January 2026",
+          "stats": {
+            "revenue": 11285381,
+            "orders": 22,
+            "co2_saved": 46,
+            "esg_score": 70,
+            "revenue_trend": "+2%",
+            "orders_trend": "8 pending orders",
+            "co2_trend": "From 21 Upcycling products",
+            "environment_products": 16,
+            "environment_score_change": "+9 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2840611.0083749346,
+              2828583.409935631,
+              2835947.673366605,
+              2911885.764489027
+            ],
+            "revenue_daily": [
+              414708.6101107303,
+              411157.4129859867,
+              414589.86089586566,
+              452998.68132041866,
+              447291.78228956164,
+              399913.5748400116,
+              368403.0448267391
+            ],
+            "category": [
+              13,
+              8,
+              17,
+              0
+            ],
+            "environmental_products": [
+              7,
+              17,
+              8,
+              6
+            ],
+            "environmental_co2": [
+              33,
+              34,
+              20,
+              18
+            ]
+          }
+        },
+        {
+          "key": "2026-02",
+          "label": "February 2026",
+          "stats": {
+            "revenue": 9473796,
+            "orders": 18,
+            "co2_saved": 56,
+            "esg_score": 81,
+            "revenue_trend": "+18%",
+            "orders_trend": "9 pending orders",
+            "co2_trend": "From 5 Upcycling products",
+            "environment_products": 12,
+            "environment_score_change": "+5 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2326889.4632236515,
+              2286666.8464437537,
+              2446792.5517790755,
+              2327489.4920760533
+            ],
+            "revenue_daily": [
+              350779.8250857237,
+              377718.06086897483,
+              383450.5893573133,
+              359571.753911877,
+              385632.6701277157,
+              363964.67494631355,
+              317793.72376117844
+            ],
+            "category": [
+              20,
+              15,
+              3,
+              7
+            ],
+            "environmental_products": [
+              10,
+              16,
+              7,
+              13
+            ],
+            "environmental_co2": [
+              31,
+              32,
+              10,
+              20
+            ]
+          }
+        },
+        {
+          "key": "2026-03",
+          "label": "March 2026",
+          "stats": {
+            "revenue": 8804218,
+            "orders": 17,
+            "co2_saved": 32,
+            "esg_score": 76,
+            "revenue_trend": "+18%",
+            "orders_trend": "4 pending orders",
+            "co2_trend": "From 15 Upcycling products",
+            "environment_products": 5,
+            "environment_score_change": "+2 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2232814.014696794,
+              2292222.7228208953,
+              2182550.1720511545,
+              2208978.6065369984
+            ],
+            "revenue_daily": [
+              320841.8595370197,
+              316681.82701871934,
+              340075.77038857585,
+              306378.64632010274,
+              276869.3108383908,
+              278910.5030218444,
+              360806.8257505923
+            ],
+            "category": [
+              36,
+              12,
+              0,
+              9
+            ],
+            "environmental_products": [
+              15,
+              11,
+              11,
+              12
+            ],
+            "environmental_co2": [
+              20,
+              37,
+              11,
+              30
+            ]
+          }
+        },
+        {
+          "key": "2026-04",
+          "label": "April 2026",
+          "stats": {
+            "revenue": 9490719,
+            "orders": 18,
+            "co2_saved": 57,
+            "esg_score": 81,
+            "revenue_trend": "+5%",
+            "orders_trend": "1 pending orders",
+            "co2_trend": "From 6 Upcycling products",
+            "environment_products": 19,
+            "environment_score_change": "+7 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2416411.326300214,
+              2375205.0819971445,
+              2438792.7789843366,
+              2337485.271102869
+            ],
+            "revenue_daily": [
+              386817.6084510456,
+              385560.795449806,
+              385211.40031422605,
+              361000.3600612281,
+              338811.1061400183,
+              324881.2075895588,
+              339354.18136447354
+            ],
+            "category": [
+              5,
+              6,
+              9,
+              8
+            ],
+            "environmental_products": [
+              10,
+              14,
+              10,
+              6
+            ],
+            "environmental_co2": [
+              37,
+              26,
+              21,
+              17
+            ]
+          }
+        },
+        {
+          "key": "2026-05",
+          "label": "May 2026",
+          "stats": {
+            "revenue": 8176902,
+            "orders": 16,
+            "co2_saved": 58,
+            "esg_score": 75,
+            "revenue_trend": "+1%",
+            "orders_trend": "8 pending orders",
+            "co2_trend": "From 15 Upcycling products",
+            "environment_products": 22,
+            "environment_score_change": "+0 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2033352.5817658154,
+              2030121.2305040862,
+              2059873.0204200046,
+              2123489.1904673586
+            ],
+            "revenue_daily": [
+              331313.1845052453,
+              298508.46865953744,
+              341509.94129600225,
+              247698.0816416893,
+              262367.5999735921,
+              309955.82707006024,
+              294558.9999907268
+            ],
+            "category": [
+              31,
+              12,
+              18,
+              5
+            ],
+            "environmental_products": [
+              6,
+              11,
+              5,
+              17
+            ],
+            "environmental_co2": [
+              12,
+              30,
+              14,
+              15
+            ]
+          }
+        },
+        {
+          "key": "2026-06",
+          "label": "June 2026",
+          "stats": {
+            "revenue": 11140268,
+            "orders": 22,
+            "co2_saved": 46,
+            "esg_score": 85,
+            "revenue_trend": "+16%",
+            "orders_trend": "1 pending orders",
+            "co2_trend": "From 19 Upcycling products",
+            "environment_products": 14,
+            "environment_score_change": "+0 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2866686.7043535714,
+              2874867.8355556745,
+              2761437.012320769,
+              2805133.977536353
+            ],
+            "revenue_daily": [
+              445448.6025766998,
+              390503.6825793398,
+              401305.2012350653,
+              415565.8887511874,
+              417094.1077025437,
+              445191.395295363,
+              377598.26327504567
+            ],
+            "category": [
+              29,
+              26,
+              5,
+              7
+            ],
+            "environmental_products": [
+              17,
+              17,
+              7,
+              18
+            ],
+            "environmental_co2": [
+              37,
+              37,
+              17,
+              14
+            ]
+          }
+        },
+        {
+          "key": "2026-07",
+          "label": "July 2026",
+          "stats": {
+            "revenue": 12195655,
+            "orders": 24,
+            "co2_saved": 22,
+            "esg_score": 88,
+            "revenue_trend": "+18%",
+            "orders_trend": "5 pending orders",
+            "co2_trend": "From 17 Upcycling products",
+            "environment_products": 11,
+            "environment_score_change": "+9 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2967444.2445315644,
+              3015672.1506205075,
+              3088509.7230567727,
+              3108146.955671182
+            ],
+            "revenue_daily": [
+              386735.4941034924,
+              391805.67141518905,
+              393409.15937408333,
+              475850.8933310074,
+              435150.01145187893,
+              418793.2362384974,
+              416222.1850822538
+            ],
+            "category": [
+              6,
+              21,
+              13,
+              1
+            ],
+            "environmental_products": [
+              11,
+              7,
+              8,
+              6
+            ],
+            "environmental_co2": [
+              33,
+              14,
+              17,
+              26
+            ]
+          }
+        },
+        {
+          "key": "2026-08",
+          "label": "August 2026",
+          "stats": {
+            "revenue": 10656737,
+            "orders": 21,
+            "co2_saved": 56,
+            "esg_score": 78,
+            "revenue_trend": "+17%",
+            "orders_trend": "1 pending orders",
+            "co2_trend": "From 7 Upcycling products",
+            "environment_products": 23,
+            "environment_score_change": "+8 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2599291.781782679,
+              2716230.113942489,
+              2638010.424783829,
+              2632714.6023200112
+            ],
+            "revenue_daily": [
+              409718.8848568402,
+              374133.5908897718,
+              342754.6157818239,
+              409471.25094386475,
+              411478.4895329416,
+              381756.638356058,
+              406936.21571906016
+            ],
+            "category": [
+              15,
+              21,
+              15,
+              2
+            ],
+            "environmental_products": [
+              9,
+              14,
+              6,
+              18
+            ],
+            "environmental_co2": [
+              27,
+              12,
+              10,
+              36
+            ]
+          }
+        },
+        {
+          "key": "2026-09",
+          "label": "September 2026",
+          "stats": {
+            "revenue": 11149413,
+            "orders": 22,
+            "co2_saved": 21,
+            "esg_score": 84,
+            "revenue_trend": "+19%",
+            "orders_trend": "9 pending orders",
+            "co2_trend": "From 19 Upcycling products",
+            "environment_products": 13,
+            "environment_score_change": "+9 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2832265.1768214433,
+              2866540.5768399993,
+              2795628.3619846595,
+              2820303.7296813866
+            ],
+            "revenue_daily": [
+              405613.42894816934,
+              371851.1208305869,
+              418031.68017099897,
+              436896.45863053465,
+              358181.90736658825,
+              394562.1657501642,
+              354298.4393895338
+            ],
+            "category": [
+              23,
+              23,
+              5,
+              1
+            ],
+            "environmental_products": [
+              15,
+              12,
+              12,
+              10
+            ],
+            "environmental_co2": [
+              38,
+              26,
+              32,
+              23
+            ]
+          }
+        },
+        {
+          "key": "2026-10",
+          "label": "October 2026",
+          "stats": {
+            "revenue": 10118363,
+            "orders": 20,
+            "co2_saved": 52,
+            "esg_score": 80,
+            "revenue_trend": "+13%",
+            "orders_trend": "7 pending orders",
+            "co2_trend": "From 6 Upcycling products",
+            "environment_products": 8,
+            "environment_score_change": "+0 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2486024.8322936716,
+              2605133.681898643,
+              2586389.3730520913,
+              2595819.510004681
+            ],
+            "revenue_daily": [
+              395031.78024417267,
+              316332.0635038886,
+              401195.41856475215,
+              406616.101663364,
+              388327.2117899136,
+              376464.8472528895,
+              334783.4595997928
+            ],
+            "category": [
+              16,
+              2,
+              14,
+              6
+            ],
+            "environmental_products": [
+              19,
+              18,
+              9,
+              13
+            ],
+            "environmental_co2": [
+              22,
+              34,
+              10,
+              24
+            ]
+          }
+        },
+        {
+          "key": "2026-11",
+          "label": "November 2026",
+          "stats": {
+            "revenue": 11685053,
+            "orders": 23,
+            "co2_saved": 38,
+            "esg_score": 84,
+            "revenue_trend": "+3%",
+            "orders_trend": "2 pending orders",
+            "co2_trend": "From 20 Upcycling products",
+            "environment_products": 17,
+            "environment_score_change": "+0 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2843911.3240590715,
+              2928453.74263095,
+              2975801.090529383,
+              2963773.079832158
+            ],
+            "revenue_daily": [
+              401385.0296345867,
+              446679.3981766321,
+              446690.45096156455,
+              378934.10539400665,
+              416181.79361595935,
+              458777.92961155967,
+              454824.5910268751
+            ],
+            "category": [
+              33,
+              2,
+              7,
+              0
+            ],
+            "environmental_products": [
+              10,
+              8,
+              12,
+              15
+            ],
+            "environmental_co2": [
+              13,
+              32,
+              39,
+              25
+            ]
+          }
+        },
+        {
+          "key": "2026-12",
+          "label": "December 2026",
+          "stats": {
+            "revenue": 10154024,
+            "orders": 20,
+            "co2_saved": 58,
+            "esg_score": 76,
+            "revenue_trend": "+19%",
+            "orders_trend": "1 pending orders",
+            "co2_trend": "From 8 Upcycling products",
+            "environment_products": 17,
+            "environment_score_change": "+1 points vs last month"
+          },
+          "charts": {
+            "revenue_weekly": [
+              2515290.367307598,
+              2602435.9752162853,
+              2554011.865241197,
+              2514525.6003373014
+            ],
+            "revenue_daily": [
+              398572.2168832376,
+              379284.9990445017,
+              330703.4144632926,
+              367023.1195716461,
+              390173.6271128491,
+              329898.2392528278,
+              369513.9311891381
+            ],
+            "category": [
+              2,
+              15,
+              2,
+              6
+            ],
+            "environmental_products": [
+              8,
+              14,
+              16,
+              15
+            ],
+            "environmental_co2": [
+              36,
+              26,
+              29,
+              13
+            ]
+          }
+        }
+      ]
+    }
   }
 }

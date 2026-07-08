@@ -1,6 +1,304 @@
 {
   "accounts": [
     {
+      "email": "admin@refashion.vn",
+      "password": "admin123",
+      "role": "Admin",
+      "name": "Admin ReFashion",
+      "redirect": "/admin/index.html",
+      "username": "admin",
+      "phone": "0999 999 999",
+      "address": "Quản trị viên"
+    },
+    {
+      "email": "seller@refashion.vn",
+      "password": "seller123",
+      "role": "Seller",
+      "name": "Eco Wear Store",
+      "store": "Eco Wear",
+      "storeLogo": "../images/store_eco_wear.png"
+    },
+    {
+      "email": "seller_hemp@refashion.vn",
+      "password": "seller123",
+      "role": "Seller",
+      "name": "Hemp & Bamboo Store",
+      "store": "Hemp & Bamboo",
+      "storeLogo": "../images/store_hemp_bamboo.png"
+    },
+    {
+      "email": "seller_retro@refashion.vn",
+      "password": "seller123",
+      "role": "Seller",
+      "name": "Retro Chic Store",
+      "store": "Retro Chic",
+      "storeLogo": "../images/store_retro_chic.png"
+    },
+    {
+      "email": "seller_denim@refashion.vn",
+      "password": "seller123",
+      "role": "Seller",
+      "name": "Denim Craft Store",
+      "store": "Denim Craft",
+      "storeLogo": "../images/store_denim_craft.png"
+    },
+    {
+      "email": "seller_greenthread@refashion.vn",
+      "password": "seller123",
+      "role": "Seller",
+      "name": "Green Thread Store",
+      "store": "Green Thread",
+      "storeLogo": "../images/store_green_thread.png"
+    },
+    {
+      "email": "seller_zerowaste@refashion.vn",
+      "password": "seller123",
+      "role": "Seller",
+      "name": "Zero Waste Store",
+      "store": "Zero Waste",
+      "storeLogo": "../images/store_zero_waste.png"
+    },
+    {
+      "email": "buyer1@refashion.vn",
+      "password": "buyer123",
+      "role": "Buyer",
+      "name": "Đặng Thu Mai",
+      "redirect": "/buyer/index.html",
+      "username": "buyer1",
+      "gender": "women",
+      "phone": "0916479627",
+      "address": "74 Đường abc, Quận xyz, TP HCM",
+      "birthYear": 1991
+    },
+    {
+      "email": "buyer2@refashion.vn",
+      "password": "buyer123",
+      "role": "Buyer",
+      "name": "Vũ Xuân Cường",
+      "redirect": "/buyer/index.html",
+      "username": "buyer2",
+      "gender": "men",
+      "phone": "0912335179",
+      "address": "102 Đường abc, Quận xyz, TP HCM",
+      "birthYear": 1983
+    },
+    {
+      "email": "buyer3@refashion.vn",
+      "password": "buyer123",
+      "role": "Buyer",
+      "name": "Vũ Xuân Dung",
+      "redirect": "/buyer/index.html",
+      "username": "buyer3",
+      "gender": "men",
+      "phone": "0916513912",
+      "address": "17 Đường abc, Quận xyz, TP HCM",
+      "birthYear": 1995
+    },
+    {
+      "email": "buyer4@refashion.vn",
+      "password": "buyer123",
+      "role": "Buyer",
+      "name": "Đặng Thanh Tuấn",
+      "redirect": "/buyer/index.html",
+      "username": "buyer4",
+      "gender": "women",
+      "phone": "0919680778",
+      "address": "140 Đường abc, Quận xyz, TP HCM",
+      "birthYear": 2004
+    },
+    {
+      "email": "buyer5@refashion.vn",
+      "password": "buyer123",
+      "role": "Buyer",
+      "name": "Trần Minh Hoa",
+      "redirect": "/buyer/index.html",
+      "username": "buyer5",
+      "gender": "men",
+      "phone": "0916890238",
+      "address": "192 Đường abc, Quận xyz, TP HCM",
+      "birthYear": 1981
+    },
+    {
+      "email": "buyer6@refashion.vn",
+      "password": "buyer123",
+      "role": "Buyer",
+      "name": "Nguyễn Thị Đức",
+      "redirect": "/buyer/index.html",
+      "username": "buyer6",
+      "gender": "men",
+      "phone": "0911168917",
+      "address": "37 Đường abc, Quận xyz, TP HCM",
+      "birthYear": 1996
+    },
+    {
+      "email": "buyer7@refashion.vn",
+      "password": "buyer123",
+      "role": "Buyer",
+      "name": "Trần Văn Mai",
+      "redirect": "/buyer/index.html",
+      "username": "buyer7",
+      "gender": "women",
+      "phone": "0911010190",
+      "address": "190 Đường abc, Quận xyz, TP HCM",
+      "birthYear": 1984
+    },
+    {
+      "email": "buyer8@refashion.vn",
+      "password": "buyer123",
+      "role": "Buyer",
+      "name": "Võ Văn Long",
+      "redirect": "/buyer/index.html",
+      "username": "buyer8",
+      "gender": "women",
+      "phone": "0914050496",
+      "address": "123 Đường abc, Quận xyz, TP HCM",
+      "birthYear": 1997
+    },
+    {
+      "email": "buyer9@refashion.vn",
+      "password": "buyer123",
+      "role": "Buyer",
+      "name": "Phạm Thu Dung",
+      "redirect": "/buyer/index.html",
+      "username": "buyer9",
+      "gender": "women",
+      "phone": "0912236646",
+      "address": "73 Đường abc, Quận xyz, TP HCM",
+      "birthYear": 1983
+    },
+    {
+      "email": "buyer10@refashion.vn",
+      "password": "buyer123",
+      "role": "Buyer",
+      "name": "Trần Hữu Tuấn",
+      "redirect": "/buyer/index.html",
+      "username": "buyer10",
+      "gender": "women",
+      "phone": "0915973345",
+      "address": "47 Đường abc, Quận xyz, TP HCM",
+      "birthYear": 1989
+    },
+    {
+      "email": "buyer11@refashion.vn",
+      "password": "buyer123",
+      "role": "Buyer",
+      "name": "Phan Minh Tuấn",
+      "redirect": "/buyer/index.html",
+      "username": "buyer11",
+      "gender": "women",
+      "phone": "0919310550",
+      "address": "95 Đường abc, Quận xyz, TP HCM",
+      "birthYear": 1992
+    },
+    {
+      "email": "buyer12@refashion.vn",
+      "password": "buyer123",
+      "role": "Buyer",
+      "name": "Lê Xuân Mai",
+      "redirect": "/buyer/index.html",
+      "username": "buyer12",
+      "gender": "men",
+      "phone": "0916646036",
+      "address": "144 Đường abc, Quận xyz, TP HCM",
+      "birthYear": 1984
+    },
+    {
+      "email": "buyer13@refashion.vn",
+      "password": "buyer123",
+      "role": "Buyer",
+      "name": "Vũ Thu Dung",
+      "redirect": "/buyer/index.html",
+      "username": "buyer13",
+      "gender": "men",
+      "phone": "0911366430",
+      "address": "104 Đường abc, Quận xyz, TP HCM",
+      "birthYear": 1991
+    },
+    {
+      "email": "buyer14@refashion.vn",
+      "password": "buyer123",
+      "role": "Buyer",
+      "name": "Hoàng Thu Tuấn",
+      "redirect": "/buyer/index.html",
+      "username": "buyer14",
+      "gender": "women",
+      "phone": "0917062068",
+      "address": "141 Đường abc, Quận xyz, TP HCM",
+      "birthYear": 1992
+    },
+    {
+      "email": "buyer15@refashion.vn",
+      "password": "buyer123",
+      "role": "Buyer",
+      "name": "Vũ Văn Mai",
+      "redirect": "/buyer/index.html",
+      "username": "buyer15",
+      "gender": "men",
+      "phone": "0913832995",
+      "address": "34 Đường abc, Quận xyz, TP HCM",
+      "birthYear": 1993
+    },
+    {
+      "email": "buyer16@refashion.vn",
+      "password": "buyer123",
+      "role": "Buyer",
+      "name": "Nguyễn Thị Long",
+      "redirect": "/buyer/index.html",
+      "username": "buyer16",
+      "gender": "women",
+      "phone": "0919984816",
+      "address": "60 Đường abc, Quận xyz, TP HCM",
+      "birthYear": 1994
+    },
+    {
+      "email": "buyer17@refashion.vn",
+      "password": "buyer123",
+      "role": "Buyer",
+      "name": "Hoàng Thị Bình",
+      "redirect": "/buyer/index.html",
+      "username": "buyer17",
+      "gender": "women",
+      "phone": "0915566069",
+      "address": "56 Đường abc, Quận xyz, TP HCM",
+      "birthYear": 1993
+    },
+    {
+      "email": "buyer18@refashion.vn",
+      "password": "buyer123",
+      "role": "Buyer",
+      "name": "Trần Ngọc An",
+      "redirect": "/buyer/index.html",
+      "username": "buyer18",
+      "gender": "men",
+      "phone": "0917886916",
+      "address": "22 Đường abc, Quận xyz, TP HCM",
+      "birthYear": 1988
+    },
+    {
+      "email": "buyer19@refashion.vn",
+      "password": "buyer123",
+      "role": "Buyer",
+      "name": "Nguyễn Minh Tuấn",
+      "redirect": "/buyer/index.html",
+      "username": "buyer19",
+      "gender": "men",
+      "phone": "0919368861",
+      "address": "23 Đường abc, Quận xyz, TP HCM",
+      "birthYear": 2001
+    },
+    {
+      "email": "buyer20@refashion.vn",
+      "password": "buyer123",
+      "role": "Buyer",
+      "name": "Phạm Thị Mai",
+      "redirect": "/buyer/index.html",
+      "username": "buyer20",
+      "gender": "men",
+      "phone": "0913423066",
+      "address": "134 Đường abc, Quận xyz, TP HCM",
+      "birthYear": 1999
+    },
+    {
       "email": "buyer@refashion.vn",
       "password": "buyer123",
       "role": "Buyer",
@@ -10,1060 +308,7 @@
       "gender": "men",
       "phone": "0912 345 678",
       "address": "123 Đường Láng, Đống Đa, Hà Nội",
-      "birthYear": 1998,
-      "cart": [
-        {
-          "productId": "id_00000084-04",
-          "name": "Áo khoác Cotton Trơn (Pure color) tay dài cổ tròn (Nam) - Hemp & Bamboo",
-          "price": 630000,
-          "priceStr": "630.000 đ",
-          "image": "/images/products/MEN-Jackets_Vests-id_00000084-04_1_front.jpg",
-          "variant": "M",
-          "quantity": 1
-        },
-        {
-          "productId": "id_00000084-05",
-          "name": "Áo khoác Cotton Trơn (Pure color) tay dài cổ tròn (Nam) - Eco Wear",
-          "price": 490000,
-          "priceStr": "490.000 đ",
-          "image": "/images/products/MEN-Jackets_Vests-id_00000084-05_1_front.jpg",
-          "variant": "L",
-          "quantity": 2
-        }
-      ],
-      "orders": [
-        {
-          "id": "RF-YV1F5RZ",
-          "items": [
-            {
-              "productId": "id_00000089-01",
-              "name": "Quần dài Cotton Trơn (Pure color) sát nách (Nam) - Denim Craft",
-              "price": 530000,
-              "priceStr": "530.000 đ",
-              "image": "/images/products/MEN-Denim-id_00000089-01_7_additional.jpg",
-              "variant": "M",
-              "quantity": 1
-            },
-            {
-              "productId": "id_00000653-02",
-              "name": "Áo khoác Cotton Trơn (Pure color) tay dài cổ bẻ (Nam) - Zero Waste",
-              "price": 590000,
-              "priceStr": "590.000 đ",
-              "image": "/images/products/MEN-Jackets_Vests-id_00000653-02_1_front.jpg",
-              "variant": "L",
-              "quantity": 2
-            }
-          ],
-          "total": 1710000,
-          "totalStr": "1.710.000 đ",
-          "greenCoinEarned": 85,
-          "date": "21/5/2026",
-          "status": "cancelled",
-          "phone": "",
-          "address": "",
-          "note": ""
-        },
-        {
-          "id": "RF-BMDTS8Y",
-          "items": [
-            {
-              "productId": "id_00000565-01",
-              "name": "Quần dài Denim họa tiết Kẻ ô (Lattice) tay dài (Nam) - Zero Waste",
-              "price": 530000,
-              "priceStr": "530.000 đ",
-              "image": "/images/products/MEN-Denim-id_00000565-01_7_additional.jpg",
-              "variant": "XL",
-              "quantity": 2
-            },
-            {
-              "productId": "id_00002446-05",
-              "name": "Áo khoác Cotton Trơn (Pure color) tay dài cổ tròn (Nam) - Hemp & Bamboo",
-              "price": 510000,
-              "priceStr": "510.000 đ",
-              "image": "/images/products/MEN-Jackets_Vests-id_00002446-05_1_front.jpg",
-              "variant": "XL",
-              "quantity": 1
-            }
-          ],
-          "total": 1570000,
-          "totalStr": "1.570.000 đ",
-          "greenCoinEarned": 75,
-          "date": "5/1/2026",
-          "status": "completed",
-          "phone": "",
-          "address": "",
-          "note": ""
-        },
-        {
-          "id": "RF-5AYOKPN",
-          "items": [
-            {
-              "productId": "id_00000089-03",
-              "name": "Quần dài Cotton Trơn (Pure color) tay ngắn (Nam) - Zero Waste",
-              "price": 950000,
-              "priceStr": "950.000 đ",
-              "image": "/images/products/MEN-Denim-id_00000089-03_7_additional.jpg",
-              "variant": "M",
-              "quantity": 1
-            },
-            {
-              "productId": "id_00000089-02",
-              "name": "Quần dài Cotton Trơn (Pure color) tay dài (Nam) - Hemp & Bamboo",
-              "price": 380000,
-              "priceStr": "380.000 đ",
-              "image": "/images/products/MEN-Denim-id_00000089-02_7_additional.jpg",
-              "variant": "M",
-              "quantity": 1
-            }
-          ],
-          "total": 1330000,
-          "totalStr": "1.330.000 đ",
-          "greenCoinEarned": 65,
-          "date": "14/2/2026",
-          "status": "completed",
-          "phone": "",
-          "address": "",
-          "note": ""
-        },
-        {
-          "id": "RF-E5E9EHD",
-          "items": [
-            {
-              "productId": "id_00002446-05",
-              "name": "Áo khoác Cotton Trơn (Pure color) tay dài cổ tròn (Nam) - Hemp & Bamboo",
-              "price": 510000,
-              "priceStr": "510.000 đ",
-              "image": "/images/products/MEN-Jackets_Vests-id_00002446-05_1_front.jpg",
-              "variant": "XL",
-              "quantity": 1
-            }
-          ],
-          "total": 510000,
-          "totalStr": "510.000 đ",
-          "greenCoinEarned": 25,
-          "date": "22/4/2026",
-          "status": "completed",
-          "phone": "",
-          "address": "",
-          "note": ""
-        },
-        {
-          "id": "RF-IPQPW6O",
-          "items": [
-            {
-              "productId": "id_00002268-01",
-              "name": "Áo khoác Cotton Trơn (Pure color) tay dài cổ dựng (Nam) - Green Thread",
-              "price": 690000,
-              "priceStr": "690.000 đ",
-              "image": "/images/products/MEN-Jackets_Vests-id_00002268-01_1_front.jpg",
-              "variant": "M",
-              "quantity": 2
-            }
-          ],
-          "total": 1380000,
-          "totalStr": "1.380.000 đ",
-          "greenCoinEarned": 65,
-          "date": "20/5/2026",
-          "status": "cancelled",
-          "phone": "",
-          "address": "",
-          "note": ""
-        },
-        {
-          "id": "RF-4H06M1K",
-          "items": [
-            {
-              "productId": "id_00003336-07",
-              "name": "Áo khoác Cotton Trơn (Pure color) tay dài cổ tròn (Nam) - Zero Waste",
-              "price": 470000,
-              "priceStr": "470.000 đ",
-              "image": "/images/products/MEN-Jackets_Vests-id_00003336-07_1_front.jpg",
-              "variant": "Tiêu chuẩn",
-              "quantity": 1
-            },
-            {
-              "productId": "id_00000516-01",
-              "name": "Quần dài Denim Trơn (Pure color) sát nách (Nam) - Green Thread",
-              "price": 890000,
-              "priceStr": "890.000 đ",
-              "image": "/images/products/MEN-Denim-id_00000516-01_1_front.jpg",
-              "variant": "M",
-              "quantity": 2
-            }
-          ],
-          "total": 2250000,
-          "totalStr": "2.250.000 đ",
-          "greenCoinEarned": 110,
-          "date": "4/6/2026",
-          "status": "completed",
-          "phone": "",
-          "address": "",
-          "note": ""
-        },
-        {
-          "id": "RF-AUOC0JX",
-          "items": [
-            {
-              "productId": "id_00000089-17",
-              "name": "Quần dài Cotton Trơn (Pure color) sát nách (Nam) - Denim Craft",
-              "price": 1040000,
-              "priceStr": "1.040.000 đ",
-              "image": "/images/products/MEN-Denim-id_00000089-17_4_full.jpg",
-              "variant": "XL",
-              "quantity": 2
-            },
-            {
-              "productId": "id_00002754-01",
-              "name": "Áo khoác Cotton họa tiết Kẻ sọc (Striped) tay dài cổ tròn (Nam) - Zero Waste",
-              "price": 350000,
-              "priceStr": "350.000 đ",
-              "image": "/images/products/MEN-Jackets_Vests-id_00002754-01_1_front.jpg",
-              "variant": "XL",
-              "quantity": 1
-            }
-          ],
-          "total": 2430000,
-          "totalStr": "2.430.000 đ",
-          "greenCoinEarned": 120,
-          "date": "1/4/2026",
-          "status": "completed",
-          "phone": "",
-          "address": "",
-          "note": ""
-        },
-        {
-          "id": "RF-NJ96QGF",
-          "items": [
-            {
-              "productId": "id_00000168-02",
-              "name": "Áo khoác Cotton họa tiết Kẻ sọc (Striped) tay dài cổ tròn (Nam) - Zero Waste",
-              "price": 350000,
-              "priceStr": "350.000 đ",
-              "image": "/images/products/MEN-Jackets_Vests-id_00000168-02_1_front.jpg",
-              "variant": "S",
-              "quantity": 1
-            },
-            {
-              "productId": "id_00000393-01",
-              "name": "Áo khoác Cotton họa tiết Kẻ ô (Lattice) tay dài cổ tròn (Nam) - Hemp & Bamboo",
-              "price": 270000,
-              "priceStr": "270.000 đ",
-              "image": "/images/products/MEN-Jackets_Vests-id_00000393-01_1_front.jpg",
-              "variant": "M",
-              "quantity": 2
-            }
-          ],
-          "total": 890000,
-          "totalStr": "890.000 đ",
-          "greenCoinEarned": 40,
-          "date": "7/4/2026",
-          "status": "completed",
-          "phone": "",
-          "address": "",
-          "note": ""
-        },
-        {
-          "id": "RF-3FCUUL1",
-          "items": [
-            {
-              "productId": "id_00000089-04",
-              "name": "Quần dài Cotton Trơn (Pure color) tay dài (Nam) - Green Thread",
-              "price": 1070000,
-              "priceStr": "1.070.000 đ",
-              "image": "/images/products/MEN-Denim-id_00000089-04_7_additional.jpg",
-              "variant": "S",
-              "quantity": 2
-            },
-            {
-              "productId": "id_00000716-03",
-              "name": "Áo khoác Cotton Trơn (Pure color) tay dài cổ bẻ (Nam) - Retro Chic",
-              "price": 310000,
-              "priceStr": "310.000 đ",
-              "image": "/images/products/MEN-Jackets_Vests-id_00000716-03_1_front.jpg",
-              "variant": "L",
-              "quantity": 1
-            }
-          ],
-          "total": 2450000,
-          "totalStr": "2.450.000 đ",
-          "greenCoinEarned": 120,
-          "date": "12/4/2026",
-          "status": "cancelled",
-          "phone": "",
-          "address": "",
-          "note": ""
-        },
-        {
-          "id": "RF-COO7YHR",
-          "items": [
-            {
-              "productId": "id_00004328-02",
-              "name": "Áo khoác Cotton Trơn (Pure color) tay dài cổ tròn (Nam) - Zero Waste",
-              "price": 710000,
-              "priceStr": "710.000 đ",
-              "image": "/images/products/MEN-Jackets_Vests-id_00004328-02_1_front.jpg",
-              "variant": "L",
-              "quantity": 2
-            },
-            {
-              "productId": "id_00000089-08",
-              "name": "Quần dài Cotton Trơn (Pure color) tay dài (Nam) - Denim Craft",
-              "price": 590000,
-              "priceStr": "590.000 đ",
-              "image": "/images/products/MEN-Denim-id_00000089-08_4_full.jpg",
-              "variant": "Tiêu chuẩn",
-              "quantity": 1
-            }
-          ],
-          "total": 2010000,
-          "totalStr": "2.010.000 đ",
-          "greenCoinEarned": 100,
-          "date": "10/5/2026",
-          "status": "shipping",
-          "phone": "",
-          "address": "",
-          "note": ""
-        }
-      ],
-      "clickStream": [
-        "id_00000084-07",
-        "id_00000084-08",
-        "id_00000094-01",
-        "id_00000094-02",
-        "id_00000094-04",
-        "id_00000168-01",
-        "id_00000168-02",
-        "id_00000168-03"
-      ]
-    },
-    {
-      "email": "buyer_women@refashion.vn",
-      "password": "buyer123",
-      "role": "Buyer",
-      "name": "Người Mua Nữ",
-      "redirect": "/buyer/index.html",
-      "username": "buyer_women",
-      "gender": "women",
-      "phone": "0988 777 666",
-      "address": "456 Nguyễn Huệ, Quận 1, TP. Hồ Chí Minh",
-      "birthYear": 2001,
-      "cart": [
-        {
-          "productId": "id_00000001-02",
-          "name": "Áo sơ mi Chiffon Trơn (Pure color) tay dài cổ dựng (Nữ) - Retro Chic",
-          "price": 550000,
-          "priceStr": "550.000 đ",
-          "image": "/images/products/WOMEN-Blouses_Shirts-id_00000001-02_1_front.jpg",
-          "variant": "S",
-          "quantity": 1
-        }
-      ],
-      "orders": [
-        {
-          "id": "RF-ZF2R6J4",
-          "items": [
-            {
-              "productId": "id_00000447-01",
-              "name": "Quần dài Denim Trơn (Pure color) sát nách (Nữ) - Denim Craft",
-              "price": 860000,
-              "priceStr": "860.000 đ",
-              "image": "/images/products/WOMEN-Denim-id_00000447-01_1_front.jpg",
-              "variant": "XL",
-              "quantity": 1
-            }
-          ],
-          "total": 860000,
-          "totalStr": "860.000 đ",
-          "greenCoinEarned": 40,
-          "date": "7/6/2026",
-          "status": "completed",
-          "phone": "",
-          "address": "",
-          "note": ""
-        },
-        {
-          "id": "RF-RGYJF4M",
-          "items": [
-            {
-              "productId": "id_00000074-04",
-              "name": "Đầm Cotton Trơn (Pure color) sát nách (Nữ) - Denim Craft",
-              "price": 1150000,
-              "priceStr": "1.150.000 đ",
-              "image": "/images/products/WOMEN-Dresses-id_00000074-04_1_front.jpg",
-              "variant": "M",
-              "quantity": 1
-            }
-          ],
-          "total": 1150000,
-          "totalStr": "1.150.000 đ",
-          "greenCoinEarned": 55,
-          "date": "11/4/2026",
-          "status": "completed",
-          "phone": "",
-          "address": "",
-          "note": ""
-        },
-        {
-          "id": "RF-JGOQP3X",
-          "items": [
-            {
-              "productId": "id_00000002-02",
-              "name": "Đầm Chiffon họa tiết Hoa (Floral) tay ngắn cổ tròn (Nữ) - Retro Chic",
-              "price": 700000,
-              "priceStr": "700.000 đ",
-              "image": "/images/products/WOMEN-Dresses-id_00000002-02_1_front.jpg",
-              "variant": "XL",
-              "quantity": 1
-            }
-          ],
-          "total": 700000,
-          "totalStr": "700.000 đ",
-          "greenCoinEarned": 35,
-          "date": "22/3/2026",
-          "status": "completed",
-          "phone": "",
-          "address": "",
-          "note": ""
-        },
-        {
-          "id": "RF-LXO5U4K",
-          "items": [
-            {
-              "productId": "id_00000218-01",
-              "name": "Áo sơ mi Cotton họa tiết In hình (Graphic) tay lỡ cổ tròn (Nữ) - Eco Wear",
-              "price": 370000,
-              "priceStr": "370.000 đ",
-              "image": "/images/products/WOMEN-Blouses_Shirts-id_00000218-01_1_front.jpg",
-              "variant": "S",
-              "quantity": 2
-            }
-          ],
-          "total": 740000,
-          "totalStr": "740.000 đ",
-          "greenCoinEarned": 35,
-          "date": "23/3/2026",
-          "status": "completed",
-          "phone": "",
-          "address": "",
-          "note": ""
-        },
-        {
-          "id": "RF-FYQPDNZ",
-          "items": [
-            {
-              "productId": "id_00000009-02",
-              "name": "Đầm Chiffon họa tiết In hình (Graphic) tay lỡ cổ tròn (Nữ) - Denim Craft",
-              "price": 850000,
-              "priceStr": "850.000 đ",
-              "image": "/images/products/WOMEN-Dresses-id_00000009-02_1_front.jpg",
-              "variant": "L",
-              "quantity": 2
-            },
-            {
-              "productId": "id_00001367-03",
-              "name": "Quần dài Denim Trơn (Pure color) tay dài (Nữ) - Retro Chic",
-              "price": 410000,
-              "priceStr": "410.000 đ",
-              "image": "/images/products/WOMEN-Denim-id_00001367-03_1_front.jpg",
-              "variant": "Tiêu chuẩn",
-              "quantity": 2
-            }
-          ],
-          "total": 2520000,
-          "totalStr": "2.520.000 đ",
-          "greenCoinEarned": 125,
-          "date": "12/1/2026",
-          "status": "completed",
-          "phone": "",
-          "address": "",
-          "note": ""
-        },
-        {
-          "id": "RF-QMC1RX7",
-          "items": [
-            {
-              "productId": "id_00000008-02",
-              "name": "Đầm Cotton Trơn (Pure color) tay ngắn (Nữ) - Denim Craft",
-              "price": 1250000,
-              "priceStr": "1.250.000 đ",
-              "image": "/images/products/WOMEN-Dresses-id_00000008-02_3_back.jpg",
-              "variant": "M",
-              "quantity": 1
-            },
-            {
-              "productId": "id_00000132-02",
-              "name": "Áo sơ mi Chiffon Trơn (Pure color) sát nách hai dây (Nữ) - Eco Wear",
-              "price": 250000,
-              "priceStr": "250.000 đ",
-              "image": "/images/products/WOMEN-Blouses_Shirts-id_00000132-02_1_front.jpg",
-              "variant": "XL",
-              "quantity": 1
-            }
-          ],
-          "total": 1500000,
-          "totalStr": "1.500.000 đ",
-          "greenCoinEarned": 75,
-          "date": "9/3/2026",
-          "status": "completed",
-          "phone": "",
-          "address": "",
-          "note": ""
-        },
-        {
-          "id": "RF-QU4MR1G",
-          "items": [
-            {
-              "productId": "id_00000172-03",
-              "name": "Áo sơ mi Cotton họa tiết In hình (Graphic) sát nách cổ tròn (Nữ) - Green Thread",
-              "price": 570000,
-              "priceStr": "570.000 đ",
-              "image": "/images/products/WOMEN-Blouses_Shirts-id_00000172-03_1_front.jpg",
-              "variant": "L",
-              "quantity": 2
-            }
-          ],
-          "total": 1140000,
-          "totalStr": "1.140.000 đ",
-          "greenCoinEarned": 55,
-          "date": "6/6/2026",
-          "status": "shipping",
-          "phone": "",
-          "address": "",
-          "note": ""
-        },
-        {
-          "id": "RF-W5J5XW7",
-          "items": [
-            {
-              "productId": "id_00000092-01",
-              "name": "Đầm Cotton họa tiết In hình (Graphic) tay dài cổ tròn (Nữ) - Denim Craft",
-              "price": 550000,
-              "priceStr": "550.000 đ",
-              "image": "/images/products/WOMEN-Dresses-id_00000092-01_1_front.jpg",
-              "variant": "Tiêu chuẩn",
-              "quantity": 1
-            }
-          ],
-          "total": 550000,
-          "totalStr": "550.000 đ",
-          "greenCoinEarned": 25,
-          "date": "25/6/2026",
-          "status": "pending",
-          "phone": "",
-          "address": "",
-          "note": ""
-        },
-        {
-          "id": "RF-DJAZ4U2",
-          "items": [
-            {
-              "productId": "id_00000008-02",
-              "name": "Đầm Cotton Trơn (Pure color) tay ngắn (Nữ) - Denim Craft",
-              "price": 1250000,
-              "priceStr": "1.250.000 đ",
-              "image": "/images/products/WOMEN-Dresses-id_00000008-02_3_back.jpg",
-              "variant": "Tiêu chuẩn",
-              "quantity": 1
-            },
-            {
-              "productId": "id_00000152-03",
-              "name": "Quần dài Denim Trơn (Pure color) tay ngắn (Nữ) - Green Thread",
-              "price": 620000,
-              "priceStr": "620.000 đ",
-              "image": "/images/products/WOMEN-Denim-id_00000152-03_1_front.jpg",
-              "variant": "S",
-              "quantity": 1
-            }
-          ],
-          "total": 1870000,
-          "totalStr": "1.870.000 đ",
-          "greenCoinEarned": 90,
-          "date": "30/6/2026",
-          "status": "pending",
-          "phone": "",
-          "address": "",
-          "note": ""
-        },
-        {
-          "id": "RF-N7DIT6L",
-          "items": [
-            {
-              "productId": "id_00001125-01",
-              "name": "Quần dài Denim Trơn (Pure color) tay ngắn (Nữ) - Hemp & Bamboo",
-              "price": 800000,
-              "priceStr": "800.000 đ",
-              "image": "/images/products/WOMEN-Denim-id_00001125-01_1_front.jpg",
-              "variant": "S",
-              "quantity": 1
-            }
-          ],
-          "total": 800000,
-          "totalStr": "800.000 đ",
-          "greenCoinEarned": 40,
-          "date": "24/3/2026",
-          "status": "completed",
-          "phone": "",
-          "address": "",
-          "note": ""
-        },
-        {
-          "id": "RF-KZ8OGYU",
-          "items": [
-            {
-              "productId": "id_00000169-04",
-              "name": "Đầm Cotton họa tiết Hoa (Floral) sát nách cổ vuông (Nữ) - Denim Craft",
-              "price": 950000,
-              "priceStr": "950.000 đ",
-              "image": "/images/products/WOMEN-Dresses-id_00000169-04_1_front.jpg",
-              "variant": "Tiêu chuẩn",
-              "quantity": 2
-            },
-            {
-              "productId": "id_00000083-02",
-              "name": "Đầm Chiffon họa tiết In hình (Graphic) tay ngắn cổ tròn (Nữ) - Denim Craft",
-              "price": 850000,
-              "priceStr": "850.000 đ",
-              "image": "/images/products/WOMEN-Dresses-id_00000083-02_1_front.jpg",
-              "variant": "S",
-              "quantity": 1
-            }
-          ],
-          "total": 2750000,
-          "totalStr": "2.750.000 đ",
-          "greenCoinEarned": 135,
-          "date": "15/3/2026",
-          "status": "cancelled",
-          "phone": "",
-          "address": "",
-          "note": ""
-        }
-      ],
-      "clickStream": [
-        "id_00000004-03",
-        "id_00000004-05",
-        "id_00000005-02",
-        "id_00000015-02",
-        "id_00000024-04",
-        "id_00000025-05",
-        "id_00000028-01",
-        "id_00000031-02",
-        "id_00000038-01"
-      ]
-    },
-    {
-      "email": "buyer_men@refashion.vn",
-      "password": "buyer123",
-      "role": "Buyer",
-      "name": "Người Mua Nam",
-      "redirect": "/buyer/index.html",
-      "username": "buyer_men",
-      "gender": "men",
-      "phone": "0909 111 222",
-      "address": "789 Lê Lợi, Hải Châu, Đà Nẵng",
-      "birthYear": 1995,
-      "cart": [
-        {
-          "productId": "id_00000393-01",
-          "name": "Áo khoác Cotton họa tiết Kẻ ô (Lattice) tay dài cổ tròn (Nam) - Hemp & Bamboo",
-          "price": 270000,
-          "priceStr": "270.000 đ",
-          "image": "/images/products/MEN-Jackets_Vests-id_00000393-01_1_front.jpg",
-          "variant": "XL",
-          "quantity": 1
-        }
-      ],
-      "orders": [
-        {
-          "id": "RF-VLBIXO5",
-          "items": [
-            {
-              "productId": "id_00000084-05",
-              "name": "Áo khoác Cotton Trơn (Pure color) tay dài cổ tròn (Nam) - Eco Wear",
-              "price": 490000,
-              "priceStr": "490.000 đ",
-              "image": "/images/products/MEN-Jackets_Vests-id_00000084-05_1_front.jpg",
-              "variant": "S",
-              "quantity": 2
-            },
-            {
-              "productId": "id_00000089-08",
-              "name": "Quần dài Cotton Trơn (Pure color) tay dài (Nam) - Denim Craft",
-              "price": 590000,
-              "priceStr": "590.000 đ",
-              "image": "/images/products/MEN-Denim-id_00000089-08_4_full.jpg",
-              "variant": "L",
-              "quantity": 1
-            }
-          ],
-          "total": 1570000,
-          "totalStr": "1.570.000 đ",
-          "greenCoinEarned": 75,
-          "date": "16/5/2026",
-          "status": "shipping",
-          "phone": "",
-          "address": "",
-          "note": ""
-        },
-        {
-          "id": "RF-5XF8MST",
-          "items": [
-            {
-              "productId": "id_00002439-02",
-              "name": "Áo khoác Cotton Trơn (Pure color) tay dài cổ bẻ (Nam) - Denim Craft",
-              "price": 410000,
-              "priceStr": "410.000 đ",
-              "image": "/images/products/MEN-Jackets_Vests-id_00002439-02_1_front.jpg",
-              "variant": "L",
-              "quantity": 1
-            }
-          ],
-          "total": 410000,
-          "totalStr": "410.000 đ",
-          "greenCoinEarned": 20,
-          "date": "7/4/2026",
-          "status": "completed",
-          "phone": "",
-          "address": "",
-          "note": ""
-        },
-        {
-          "id": "RF-4NT1LMV",
-          "items": [
-            {
-              "productId": "id_00001875-01",
-              "name": "Áo khoác Cotton Trơn (Pure color) tay dài cổ bẻ (Nam) - Zero Waste",
-              "price": 590000,
-              "priceStr": "590.000 đ",
-              "image": "/images/products/MEN-Jackets_Vests-id_00001875-01_1_front.jpg",
-              "variant": "S",
-              "quantity": 2
-            },
-            {
-              "productId": "id_00000565-01",
-              "name": "Quần dài Denim họa tiết Kẻ ô (Lattice) tay dài (Nam) - Zero Waste",
-              "price": 530000,
-              "priceStr": "530.000 đ",
-              "image": "/images/products/MEN-Denim-id_00000565-01_7_additional.jpg",
-              "variant": "Tiêu chuẩn",
-              "quantity": 1
-            }
-          ],
-          "total": 1710000,
-          "totalStr": "1.710.000 đ",
-          "greenCoinEarned": 85,
-          "date": "10/4/2026",
-          "status": "completed",
-          "phone": "",
-          "address": "",
-          "note": ""
-        },
-        {
-          "id": "RF-KY1U8PZ",
-          "items": [
-            {
-              "productId": "id_00000826-04",
-              "name": "Quần dài Denim họa tiết Kẻ ô (Lattice) sát nách (Nam) - Retro Chic",
-              "price": 860000,
-              "priceStr": "860.000 đ",
-              "image": "/images/products/MEN-Denim-id_00000826-04_7_additional.jpg",
-              "variant": "XL",
-              "quantity": 2
-            }
-          ],
-          "total": 1720000,
-          "totalStr": "1.720.000 đ",
-          "greenCoinEarned": 85,
-          "date": "10/3/2026",
-          "status": "completed",
-          "phone": "",
-          "address": "",
-          "note": ""
-        },
-        {
-          "id": "RF-J2YXXEO",
-          "items": [
-            {
-              "productId": "id_00003336-05",
-              "name": "Áo khoác Cotton Trơn (Pure color) tay dài cổ tròn (Nam) - Denim Craft",
-              "price": 410000,
-              "priceStr": "410.000 đ",
-              "image": "/images/products/MEN-Jackets_Vests-id_00003336-05_1_front.jpg",
-              "variant": "XL",
-              "quantity": 2
-            }
-          ],
-          "total": 820000,
-          "totalStr": "820.000 đ",
-          "greenCoinEarned": 40,
-          "date": "13/5/2026",
-          "status": "completed",
-          "phone": "",
-          "address": "",
-          "note": ""
-        },
-        {
-          "id": "RF-UCMZKRJ",
-          "items": [
-            {
-              "productId": "id_00004319-03",
-              "name": "Áo khoác Cotton Trơn (Pure color) tay dài cổ tròn (Nam) - Retro Chic",
-              "price": 670000,
-              "priceStr": "670.000 đ",
-              "image": "/images/products/MEN-Jackets_Vests-id_00004319-03_1_front.jpg",
-              "variant": "Tiêu chuẩn",
-              "quantity": 2
-            },
-            {
-              "productId": "id_00004328-02",
-              "name": "Áo khoác Cotton Trơn (Pure color) tay dài cổ tròn (Nam) - Zero Waste",
-              "price": 710000,
-              "priceStr": "710.000 đ",
-              "image": "/images/products/MEN-Jackets_Vests-id_00004328-02_1_front.jpg",
-              "variant": "M",
-              "quantity": 1
-            }
-          ],
-          "total": 2050000,
-          "totalStr": "2.050.000 đ",
-          "greenCoinEarned": 100,
-          "date": "13/3/2026",
-          "status": "cancelled",
-          "phone": "",
-          "address": "",
-          "note": ""
-        },
-        {
-          "id": "RF-J2ODCB9",
-          "items": [
-            {
-              "productId": "id_00004014-02",
-              "name": "Áo khoác Cotton Trơn (Pure color) tay dài cổ tròn (Nam) - Denim Craft",
-              "price": 530000,
-              "priceStr": "530.000 đ",
-              "image": "/images/products/MEN-Jackets_Vests-id_00004014-02_1_front.jpg",
-              "variant": "M",
-              "quantity": 2
-            }
-          ],
-          "total": 1060000,
-          "totalStr": "1.060.000 đ",
-          "greenCoinEarned": 50,
-          "date": "19/3/2026",
-          "status": "cancelled",
-          "phone": "",
-          "address": "",
-          "note": ""
-        },
-        {
-          "id": "RF-C68TK51",
-          "items": [
-            {
-              "productId": "id_00000089-26",
-              "name": "Quần dài Cotton Trơn (Pure color) tay lỡ (Nam) - Green Thread",
-              "price": 410000,
-              "priceStr": "410.000 đ",
-              "image": "/images/products/MEN-Denim-id_00000089-26_7_additional.jpg",
-              "variant": "L",
-              "quantity": 2
-            }
-          ],
-          "total": 820000,
-          "totalStr": "820.000 đ",
-          "greenCoinEarned": 40,
-          "date": "6/7/2026",
-          "status": "pending",
-          "phone": "",
-          "address": "",
-          "note": ""
-        },
-        {
-          "id": "RF-2C2HWTG",
-          "items": [
-            {
-              "productId": "id_00000763-01",
-              "name": "Áo khoác Cotton Trơn (Pure color) tay dài cổ tròn (Nam) - Zero Waste",
-              "price": 830000,
-              "priceStr": "830.000 đ",
-              "image": "/images/products/MEN-Jackets_Vests-id_00000763-01_1_front.jpg",
-              "variant": "S",
-              "quantity": 2
-            }
-          ],
-          "total": 1660000,
-          "totalStr": "1.660.000 đ",
-          "greenCoinEarned": 80,
-          "date": "1/7/2026",
-          "status": "cancelled",
-          "phone": "",
-          "address": "",
-          "note": ""
-        },
-        {
-          "id": "RF-YOXIS4G",
-          "items": [
-            {
-              "productId": "id_00000750-01",
-              "name": "Quần dài Denim họa tiết Kẻ ô (Lattice) tay dài (Nam) - Green Thread",
-              "price": 740000,
-              "priceStr": "740.000 đ",
-              "image": "/images/products/MEN-Denim-id_00000750-01_1_front.jpg",
-              "variant": "XL",
-              "quantity": 1
-            },
-            {
-              "productId": "id_00000826-02",
-              "name": "Quần dài Cotton Trơn (Pure color) tay lỡ (Nam) - Denim Craft",
-              "price": 710000,
-              "priceStr": "710.000 đ",
-              "image": "/images/products/MEN-Denim-id_00000826-02_7_additional.jpg",
-              "variant": "XL",
-              "quantity": 1
-            }
-          ],
-          "total": 1450000,
-          "totalStr": "1.450.000 đ",
-          "greenCoinEarned": 70,
-          "date": "14/3/2026",
-          "status": "completed",
-          "phone": "",
-          "address": "",
-          "note": ""
-        },
-        {
-          "id": "RF-IU13LO1",
-          "items": [
-            {
-              "productId": "id_00000089-44",
-              "name": "Quần dài Cotton Trơn (Pure color) tay ngắn (Nam) - Retro Chic",
-              "price": 860000,
-              "priceStr": "860.000 đ",
-              "image": "/images/products/MEN-Denim-id_00000089-44_7_additional.jpg",
-              "variant": "S",
-              "quantity": 2
-            },
-            {
-              "productId": "id_00000168-03",
-              "name": "Áo khoác Vải dệt Trơn tay dài cổ tròn (Nam) - Denim Craft",
-              "price": 290000,
-              "priceStr": "290.000 đ",
-              "image": "/images/products/MEN-Jackets_Vests-id_00000168-03_1_front.jpg",
-              "variant": "Tiêu chuẩn",
-              "quantity": 2
-            }
-          ],
-          "total": 2300000,
-          "totalStr": "2.300.000 đ",
-          "greenCoinEarned": 115,
-          "date": "31/1/2026",
-          "status": "cancelled",
-          "phone": "",
-          "address": "",
-          "note": ""
-        },
-        {
-          "id": "RF-SD7JY2B",
-          "items": [
-            {
-              "productId": "id_00002439-02",
-              "name": "Áo khoác Cotton Trơn (Pure color) tay dài cổ bẻ (Nam) - Denim Craft",
-              "price": 410000,
-              "priceStr": "410.000 đ",
-              "image": "/images/products/MEN-Jackets_Vests-id_00002439-02_1_front.jpg",
-              "variant": "XL",
-              "quantity": 1
-            },
-            {
-              "productId": "id_00000084-04",
-              "name": "Áo khoác Cotton Trơn (Pure color) tay dài cổ tròn (Nam) - Hemp & Bamboo",
-              "price": 630000,
-              "priceStr": "630.000 đ",
-              "image": "/images/products/MEN-Jackets_Vests-id_00000084-04_1_front.jpg",
-              "variant": "Tiêu chuẩn",
-              "quantity": 1
-            }
-          ],
-          "total": 1040000,
-          "totalStr": "1.040.000 đ",
-          "greenCoinEarned": 50,
-          "date": "1/5/2026",
-          "status": "completed",
-          "phone": "",
-          "address": "",
-          "note": ""
-        }
-      ],
-      "clickStream": [
-        "id_00000653-01",
-        "id_00000653-02",
-        "id_00000653-04",
-        "id_00000716-03",
-        "id_00000716-04",
-        "id_00000716-07",
-        "id_00000763-01",
-        "id_00000946-04",
-        "id_00001291-01"
-      ]
-    },
-    {
-      "email": "seller@refashion.vn",
-      "password": "seller123",
-      "role": "Seller",
-      "name": "Eco Wear Store",
-      "redirect": "/seller/seller_dashboard.html",
-      "store": "Eco Wear",
-      "storeLogo": "../images/store_eco_wear.png"
-    },
-    {
-      "email": "seller_hemp@refashion.vn",
-      "password": "seller123",
-      "role": "Seller",
-      "name": "Hemp & Bamboo Store",
-      "redirect": "/seller/seller_dashboard.html",
-      "store": "Hemp & Bamboo",
-      "storeLogo": "../images/store_hemp_bamboo.png"
-    },
-    {
-      "email": "seller_retro@refashion.vn",
-      "password": "seller123",
-      "role": "Seller",
-      "name": "Retro Chic Store",
-      "redirect": "/seller/seller_dashboard.html",
-      "store": "Retro Chic",
-      "storeLogo": "../images/store_retro_chic.png"
-    },
-    {
-      "email": "seller_denim@refashion.vn",
-      "password": "seller123",
-      "role": "Seller",
-      "name": "Denim Craft Store",
-      "redirect": "/seller/seller_dashboard.html",
-      "store": "Denim Craft",
-      "storeLogo": "../images/store_denim_craft.png"
-    },
-    {
-      "email": "seller_greenthread@refashion.vn",
-      "password": "seller123",
-      "role": "Seller",
-      "name": "Green Thread Store",
-      "redirect": "/seller/seller_dashboard.html",
-      "store": "Green Thread",
-      "storeLogo": "../images/store_green_thread.png"
-    },
-    {
-      "email": "seller_zerowaste@refashion.vn",
-      "password": "seller123",
-      "role": "Seller",
-      "name": "Zero Waste Store",
-      "redirect": "/seller/seller_dashboard.html",
-      "store": "Zero Waste",
-      "storeLogo": "../images/store_zero_waste.png"
-    },
-    {
-      "email": "admin@refashion.vn",
-      "password": "admin123",
-      "role": "Admin",
-      "name": "Admin ReFashion",
-      "redirect": "/admin/index.html"
+      "birthYear": 1998
     }
   ]
 }

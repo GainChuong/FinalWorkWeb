@@ -1,0 +1,169 @@
+{
+  "adminOrders": [
+    {
+      "complaintId": "COMP-1000",
+      "orderId": "ORD-10039",
+      "productId": "id_00000042-02",
+      "buyerEmail": "buyer15@refashion.vn",
+      "sellerEmail": "seller_hemp@refashion.vn",
+      "store": "Hemp & Bamboo",
+      "issue": "Wrong item",
+      "status": "investigating",
+      "dateReported": "2026-01-04T17:00:00.000Z"
+    },
+    {
+      "complaintId": "COMP-1001",
+      "orderId": "ORD-10047",
+      "productId": "id_00000035-04",
+      "buyerEmail": "buyer16@refashion.vn",
+      "sellerEmail": "seller@refashion.vn",
+      "store": "Eco Wear",
+      "issue": "Quality issue",
+      "status": "resolved",
+      "dateReported": "2026-05-11T17:00:00.000Z"
+    },
+    {
+      "complaintId": "COMP-1002",
+      "orderId": "ORD-10001",
+      "productId": "id_00000089-45",
+      "buyerEmail": "buyer14@refashion.vn",
+      "sellerEmail": "seller_zerowaste@refashion.vn",
+      "store": "Zero Waste",
+      "issue": "Damaged product",
+      "status": "open",
+      "dateReported": "2026-01-13T17:00:00.000Z"
+    },
+    {
+      "complaintId": "COMP-1003",
+      "orderId": "ORD-10016",
+      "productId": "id_00000074-03",
+      "buyerEmail": "buyer8@refashion.vn",
+      "sellerEmail": "seller_zerowaste@refashion.vn",
+      "store": "Zero Waste",
+      "issue": "Damaged product",
+      "status": "open",
+      "dateReported": "2026-02-02T17:00:00.000Z"
+    },
+    {
+      "complaintId": "COMP-1004",
+      "orderId": "ORD-10025",
+      "productId": "id_00002268-01",
+      "buyerEmail": "buyer9@refashion.vn",
+      "sellerEmail": "seller_greenthread@refashion.vn",
+      "store": "Green Thread",
+      "issue": "Quality issue",
+      "status": "open",
+      "dateReported": "2026-04-04T17:00:00.000Z"
+    },
+    {
+      "complaintId": "COMP-1005",
+      "orderId": "ORD-10006",
+      "productId": "id_00000164-03",
+      "buyerEmail": "buyer@refashion.vn",
+      "sellerEmail": "seller_hemp@refashion.vn",
+      "store": "Hemp & Bamboo",
+      "issue": "Damaged product",
+      "status": "open",
+      "dateReported": "2026-01-27T17:00:00.000Z"
+    },
+    {
+      "complaintId": "COMP-1006",
+      "orderId": "ORD-10028",
+      "productId": "id_00002754-01",
+      "buyerEmail": "buyer19@refashion.vn",
+      "sellerEmail": "seller_zerowaste@refashion.vn",
+      "store": "Zero Waste",
+      "issue": "Wrong item",
+      "status": "investigating",
+      "dateReported": "2026-03-26T17:00:00.000Z"
+    },
+    {
+      "complaintId": "COMP-1007",
+      "orderId": "ORD-10044",
+      "productId": "id_00000021-05",
+      "buyerEmail": "buyer15@refashion.vn",
+      "sellerEmail": "seller_retro@refashion.vn",
+      "store": "Retro Chic",
+      "issue": "Wrong item",
+      "status": "open",
+      "dateReported": "2026-04-02T17:00:00.000Z"
+    },
+    {
+      "complaintId": "COMP-1008",
+      "orderId": "ORD-10033",
+      "productId": "id_00000165-02",
+      "buyerEmail": "buyer1@refashion.vn",
+      "sellerEmail": "seller@refashion.vn",
+      "store": "Eco Wear",
+      "issue": "Late delivery",
+      "status": "resolved",
+      "dateReported": "2026-01-26T17:00:00.000Z"
+    },
+    {
+      "complaintId": "COMP-1009",
+      "orderId": "ORD-10042",
+      "productId": "id_00000183-01",
+      "buyerEmail": "buyer15@refashion.vn",
+      "sellerEmail": "seller_retro@refashion.vn",
+      "store": "Retro Chic",
+      "issue": "Late delivery",
+      "status": "resolved",
+      "dateReported": "2026-03-03T17:00:00.000Z"
+    },
+    {
+      "complaintId": "COMP-1010",
+      "orderId": "ORD-10014",
+      "productId": "id_00000067-02",
+      "buyerEmail": "buyer8@refashion.vn",
+      "sellerEmail": "seller_denim@refashion.vn",
+      "store": "Denim Craft",
+      "issue": "Late delivery",
+      "status": "open",
+      "dateReported": "2026-03-20T17:00:00.000Z"
+    },
+    {
+      "complaintId": "COMP-1011",
+      "orderId": "ORD-10001",
+      "productId": "id_00001875-01",
+      "buyerEmail": "buyer14@refashion.vn",
+      "sellerEmail": "seller_zerowaste@refashion.vn",
+      "store": "Zero Waste",
+      "issue": "Wrong item",
+      "status": "resolved",
+      "dateReported": "2026-01-13T17:00:00.000Z"
+    },
+    {
+      "complaintId": "COMP-1012",
+      "orderId": "ORD-10007",
+      "productId": "id_00001903-03",
+      "buyerEmail": "buyer5@refashion.vn",
+      "sellerEmail": "seller_zerowaste@refashion.vn",
+      "store": "Zero Waste",
+      "issue": "Quality issue",
+      "status": "open",
+      "dateReported": "2026-04-30T17:00:00.000Z"
+    },
+    {
+      "complaintId": "COMP-1013",
+      "orderId": "ORD-10013",
+      "productId": "id_00000155-01",
+      "buyerEmail": "buyer9@refashion.vn",
+      "sellerEmail": "seller_zerowaste@refashion.vn",
+      "store": "Zero Waste",
+      "issue": "Wrong item",
+      "status": "open",
+      "dateReported": "2026-03-11T17:00:00.000Z"
+    },
+    {
+      "complaintId": "COMP-1014",
+      "orderId": "ORD-10029",
+      "productId": "id_00004319-01",
+      "buyerEmail": "buyer8@refashion.vn",
+      "sellerEmail": "seller_hemp@refashion.vn",
+      "store": "Hemp & Bamboo",
+      "issue": "Damaged product",
+      "status": "investigating",
+      "dateReported": "2026-03-26T17:00:00.000Z"
+    }
+  ]
+}

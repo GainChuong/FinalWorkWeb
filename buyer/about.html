@@ -1,14 +1,14 @@
 <!doctype html>
-<html lang="vi">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Câu Chuyện Thương Hiệu - ReFashion</title>
-  <meta name="description" content="Khám phá hành trình thời trang tuần hoàn, sứ mệnh xanh và phong cách sống bền vững cùng ReFashion.">
-  <meta property="og:title" content="ReFashion - Hành Trình Thời Trang Tuần Hoàn">
-  <meta property="og:description" content="Khám phá hành trình thời trang tuần hoàn, sứ mệnh xanh và phong cách sống bền vững cùng ReFashion.">
-  <link rel="stylesheet" href="../css/maincss.css" />
-  <link rel="stylesheet" href="../css/buyer.css" />
+  <title>Brand Story - ReFashion</title>
+  <meta name="description" content="Discover the circular fashion journey, green mission, and sustainable lifestyle with ReFashion.">
+  <meta property="og:title" content="ReFashion - Circular Fashion Journey">
+  <meta property="og:description" content="Discover the circular fashion journey, green mission, and sustainable lifestyle with ReFashion.">
+  <link rel="stylesheet" href="../css/maincss.css?v=2" />
+  <link rel="stylesheet" href="../css/buyer.css?v=2" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   
   <style>
@@ -370,7 +370,6 @@
       overflow: hidden;
       border: 4px solid #F7F3EC;
       box-shadow: 0 10px 25px rgba(91,116,83,0.08);
-      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
       cursor: pointer;
     }
 
@@ -380,21 +379,10 @@
       object-fit: cover;
     }
 
-    .circle-item:hover {
-      transform: scale(1.15) rotate(3deg) !important;
-      z-index: 10;
-      box-shadow: 0 20px 40px rgba(166, 133, 91, 0.25);
-    }
-
-    .circle-top { top: 0; left: 50%; transform: translateX(-50%) translateY(20px); }
-    .circle-left { top: 50%; left: 0; transform: translateY(-50%) translateX(20px); }
-    .circle-right { top: 50%; right: 0; transform: translateY(-50%) translateX(-20px); }
-    .circle-bottom { bottom: 0; left: 50%; transform: translateX(-50%) translateY(-20px); }
-
-    .reveal-active .circle-top { transform: translateX(-50%) translateY(0); }
-    .reveal-active .circle-left { transform: translateY(-50%) translateX(0); }
-    .reveal-active .circle-right { transform: translateY(-50%) translateX(0); }
-    .reveal-active .circle-bottom { transform: translateX(-50%) translateY(0); }
+    .circle-top { top: 0; left: 50%; transform: translateX(-50%); }
+    .circle-left { top: 50%; left: 0; transform: translateY(-50%); }
+    .circle-right { top: 50%; right: 0; transform: translateY(-50%); }
+    .circle-bottom { bottom: 0; left: 50%; transform: translateX(-50%); }
 
     /* SECTION 4: JOURNEY - Desktop Winding Timeline & SVG Path */
     .timeline-wrapper {
@@ -403,6 +391,20 @@
       height: 100%;
       min-height: 380px;
       margin: 0;
+    }
+
+    @media (min-width: 1025px) {
+      #section-4.split-layout {
+        grid-template-columns: 1fr 1.65fr;
+        gap: 4rem;
+        align-items: center;
+      }
+      
+      #section-4 .timeline-wrapper {
+        height: 560px;
+        max-width: 950px;
+        margin: 0 auto;
+      }
     }
 
     .timeline-svg {
@@ -548,7 +550,7 @@
       }
     }
 
-    /* SECTION 6: GREENCOIN - Central Dashboard with Orbiting Coins (Scaled up) */
+    /* SECTION 5: GREENCOIN - Central Dashboard with Orbiting Coins (Scaled up) */
     .orbit-container {
       position: relative;
       padding: 3rem;
@@ -617,13 +619,28 @@
       50% { transform: translate(12px, 15px) scale(0.9); }
     }
 
-    /* SECTION 7: COMMUNITY - Network graph of avatars with Bezier connections */
+    /* SECTION 6: COMMUNITY - Network graph of avatars with Bezier connections */
     .network-container {
       position: relative;
       width: 100%;
       height: 100%;
       min-height: 320px;
       margin-top: 1rem;
+    }
+
+    @media (min-width: 1025px) {
+      #section-6.split-layout {
+        grid-template-columns: 1.4fr 1fr;
+        gap: 4rem;
+        align-items: center;
+      }
+      
+      #section-6 .network-container {
+        height: 400px;
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+      }
     }
 
     .network-svg {
@@ -637,7 +654,7 @@
       overflow: visible;
     }
 
-    #network-path-1, #network-path-2, #network-path-3, #network-path-4, #network-path-5 {
+    #network-path-1, #network-path-2, #network-path-3, #network-path-4, #network-path-5, #network-path-6 {
       stroke: var(--primary-light);
       stroke-width: 3;
       fill: none;
@@ -655,7 +672,7 @@
     .network-avatar-inner {
       width: 120px;
       height: 120px;
-      border-radius: 50%;
+      border-radius: 24px;
       overflow: hidden;
       border: 4px solid #F7F3EC;
       box-shadow: 0 12px 28px rgba(91,116,83,0.15);
@@ -754,7 +771,7 @@
       .network-mobile-avatar img {
         width: 80px;
         height: 80px;
-        border-radius: 50%;
+        border-radius: 16px;
         object-fit: cover;
         border: 3px solid #F7F3EC;
         box-shadow: 0 8px 16px rgba(91,116,83,0.08);
@@ -767,12 +784,12 @@
       }
     }
 
-    /* SECTION 8: IMPACT & CTA - Full width media (fits within 100dvh section) */
+    /* SECTION 7: IMPACT & CTA - Full width media (fits within 100dvh section) */
     .full-width-media-wrapper {
       position: relative;
       width: 100%;
       height: 100%;
-      min-height: 320px;
+      min-height: 420px;
       border-radius: 24px;
       overflow: hidden;
       box-shadow: 0 20px 45px rgba(0,0,0,0.05);
@@ -843,16 +860,16 @@
       <!-- SECTION 1: HERO (Organic Blob Layout) -->
       <section class="story-section hero-story-section split-layout" id="section-1">
         <div class="reveal-element">
-          <span class="story-subtitle">Về ReFashion</span>
-          <h1 class="story-title" style="font-size:clamp(2.25rem, 4.5vw, 3.75rem)">Thời Trang Tốt Hơn.<br>Rác Thải Ít Hơn.</h1>
-          <p class="story-text">Một kỷ nguyên mới của thời trang tuần hoàn, nơi mỗi món đồ cũ được tái sinh và tiếp tục hành trình xanh. Chúng tôi kết nối những tâm hồn yêu môi trường bằng phong cách thời trang có trách nhiệm.</p>
-          <a href="#section-2" class="story-cta">Khám Phá Câu Chuyện <i class="fa-solid fa-arrow-down" style="font-size:0.85rem"></i></a>
+          <span class="story-subtitle">About ReFashion</span>
+          <h1 class="story-title" style="font-size:clamp(2.25rem, 4.5vw, 3.75rem)">Wear Better.<br>Waste Less.</h1>
+          <p class="story-text">A new era of circular fashion, where every pre-loved garment is reborn to continue a green journey. We connect eco-conscious minds through responsible style.</p>
+          <a href="#section-2" class="story-cta">Discover Our Story <i class="fa-solid fa-arrow-down" style="font-size:0.85rem"></i></a>
           
           <div class="mouse-scroll-indicator reveal-element delay-2">
             <div class="mouse-outline">
               <div class="mouse-wheel"></div>
             </div>
-            <span style="font-size:0.75rem;font-family:var(--font-mono);letter-spacing:0.1em;color:var(--text-muted)">CUỘN XUỐNG</span>
+            <span style="font-size:0.75rem;font-family:var(--font-mono);letter-spacing:0.1em;color:var(--text-muted)">SCROLL DOWN</span>
           </div>
         </div>
         
@@ -870,27 +887,27 @@
         <div class="collage-container reveal-element">
           <div class="collage-card card-landfill">
             <!-- Left focus of contrast image -->
-            <img src="../images/section2_landfill.png" alt="Bãi chôn lấp rác thải dệt may" />
+            <img src="../images/section2_landfill.png" alt="Textile landfill impact" />
           </div>
           <div class="collage-card card-forest" id="forest-collage-card">
             <!-- Right focus of contrast image -->
-            <img src="../images/section2_forest.png" alt="Rừng xanh bảo vệ môi trường" />
+            <img src="../images/section2_forest.png" alt="Eco-preservation forest" />
           </div>
         </div>
         
         <div class="reveal-element delay-1">
-          <span class="story-subtitle">Thực Trạng Nhức Nhối</span>
-          <h2 class="story-title">Gánh Nặng Vô Hình Từ Tủ Đồ</h2>
-          <p class="story-text">Mỗi giây trôi qua, một xe tải đầy quần áo bị chôn lấp hoặc thiêu hủy trên toàn cầu. Hàng triệu tấn sợi tổng hợp khó phân hủy đang đè nặng lên các hệ sinh thái tự nhiên. ReFashion ra đời với quyết tâm thay đổi thực trạng đó ngay từ hôm nay.</p>
+          <span class="story-subtitle">The Hard Truth</span>
+          <h2 class="story-title">The Hidden Burden of Our Wardrobe</h2>
+          <p class="story-text">Every second, a truckload of textiles is landfilled or incinerated globally. Millions of tons of synthetic fibers are weighing down natural ecosystems. ReFashion was born to change this reality starting today.</p>
           
           <div class="stats-row">
             <div>
               <div class="stat-number" data-target="92" data-suffix="M+">0</div>
-              <div class="stat-label">Tấn rác thải dệt may bị bỏ phí mỗi năm trên hành tinh.</div>
+              <div class="stat-label">Tons of textile waste discarded globally every year.</div>
             </div>
             <div>
               <div class="stat-number" data-target="10" data-suffix="%">0</div>
-              <div class="stat-label">Lượng khí thải nhà kính toàn cầu đến từ công nghiệp thời trang.</div>
+              <div class="stat-label">Of global greenhouse gas emissions originate from the fashion industry.</div>
             </div>
           </div>
         </div>
@@ -899,9 +916,9 @@
       <!-- SECTION 3: OUR BELIEF (Collage 4 Circular Images) -->
       <section class="story-section split-layout" id="section-3">
         <div class="reveal-element">
-          <span class="story-subtitle">Niềm Tin Của Chúng Tôi</span>
-          <h2 class="story-title">Mỗi Tấm Vải Cũ Không Phải Rác Thải</h2>
-          <p class="story-text">Chúng tôi tin rằng mọi thớ vải đã qua sử dụng đều chứa đựng sợi dây liên kết của sự sáng tạo và câu chuyện cuộc sống để viết tiếp. Dưới bàn tay nghệ thuật của các nhà thiết kế Upcycling tại ReFashion, những chiếc quần jeans rách, những tấm kaki cũ kỹ được làm sạch, xử lý và thiết kế lại thành những món đồ thời trang cao cấp, mang đậm dấu ấn nghệ thuật thủ công độc bản.</p>
+          <span class="story-subtitle">Our Belief</span>
+          <h2 class="story-title">Every Old Thread is Not Waste</h2>
+          <p class="story-text">We believe every pre-loved thread holds the connection of creativity and life stories yet to be told. Under the artistic hands of Upcycling designers at ReFashion, ripped jeans and worn chinos are professionally cleaned, treated, and redesigned into premium, one-of-a-kind handcrafted fashion statements.</p>
         </div>
         
         <div class="reveal-element delay-1">
@@ -923,146 +940,122 @@
       </section>
 
       <!-- SECTION 4: JOURNEY (Curved Timeline with SVG Path) -->
-      <section class="story-section center-layout" id="section-4" style="display:flex; flex-direction:column">
-        <div class="section-header reveal-element">
-          <span class="story-subtitle">Quy Trình Hoạt Động</span>
-          <h2 class="story-title">Hành Trình Tuần Hoàn Của Sợi Vải</h2>
-          <p class="story-text">Chu trình 5 bước khép kín — tối đa vòng đời sản phẩm, giảm thiểu nước sạch và khí thải CO₂.</p>
-        </div>
-        
-        <div class="section-visual reveal-element delay-1">
-        <div class="timeline-wrapper timeline-desktop-container">
-          <svg viewBox="0 0 1000 640" class="timeline-svg">
-            <path d="M 300 40 C 500 40, 650 80, 650 140 C 650 200, 300 200, 300 260 C 300 320, 650 320, 650 380 C 650 440, 580 500, 500 500" id="timeline-path"></path>
-            
-            <!-- Step 1 Card: Node at (300, 40) -->
-            <foreignObject x="0" y="0" width="326" height="80">
-              <div class="timeline-svg-step-card right-align">
-                <div class="timeline-svg-text">
-                  <div class="timeline-svg-step-title">1. Quyên Góp</div>
-                  <div class="timeline-svg-step-desc">Đóng góp quần áo cũ không còn dùng nữa cho hệ sinh thái.</div>
-                </div>
-                <div class="timeline-svg-node"><i class="fa-solid fa-gift"></i></div>
-              </div>
-            </foreignObject>
-
-            <!-- Step 2 Card: Node at (650, 140) -->
-            <foreignObject x="624" y="100" width="350" height="80">
-              <div class="timeline-svg-step-card">
-                <div class="timeline-svg-node"><i class="fa-solid fa-coins"></i></div>
-                <div class="timeline-svg-text">
-                  <div class="timeline-svg-step-title">2. Nhận GreenCoin</div>
-                  <div class="timeline-svg-step-desc">Mỗi lượt đóng góp được tích luỹ xu xanh sinh thái.</div>
-                </div>
-              </div>
-            </foreignObject>
-
-            <!-- Step 3 Card: Node at (300, 260) -->
-            <foreignObject x="0" y="220" width="326" height="80">
-              <div class="timeline-svg-step-card right-align">
-                <div class="timeline-svg-text">
-                  <div class="timeline-svg-step-title">3. Xử Lý & Làm Sạch</div>
-                  <div class="timeline-svg-step-desc">Đồ được giặt hấp sinh học và phân loại chuyên nghiệp.</div>
-                </div>
-                <div class="timeline-svg-node"><i class="fa-solid fa-soap"></i></div>
-              </div>
-            </foreignObject>
-
-            <!-- Step 4 Card: Node at (650, 380) -->
-            <foreignObject x="624" y="340" width="350" height="80">
-              <div class="timeline-svg-step-card">
-                <div class="timeline-svg-node"><i class="fa-solid fa-scissors"></i></div>
-                <div class="timeline-svg-text">
-                  <div class="timeline-svg-step-title">4. Tái Sinh (Upcycle)</div>
-                  <div class="timeline-svg-step-desc">Nghệ nhân ReFashion tái thiết kế thành tác phẩm độc bản.</div>
-                </div>
-              </div>
-            </foreignObject>
-
-            <!-- Step 5 Card: Node at (500, 500) -->
-            <foreignObject x="350" y="474" width="300" height="160">
-              <div class="timeline-svg-step-card center-align">
-                <div class="timeline-svg-node"><i class="fa-solid fa-bag-shopping"></i></div>
-                <div class="timeline-svg-text">
-                  <div class="timeline-svg-step-title">5. Tiêu Dùng Xanh</div>
-                  <div class="timeline-svg-step-desc">Mở bán các sản phẩm tuần hoàn độc bản cho Gen Z.</div>
-                </div>
-              </div>
-            </foreignObject>
-          </svg>
-        </div>
-
-        <!-- Mobile Timeline Fallback -->
-        <div class="timeline-mobile-container reveal-element delay-1">
-          <div class="timeline-step">
-            <div class="timeline-node"><i class="fa-solid fa-gift"></i></div>
-            <div>
-              <div class="timeline-step-title">1. Quyên Góp</div>
-              <div class="timeline-step-desc">Thành viên đóng góp quần áo cũ không còn dùng nữa cho hệ thống.</div>
-            </div>
-          </div>
-          <div class="timeline-step">
-            <div class="timeline-node"><i class="fa-solid fa-coins"></i></div>
-            <div>
-              <div class="timeline-step-title">2. Nhận GreenCoin</div>
-              <div class="timeline-step-desc">Mỗi lượt đóng góp hoặc mua sắm xanh đều được quy đổi thành coin sinh thái.</div>
-            </div>
-          </div>
-          <div class="timeline-step">
-            <div class="timeline-node"><i class="fa-solid fa-soap"></i></div>
-            <div>
-              <div class="timeline-step-title">3. Xử Lý & Làm Sạch</div>
-              <div class="timeline-step-desc">Đồ quyên góp được giặt hấp, phân loại kỹ lưỡng trước khi đưa vào thiết kế.</div>
-            </div>
-          </div>
-          <div class="timeline-step">
-            <div class="timeline-node"><i class="fa-solid fa-scissors"></i></div>
-            <div>
-              <div class="timeline-step-title">4. Tái Sinh (Upcycle)</div>
-              <div class="timeline-step-desc">Các nghệ nhân, nhà thiết kế upcycle cắt may thành sản phẩm nghệ thuật mới.</div>
-            </div>
-          </div>
-          <div class="timeline-step">
-            <div class="timeline-node"><i class="fa-solid fa-bag-shopping"></i></div>
-            <div>
-              <div class="timeline-step-title">5. Tiêu Dùng Xanh</div>
-              <div class="timeline-step-desc">Bộ sưu tập xanh được mở bán, bắt đầu một vòng đời sống động tiếp theo.</div>
-            </div>
-          </div>
-        </div>
-        </div><!-- /.section-visual -->
-
-      </section>
-
-      <!-- SECTION 5: MARKETPLACE (Masonry Gallery) -->
-      <section class="story-section split-layout media-left" id="section-5">
+      <section class="story-section split-layout" id="section-4">
         <div class="reveal-element">
-          <div class="masonry-container">
-            <div class="masonry-item masonry-large">
-              <img src="../images/section5_1.png" alt="Marketplace grid view 1" />
-            </div>
-            <div class="masonry-item masonry-medium">
-              <img src="../images/section5_2.png" alt="Marketplace grid view 2" />
-            </div>
-            <div class="masonry-item masonry-small">
-              <img src="../images/section5_3.png" alt="Marketplace grid view 3" />
-            </div>
-          </div>
+          <span class="story-subtitle">How It Works</span>
+          <h2 class="story-title">The Circular Thread Journey</h2>
+          <p class="story-text">A 5-step closed-loop system – maximizing product lifespan, reducing water usage, and carbon emissions.</p>
         </div>
         
-        <div class="reveal-element delay-1">
-          <span class="story-subtitle">Chợ Cộng Đồng</span>
-          <h2 class="story-title">Nơi Giao Lưu & Kết Nối Gen Z</h2>
-          <p class="story-text">ReFashion không chỉ là một trang thương mại điện tử đơn thuần, chúng tôi xây dựng một điểm đến, một không gian tương tác năng động để những bạn trẻ thế hệ mới (Gen Z) chia sẻ niềm đam mê, tự do mua bán, ký gửi, quyên quyên góp quần áo cũ, cùng nhau định hình và lan tỏa xu hướng sống thân thiện với hành tinh.</p>
+        <div class="reveal-element delay-1" style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;">
+          <div class="timeline-wrapper timeline-desktop-container">
+            <svg viewBox="0 0 1000 640" class="timeline-svg">
+              <path d="M 300 40 C 500 40, 650 80, 650 140 C 650 200, 300 200, 300 260 C 300 320, 650 320, 650 380 C 650 440, 580 500, 500 500" id="timeline-path"></path>
+              
+              <!-- Step 1 Card: Node at (300, 40) -->
+              <foreignObject x="0" y="0" width="326" height="80">
+                <div class="timeline-svg-step-card right-align">
+                  <div class="timeline-svg-text">
+                    <div class="timeline-svg-step-title">1. Donate</div>
+                    <div class="timeline-svg-step-desc">Donate your pre-loved clothes to the circular ecosystem.</div>
+                  </div>
+                  <div class="timeline-svg-node"><i class="fa-solid fa-gift"></i></div>
+                </div>
+              </foreignObject>
+
+              <!-- Step 2 Card: Node at (650, 140) -->
+              <foreignObject x="624" y="100" width="350" height="80">
+                <div class="timeline-svg-step-card">
+                  <div class="timeline-svg-node"><i class="fa-solid fa-coins"></i></div>
+                  <div class="timeline-svg-text">
+                    <div class="timeline-svg-step-title">2. Earn GreenCoin</div>
+                    <div class="timeline-svg-step-desc">Earn green points for every eco-contribution.</div>
+                  </div>
+                </div>
+              </foreignObject>
+
+              <!-- Step 3 Card: Node at (300, 260) -->
+              <foreignObject x="0" y="220" width="326" height="80">
+                <div class="timeline-svg-step-card right-align">
+                  <div class="timeline-svg-text">
+                    <div class="timeline-svg-step-title">3. Treat & Clean</div>
+                    <div class="timeline-svg-step-desc">Garments are professionally sanitized and sorted.</div>
+                  </div>
+                  <div class="timeline-svg-node"><i class="fa-solid fa-soap"></i></div>
+                </div>
+              </foreignObject>
+
+              <!-- Step 4 Card: Node at (650, 380) -->
+              <foreignObject x="624" y="340" width="350" height="80">
+                <div class="timeline-svg-step-card">
+                  <div class="timeline-svg-node"><i class="fa-solid fa-scissors"></i></div>
+                  <div class="timeline-svg-text">
+                    <div class="timeline-svg-step-title">4. Reborn (Upcycle)</div>
+                    <div class="timeline-svg-step-desc">ReFashion designers upcycle fabrics into unique pieces.</div>
+                  </div>
+                </div>
+              </foreignObject>
+
+              <!-- Step 5 Card: Node at (500, 500) -->
+              <foreignObject x="350" y="474" width="300" height="160">
+                <div class="timeline-svg-step-card center-align">
+                  <div class="timeline-svg-node"><i class="fa-solid fa-bag-shopping"></i></div>
+                  <div class="timeline-svg-text">
+                    <div class="timeline-svg-step-title">5. Green Shop</div>
+                    <div class="timeline-svg-step-desc">Enjoy handcrafted circular fashion tailored for Gen Z.</div>
+                  </div>
+                </div>
+              </foreignObject>
+            </svg>
+          </div>
+
+          <!-- Mobile Timeline Fallback -->
+          <div class="timeline-mobile-container">
+            <div class="timeline-step">
+              <div class="timeline-node"><i class="fa-solid fa-gift"></i></div>
+              <div>
+                <div class="timeline-step-title">1. Donate</div>
+                <div class="timeline-step-desc">Donate your pre-loved clothes to the circular ecosystem.</div>
+              </div>
+            </div>
+            <div class="timeline-step">
+              <div class="timeline-node"><i class="fa-solid fa-coins"></i></div>
+              <div>
+                <div class="timeline-step-title">2. Earn GreenCoin</div>
+                <div class="timeline-step-desc">Earn green points for every eco-contribution.</div>
+              </div>
+            </div>
+            <div class="timeline-step">
+              <div class="timeline-node"><i class="fa-solid fa-soap"></i></div>
+              <div>
+                <div class="timeline-step-title">3. Treat & Clean</div>
+                <div class="timeline-step-desc">Garments are professionally sanitized and sorted.</div>
+              </div>
+            </div>
+            <div class="timeline-step">
+              <div class="timeline-node"><i class="fa-solid fa-scissors"></i></div>
+              <div>
+                <div class="timeline-step-title">4. Reborn (Upcycle)</div>
+                <div class="timeline-step-desc">ReFashion designers upcycle fabrics into unique pieces.</div>
+              </div>
+            </div>
+            <div class="timeline-step">
+              <div class="timeline-node"><i class="fa-solid fa-bag-shopping"></i></div>
+              <div>
+                <div class="timeline-step-title">5. Green Shop</div>
+                <div class="timeline-step-desc">Enjoy handcrafted circular fashion tailored for Gen Z.</div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      <!-- SECTION 6: GREENCOIN (Central Dashboard & Orbiting Coins) -->
-      <section class="story-section split-layout" id="section-6">
+      <!-- SECTION 5: GREENCOIN (Central Dashboard & Orbiting Coins) -->
+      <section class="story-section split-layout" id="section-5">
         <div class="reveal-element">
-          <span class="story-subtitle">Hệ Thống Phần Thưởng</span>
-          <h2 class="story-title">Tích Lũy Điểm Xanh - GreenCoin</h2>
-          <p class="story-text">GreenCoin là hạt nhân liên kết cộng đồng sống xanh của ReFashion. Bằng cách thực hiện các hoạt động bảo vệ môi trường như đóng góp đồ cũ, mua sản phẩm tái sinh, viết đánh giá minh bạch, hệ thống sẽ tự động thưởng điểm sinh thái. Điểm tích lũy này có thể dùng để quy đổi mã giảm giá hoặc gửi quyên góp đóng góp cho các quỹ trồng rừng ngập mặn Việt Nam.</p>
+          <span class="story-subtitle">Reward System</span>
+          <h2 class="story-title">Eco-Points Reward System</h2>
+          <p class="story-text">GreenCoin is the core connection of ReFashion's eco-community. By participating in environmental actions like donating clothes, shopping eco-friendly, or writing reviews, you earn GreenCoin. Eco-points can be redeemed for shopping discounts or donated to plant mangrove forests in Vietnam.</p>
         </div>
         
         <div class="reveal-element delay-1">
@@ -1075,132 +1068,131 @@
             <div class="greencoin-card">
               <div class="glow-hologram"></div>
               <div style="font-family:var(--font-mono);font-size:0.85rem;color:var(--accent);letter-spacing:0.1em;z-index:2">GREENCOIN HUB</div>
-              <div style="font-family:var(--font-serif);font-size:1.65rem;font-weight:700;color:var(--primary);margin-top:0.5rem;z-index:2">Hệ Sinh Thái Ví Thưởng</div>
-              <div style="font-size:0.85rem;color:var(--text-muted);margin-top:0.5rem;z-index:2;line-height:1.4">Tích hợp phần thưởng minh bạch tích lũy tự động.</div>
+              <div style="font-family:var(--font-serif);font-size:1.65rem;font-weight:700;color:var(--primary);margin-top:0.5rem;z-index:2">Eco Wallet Ecosystem</div>
+              <div style="font-size:0.85rem;color:var(--text-muted);margin-top:0.5rem;z-index:2;line-height:1.4">Transparent, automated rewards system integration.</div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- SECTION 7: COMMUNITY (Network Graph of Avatars) -->
-      <section class="story-section center-layout" id="section-7" style="display:flex; flex-direction:column">
-        <div class="section-header reveal-element">
-          <span class="story-subtitle">Cộng Đồng Sáng Tạo</span>
-          <h2 class="story-title">Hội Ngộ Các Nhà Thiết Kế Xanh</h2>
-          <p class="story-text">Chúng tôi đồng hành cùng hệ sinh thái đa dạng: nhà thiết kế bền vững, sinh viên mỹ thuật, nghệ nhân thủ công và đại sứ môi trường — biến kinh tế tuần hoàn thành hành động thực tế.</p>
-        </div>
-        
-        <!-- Desktop Network Graph -->
-        <div class="section-visual">
-        <div class="network-container network-desktop-container reveal-element delay-1">
-          <svg viewBox="0 0 800 400" class="network-svg">
-            <path id="network-path-1" d="M 150 80 C 250 140, 500 -20, 600 60" />
-            <path id="network-path-2" d="M 150 80 C 200 160, 280 120, 380 200" />
-            <path id="network-path-3" d="M 600 60 C 520 120, 480 80, 380 200" />
-            <path id="network-path-4" d="M 380 200 C 450 250, 580 180, 650 260" />
-            <path id="network-path-5" d="M 380 200 C 300 280, 280 220, 200 320" />
-            
-            <!-- Node 1: Left Top -->
-            <foreignObject x="90" y="20" width="120" height="120">
-              <div class="network-avatar-inner" title="Linh Chi - Designer">
-                <img src="../images/community_1.png" alt="Linh Chi" />
-              </div>
-            </foreignObject>
-            
-            <!-- Node 2: Right Top -->
-            <foreignObject x="540" y="0" width="120" height="120">
-              <div class="network-avatar-inner" title="Minh Quân - Nghệ nhân">
-                <img src="../images/community_2.png" alt="Minh Quân" />
-              </div>
-            </foreignObject>
-            
-            <!-- Node 3: Center -->
-            <foreignObject x="320" y="140" width="120" height="120">
-              <div class="network-avatar-inner" title="Mai Anh - Đại sứ Xanh">
-                <img src="../images/fashion3_new.png" alt="Mai Anh" />
-              </div>
-            </foreignObject>
-            
-            <!-- Node 4: Right Bottom -->
-            <foreignObject x="590" y="200" width="120" height="120">
-              <div class="network-avatar-inner" title="Hoàng Đức - Upcycler">
-                <img src="../images/fashion4_new.png" alt="Hoàng Đức" />
-              </div>
-            </foreignObject>
-            
-            <!-- Node 5: Left Bottom -->
-            <foreignObject x="140" y="260" width="120" height="120">
-              <div class="network-avatar-inner" title="Quỳnh Vy - Eco Blogger">
-                <img src="../images/community_5.png" alt="Quỳnh Vy" />
-              </div>
-            </foreignObject>
-          </svg>
-        </div>
-        </div><!-- /.section-visual -->
+      <!-- SECTION 6: COMMUNITY (Network Graph of Avatars) -->
+      <section class="story-section split-layout media-left" id="section-6">
+        <div class="reveal-element delay-1" style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;">
+          <!-- Desktop Network Graph -->
+          <div class="network-container network-desktop-container" style="width: 100%;">
+            <svg viewBox="0 0 800 480" class="network-svg">
+              <path id="network-path-1" d="M 160 100 L 640 100" />
+              <path id="network-path-2" d="M 160 100 L 400 240" />
+              <path id="network-path-3" d="M 640 100 L 400 240" />
+              <path id="network-path-4" d="M 400 240 L 640 380" />
+              <path id="network-path-5" d="M 400 240 L 160 380" />
+              <path id="network-path-6" d="M 160 380 L 640 380" />
+              
+              <!-- Node 1: Left Top -->
+              <foreignObject x="100" y="40" width="120" height="120">
+                <div class="network-avatar-inner" title="Linh Chi - Designer">
+                  <img src="../images/community_1.png" alt="Linh Chi" />
+                </div>
+              </foreignObject>
+              
+              <!-- Node 2: Right Top -->
+              <foreignObject x="580" y="40" width="120" height="120">
+                <div class="network-avatar-inner" title="Minh Quan - Artisan">
+                  <img src="../images/community_2.png" alt="Minh Quan" />
+                </div>
+              </foreignObject>
+              
+              <!-- Node 3: Center -->
+              <foreignObject x="340" y="180" width="120" height="120">
+                <div class="network-avatar-inner" title="Mai Anh - Green Ambassador">
+                  <img src="../images/fashion3_new.png" alt="Mai Anh" />
+                </div>
+              </foreignObject>
+              
+              <!-- Node 4: Right Bottom -->
+              <foreignObject x="580" y="320" width="120" height="120">
+                <div class="network-avatar-inner" title="Hoang Duc - Upcycler">
+                  <img src="../images/fashion4_new.png" alt="Hoang Duc" />
+                </div>
+              </foreignObject>
+              
+              <!-- Node 5: Left Bottom -->
+              <foreignObject x="100" y="320" width="120" height="120">
+                <div class="network-avatar-inner" title="Quynh Vy - Eco Blogger">
+                  <img src="../images/community_5.png" alt="Quynh Vy" />
+                </div>
+              </foreignObject>
+            </svg>
+          </div>
 
-        <!-- Mobile Network List Fallback -->
-        <div class="network-mobile-container reveal-element delay-1">
-          <div class="network-mobile-avatar">
-            <img src="../images/community_1.png" alt="Linh Chi" />
-            <div class="network-mobile-name">Linh Chi</div>
-            <div style="font-size:0.75rem;color:var(--text-muted)">Designer</div>
+          <!-- Mobile Network List Fallback -->
+          <div class="network-mobile-container">
+            <div class="network-mobile-avatar">
+              <img src="../images/community_1.png" alt="Linh Chi" />
+              <div class="network-mobile-name">Linh Chi</div>
+              <div style="font-size:0.75rem;color:var(--text-muted)">Designer</div>
+            </div>
+            <div class="network-mobile-avatar">
+              <img src="../images/community_2.png" alt="Minh Quan" />
+              <div class="network-mobile-name">Minh Quan</div>
+              <div style="font-size:0.75rem;color:var(--text-muted)">Artisan</div>
+            </div>
+            <div class="network-mobile-avatar">
+              <img src="../images/fashion3_new.png" alt="Mai Anh" />
+              <div class="network-mobile-name">Mai Anh</div>
+              <div style="font-size:0.75rem;color:var(--text-muted)">Green Ambassador</div>
+            </div>
+            <div class="network-mobile-avatar">
+              <img src="../images/fashion4_new.png" alt="Hoang Duc" />
+              <div class="network-mobile-name">Hoang Duc</div>
+              <div style="font-size:0.75rem;color:var(--text-muted)">Upcycler</div>
+            </div>
+            <div class="network-mobile-avatar">
+              <img src="../images/community_5.png" alt="Quynh Vy" />
+              <div class="network-mobile-name">Quynh Vy</div>
+              <div style="font-size:0.75rem;color:var(--text-muted)">Eco Blogger</div>
+            </div>
           </div>
-          <div class="network-mobile-avatar">
-            <img src="../images/community_2.png" alt="Minh Quân" />
-            <div class="network-mobile-name">Minh Quân</div>
-            <div style="font-size:0.75rem;color:var(--text-muted)">Nghệ nhân</div>
-          </div>
-          <div class="network-mobile-avatar">
-            <img src="../images/fashion3_new.png" alt="Mai Anh" />
-            <div class="network-mobile-name">Mai Anh</div>
-            <div style="font-size:0.75rem;color:var(--text-muted)">Đại sứ Xanh</div>
-          </div>
-          <div class="network-mobile-avatar">
-            <img src="../images/fashion4_new.png" alt="Hoàng Đức" />
-            <div class="network-mobile-name">Hoàng Đức</div>
-            <div style="font-size:0.75rem;color:var(--text-muted)">Upcycler</div>
-          </div>
-          <div class="network-mobile-avatar">
-            <img src="../images/community_5.png" alt="Quỳnh Vy" />
-            <div class="network-mobile-name">Quỳnh Vy</div>
-            <div style="font-size:0.75rem;color:var(--text-muted)">Eco Blogger</div>
-          </div>
+        </div>
+
+        <div class="reveal-element">
+          <span class="story-subtitle">Creative Community</span>
+          <h2 class="story-title">Green Designers Hub</h2>
+          <p class="story-text">We collaborate with a diverse ecosystem: sustainable designers, art students, craftspeople, and environmental ambassadors — turning circular economy theory into tangible action.</p>
         </div>
       </section>
 
-      <!-- SECTION 8: IMPACT & CTA (Full width media with floating counters) -->
-      <section class="story-section center-layout" id="section-8" style="display:flex; flex-direction:column; text-align:center">
+      <!-- SECTION 7: IMPACT & CTA (Full width media with floating counters) -->
+      <section class="story-section center-layout" id="section-7" style="display:flex; flex-direction:column; text-align:center">
         <div class="section-header reveal-element" style="max-width: 800px; margin: 0 auto">
-          <span class="story-subtitle">Tác Động Tích Cực</span>
-          <h2 class="story-title">Hành Động Nhỏ, Tác Động Lớn</h2>
-          <p class="story-text">Từ chối thời trang nhanh, chọn thời trang tuần hoàn — mỗi lựa chọn của bạn là bảo vệ nguồn nước và bầu không khí Trái Đất.</p>
+          <h2 class="story-title" style="font-size:clamp(2rem,4vw,3.5rem); letter-spacing:0.05em">Small Actions, Big Impact</h2>
         </div>
         
         <div class="full-width-media-wrapper reveal-element delay-1">
           <div class="media-dark-overlay"></div>
-          <img src="../images/section8.png" alt="Tác động tích cực và trao quyền cho thời trang tuần hoàn" />
+          <img src="../images/pexels-tam-video-editor-ly-465920623-37371554.jpg" alt="Positive impact and empowerment of circular fashion" />
           
           <div class="floating-counters-overlay">
             <div class="glass-counter-card">
               <div class="stat-number" data-target="12450" data-suffix="+">0</div>
-              <div style="font-weight:700;margin:0.5rem 0 0.25rem 0;font-size:1rem;color:white">Sản phẩm tái sinh</div>
-              <div class="stat-label">Sợi cotton, denim cũ được cứu sống và nâng tầm nghệ thuật.</div>
+              <div style="font-weight:700;margin:0.5rem 0 0.25rem 0;font-size:1rem;color:white">Upcycled Products</div>
+              <div class="stat-label">Cotton fibers and old denim rescued and elevated into wearable art.</div>
             </div>
             <div class="glass-counter-card">
-              <div class="stat-number" data-target="3.2" data-suffix=" Tấn" data-decimal="1">0</div>
-              <div style="font-weight:700;margin:0.5rem 0 0.25rem 0;font-size:1rem;color:white">CO2 giảm thiểu</div>
-              <div class="stat-label">Tương đương khí thải của 160 cây cổ thụ lớn hấp thụ.</div>
+              <div class="stat-number" data-target="3.2" data-suffix=" Tons" data-decimal="1">0</div>
+              <div style="font-weight:700;margin:0.5rem 0 0.25rem 0;font-size:1rem;color:white">CO2 Reduced</div>
+              <div class="stat-label">Equivalent to the carbon absorption of 160 giant old trees.</div>
             </div>
             <div class="glass-counter-card">
-              <div class="stat-number" data-target="8000" data-suffix="k Lít">0</div>
-              <div style="font-weight:700;margin:0.5rem 0 0.25rem 0;font-size:1rem;color:white">Nước sạch tiết kiệm</div>
-              <div class="stat-label">So với việc canh tác vải thô cotton công nghiệp truyền thống.</div>
+              <div class="stat-number" data-target="8000" data-suffix="k Liters">0</div>
+              <div style="font-weight:700;margin:0.5rem 0 0.25rem 0;font-size:1rem;color:white">Freshwater Saved</div>
+              <div class="stat-label">Compared to the high water consumption of conventional virgin cotton farming.</div>
             </div>
           </div>
         </div>
         
-        <div class="reveal-element delay-2" style="padding-bottom: 2rem">
-          <a href="/buyer/shop.html" class="story-cta" style="animation: ctaPulse 2.5s infinite">Mua Sắm Ngay Hôm Nay <i class="fa-solid fa-arrow-right"></i></a>
+        <div class="reveal-element delay-2" style="padding-bottom: 2rem; margin-top: 2.5rem;">
+          <a href="/buyer/shop.html" class="story-cta" style="animation: ctaPulse 2.5s infinite">Start Green Shopping Today <i class="fa-solid fa-arrow-right"></i></a>
         </div>
       </section>
 
@@ -1209,8 +1201,8 @@
 
   <div id="footer-container"></div>
 
-  <script src="../js/mainjs.js"></script>
-  <script src="../js/buyer.js"></script>
+  <script src="../js/mainjs.js?v=2"></script>
+  <script src="../js/buyer.js?v=2"></script>
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {

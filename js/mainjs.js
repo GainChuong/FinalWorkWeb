@@ -23,6 +23,51 @@ function ajaxGetJSON(url, onSuccess, onError) {
   xhr.send();
 }
 
+var WIN1252_REV = {
+  0x20AC: 128, 0x201A: 130, 0x0192: 131, 0x201E: 132, 0x2026: 133,
+  0x2020: 134, 0x2021: 135, 0x02C6: 136, 0x2030: 137, 0x0160: 138,
+  0x2039: 139, 0x0152: 140, 0x017D: 142, 0x2018: 145, 0x2019: 146,
+  0x201C: 147, 0x201D: 148, 0x2022: 149, 0x2013: 150, 0x2014: 151,
+  0x02DC: 152, 0x2122: 153, 0x0161: 154, 0x203A: 155, 0x0153: 156,
+  0x017E: 158, 0x0178: 159
+};
+
+function decodeMojibake(str) {
+  if (!str) return str;
+  try {
+    var needsCheck = false;
+    for (var i = 0; i < str.length; i++) {
+      var code = str.charCodeAt(i);
+      if (code > 127) {
+        needsCheck = true;
+        if (code > 255 && !WIN1252_REV[code]) {
+          return str;
+        }
+      }
+    }
+    if (!needsCheck) return str;
+
+    var bytes = new Uint8Array(str.length);
+    for (var i = 0; i < str.length; i++) {
+      var code = str.charCodeAt(i);
+      if (code <= 255) {
+        bytes[i] = code;
+      } else if (WIN1252_REV[code]) {
+        bytes[i] = WIN1252_REV[code];
+      } else {
+        bytes[i] = code % 256;
+      }
+    }
+    var decoded = new TextDecoder('utf-8').decode(bytes);
+    if (decoded.indexOf('\uFFFD') === -1 && decoded !== str) {
+      return decoded;
+    }
+    return str;
+  } catch(e) {
+    return str;
+  }
+}
+
 function getSession() {
   try { return JSON.parse(localStorage.getItem('sessionUser')); }
   catch(e) { return null; }
@@ -36,11 +81,27 @@ function clearSession() {
 
 var RefashionAuth = {
   _getUser: function() {
-    try { return JSON.parse(localStorage.getItem('refashion_current_user')); }
+    try {
+      var user = JSON.parse(localStorage.getItem('refashion_current_user'));
+      if (user && user.username) {
+        user.username = decodeMojibake(user.username);
+      }
+      return user;
+    }
     catch(e) { return null; }
   },
   _saveUser: function(user) {
     localStorage.setItem('refashion_current_user', JSON.stringify(user));
+    if (window.firebaseDb && window.firebaseDoc && window.firebaseSetDoc && user && user.email) {
+      try {
+        var docRef = window.firebaseDoc(window.firebaseDb, "users", user.email.toLowerCase().trim());
+        window.firebaseSetDoc(docRef, user).catch(function(err) {
+          console.error('[ReFashion] Failed to sync profile to Firestore:', err);
+        });
+      } catch (e) {
+        console.error('[ReFashion] Firestore sync exception:', e);
+      }
+    }
   },
   _removeUser: function() {
     localStorage.removeItem('refashion_current_user');
@@ -53,11 +114,31 @@ var RefashionAuth = {
     localStorage.setItem('refashion_cart', JSON.stringify(cart));
   },
   _getOrders: function() {
-    try { return JSON.parse(localStorage.getItem('refashion_orders')) || []; }
-    catch(e) { return []; }
+    var user = this._getUser();
+    if (!user) return [];
+    try {
+      var allOrders = JSON.parse(localStorage.getItem('refashion_shared_orders')) || [];
+      return allOrders.filter(function(o) {
+        return o.buyerEmail === user.email;
+      });
+    } catch(e) { return []; }
   },
-  _saveOrders: function(orders) {
-    localStorage.setItem('refashion_orders', JSON.stringify(orders));
+  _saveOrders: function(buyerOrders) {
+    var user = this._getUser();
+    var email = user ? user.email : '';
+    if (email) {
+      for (var i = 0; i < buyerOrders.length; i++) {
+        buyerOrders[i].buyerEmail = email;
+      }
+    }
+    var allOrders = [];
+    try { allOrders = JSON.parse(localStorage.getItem('refashion_shared_orders')) || []; } catch(e) {}
+    var buyerOrderIds = buyerOrders.map(function(o) { return o.id; });
+    var otherOrders = allOrders.filter(function(o) {
+      return o.buyerEmail !== email && buyerOrderIds.indexOf(o.id) === -1;
+    });
+    var combined = buyerOrders.concat(otherOrders);
+    localStorage.setItem('refashion_shared_orders', JSON.stringify(combined));
   },
   _getDonations: function() {
     try { return JSON.parse(localStorage.getItem('refashion_donations')) || []; }
@@ -74,7 +155,15 @@ var RefashionAuth = {
     localStorage.setItem('refashion_vouchers', JSON.stringify(v));
   },
   _getUsers: function() {
-    try { return JSON.parse(localStorage.getItem('refashion_users')) || []; }
+    try {
+      var users = JSON.parse(localStorage.getItem('refashion_users')) || [];
+      for (var i = 0; i < users.length; i++) {
+        if (users[i].username) {
+          users[i].username = decodeMojibake(users[i].username);
+        }
+      }
+      return users;
+    }
     catch(e) { return []; }
   },
   _saveUsers: function(u) {
@@ -122,6 +211,9 @@ var RefashionAuth = {
       }
       if (p && typeof AI_REC_SYSTEM !== 'undefined') {
         var attrs = AI_REC_SYSTEM.extractAttributes(p);
+        if (attrs.gender) {
+          profile.genders[attrs.gender] = (profile.genders[attrs.gender] || 0) + weight;
+        }
         if (attrs.style) {
           profile.styles[attrs.style] = (profile.styles[attrs.style] || 0) + weight;
         }
@@ -186,26 +278,33 @@ var RefashionAuth = {
 
   login: function(email, password) {
     var account = null;
+    var overrides = {};
+    try { overrides = JSON.parse(localStorage.getItem('refashion_user_overrides')) || {}; } catch(e) {}
+    var userOver = overrides[email.toLowerCase().trim()] || {};
+
     for (var i = 0; i < MOCK_ACCOUNTS.length; i++) {
-      if (MOCK_ACCOUNTS[i].email.toLowerCase() === email.toLowerCase().trim() && MOCK_ACCOUNTS[i].password === password) {
+      var expectedPassword = userOver.password || MOCK_ACCOUNTS[i].password;
+      if (MOCK_ACCOUNTS[i].email.toLowerCase() === email.toLowerCase().trim() && expectedPassword === password) {
         account = MOCK_ACCOUNTS[i];
         break;
       }
     }
     if (account) {
       var userData = {
-        username: account.username || account.name || account.email.split('@')[0],
+        username: userOver.username || account.username || account.name || account.email.split('@')[0],
         email: account.email,
-        phone: account.phone || '',
-        gender: account.gender || 'unisex',
-        address: account.address || '',
-        birthYear: account.birthYear || '',
-        joinDate: account.joinDate || new Date().toLocaleDateString('vi-VN'),
-        greenCoin: account.greenCoin || 500,
+        phone: userOver.phone !== undefined ? userOver.phone : (account.phone || ''),
+        gender: userOver.gender || account.gender || 'unisex',
+        address: userOver.address !== undefined ? userOver.address : (account.address || ''),
+        birthYear: userOver.birthYear !== undefined ? userOver.birthYear : (account.birthYear || ''),
+        joinDate: account.joinDate || new Date().toLocaleDateString('en-US'),
+        greenCoin: userOver.greenCoin || account.greenCoin || 500,
         role: account.role,
         redirect: account.redirect,
         store: account.store || '',
-        storeLogo: account.storeLogo || ''
+        storeLogo: account.storeLogo || '',
+        lastPhoneChange: userOver.lastPhoneChange || null,
+        lastPasswordChange: userOver.lastPasswordChange || null
       };
       this._saveUser(userData);
       setSession(account.email, account.role);
@@ -231,7 +330,7 @@ var RefashionAuth = {
         email: 'refashion@gmail.com',
         phone: '0912 345 678',
         gender: 'men',
-        address: '123 Đường Láng, Hà Nội',
+        address: '123 Duong Lang Road, Hanoi',
         birthYear: '1998',
         joinDate: '01/01/2026',
         greenCoin: 500,
@@ -252,7 +351,7 @@ var RefashionAuth = {
           gender: users[j].gender || 'unisex',
           address: users[j].address || '',
           birthYear: users[j].birthYear || '',
-          joinDate: users[j].joinDate || new Date().toLocaleDateString('vi-VN'),
+          joinDate: users[j].joinDate || new Date().toLocaleDateString('en-US'),
           greenCoin: users[j].greenCoin || 100,
           role: 'Buyer'
         };
@@ -268,6 +367,11 @@ var RefashionAuth = {
   logout: function() {
     localStorage.removeItem('refashion_current_user');
     clearSession();
+    if (window.firebaseSignOut && window.firebaseAuth) {
+      window.firebaseSignOut(window.firebaseAuth).catch(function(err) {
+        console.error('[ReFashion] Firebase signOut error:', err);
+      });
+    }
     window.location.href = '/auth/login.html';
   },
 
@@ -293,7 +397,7 @@ var RefashionAuth = {
     if (existing) {
       existing.quantity += 1;
     } else {
-      cart.push({ productId: item.productId, name: item.name, price: item.price, priceStr: item.priceStr, image: item.image, variant: item.variant || 'Tiêu chuẩn', quantity: 1 });
+      cart.push({ productId: item.productId, name: item.name, price: item.price, priceStr: item.priceStr, image: item.image, variant: item.variant || 'Standard', quantity: 1 });
     }
     this._saveCart(cart);
     if (typeof AI_REC_SYSTEM !== 'undefined' && AI_REC_SYSTEM.trackCart) {
@@ -306,7 +410,7 @@ var RefashionAuth = {
     var cart = this._getCart();
     var newCart = [];
     for (var i = 0; i < cart.length; i++) {
-      if (!(cart[i].productId === productId && cart[i].variant === (variant || 'Tiêu chuẩn'))) {
+      if (!(cart[i].productId === productId && cart[i].variant === (variant || 'Standard'))) {
         newCart.push(cart[i]);
       }
     }
@@ -320,7 +424,7 @@ var RefashionAuth = {
       return this.removeFromCart(productId, variant);
     }
     for (var i = 0; i < cart.length; i++) {
-      if (cart[i].productId === productId && cart[i].variant === (variant || 'Tiêu chuẩn')) {
+      if (cart[i].productId === productId && cart[i].variant === (variant || 'Standard')) {
         cart[i].quantity = quantity;
         break;
       }
@@ -347,7 +451,7 @@ var RefashionAuth = {
       total: total,
       totalStr: total.toLocaleString('vi-VN') + ' \u0111',
       greenCoinEarned: greenCoinEarned,
-      date: new Date().toLocaleDateString('vi-VN'),
+      date: new Date().toLocaleDateString('en-US'),
       status: 'pending',
       phone: params.phone || '',
       address: params.address || '',
@@ -393,7 +497,7 @@ var RefashionAuth = {
       condition: donation.condition,
       address: donation.address,
       coinEarned: coinEarned,
-      date: new Date().toLocaleDateString('vi-VN')
+      date: new Date().toLocaleDateString('en-US')
     };
     var donations = this._getDonations();
     donations.unshift(record);
@@ -425,7 +529,7 @@ var RefashionAuth = {
       code: code,
       discount: discount,
       description: description,
-      expiresAt: expires.toLocaleDateString('vi-VN'),
+      expiresAt: expires.toLocaleDateString('en-US'),
       isUsed: false
     };
     var vouchers = this._getVouchers();
@@ -455,21 +559,137 @@ var RefashionAuth = {
       }
     }
     this._saveVouchers(vouchers);
+  },
+
+  getUserPassword: function(email) {
+    var overrides = {};
+    try { overrides = JSON.parse(localStorage.getItem('refashion_user_overrides')) || {}; } catch(e) {}
+    var userOver = overrides[email.toLowerCase()] || {};
+    if (userOver.password) {
+      return userOver.password;
+    }
+    for (var i = 0; i < MOCK_ACCOUNTS.length; i++) {
+      if (MOCK_ACCOUNTS[i].email.toLowerCase() === email.toLowerCase()) {
+        return MOCK_ACCOUNTS[i].password;
+      }
+    }
+    var users = this._getUsers();
+    for (var j = 0; j < users.length; j++) {
+      if (users[j].email.toLowerCase() === email.toLowerCase()) {
+        return users[j].password;
+      }
+    }
+    return '';
+  },
+
+  updateUserProfile: function(updatedData) {
+    var user = this._getUser();
+    if (!user) return { success: false, message: 'User not logged in.' };
+
+    var phoneChanged = updatedData.phone !== user.phone;
+    var passwordChanged = updatedData.password && updatedData.password.trim() !== '';
+
+    // Check 7-day limit for phone change
+    if (phoneChanged) {
+      if (user.lastPhoneChange) {
+        var diff = Date.now() - user.lastPhoneChange;
+        var limit = 7 * 24 * 60 * 60 * 1000;
+        if (diff < limit) {
+          var remaining = limit - diff;
+          var days = Math.floor(remaining / (24 * 60 * 60 * 1000));
+          var hours = Math.ceil((remaining % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
+          return {
+            success: false,
+            message: 'Phone number can only be changed 7 days after the last change. Please wait ' + days + 'd ' + hours + 'h.'
+          };
+        }
+      }
+    }
+
+    // Check 7-day limit for password change
+    if (passwordChanged) {
+      if (user.lastPasswordChange) {
+        var diff = Date.now() - user.lastPasswordChange;
+        var limit = 7 * 24 * 60 * 60 * 1000;
+        if (diff < limit) {
+          var remaining = limit - diff;
+          var days = Math.floor(remaining / (24 * 60 * 60 * 1000));
+          var hours = Math.ceil((remaining % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
+          return {
+            success: false,
+            message: 'Password can only be changed 7 days after the last change. Please wait ' + days + 'd ' + hours + 'h.'
+          };
+        }
+      }
+    }
+
+    // Apply basic updates
+    user.username = updatedData.username;
+    user.gender = updatedData.gender;
+    user.birthYear = updatedData.birthYear;
+    user.address = updatedData.address;
+
+    if (phoneChanged) {
+      user.phone = updatedData.phone;
+      user.lastPhoneChange = Date.now();
+    }
+
+    if (passwordChanged) {
+      user.lastPasswordChange = Date.now();
+    }
+
+    // Persist changes
+    // Check if the user is a registered user
+    var isRegistered = false;
+    var users = this._getUsers();
+    for (var i = 0; i < users.length; i++) {
+      if (users[i].email.toLowerCase() === user.email.toLowerCase()) {
+        users[i].username = user.username;
+        users[i].gender = user.gender;
+        users[i].birthYear = user.birthYear;
+        users[i].address = user.address;
+        users[i].phone = user.phone;
+        users[i].lastPhoneChange = user.lastPhoneChange || users[i].lastPhoneChange;
+        users[i].lastPasswordChange = user.lastPasswordChange || users[i].lastPasswordChange;
+        if (passwordChanged) {
+          users[i].password = updatedData.password;
+        }
+        isRegistered = true;
+        break;
+      }
+    }
+
+    if (isRegistered) {
+      this._saveUsers(users);
+    } else {
+      // Mock account overrides
+      var overrides = {};
+      try { overrides = JSON.parse(localStorage.getItem('refashion_user_overrides')) || {}; } catch(e) {}
+      var emailKey = user.email.toLowerCase();
+      var userOver = overrides[emailKey] || {};
+      userOver.username = user.username;
+      userOver.gender = user.gender;
+      userOver.birthYear = user.birthYear;
+      userOver.address = user.address;
+      userOver.phone = user.phone;
+      userOver.lastPhoneChange = user.lastPhoneChange || userOver.lastPhoneChange;
+      userOver.lastPasswordChange = user.lastPasswordChange || userOver.lastPasswordChange;
+      if (passwordChanged) {
+        userOver.password = updatedData.password;
+      }
+      overrides[emailKey] = userOver;
+      localStorage.setItem('refashion_user_overrides', JSON.stringify(overrides));
+    }
+
+    this._saveUser(user);
+    return { success: true };
   }
 };
 
-// Catalog loaded from Zalando HD dataset (200 items).
-// Fallback: a few static items shown while fetch is in progress.
 var SHOP_PRODUCTS = [];
 
 (function loadZalandoCatalog() {
-  // Determine base path (works from both /buyer/* and /*)
-  var base = '';
-  if (window.location.pathname.indexOf('/buyer/') !== -1 ||
-      window.location.pathname.indexOf('/datasets/') !== -1) {
-    base = '../';
-  }
-  var url = base + 'datasets/zalando-catalog.json';
+  var url = '/datasets/products.json';
 
   fetch(url)
     .then(function(r) { return r.json(); })
@@ -509,6 +729,7 @@ var SHOP_PRODUCTS = [];
       }
 
       // Re-render components already on the page
+      if (typeof renderShopFilters === 'function') renderShopFilters();
       if (typeof renderShopProducts === 'function') renderShopProducts();
       if (typeof renderFeaturedProducts === 'function') renderFeaturedProducts();
       // Notify detail page if waiting
@@ -546,6 +767,157 @@ function loginUser(email, password) {
   }
 }
 
+// Google Sign-In callback — called by Google Identity Services
+function handleGoogleCredentialResponse(response) {
+  try {
+    var payload = response.credential.split('.')[1];
+    var binaryString = atob(payload.replace(/-/g, '+').replace(/_/g, '/'));
+    var bytes = new Uint8Array(binaryString.length);
+    for (var i = 0; i < binaryString.length; i++) {
+      bytes[i] = binaryString.charCodeAt(i);
+    }
+    var decoded = JSON.parse(new TextDecoder('utf-8').decode(bytes));
+    var email = decoded.email;
+    var name = decoded.name || email.split('@')[0];
+    var picture = decoded.picture || '';
+
+    var userData = {
+      username: name,
+      email: email,
+      phone: '',
+      gender: 'unisex',
+      address: '',
+      birthYear: '',
+      joinDate: new Date().toLocaleDateString('en-US'),
+      greenCoin: 500,
+      role: 'Buyer',
+      avatar: picture,
+      loginMethod: 'google'
+    };
+
+    var users = RefashionAuth._getUsers();
+    var existingUser = null;
+    for (var i = 0; i < users.length; i++) {
+      if (users[i].email.toLowerCase() === email.toLowerCase()) {
+        existingUser = users[i];
+        break;
+      }
+    }
+    if (existingUser) {
+      userData.greenCoin = existingUser.greenCoin || 500;
+      userData.phone = existingUser.phone || '';
+      userData.address = existingUser.address || '';
+      userData.username = name;
+      existingUser.username = name; // Update in list
+      RefashionAuth._saveUsers(users);
+    } else {
+      users.push({ username: name, email: email, password: '', phone: '', joinDate: userData.joinDate, greenCoin: 500, loginMethod: 'google' });
+      RefashionAuth._saveUsers(users);
+    }
+
+    RefashionAuth._saveUser(userData);
+    setSession(email, 'Buyer');
+    RefashionAuth.initializeUserProfile();
+
+    var params = new URLSearchParams(window.location.search);
+    var redirectTarget = params.get('redirect');
+    window.location.href = redirectTarget || '/buyer/index.html';
+  } catch (err) {
+    console.error('[ReFashion] Google Sign-In error:', err);
+    alert('Google login failed. Please try again.');
+  }
+}
+
+// Firebase Google Sign-In callback
+function handleFirebaseGoogleLogin(email, name, picture) {
+  try {
+    var userData = {
+      username: name,
+      email: email,
+      phone: '',
+      gender: 'unisex',
+      address: '',
+      birthYear: '',
+      joinDate: new Date().toLocaleDateString('en-US'),
+      greenCoin: 500,
+      role: 'Buyer',
+      avatar: picture,
+      loginMethod: 'google'
+    };
+
+    var users = RefashionAuth._getUsers();
+    var existingUser = null;
+    for (var i = 0; i < users.length; i++) {
+      if (users[i].email.toLowerCase() === email.toLowerCase()) {
+        existingUser = users[i];
+        break;
+      }
+    }
+    if (existingUser) {
+      userData.greenCoin = existingUser.greenCoin || 500;
+      userData.phone = existingUser.phone || '';
+      userData.address = existingUser.address || '';
+      userData.username = name;
+      existingUser.username = name; // Update in list
+      RefashionAuth._saveUsers(users);
+    } else {
+      users.push({ username: name, email: email, password: '', phone: '', joinDate: userData.joinDate, greenCoin: 500, loginMethod: 'google' });
+      RefashionAuth._saveUsers(users);
+    }
+
+    RefashionAuth._saveUser(userData);
+    setSession(email, 'Buyer');
+    RefashionAuth.initializeUserProfile();
+
+    var params = new URLSearchParams(window.location.search);
+    var redirectTarget = params.get('redirect');
+    window.location.href = redirectTarget || '/buyer/index.html';
+  } catch (err) {
+    console.error('[ReFashion] Firebase Google Sign-In error:', err);
+    alert('Google login failed. Please try again.');
+  }
+}
+window.handleFirebaseGoogleLogin = handleFirebaseGoogleLogin;
+
+function handleFirebaseLoginSuccess(userData) {
+  try {
+    // Save user object locally
+    localStorage.setItem('refashion_current_user', JSON.stringify(userData));
+    setSession(userData.email, userData.role);
+
+    // Sync mock carts & orders if applicable
+    var mockMatch = (window.MOCK_ACCOUNTS || []).find(function(a) {
+      return a.email.toLowerCase() === userData.email.toLowerCase();
+    });
+    if (mockMatch && userData.role === 'Buyer') {
+      if (mockMatch.cart) RefashionAuth._saveCart(mockMatch.cart);
+      if (mockMatch.orders) RefashionAuth._saveOrders(mockMatch.orders);
+    }
+
+    RefashionAuth.initializeUserProfile();
+
+    // Redirection
+    var params = new URLSearchParams(window.location.search);
+    var redirectTarget = params.get('redirect');
+    if (redirectTarget) {
+      window.location.href = redirectTarget;
+    } else {
+      if (userData.role === 'Seller') {
+        window.location.href = '/seller/seller_dashboard.html';
+      } else if (userData.role === 'Admin') {
+        window.location.href = '/admin/index.html';
+      } else {
+        window.location.href = '/buyer/index.html';
+      }
+    }
+  } catch (err) {
+    console.error('[ReFashion] Firebase session sync error:', err);
+    alert('Login successful but session setup failed: ' + err.message);
+  }
+}
+window.handleFirebaseLoginSuccess = handleFirebaseLoginSuccess;
+
+
 function runRoleGuard() {
   var session = getSession();
   var currentPath = window.location.pathname.toLowerCase();
@@ -575,21 +947,65 @@ function runRoleGuard() {
   }
 }
 
+function initSharedOrders() {
+  if (localStorage.getItem('refashion_shared_orders')) return;
+  ajaxGetJSON(
+    '/datasets/order.json',
+    function(data) {
+      var orders = data.orders || [];
+      for (var i = 0; i < orders.length; i++) {
+        var ord = orders[i];
+        if (ord.customer && ord.customer.name === 'Nguyen Van A') {
+          ord.buyerEmail = 'buyer@refashion.vn';
+        } else if (ord.customer && ord.customer.name === 'Tran Thi B') {
+          ord.buyerEmail = 'buyer_women@refashion.vn';
+        } else {
+          ord.buyerEmail = 'buyer@refashion.vn';
+        }
+      }
+      localStorage.setItem('refashion_shared_orders', JSON.stringify(orders));
+    },
+    function(err) {
+      console.warn('Failed to load order.json for shared orders initialization:', err.message);
+      localStorage.setItem('refashion_shared_orders', JSON.stringify([]));
+    }
+  );
+}
+
+function initSharedChats() {
+  if (localStorage.getItem('refashion_shared_chats')) return;
+  ajaxGetJSON(
+    '/datasets/comment.json',
+    function(data) {
+      localStorage.setItem('refashion_shared_chats', JSON.stringify(data.conversations || []));
+    },
+    function(err) {
+      console.warn('Failed to load comment.json for shared chats:', err.message);
+      localStorage.setItem('refashion_shared_chats', JSON.stringify([]));
+    }
+  );
+}
+
 function initApp() {
+  initSharedOrders();
+  initSharedChats();
   ajaxGetJSON(
     '/datasets/accounts.json',
     function(data) { MOCK_ACCOUNTS = data.accounts || []; runRoleGuard(); },
     function(err) {
       console.warn('[mainjs] Falling back to inline accounts:', err.message);
       MOCK_ACCOUNTS = [
-        { email: 'buyer@refashion.vn', password: 'buyer123', role: 'Buyer', name: 'Người Mua Demo', redirect: '/buyer/index.html' },
+        { email: 'buyer@refashion.vn', password: 'buyer123', role: 'Buyer', name: 'Demo Buyer', redirect: '/buyer/index.html' },
         { email: 'seller@refashion.vn', password: 'seller123', role: 'Seller', name: 'Eco Wear Store', redirect: '/seller/seller_dashboard.html', store: 'Eco Wear', storeLogo: '../images/store_eco_wear.png' },
         { email: 'seller_hemp@refashion.vn', password: 'seller123', role: 'Seller', name: 'Hemp & Bamboo Store', redirect: '/seller/seller_dashboard.html', store: 'Hemp & Bamboo', storeLogo: '../images/store_hemp_bamboo.png' },
         { email: 'seller_retro@refashion.vn', password: 'seller123', role: 'Seller', name: 'Retro Chic Store', redirect: '/seller/seller_dashboard.html', store: 'Retro Chic', storeLogo: '../images/store_retro_chic.png' },
         { email: 'seller_denim@refashion.vn', password: 'seller123', role: 'Seller', name: 'Denim Craft Store', redirect: '/seller/seller_dashboard.html', store: 'Denim Craft', storeLogo: '../images/store_denim_craft.png' },
         { email: 'seller_greenthread@refashion.vn', password: 'seller123', role: 'Seller', name: 'Green Thread Store', redirect: '/seller/seller_dashboard.html', store: 'Green Thread', storeLogo: '../images/store_green_thread.png' },
         { email: 'seller_zerowaste@refashion.vn', password: 'seller123', role: 'Seller', name: 'Zero Waste Store', redirect: '/seller/seller_dashboard.html', store: 'Zero Waste', storeLogo: '../images/store_zero_waste.png' },
-        { email: 'admin@refashion.vn', password: 'admin123', role: 'Admin', name: 'Admin ReFashion', redirect: '/admin/index.html' }
+        { email: 'admin@refashion.vn', password: 'admin123', role: 'Admin', name: 'Admin ReFashion', redirect: '/admin/index.html' },
+        { email: 'giangnntk24411@st.uel.edu.vn', password: 'giang123', role: 'Buyer', name: 'Giang Buyer', redirect: '/buyer/index.html' },
+        { email: 'nhidqk24411@st.uel.edu.vn', password: 'nhi123', role: 'Seller', name: 'Nhi Eco Store', redirect: '/seller/seller_dashboard.html', store: 'Nhi Eco Wear', storeLogo: '../images/store_eco_wear.png' },
+        { email: 'huyndk24411@st.uel.edu.vn', password: 'huy123', role: 'Admin', name: 'Huy Admin', redirect: '/admin/index.html' }
       ];
       runRoleGuard();
     }
@@ -611,17 +1027,13 @@ function renderNavbar(containerId, prefix) {
       '<div class="container" style="display:flex;justify-content:space-between;align-items:center;height:70px">' +
         '<a href="/buyer/index.html" class="logo-brand">ReFashion<span>Eco</span></a>' +
         '<nav><ul class="nav-links-list">' +
-          '<li><a href="/buyer/index.html" class="nav-link-item" id="nav-home">Trang Ch\u1ee7</a></li>' +
-          '<li><a href="/buyer/shop.html" class="nav-link-item" id="nav-shop">C\u1eeda H\u00e0ng</a></li>' +
-          '<li><a href="/buyer/community.html" class="nav-link-item" id="nav-community">GreenCoin & \u0110\u1ed5i Qu\u00e0</a></li>' +
-          '<li><a href="/buyer/secondhand.html" class="nav-link-item" id="nav-secondhand">Ch\u1ee3 Secondhand</a></li>' +
-          '<li><a href="/buyer/about.html" class="nav-link-item" id="nav-about">V\u1ec1 ReFashion</a></li>' +
+          '<li><a href="/buyer/index.html" class="nav-link-item" id="nav-home">Home</a></li>' +
+          '<li><a href="/buyer/shop.html" class="nav-link-item" id="nav-shop">Shop</a></li>' +
+          '<li><a href="/buyer/community.html" class="nav-link-item" id="nav-community">GreenCoin & Rewards</a></li>' +
+          '<li><a href="/buyer/secondhand.html" class="nav-link-item" id="nav-secondhand">Secondhand Market</a></li>' +
+          '<li><a href="/buyer/about.html" class="nav-link-item" id="nav-about">About Us</a></li>' +
         '</ul></nav>' +
         '<div class="nav-actions-div">' +
-          '<div style="position:relative;display:flex;align-items:center">' +
-            '<input type="text" placeholder="T\u00ecm ki\u1ebfm s\u1ea3n ph\u1ea9m xanh..." style="padding:0.5rem 1rem 0.5rem 2.25rem;border-radius:30px;border:1px solid var(--border);background-color:var(--background);color:var(--foreground);font-size:0.85rem;width:200px" id="nav-search" />' +
-            '<i class="fa-solid fa-magnifying-glass" style="position:absolute;left:0.85rem;color:var(--text-muted);font-size:0.85rem"></i>' +
-          '</div>' +
           '<a href="/buyer/cart.html" style="position:relative;padding:0.5rem;cursor:pointer" id="nav-cart-link">' +
             '<i class="fa-solid fa-bag-shopping" style="font-size:1.2rem;color:var(--foreground)"></i>' +
             (cartCount > 0 ? '<span style="position:absolute;top:0;right:0;background-color:var(--accent);color:white;font-size:0.65rem;font-weight:700;border-radius:50%;width:16px;height:16px;display:flex;align-items:center;justify-content:center">' + cartCount + '</span>' : '') +
@@ -634,8 +1046,8 @@ function renderNavbar(containerId, prefix) {
             '</div>'
           ) : (
             '<div style="display:flex;gap:0.5rem">' +
-              '<a href="' + loginLink + '" class="btn btn-outline" style="padding:0.5rem 1.2rem;font-size:0.85rem">\u0110\u0103ng Nh\u1eadp</a>' +
-              '<a href="' + registerLink + '" class="btn btn-primary" style="padding:0.5rem 1.2rem;font-size:0.85rem">\u0110\u0103ng K\u00fd</a>' +
+              '<a href="' + loginLink + '" class="btn btn-outline" style="padding:0.5rem 1.2rem;font-size:0.85rem">Login</a>' +
+              '<a href="' + registerLink + '" class="btn btn-primary" style="padding:0.5rem 1.2rem;font-size:0.85rem">Register</a>' +
             '</div>'
           )) +
         '</div>' +
@@ -664,11 +1076,11 @@ function renderNavbar(containerId, prefix) {
             '</div>' +
           '</div>' +
           '<div style="padding:0.5rem">' +
-            '<a href="/buyer/profile.html" class="dropdown-link" style="display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1rem;border-radius:12px;font-size:0.9rem;font-weight:500;color:var(--foreground)"><i class="fa-solid fa-user" style="width:20px;text-align:center;color:var(--primary)"></i>H\u1ed3 s\u01a1 c\u00e1 nh\u00e2n</a>' +
-            '<a href="/buyer/profile.html#orders" class="dropdown-link" style="display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1rem;border-radius:12px;font-size:0.9rem;font-weight:500;color:var(--foreground)"><i class="fa-solid fa-clock-rotate-left" style="width:20px;text-align:center;color:var(--accent)"></i>L\u1ecbch s\u1eed \u0111\u01a1n h\u00e0ng</a>' +
-            '<a href="/buyer/community.html" class="dropdown-link" style="display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1rem;border-radius:12px;font-size:0.9rem;font-weight:500;color:var(--foreground)"><i class="fa-solid fa-leaf" style="width:20px;text-align:center;color:var(--sentiment-pos)"></i>GreenCoin & \u0110\u1ed5i qu\u00e0</a>' +
+            '<a href="/buyer/profile.html" class="dropdown-link" style="display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1rem;border-radius:12px;font-size:0.9rem;font-weight:500;color:var(--foreground)"><i class="fa-solid fa-user" style="width:20px;text-align:center;color:var(--primary)"></i>My Profile</a>' +
+            '<a href="/buyer/orders.html" class="dropdown-link" style="display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1rem;border-radius:12px;font-size:0.9rem;font-weight:500;color:var(--foreground)"><i class="fa-solid fa-clock-rotate-left" style="width:20px;text-align:center;color:var(--accent)"></i>Order History</a>' +
+            '<a href="/buyer/community.html" class="dropdown-link" style="display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1rem;border-radius:12px;font-size:0.9rem;font-weight:500;color:var(--foreground)"><i class="fa-solid fa-leaf" style="width:20px;text-align:center;color:var(--sentiment-pos)"></i>GreenCoin & Rewards</a>' +
             '<hr style="border:0;border-top:1px solid var(--border);margin:0.35rem 0.5rem" />' +
-            '<button onclick="RefashionAuth.logout()" class="dropdown-link" style="display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1rem;border-radius:12px;font-size:0.9rem;font-weight:500;color:var(--sentiment-neg);width:100%;background:transparent;border:none;cursor:pointer;text-align:left;font-family:var(--font-sans)"><i class="fa-solid fa-right-from-bracket" style="width:20px;text-align:center"></i>\u0110\u0103ng xu\u1ea5t</button>' +
+            '<button onclick="RefashionAuth.logout()" class="dropdown-link" style="display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1rem;border-radius:12px;font-size:0.9rem;font-weight:500;color:var(--sentiment-neg);width:100%;background:transparent;border:none;cursor:pointer;text-align:left;font-family:var(--font-sans)"><i class="fa-solid fa-right-from-bracket" style="width:20px;text-align:center"></i>Logout</button>' +
           '</div>';
         avatarBtn.parentElement.appendChild(dd);
         document.addEventListener('mousedown', function closeDD(e) {
@@ -686,42 +1098,42 @@ function renderFooter(containerId, prefix) {
   var container = document.getElementById(containerId);
   if (!container) return;
   container.innerHTML =
-    '<footer class="footer-main">' +
+    '<header class="footer-main">' +
       '<div class="container">' +
         '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:3rem;margin-bottom:3rem">' +
           '<div><h3 style="font-family:var(--font-serif);font-size:1.5rem;margin-bottom:1rem;color:white">ReFashion <span style="font-family:var(--font-sans);font-size:0.8rem;color:var(--accent)">ECO</span></h3>' +
-            '<p style="font-size:0.9rem;line-height:1.6;color:hsl(30,10%,75%);margin-bottom:1.5rem">Ch\u00fang t\u00f4i kh\u00f4ng ch\u1ec9 b\u00e1n qu\u1ea7n \u00e1o xanh. Ch\u00fang t\u00f4i \u0111\u1ed3ng h\u00e0nh c\u00f9ng b\u1ea1n tr\u00ean con \u0111\u01b0\u1eddng gi\u1ea3m thi\u1ec3u r\u00e1c th\u1ea3i th\u1eddi trang, th\u00fac \u0111\u1ea9y t\u00e1i ch\u1ebf v\u00e0 b\u1ea3o v\u1ec7 m\u00e0u xanh c\u1ee7a Tr\u00e1i \u0110\u1ea5t.</p>' +
+            '<p style="font-size:0.9rem;line-height:1.6;color:hsl(30,10%,75%);margin-bottom:1.5rem">We don\'t just sell green clothing. We walk with you on the path to reducing fashion waste, promoting recycling, and protecting our green Earth.</p>' +
             '<div style="display:flex;gap:1rem;font-size:1.2rem"><a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a><a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a><a href="#" aria-label="Youtube"><i class="fa-brands fa-youtube"></i></a></div>' +
           '</div>' +
-          '<div><h4 style="color:white;font-size:1rem;margin-bottom:1.2rem;text-transform:uppercase;letter-spacing:0.05em">Mua S\u1eafm & T\u00e1i Ch\u1ebf</h4>' +
+          '<div><h4 style="color:white;font-size:1rem;margin-bottom:1.2rem;text-transform:uppercase;letter-spacing:0.05em">Shop & Recycle</h4>' +
             '<ul style="list-style:none;display:flex;flex-direction:column;gap:0.75rem;font-size:0.9rem">' +
-              '<li><a href="/buyer/shop.html">T\u1ea5t c\u1ea3 s\u1ea3n ph\u1ea9m xanh</a></li>' +
-              '<li><a href="/buyer/shop.html?eco=organic">V\u1ea3i h\u1eefu c\u01a1 (Organic)</a></li>' +
-              '<li><a href="/buyer/shop.html?eco=recycled">V\u1eadt li\u1ec7u t\u00e1i ch\u1ebf</a></li>' +
-              '<li><a href="/buyer/community.html">Quy\u00ean g\u00f3p qu\u1ea7n \u00e1o c\u0169</a></li>' +
-              '<li><a href="/buyer/community.html">Quy tr\u00ecnh x\u1eed l\u00fd r\u00e1c th\u1ea3i</a></li>' +
+              '<li><a href="/buyer/shop.html">All Eco Products</a></li>' +
+              '<li><a href="/buyer/shop.html?eco=organic">Organic Fabrics</a></li>' +
+              '<li><a href="/buyer/shop.html?eco=recycled">Recycled Materials</a></li>' +
+              '<li><a href="/buyer/community.html">Donate Old Clothes</a></li>' +
+              '<li><a href="/buyer/community.html">Waste Processing Loop</a></li>' +
             '</ul>' +
           '</div>' +
-          '<div><h4 style="color:white;font-size:1rem;margin-bottom:1.2rem;text-transform:uppercase;letter-spacing:0.05em">Chi\u1ebfn D\u1ecbch H\u00e0nh Tinh</h4>' +
+          '<div><h4 style="color:white;font-size:1rem;margin-bottom:1.2rem;text-transform:uppercase;letter-spacing:0.05em">Planet Campaigns</h4>' +
             '<ul style="list-style:none;display:flex;flex-direction:column;gap:0.75rem;font-size:0.9rem">' +
-              '<li><a href="#">Tuy\u00ean ng\u00f4n 1% cho Tr\u00e1i \u0110\u1ea5t</a></li>' +
-              '<li><a href="#">Ho\u1ea1t \u0111\u1ed9ng l\u00e0m s\u1ea1ch b\u1edd bi\u1ec3n</a></li>' +
-              '<li><a href="#">K\u1ebft n\u1ed1i c\u00e1c t\u1ed5 ch\u1ee9c phi l\u1ee3i nhu\u1eadn</a></li>' +
-              '<li><a href="#">Theo d\u00f5i d\u1ea5u ch\u00e2n carbon c\u1ee7a b\u1ea1n</a></li>' +
+              '<li><a href="#">1% for the Planet Statement</a></li>' +
+              '<li><a href="#">Beach Cleanup Activism</a></li>' +
+              '<li><a href="#">Non-Profit Organization Hub</a></li>' +
+              '<li><a href="#">Track Your Carbon Footprint</a></li>' +
             '</ul>' +
           '</div>' +
-          '<div><h4 style="color:white;font-size:1rem;margin-bottom:1.2rem;text-transform:uppercase;letter-spacing:0.05em">\u0110\u0103ng k\u00fd B\u1ea3n tin Xanh</h4>' +
-            '<p style="font-size:0.85rem;color:hsl(30,10%,75%);margin-bottom:1rem;line-height:1.5">Nh\u1eadn th\u00f4ng tin v\u1ec1 c\u00e1c s\u1ea3n ph\u1ea9m th\u00e2n thi\u1ec7n v\u1edbi m\u00f4i tr\u01b0\u1eddng m\u1edbi nh\u1ea5t v\u00e0 c\u00e1c ho\u1ea1t \u0111\u1ed9ng b\u1ea3o v\u1ec7 m\u00f4i tr\u01b0\u1eddng c\u1ee7a ch\u00fang t\u00f4i.</p>' +
-            '<form onsubmit="event.preventDefault();alert(\u0027C\u1ea3m \u01a1n b\u1ea1n \u0111\u00e3 \u0111\u0103ng k\u00fd!\u0027)" style="display:flex;gap:0.5rem">' +
-              '<input type="email" placeholder="Email c\u1ee7a b\u1ea1n..." required style="padding:0.6rem 1rem;border-radius:30px;border:1px solid hsl(210,15%,25%);background-color:hsl(210,15%,16%);color:white;font-size:0.85rem;flex-grow:1" />' +
-              '<button class="btn btn-accent" type="submit" style="padding:0.6rem 1.2rem;font-size:0.85rem">\u0110\u0103ng k\u00fd</button>' +
+          '<div><h4 style="color:white;font-size:1rem;margin-bottom:1.2rem;text-transform:uppercase;letter-spacing:0.05em">Subscribe to Eco News</h4>' +
+            '<p style="font-size:0.85rem;color:hsl(30,10%,75%);margin-bottom:1rem;line-height:1.5">Get the latest updates on eco-friendly products and our environmental protection campaigns.</p>' +
+            '<form onsubmit="event.preventDefault();alert(\'Thank you for subscribing!\')" style="display:flex;gap:0.5rem">' +
+              '<input type="email" placeholder="Your email..." required style="padding:0.6rem 1rem;border-radius:30px;border:1px solid hsl(210,15%,25%);background-color:hsl(210,15%,16%);color:white;font-size:0.85rem;flex-grow:1" />' +
+              '<button class="btn btn-accent" type="submit" style="padding:0.6rem 1.2rem;font-size:0.85rem">Subscribe</button>' +
             '</form>' +
           '</div>' +
         '</div>' +
         '<hr style="border:0;border-top:1px solid hsl(210,15%,20%);margin-bottom:2rem" />' +
         '<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;font-size:0.8rem;color:hsl(30,10%,60%)">' +
-          '<p>\u00a9 ' + new Date().getFullYear() + ' ReFashion Eco Inc. Thi\u1ebft k\u1ebf l\u1ea5y c\u1ea3m h\u1ee9ng t\u1eeb s\u1ee9 m\u1ec7nh b\u1ea3o v\u1ec7 Tr\u00e1i \u0110\u1ea5t c\u1ee7a Patagonia.</p>' +
-          '<div style="display:flex;gap:1.5rem"><a href="#">Ch\u00ednh s\u00e1ch b\u1ea3o m\u1eadt</a><a href="#">\u0110i\u1ec1u kho\u1ea3n s\u1eed d\u1ee5ng</a><a href="#">Ch\u00ednh s\u00e1ch cookies</a></div>' +
+          '<p>&copy; ' + new Date().getFullYear() + ' ReFashion Eco Inc. Design inspired by Patagonia\'s Earth conservation mission.</p>' +
+          '<div style="display:flex;gap:1.5rem"><a href="#">Privacy Policy</a><a href="#">Terms of Service</a><a href="#">Cookies Settings</a></div>' +
         '</div>' +
       '</div>' +
     '</footer>';
@@ -760,6 +1172,40 @@ function showToast(msg) {
   setTimeout(function() { if (toast.parentElement) toast.remove(); }, 3000);
 }
 
+function showAlert(msg) {
+  var existing = document.querySelector('.custom-alert-overlay');
+  if (existing) existing.remove();
+
+  var overlay = document.createElement('div');
+  overlay.className = 'custom-alert-overlay';
+
+  var box = document.createElement('div');
+  box.className = 'custom-alert-box';
+
+  var icon = document.createElement('div');
+  icon.className = 'custom-alert-icon';
+  icon.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+
+  var text = document.createElement('p');
+  text.className = 'custom-alert-text';
+  text.textContent = msg;
+
+  var btn = document.createElement('button');
+  btn.className = 'custom-alert-btn';
+  btn.textContent = 'OK';
+  btn.onclick = function() { overlay.remove(); };
+
+  box.appendChild(icon);
+  box.appendChild(text);
+  box.appendChild(btn);
+  overlay.appendChild(box);
+  document.body.appendChild(overlay);
+
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) overlay.remove();
+  });
+}
+
 // Sync seller products from localStorage into SHOP_PRODUCTS
 function syncSellerProducts() {
   try {
@@ -794,7 +1240,7 @@ function syncSellerProducts() {
             name: p.name,
             category: p.category || 'others',
             price: minPrice,
-            priceStr: minPrice.toLocaleString('vi-VN') + ' đ',
+            priceStr: minPrice.toLocaleString('vi-VN') + ' VND',
             image: p.images && p.images.length > 0 ? p.images[0] : (p.image || '../images/store_logo.png'),
             rating: 4.9,
             ratingCount: 0,

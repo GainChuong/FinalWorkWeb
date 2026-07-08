@@ -1,0 +1,95 @@
+{
+  "campaigns": [
+    {
+      "code": "ECOWEEK",
+      "name": "Eco Week Sale",
+      "type": "percentage",
+      "value": 10,
+      "minOrder": 100000,
+      "startDate": "2025-06-01",
+      "endDate": "2025-07-15",
+      "status": "Active",
+      "usageLimit": 500,
+      "usedCount": 127,
+      "description": "10% discount on all second-hand and upcycled items to promote sustainable fashion."
+    },
+    {
+      "code": "SUMMER25",
+      "name": "Summer Fashion Boost",
+      "type": "percentage",
+      "value": 15,
+      "minOrder": 200000,
+      "startDate": "2025-06-15",
+      "endDate": "2025-08-31",
+      "status": "Active",
+      "usageLimit": 300,
+      "usedCount": 84,
+      "description": "15% off for summer collection purchases from participating stores."
+    },
+    {
+      "code": "FREESHIP",
+      "name": "Free Shipping Week",
+      "type": "free_shipping",
+      "value": 0,
+      "minOrder": 150000,
+      "startDate": "2025-06-10",
+      "endDate": "2025-07-10",
+      "status": "Active",
+      "usageLimit": 1000,
+      "usedCount": 312,
+      "description": "Free shipping on orders over 150,000đ across the platform."
+    },
+    {
+      "code": "GREENMONTH",
+      "name": "Green July Campaign",
+      "type": "percentage",
+      "value": 8,
+      "minOrder": 0,
+      "startDate": "2025-07-01",
+      "endDate": "2025-07-31",
+      "status": "Scheduled",
+      "usageLimit": 200,
+      "usedCount": 0,
+      "description": "8% off everything to celebrate Green July. Starts next month."
+    },
+    {
+      "code": "FLASH30",
+      "name": "Flash Sale 30%",
+      "type": "percentage",
+      "value": 30,
+      "minOrder": 300000,
+      "startDate": "2025-07-15",
+      "endDate": "2025-07-16",
+      "status": "Scheduled",
+      "usageLimit": 100,
+      "usedCount": 0,
+      "description": "Limited 24-hour flash sale with 30% off premium upcycled items."
+    },
+    {
+      "code": "NEWYEAR",
+      "name": "New Year Promotion",
+      "type": "percentage",
+      "value": 20,
+      "minOrder": 50000,
+      "startDate": "2025-01-01",
+      "endDate": "2025-01-15",
+      "status": "Ended",
+      "usageLimit": 1000,
+      "usedCount": 892,
+      "description": "New Year celebration discount — 20% off sitewide."
+    },
+    {
+      "code": "EARTHDAY",
+      "name": "Earth Day Special",
+      "type": "fixed",
+      "value": 50000,
+      "minOrder": 200000,
+      "startDate": "2025-04-22",
+      "endDate": "2025-04-30",
+      "status": "Ended",
+      "usageLimit": 200,
+      "usedCount": 156,
+      "description": "50,000đ flat discount on Earth Day to encourage circular fashion choices."
+    }
+  ]
+}

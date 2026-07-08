@@ -1,20 +1,20 @@
 <!doctype html>
-<html lang="vi">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chi Tiết Sản Phẩm - ReFashion</title>
-  <meta name="description" content="ReFashion - Hệ sinh thái thời trang tuần hoàn kết nối người mua, nhà thiết kế tái sinh và quản trị viên minh bạch.">
-  <meta property="og:title" content="ReFashion - Thời trang Tái sinh & Bền vững">
-  <meta property="og:description" content="Hệ sinh thái thời trang tuần hoàn kết nối người mua, nhà thiết kế tái sinh và quản trị viên minh bạch.">
-  <link rel="stylesheet" href="../css/maincss.css" />
-  <link rel="stylesheet" href="../css/buyer.css" />
+  <title>Product Details - ReFashion</title>
+  <meta name="description" content="ReFashion - Circular fashion ecosystem connecting buyers, upcycle designers, and administrators.">
+  <meta property="og:title" content="ReFashion - Circular & Sustainable Fashion">
+  <meta property="og:description" content="Circular fashion ecosystem connecting buyers, upcycle designers, and administrators.">
+  <link rel="stylesheet" href="../css/maincss.css?v=2" />
+  <link rel="stylesheet" href="../css/buyer.css?v=2" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
   <div id="navbar-container"></div>
 
-  <main class="page-main" style="padding-top:90px">
+  <main class="page-main">
     <div id="detail-content" class="detail-page"></div>
   </main>
 
@@ -24,8 +24,8 @@
   <div id="sizechart-modal" class="sizechart-modal">
     <div class="sizechart-modal-content">
       <button class="sizechart-modal-close" onclick="document.getElementById('sizechart-modal').classList.remove('show')">&times;</button>
-      <h3>Hướng Dẫn Chọn Size</h3>
-      <img id="sizechart-modal-img" src="" alt="Bảng size sản phẩm" />
+      <h3>Size Guide</h3>
+      <img id="sizechart-modal-img" src="" alt="Product size guide" />
     </div>
   </div>
 
@@ -36,31 +36,32 @@
       
       <div class="vton-header">
         <h2><i class="fa-solid fa-wand-magic-sparkles" style="color: var(--primary);"></i> ReFashion AI Try-On Studio</h2>
-        <p>Thử đồ ảo tức thì với công nghệ AI sinh thời trang tuần hoàn</p>
+        <p>Instant virtual try-on powered by circular fashion generative AI</p>
       </div>
 
       <div class="vton-grid">
-        <!-- CỘT 1: CHỌN NGƯỜI MẪU -->
+        <!-- COLUMN 1: SELECT MODEL -->
         <div class="vton-col vton-col-models">
-          <h3><i class="fa-solid fa-user-tie"></i> 1. Chọn Người Mẫu</h3>
+          <h3><i class="fa-solid fa-user-tie"></i> 1. Select Model</h3>
           <div class="vton-models-list" id="vton-models-list">
             <!-- Rendered dynamically in JS -->
           </div>
           <div class="vton-upload-area">
             <button class="btn btn-outline btn-vton-upload" onclick="document.getElementById('vton-file-input').click()">
-              <i class="fa-solid fa-upload"></i> Tải ảnh chân dung của bạn
+              <i class="fa-solid fa-upload"></i> Upload your portrait
             </button>
-            <input type="file" id="vton-file-input" accept="image/*" style="display: none;" onchange="handleVtonUserUpload(event)" />
-            <p class="upload-tip">Ảnh chụp chính diện, nền đơn giản, rõ phần thân trên</p>
+            <label for="vton-file-input" style="display: none;">Upload Portrait</label>
+            <input type="file" id="vton-file-input" accept="image/*" style="display: none;" onchange="handleVtonUserUpload(event)" placeholder="Upload Portrait" aria-label="Upload Portrait" />
+            <p class="upload-tip">Front-facing photo, simple background, clear upper body</p>
           </div>
         </div>
 
-        <!-- CỘT 2: KHÔNG GIAN THỬ ĐỒ -->
+        <!-- COLUMN 2: TRY-ON STUDIO -->
         <div class="vton-col vton-col-workspace">
-          <h3><i class="fa-solid fa-shirt"></i> 2. Studio Xử Lý</h3>
+          <h3><i class="fa-solid fa-shirt"></i> 2. Processing Studio</h3>
           <div class="vton-workspace">
             <div class="vton-ws-card vton-ws-model">
-              <span class="ws-tag">Ảnh Người Mẫu</span>
+              <span class="ws-tag">Model Image</span>
               <img id="vton-ws-model-img" src="" alt="Selected Model" />
             </div>
             <div class="vton-ws-connector">
@@ -68,33 +69,33 @@
               <div class="connector-badge"><i class="fa-solid fa-circle-nodes"></i></div>
             </div>
             <div class="vton-ws-card vton-ws-garment">
-              <span class="ws-tag">Sản Phẩm</span>
+              <span class="ws-tag">Product</span>
               <img id="vton-ws-garment-img" src="" alt="Selected Garment" />
             </div>
           </div>
 
           <div class="vton-actions">
             <button id="btn-start-vton" class="btn btn-primary" onclick="startVtonInference()">
-              <i class="fa-solid fa-circle-play"></i> Bắt Đầu Thử Đồ AI
+              <i class="fa-solid fa-circle-play"></i> Start AI Try-On
             </button>
           </div>
 
 
         </div>
 
-        <!-- CỘT 3: KẾT QUẢ -->
+        <!-- COLUMN 3: RESULT -->
         <div class="vton-col vton-col-result">
-          <h3><i class="fa-solid fa-circle-check"></i> 3. Kết Quả Thử Đồ</h3>
+          <h3><i class="fa-solid fa-circle-check"></i> 3. Try-On Result</h3>
           <div class="vton-result-container" id="vton-result-container">
-            <!-- Trạng thái trống (Default) -->
+            <!-- Empty state (Default) -->
             <div class="vton-state-empty" id="vton-state-empty">
               <div class="vton-empty-graphic">
                 <i class="fa-solid fa-shirt" style="font-size: 3rem; color: var(--border);"></i>
               </div>
-              <p>Hãy chọn người mẫu và nhấn <strong>"Bắt Đầu Thử Đồ AI"</strong> để xem hình ảnh kết quả phối trang phục.</p>
+              <p>Please select a model and click <strong>"Start AI Try-On"</strong> to view the outfit preview.</p>
             </div>
 
-            <!-- Trạng thái Loading -->
+            <!-- Loading state -->
             <div class="vton-state-loading" id="vton-state-loading" style="display: none;">
               <div class="sewing-animation">
                 <i class="fa-solid fa-needle needle-icon"></i>
@@ -102,7 +103,7 @@
                   <span></span><span></span><span></span><span></span><span></span>
                 </div>
               </div>
-              <h4>Đang dệt trang phục bằng AI...</h4>
+              <h4>Weaving garment with AI...</h4>
               <div class="progress-bar-wrap">
                 <div class="progress-bar-fill" id="vton-progress-fill"></div>
               </div>
@@ -110,7 +111,7 @@
 
             </div>
 
-            <!-- Trạng thái hoàn thành -->
+            <!-- Completed state -->
             <div class="vton-state-success" id="vton-state-success" style="display: none;">
               <div class="compare-slider-container">
                 <div class="compare-image-before">
@@ -127,10 +128,10 @@
               </div>
               <div class="vton-result-actions" style="margin-top: 15px; display: flex; gap: 8px;">
                 <button class="btn btn-outline" style="flex: 1;" onclick="downloadVtonResult()">
-                  <i class="fa-solid fa-download"></i> Lưu Ảnh
+                  <i class="fa-solid fa-download"></i> Save Image
                 </button>
                 <button class="btn btn-primary" style="flex: 1.5;" onclick="addVtonProductToCart()">
-                  <i class="fa-solid fa-cart-plus"></i> Thêm vào Giỏ Hàng
+                  <i class="fa-solid fa-cart-plus"></i> Add to Cart
                 </button>
               </div>
             </div>
@@ -140,7 +141,8 @@
     </div>
   </div>
 
-  <script src="../js/mainjs.js?v=4"></script>
-  <script src="../js/buyer.js?v=4"></script>
+  <script src="../js/mainjs.js?v=2"></script>
+  <script src="../js/buyer.js?v=2"></script>
+  <script src="../js/ai-recommend.js?v=2"></script>
 </body>
 </html>

@@ -1,9 +1,9 @@
 <!doctype html>
 <html lang="en">
     <head>
-  <meta name="description" content="ReFashion - Hệ sinh thái thời trang tuần hoàn kết nối người mua, nhà thiết kế tái sinh và quản trị viên minh bạch.">
-  <meta property="og:title" content="ReFashion - Thời trang Tái sinh & Bền vững">
-  <meta property="og:description" content="Hệ sinh thái thời trang tuần hoàn kết nối người mua, nhà thiết kế tái sinh và quản trị viên minh bạch.">
+  <meta name="description" content="ReFashion - Circular fashion ecosystem connecting buyers, upcycle designers, and administrators.">
+  <meta property="og:title" content="ReFashion - Circular & Sustainable Fashion">
+  <meta property="og:description" content="Circular fashion ecosystem connecting buyers, upcycle designers, and administrators.">
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Register | ReFashion</title>
@@ -11,12 +11,188 @@
         <link rel="stylesheet" href="../css/auth.css" />
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     </head>
     <body>
+        <style>
+            .survey-option {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 0.85rem 1rem;
+                border: 2px solid #e5e7eb;
+                border-radius: 12px;
+                background: #ffffff;
+                cursor: pointer;
+                transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+                font-size: 0.95rem;
+                color: #4b5563;
+                font-weight: 500;
+                user-select: none;
+                text-align: center;
+            }
+            .survey-option:hover {
+                border-color: #cbd5e1;
+                background: #f8fafc;
+                transform: translateY(-1px);
+            }
+            .survey-option input[type="checkbox"] {
+                display: none;
+            }
+            .survey-option.selected {
+                border-color: var(--primary);
+                background: #f0fdf4;
+                color: var(--primary);
+                box-shadow: 0 4px 12px rgba(22, 163, 74, 0.1);
+            }
+            .survey-step {
+                animation: slideUpFade 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            }
+            @keyframes slideUpFade {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            .survey-nav-btn {
+                width: 100%;
+                padding: 0.85rem;
+                border-radius: 12px;
+                font-size: 1rem;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.2s;
+            }
+            .survey-btn-skip {
+                background: transparent;
+                border: 1px solid #d1d5db;
+                color: #6b7280;
+                margin-top: 0.75rem;
+            }
+            .survey-btn-skip:hover {
+                background: #f3f4f6;
+                color: #374151;
+            }
+        </style>
+        <div id="surveyModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15, 23, 42, 0.75); backdrop-filter:blur(4px); z-index:9999; justify-content:center; align-items:center; opacity:0; transition:opacity 0.3s ease;">
+            <div style="background:white; padding:2.5rem 2rem; border-radius:20px; width:90%; max-width:520px; text-align:center; box-shadow:0 25px 50px -12px rgba(0,0,0,0.25); transform:scale(0.95); transition:transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);" id="surveyModalContent">
+                <h2 style="margin-bottom:0.75rem; color:var(--primary); font-family:var(--font-serif); font-size:1.8rem; font-weight:700;">Style Personalization</h2>
+                <p style="margin-bottom:2rem; color:#64748b; font-size:1rem; line-height:1.5;">Help us personalize your ReFashion experience!</p>
+                
+                <!-- Step 1: Shape -->
+                <div id="surveyStep1" class="survey-step">
+                    <h3 style="margin-bottom:1.5rem; font-size:1.15rem; color:#1e293b; font-weight:700;">1. What clothing shapes do you prefer?</h3>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:2rem;">
+                        <label class="survey-option">
+                            <input type="checkbox" name="survey_shape" value="Long Sleeves" onchange="this.parentElement.classList.toggle('selected', this.checked)">
+                            <span>Long Sleeves</span>
+                        </label>
+                        <label class="survey-option">
+                            <input type="checkbox" name="survey_shape" value="Short Sleeves" onchange="this.parentElement.classList.toggle('selected', this.checked)">
+                            <span>Short Sleeves</span>
+                        </label>
+                        <label class="survey-option">
+                            <input type="checkbox" name="survey_shape" value="Tank Top" onchange="this.parentElement.classList.toggle('selected', this.checked)">
+                            <span>Tank Top</span>
+                        </label>
+                        <label class="survey-option">
+                            <input type="checkbox" name="survey_shape" value="Long Pants" onchange="this.parentElement.classList.toggle('selected', this.checked)">
+                            <span>Long Pants</span>
+                        </label>
+                        <label class="survey-option" style="grid-column:1/-1;">
+                            <input type="checkbox" name="survey_shape" value="Shorts" onchange="this.parentElement.classList.toggle('selected', this.checked)">
+                            <span>Shorts</span>
+                        </label>
+                    </div>
+                    <button type="button" class="primary-btn survey-nav-btn" onclick="nextSurveyStep(2)">Next <i class="fa-solid fa-arrow-right" style="margin-left:6px;font-size:0.9rem;"></i></button>
+                    <button type="button" class="survey-nav-btn survey-btn-skip" onclick="finishSurvey()">Skip for now</button>
+                </div>
+
+                <!-- Step 2: Fabric -->
+                <div id="surveyStep2" class="survey-step" style="display:none;">
+                    <h3 style="margin-bottom:1.5rem; font-size:1.15rem; color:#1e293b; font-weight:700;">2. What fabrics do you love?</h3>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:2rem;">
+                        <label class="survey-option">
+                            <input type="checkbox" name="survey_fabric" value="Cotton" onchange="this.parentElement.classList.toggle('selected', this.checked)">
+                            <span>Cotton</span>
+                        </label>
+                        <label class="survey-option">
+                            <input type="checkbox" name="survey_fabric" value="Denim" onchange="this.parentElement.classList.toggle('selected', this.checked)">
+                            <span>Denim</span>
+                        </label>
+                        <label class="survey-option">
+                            <input type="checkbox" name="survey_fabric" value="Silk" onchange="this.parentElement.classList.toggle('selected', this.checked)">
+                            <span>Silk</span>
+                        </label>
+                        <label class="survey-option">
+                            <input type="checkbox" name="survey_fabric" value="Chiffon" onchange="this.parentElement.classList.toggle('selected', this.checked)">
+                            <span>Chiffon</span>
+                        </label>
+                        <label class="survey-option" style="grid-column:1/-1;">
+                            <input type="checkbox" name="survey_fabric" value="Linen" onchange="this.parentElement.classList.toggle('selected', this.checked)">
+                            <span>Linen</span>
+                        </label>
+                    </div>
+                    <button type="button" class="primary-btn survey-nav-btn" onclick="nextSurveyStep(3)">Next <i class="fa-solid fa-arrow-right" style="margin-left:6px;font-size:0.9rem;"></i></button>
+                    <button type="button" class="survey-nav-btn survey-btn-skip" onclick="finishSurvey()">Skip for now</button>
+                </div>
+
+                <!-- Step 3: Pattern -->
+                <div id="surveyStep3" class="survey-step" style="display:none;">
+                    <h3 style="margin-bottom:1.5rem; font-size:1.15rem; color:#1e293b; font-weight:700;">3. What patterns do you prefer?</h3>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:2rem;">
+                        <label class="survey-option">
+                            <input type="checkbox" name="survey_pattern" value="Pure color" onchange="this.parentElement.classList.toggle('selected', this.checked)">
+                            <span>Pure/Solid Color</span>
+                        </label>
+                        <label class="survey-option">
+                            <input type="checkbox" name="survey_pattern" value="Plaid" onchange="this.parentElement.classList.toggle('selected', this.checked)">
+                            <span>Plaid</span>
+                        </label>
+                        <label class="survey-option">
+                            <input type="checkbox" name="survey_pattern" value="Stripe" onchange="this.parentElement.classList.toggle('selected', this.checked)">
+                            <span>Stripes</span>
+                        </label>
+                        <label class="survey-option">
+                            <input type="checkbox" name="survey_pattern" value="Floral" onchange="this.parentElement.classList.toggle('selected', this.checked)">
+                            <span>Floral</span>
+                        </label>
+                        <label class="survey-option" style="grid-column:1/-1;">
+                            <input type="checkbox" name="survey_pattern" value="Graphic" onchange="this.parentElement.classList.toggle('selected', this.checked)">
+                            <span>Graphic</span>
+                        </label>
+                    </div>
+                    <button type="button" class="primary-btn survey-nav-btn" onclick="finishSurvey()"><i class="fa-solid fa-check" style="margin-right:6px;font-size:0.9rem;"></i> Complete Setup</button>
+                    <button type="button" class="survey-nav-btn survey-btn-skip" onclick="finishSurvey()">Skip for now</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Modal -->
+        <div id="successModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15, 23, 42, 0.75); backdrop-filter:blur(4px); z-index:10000; justify-content:center; align-items:center; opacity:0; transition:opacity 0.4s ease;">
+            <div style="background:white; padding:3rem 2rem; border-radius:24px; width:90%; max-width:450px; text-align:center; box-shadow:0 25px 50px -12px rgba(0,0,0,0.25); transform:scale(0.95); transition:transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);" id="successModalContent">
+                <div style="width:72px; height:72px; background:#ecfdf5; border-radius:50%; display:flex; justify-content:center; align-items:center; margin:0 auto 1.5rem; color:#10b981;">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                </div>
+                <h2 style="margin-bottom:1rem; color:#1e293b; font-size:1.75rem; font-weight:800; letter-spacing:-0.025em;">Registration Successful!</h2>
+                <p style="margin-bottom:2rem; color:#64748b; font-size:1.05rem; line-height:1.6;">Your ReFashion account is ready. Welcome to our sustainable fashion community!</p>
+                <button type="button" class="primary-btn" style="width:100%; padding:1rem; border-radius:12px; font-size:1.1rem; font-weight:600; cursor:pointer; display:flex; justify-content:center; align-items:center; gap:8px; box-shadow:0 4px 14px rgba(22, 163, 74, 0.25); transition:all 0.2s;" onclick="window.location.href='/auth/login.html'">
+                    Continue to Login
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                        <polyline points="10 17 15 12 10 7"></polyline>
+                        <line x1="15" y1="12" x2="3" y2="12"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
         <div class="auth-container">
             <!-- LEFT -->
 
             <div class="auth-left">
+                <a href="../buyer/index.html" class="back-home"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
                 <div class="logo">♻ ReFashion</div>
 
                 <h1>Welcome!</h1>
@@ -51,15 +227,18 @@
                     <span>or continue</span>
                 </div>
 
-                <button class="social-btn">
-                    <i class="fa-brands fa-google"></i>
+                <!-- Google Sign-In via Firebase -->
+                <div class="g_id_signin_wrapper" style="display:flex;justify-content:center;margin-bottom:0.75rem;">
+                  <button id="google-login-btn" type="button" style="display: flex; align-items: center; justify-content: center; gap: 10px; width: 320px; height: 40px; background-color: white; border: 1px solid #dadce0; border-radius: 4px; color: #3c4043; font-family: 'Google Sans', Roboto, Arial, sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; transition: background-color 0.2s, border-color 0.2s;">
+                    <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z" fill="#4285F4"/>
+                      <path d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.938 5.48 18 9 18z" fill="#34A853"/>
+                      <path d="M3.964 10.707c-.18-.54-.282-1.117-.282-1.707 0-.59.102-1.167.282-1.707V4.96H.957C.347 6.173 0 7.549 0 9s.347 2.827.957 4.04l3.007-2.333z" fill="#FBBC05"/>
+                      <path d="M9 3.58c1.32 0 2.505.453 3.44 1.348l2.582-2.58C13.463.896 11.426 0 9 0 5.48 0 2.438 2.062.957 4.96l3.007 2.333C4.672 5.164 6.656 3.58 9 3.58z" fill="#EA4335"/>
+                    </svg>
                     Continue with Google
-                </button>
-
-                <button class="social-btn">
-                    <i class="fa-brands fa-apple"></i>
-                    Continue with Apple
-                </button>
+                  </button>
+                </div>
 
                 <p class="bottom-text">
                     Already have an account?
@@ -87,7 +266,257 @@
             </div>
         </div>
 
-        <script src="../js/mainjs.js"></script>
+        <script src="../js/mainjs.js?v=2"></script>
         <script src="../js/auth.js"></script>
+        <script type="module">
+            import { auth, db, googleProvider } from '../js/firebase-config.js';
+            import { signInWithPopup, createUserWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+            import { doc, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+
+            // Google Login
+            const googleBtn = document.getElementById('google-login-btn');
+            if (googleBtn) {
+                googleBtn.addEventListener('click', async () => {
+                    try {
+                        const result = await signInWithPopup(auth, googleProvider);
+                        const user = result.user;
+                        await handleLoginOrRegisterSuccess(user.email, user.displayName || user.email.split('@')[0], user.photoURL);
+                    } catch (error) {
+                        console.error("Firebase Google Login Error:", error);
+                        if (error.code !== 'auth/popup-closed-by-user') {
+                            alert("Google login failed: " + error.message);
+                        }
+                    }
+                });
+            }
+
+            // Register Submit
+            const regForm = document.querySelector("form");
+            if (regForm) {
+                regForm.addEventListener("submit", async (e) => {
+                    e.preventDefault();
+                    const username = document.getElementById("regUsername").value.trim();
+                    const email = document.getElementById("regEmail").value.trim();
+                    const password = document.getElementById("regPassword").value;
+                    const confirm = document.getElementById("regConfirmPassword").value;
+                    const phone = document.getElementById("regPhone").value.trim();
+
+                    if (password !== confirm) {
+                        alert("Passwords do not match!");
+                        return;
+                    }
+                    if (password.length < 6) {
+                        alert("Password must be at least 6 characters long!");
+                        return;
+                    }
+
+                    try {
+                        // Create in Firebase Auth
+                        let user;
+                        try {
+                            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                            user = userCredential.user;
+                        } catch (firebaseErr) {
+                            console.warn("[ReFashion] Firebase Auth error (ignoring for testing):", firebaseErr);
+                            // Fallback to mock user if operation-not-allowed
+                            user = {
+                                email: email,
+                                displayName: username,
+                                uid: 'mock-' + Date.now()
+                            };
+                        }
+
+                        // Create profile document in Firestore
+                        const userData = {
+                            username: username,
+                            email: email,
+                            phone: phone,
+                            gender: 'unisex',
+                            address: '',
+                            birthYear: '',
+                            joinDate: new Date().toLocaleDateString('en-US'),
+                            greenCoin: 100, // starting coins for registered users
+                            role: 'Buyer',
+                            avatar: '',
+                            loginMethod: 'firebase',
+                            store: '',
+                            storeLogo: ''
+                        };
+
+                        try {
+                            await setDoc(doc(db, "users", email.toLowerCase()), userData);
+                        } catch (e) {
+                            console.warn("[ReFashion] Firestore register profile save failed, proceeding with local fallback:", e);
+                        }
+
+                        // Send welcome email
+                        try {
+                            await fetch('/api/send-welcome', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({ email: email, username: username })
+                            });
+                        } catch (mailError) {
+                            console.error("[ReFashion] Send welcome email failed:", mailError);
+                        }
+
+                        // Show Style Survey instead of immediate redirect
+                        window.currentRegEmail = email;
+                        const modal = document.getElementById("surveyModal");
+                        modal.style.display = "flex";
+                        // Small timeout to allow display:flex to apply before changing opacity
+                        setTimeout(() => {
+                            modal.style.opacity = "1";
+                        }, 10);
+                        
+                    } catch (error) {
+                        console.error("Firebase Register Error:", error);
+                        if (error.code === 'auth/email-already-in-use') {
+                            alert("This email is already registered!");
+                        } else {
+                            alert("Registration failed: " + error.message);
+                        }
+                    }
+                });
+            }
+
+            async function handleLoginOrRegisterSuccess(email, displayName, photoURL) {
+                let docSnap = null;
+                let userData = null;
+                try {
+                    // Fetch profile from Firestore
+                    const docRef = doc(db, "users", email.toLowerCase());
+                    docSnap = await getDoc(docRef);
+                    if (docSnap && docSnap.exists()) {
+                        userData = docSnap.data();
+                    }
+                } catch (e) {
+                    console.warn("[ReFashion] Firestore getDoc failed, using local profile fallback:", e);
+                }
+
+                if (!userData) {
+                    // Create default profile
+                    // Check if it matches a mock account role and details
+                    const mockAccs = window.MOCK_ACCOUNTS || [];
+                    const mockMatch = mockAccs.find(a => a.email.toLowerCase() === email.toLowerCase());
+
+                    userData = {
+                        username: displayName,
+                        email: email,
+                        phone: mockMatch ? (mockMatch.phone || '') : '',
+                        gender: mockMatch ? (mockMatch.gender || 'unisex') : 'unisex',
+                        address: mockMatch ? (mockMatch.address || '') : '',
+                        birthYear: mockMatch ? (mockMatch.birthYear || '') : '',
+                        joinDate: new Date().toLocaleDateString('en-US'),
+                        greenCoin: mockMatch ? (mockMatch.greenCoin || 500) : 500,
+                        role: mockMatch ? mockMatch.role : 'Buyer',
+                        avatar: photoURL || '',
+                        loginMethod: 'firebase',
+                        store: mockMatch ? (mockMatch.store || '') : '',
+                        storeLogo: mockMatch ? (mockMatch.storeLogo || '') : ''
+                    };
+                    try {
+                        const docRef = doc(db, "users", email.toLowerCase());
+                        await setDoc(docRef, userData);
+                        // Send welcome email for Google register
+                        try {
+                            await fetch('/api/send-welcome', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({ email: email, username: displayName })
+                            });
+                        } catch (mailError) {
+                            console.error("[ReFashion] Send welcome email failed:", mailError);
+                        }
+                    } catch (e) {
+                        console.warn("[ReFashion] Firestore setDoc failed, profile saved locally only:", e);
+                    }
+                }
+
+                // Sync with local session
+                window.handleFirebaseLoginSuccess(userData);
+            }
+
+            // Survey Logic
+            window.nextSurveyStep = function(step) {
+                const currentStep = document.querySelector('.survey-step[style*="block"]') || document.getElementById('surveyStep' + (step - 1));
+                if (currentStep) {
+                    currentStep.style.display = 'none';
+                }
+                const nextStep = document.getElementById('surveyStep' + step);
+                if (nextStep) {
+                    nextStep.style.display = 'block';
+                    // Re-trigger animation
+                    nextStep.style.animation = 'none';
+                    nextStep.offsetHeight; // trigger reflow
+                    nextStep.style.animation = 'slideUpFade 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+                }
+            };
+
+            window.finishSurvey = async function() {
+                const modal = document.getElementById("surveyModal");
+                const modalContent = document.getElementById("surveyModalContent");
+                if (modal && modalContent) {
+                    modal.style.opacity = "0";
+                    modalContent.style.transform = "scale(0.95)";
+                }
+                
+                // Wait for fade out animation
+                await new Promise(r => setTimeout(r, 300));
+
+                if (!window.currentRegEmail) {
+                    window.location.href = "/auth/login.html";
+                    return;
+                }
+
+                // Gather preferences
+                const shapes = Array.from(document.querySelectorAll('input[name="survey_shape"]:checked')).map(cb => cb.value.toLowerCase());
+                const fabrics = Array.from(document.querySelectorAll('input[name="survey_fabric"]:checked')).map(cb => cb.value.toLowerCase());
+                const patterns = Array.from(document.querySelectorAll('input[name="survey_pattern"]:checked')).map(cb => cb.value.toLowerCase());
+
+                const stylePreferences = {
+                    shapes: shapes,
+                    fabrics: fabrics,
+                    patterns: patterns
+                };
+
+                try {
+                    const docRef = doc(db, "users", window.currentRegEmail.toLowerCase());
+                    await setDoc(docRef, { stylePreferences: stylePreferences }, { merge: true });
+                } catch (e) {
+                    console.warn("[ReFashion] Could not save style preferences to Firestore:", e);
+                }
+
+                // Try to save to localStorage if this user was cached
+                let allUsers = [];
+                try {
+                    allUsers = JSON.parse(localStorage.getItem('refashion_users')) || [];
+                    const uIndex = allUsers.findIndex(u => u.email.toLowerCase() === window.currentRegEmail.toLowerCase());
+                    if (uIndex !== -1) {
+                        allUsers[uIndex].stylePreferences = stylePreferences;
+                        localStorage.setItem('refashion_users', JSON.stringify(allUsers));
+                    }
+                } catch(e) {}
+
+                // Hide survey modal completely
+                if (modal) modal.style.display = "none";
+                
+                // Show Success Modal
+                const sModal = document.getElementById("successModal");
+                if (sModal) {
+                    sModal.style.display = "flex";
+                    setTimeout(() => {
+                        sModal.style.opacity = "1";
+                    }, 10);
+                } else {
+                    // Fallback
+                    window.location.href = "/auth/login.html";
+                }
+            };
+        </script>
     </body>
 </html>

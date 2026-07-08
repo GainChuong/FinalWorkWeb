@@ -1,234 +1,1734 @@
 {
   "orders": [
     {
-      "id": "ORD-9872",
-      "createdAt": "2026-07-02T14:30:00",
+      "id": "ORD-10000",
+      "createdAt": "2026-06-18T17:00:00.000Z",
+      "buyerEmail": "buyer6@refashion.vn",
       "customer": {
-        "name": "Nguyễn Văn An",
-        "phone": "0901 234 567",
-        "address": "123 Nguyễn Huệ, Quận 1, TP. HCM"
+        "name": "Nguyễn Thị Đức",
+        "phone": "0911168917",
+        "address": "37 Đường abc, Quận xyz, TP HCM"
       },
       "items": [
-        { "name": "Reworked Denim Jacket", "variant": "Xanh / Size L", "qty": 1, "price": 1200000, "image": "" }
+        {
+          "productId": "id_00004014-03",
+          "name": "Jacket Cotton Solid Long-sleeve Round Neck (Men) - Retro Chic",
+          "variant": "Size M",
+          "qty": 1,
+          "price": 310000,
+          "image": "/images/products/MEN-Jackets_Vests-id_00004014-03_1_front.jpg"
+        },
+        {
+          "productId": "id_00000207-02",
+          "name": "Shirt Cotton Floral Short-sleeve Standing Neck (Women) - Retro Chic",
+          "variant": "Size S",
+          "qty": 1,
+          "price": 670000,
+          "image": "/images/products/WOMEN-Blouses_Shirts-id_00000207-02_1_front.jpg"
+        },
+        {
+          "productId": "id_00000826-04",
+          "name": "Long Pants Denim Lattice Sleeveless (Men) - Retro Chic",
+          "variant": "Size XL",
+          "qty": 1,
+          "price": 860000,
+          "image": "/images/products/MEN-Denim-id_00000826-04_7_additional.jpg"
+        }
       ],
-      "total": 1200000,
-      "status": "pending",
-      "note": "Giao hàng giờ hành chính"
+      "total": 1840000,
+      "sellerEmail": "seller_retro@refashion.vn",
+      "store": "Retro Chic",
+      "status": "shipped",
+      "note": "Vui lòng giao giờ hành chính"
     },
     {
-      "id": "ORD-9871",
-      "createdAt": "2026-07-02T11:15:00",
+      "id": "ORD-10001",
+      "createdAt": "2026-01-10T17:00:00.000Z",
+      "buyerEmail": "buyer14@refashion.vn",
       "customer": {
-        "name": "Trần Thị Mai",
-        "phone": "0902 345 678",
-        "address": "456 Lê Lợi, Quận 3, TP. HCM"
+        "name": "Hoàng Thu Tuấn",
+        "phone": "0917062068",
+        "address": "141 Đường abc, Quận xyz, TP HCM"
       },
       "items": [
-        { "name": "Vintage Patchwork Bag", "variant": "Nâu / Free Size", "qty": 1, "price": 850000, "image": "" }
+        {
+          "productId": "id_00000089-45",
+          "name": "Long Pants Cotton Solid Short-sleeve (Men) - Zero Waste",
+          "variant": "Size M",
+          "qty": 1,
+          "price": 650000,
+          "image": "/images/products/MEN-Denim-id_00000089-45_7_additional.jpg"
+        },
+        {
+          "productId": "id_00001875-01",
+          "name": "Jacket Cotton Solid Long-sleeve Lapel Neck (Men) - Zero Waste",
+          "variant": "Size L",
+          "qty": 1,
+          "price": 590000,
+          "image": "/images/products/MEN-Jackets_Vests-id_00001875-01_1_front.jpg"
+        },
+        {
+          "productId": "id_00000089-03",
+          "name": "Long Pants Cotton Solid Short-sleeve (Men) - Zero Waste",
+          "variant": "Size S",
+          "qty": 1,
+          "price": 950000,
+          "image": "/images/products/MEN-Denim-id_00000089-03_7_additional.jpg"
+        }
       ],
-      "total": 850000,
-      "status": "pending",
-      "note": ""
+      "total": 2190000,
+      "sellerEmail": "seller_zerowaste@refashion.vn",
+      "store": "Zero Waste",
+      "status": "return_pending",
+      "note": "Vui lòng giao giờ hành chính"
     },
     {
-      "id": "ORD-9870",
-      "createdAt": "2026-07-01T16:45:00",
+      "id": "ORD-10002",
+      "createdAt": "2026-05-13T17:00:00.000Z",
+      "buyerEmail": "buyer16@refashion.vn",
       "customer": {
-        "name": "Lê Hoàng Long",
-        "phone": "0903 456 789",
-        "address": "789 Trần Hưng Đạo, Quận 5, TP. HCM"
+        "name": "Nguyễn Thị Long",
+        "phone": "0919984816",
+        "address": "60 Đường abc, Quận xyz, TP HCM"
       },
       "items": [
-        { "name": "Reworked Denim Jacket", "variant": "Xanh / Size M", "qty": 2, "price": 1200000, "image": "" }
+        {
+          "productId": "id_00000182-01",
+          "name": "Long Pants Cotton Solid Short-sleeve (Men) - Retro Chic",
+          "variant": "Size M",
+          "qty": 1,
+          "price": 1070000,
+          "image": "/images/products/MEN-Denim-id_00000182-01_7_additional.jpg"
+        },
+        {
+          "productId": "id_00000444-01",
+          "name": "Long Pants Denim Solid Long-sleeve (Women) - Retro Chic",
+          "variant": "Size S",
+          "qty": 2,
+          "price": 620000,
+          "image": "/images/products/WOMEN-Denim-id_00000444-01_1_front.jpg"
+        },
+        {
+          "productId": "id_00000207-02",
+          "name": "Shirt Cotton Floral Short-sleeve Standing Neck (Women) - Retro Chic",
+          "variant": "Size XL",
+          "qty": 2,
+          "price": 670000,
+          "image": "/images/products/WOMEN-Blouses_Shirts-id_00000207-02_1_front.jpg"
+        }
+      ],
+      "total": 3650000,
+      "sellerEmail": "seller_retro@refashion.vn",
+      "store": "Retro Chic",
+      "status": "disputed",
+      "note": "Vui lòng giao giờ hành chính"
+    },
+    {
+      "id": "ORD-10003",
+      "createdAt": "2026-06-02T17:00:00.000Z",
+      "buyerEmail": "buyer19@refashion.vn",
+      "customer": {
+        "name": "Nguyễn Minh Tuấn",
+        "phone": "0919368861",
+        "address": "23 Đường abc, Quận xyz, TP HCM"
+      },
+      "items": [
+        {
+          "productId": "id_00000031-02",
+          "name": "Shirt Chiffon Graphic Short-sleeve Round Neck (Women) - Denim Craft",
+          "variant": "Size M",
+          "qty": 2,
+          "price": 530000,
+          "image": "/images/products/WOMEN-Blouses_Shirts-id_00000031-02_1_front.jpg"
+        }
+      ],
+      "total": 1060000,
+      "sellerEmail": "seller_denim@refashion.vn",
+      "store": "Denim Craft",
+      "status": "return_pending",
+      "note": "Vui lòng giao giờ hành chính"
+    },
+    {
+      "id": "ORD-10004",
+      "createdAt": "2026-04-06T17:00:00.000Z",
+      "buyerEmail": "buyer6@refashion.vn",
+      "customer": {
+        "name": "Nguyễn Thị Đức",
+        "phone": "0911168917",
+        "address": "37 Đường abc, Quận xyz, TP HCM"
+      },
+      "items": [
+        {
+          "productId": "id_00000565-01",
+          "name": "Long Pants Denim Lattice Long-sleeve (Men) - Zero Waste",
+          "variant": "Size S",
+          "qty": 2,
+          "price": 530000,
+          "image": "/images/products/MEN-Denim-id_00000565-01_7_additional.jpg"
+        },
+        {
+          "productId": "id_00000353-02",
+          "name": "Long Pants Denim Lattice Long-sleeve (Men) - Zero Waste",
+          "variant": "Size L",
+          "qty": 1,
+          "price": 650000,
+          "image": "/images/products/MEN-Denim-id_00000353-02_7_additional.jpg"
+        }
+      ],
+      "total": 1710000,
+      "sellerEmail": "seller_zerowaste@refashion.vn",
+      "store": "Zero Waste",
+      "status": "pending",
+      "note": "Vui lòng giao giờ hành chính"
+    },
+    {
+      "id": "ORD-10005",
+      "createdAt": "2026-03-19T17:00:00.000Z",
+      "buyerEmail": "buyer10@refashion.vn",
+      "customer": {
+        "name": "Trần Hữu Tuấn",
+        "phone": "0915973345",
+        "address": "47 Đường abc, Quận xyz, TP HCM"
+      },
+      "items": [
+        {
+          "productId": "id_00004014-02",
+          "name": "Jacket Cotton Solid Long-sleeve Round Neck (Men) - Denim Craft",
+          "variant": "Size S",
+          "qty": 1,
+          "price": 530000,
+          "image": "/images/products/MEN-Jackets_Vests-id_00004014-02_1_front.jpg"
+        },
+        {
+          "productId": "id_00000826-02",
+          "name": "Long Pants Cotton Solid 3/4 sleeves (Men) - Denim Craft",
+          "variant": "Size S",
+          "qty": 1,
+          "price": 710000,
+          "image": "/images/products/MEN-Denim-id_00000826-02_7_additional.jpg"
+        }
+      ],
+      "total": 1240000,
+      "sellerEmail": "seller_denim@refashion.vn",
+      "store": "Denim Craft",
+      "status": "delivered",
+      "note": "Vui lòng giao giờ hành chính"
+    },
+    {
+      "id": "ORD-10006",
+      "createdAt": "2026-01-22T17:00:00.000Z",
+      "buyerEmail": "buyer@refashion.vn",
+      "customer": {
+        "name": "Người Mua Demo",
+        "phone": "0912 345 678",
+        "address": "123 Đường Láng, Đống Đa, Hà Nội"
+      },
+      "items": [
+        {
+          "productId": "id_00000164-03",
+          "name": "Shirt Cotton Graphic Sleeveless Round Neck (Women) - Hemp & Bamboo",
+          "variant": "Size M",
+          "qty": 1,
+          "price": 390000,
+          "image": "/images/products/WOMEN-Blouses_Shirts-id_00000164-03_1_front.jpg"
+        },
+        {
+          "productId": "id_00000084-04",
+          "name": "Jacket Cotton Solid Long-sleeve Round Neck (Men) - Hemp & Bamboo",
+          "variant": "Size S",
+          "qty": 1,
+          "price": 630000,
+          "image": "/images/products/MEN-Jackets_Vests-id_00000084-04_1_front.jpg"
+        }
+      ],
+      "total": 1020000,
+      "sellerEmail": "seller_hemp@refashion.vn",
+      "store": "Hemp & Bamboo",
+      "status": "pending",
+      "note": "Vui lòng giao giờ hành chính"
+    },
+    {
+      "id": "ORD-10007",
+      "createdAt": "2026-04-26T17:00:00.000Z",
+      "buyerEmail": "buyer5@refashion.vn",
+      "customer": {
+        "name": "Trần Minh Hoa",
+        "phone": "0916890238",
+        "address": "192 Đường abc, Quận xyz, TP HCM"
+      },
+      "items": [
+        {
+          "productId": "id_00001903-03",
+          "name": "Jacket Cotton Solid Long-sleeve Lapel Neck (Men) - Zero Waste",
+          "variant": "Size L",
+          "qty": 1,
+          "price": 590000,
+          "image": "/images/products/MEN-Jackets_Vests-id_00001903-03_1_front.jpg"
+        },
+        {
+          "productId": "id_00000360-04",
+          "name": "Long Pants Denim Solid Long-sleeve (Women) - Zero Waste",
+          "variant": "Size L",
+          "qty": 2,
+          "price": 590000,
+          "image": "/images/products/WOMEN-Denim-id_00000360-04_1_front.jpg"
+        }
+      ],
+      "total": 1770000,
+      "sellerEmail": "seller_zerowaste@refashion.vn",
+      "store": "Zero Waste",
+      "status": "cancelled",
+      "note": "Vui lòng giao giờ hành chính"
+    },
+    {
+      "id": "ORD-10008",
+      "createdAt": "2026-06-14T17:00:00.000Z",
+      "buyerEmail": "buyer1@refashion.vn",
+      "customer": {
+        "name": "Đặng Thu Mai",
+        "phone": "0916479627",
+        "address": "74 Đường abc, Quận xyz, TP HCM"
+      },
+      "items": [
+        {
+          "productId": "id_00000141-01",
+          "name": "Dress Cotton Graphic Sleeveless Round Neck (Women) - Hemp & Bamboo",
+          "variant": "Size XL",
+          "qty": 2,
+          "price": 800000,
+          "image": "/images/products/WOMEN-Dresses-id_00000141-01_1_front.jpg"
+        },
+        {
+          "productId": "id_00004235-01",
+          "name": "Jacket Cotton Solid Long-sleeve Round Neck (Men) - Hemp & Bamboo",
+          "variant": "Size L",
+          "qty": 1,
+          "price": 630000,
+          "image": "/images/products/MEN-Jackets_Vests-id_00004235-01_1_front.jpg"
+        }
+      ],
+      "total": 2230000,
+      "sellerEmail": "seller_hemp@refashion.vn",
+      "store": "Hemp & Bamboo",
+      "status": "delivered",
+      "note": "Vui lòng giao giờ hành chính"
+    },
+    {
+      "id": "ORD-10009",
+      "createdAt": "2026-05-11T17:00:00.000Z",
+      "buyerEmail": "buyer6@refashion.vn",
+      "customer": {
+        "name": "Nguyễn Thị Đức",
+        "phone": "0911168917",
+        "address": "37 Đường abc, Quận xyz, TP HCM"
+      },
+      "items": [
+        {
+          "productId": "id_00000084-04",
+          "name": "Jacket Cotton Solid Long-sleeve Round Neck (Men) - Hemp & Bamboo",
+          "variant": "Size S",
+          "qty": 2,
+          "price": 630000,
+          "image": "/images/products/MEN-Jackets_Vests-id_00000084-04_1_front.jpg"
+        },
+        {
+          "productId": "id_00001125-01",
+          "name": "Long Pants Denim Solid Short-sleeve (Women) - Hemp & Bamboo",
+          "variant": "Size XL",
+          "qty": 1,
+          "price": 800000,
+          "image": "/images/products/WOMEN-Denim-id_00001125-01_1_front.jpg"
+        },
+        {
+          "productId": "id_00000034-02",
+          "name": "Dress Cotton Graphic Sleeveless (Women) - Hemp & Bamboo",
+          "variant": "Size M",
+          "qty": 2,
+          "price": 800000,
+          "image": "/images/products/WOMEN-Dresses-id_00000034-02_1_front.jpg"
+        }
+      ],
+      "total": 3660000,
+      "sellerEmail": "seller_hemp@refashion.vn",
+      "store": "Hemp & Bamboo",
+      "status": "processing",
+      "note": "Vui lòng giao giờ hành chính"
+    },
+    {
+      "id": "ORD-10010",
+      "createdAt": "2026-04-25T17:00:00.000Z",
+      "buyerEmail": "buyer6@refashion.vn",
+      "customer": {
+        "name": "Nguyễn Thị Đức",
+        "phone": "0911168917",
+        "address": "37 Đường abc, Quận xyz, TP HCM"
+      },
+      "items": [
+        {
+          "productId": "id_00000189-01",
+          "name": "Dress Chiffon Solid Sleeveless Suspender (Women) - Green Thread",
+          "variant": "Size S",
+          "qty": 1,
+          "price": 1150000,
+          "image": "/images/products/WOMEN-Dresses-id_00000189-01_1_front.jpg"
+        },
+        {
+          "productId": "id_00000094-01",
+          "name": "Jacket Cotton Graphic Long-sleeve Lapel Neck (Men) - Green Thread",
+          "variant": "Size L",
+          "qty": 1,
+          "price": 690000,
+          "image": "/images/products/MEN-Jackets_Vests-id_00000094-01_1_front.jpg"
+        }
+      ],
+      "total": 1840000,
+      "sellerEmail": "seller_greenthread@refashion.vn",
+      "store": "Green Thread",
+      "status": "shipped",
+      "note": "Vui lòng giao giờ hành chính"
+    },
+    {
+      "id": "ORD-10011",
+      "createdAt": "2026-06-23T17:00:00.000Z",
+      "buyerEmail": "buyer16@refashion.vn",
+      "customer": {
+        "name": "Nguyễn Thị Long",
+        "phone": "0919984816",
+        "address": "60 Đường abc, Quận xyz, TP HCM"
+      },
+      "items": [
+        {
+          "productId": "id_00000087-02",
+          "name": "Dress Chiffon Solid Sleeveless V-Neck (Women) - Zero Waste",
+          "variant": "Size S",
+          "qty": 1,
+          "price": 1500000,
+          "image": "/images/products/WOMEN-Dresses-id_00000087-02_1_front.jpg"
+        },
+        {
+          "productId": "id_00000084-07",
+          "name": "Jacket Cotton Solid Long-sleeve Round Neck (Men) - Zero Waste",
+          "variant": "Size S",
+          "qty": 2,
+          "price": 350000,
+          "image": "/images/products/MEN-Jackets_Vests-id_00000084-07_1_front.jpg"
+        },
+        {
+          "productId": "id_00001275-01",
+          "name": "Long Pants Denim Solid Sleeveless (Women) - Zero Waste",
+          "variant": "Size L",
+          "qty": 2,
+          "price": 470000,
+          "image": "/images/products/WOMEN-Denim-id_00001275-01_1_front.jpg"
+        }
+      ],
+      "total": 3140000,
+      "sellerEmail": "seller_zerowaste@refashion.vn",
+      "store": "Zero Waste",
+      "status": "processing",
+      "note": "Vui lòng giao giờ hành chính"
+    },
+    {
+      "id": "ORD-10012",
+      "createdAt": "2026-01-18T17:00:00.000Z",
+      "buyerEmail": "buyer12@refashion.vn",
+      "customer": {
+        "name": "Lê Xuân Mai",
+        "phone": "0916646036",
+        "address": "144 Đường abc, Quận xyz, TP HCM"
+      },
+      "items": [
+        {
+          "productId": "id_00000043-01",
+          "name": "Shirt Chiffon Graphic Sleeveless Round Neck (Women) - Retro Chic",
+          "variant": "Size M",
+          "qty": 2,
+          "price": 670000,
+          "image": "/images/products/WOMEN-Blouses_Shirts-id_00000043-01_1_front.jpg"
+        }
+      ],
+      "total": 1340000,
+      "sellerEmail": "seller_retro@refashion.vn",
+      "store": "Retro Chic",
+      "status": "delivered",
+      "note": "Vui lòng giao giờ hành chính"
+    },
+    {
+      "id": "ORD-10013",
+      "createdAt": "2026-03-10T17:00:00.000Z",
+      "buyerEmail": "buyer9@refashion.vn",
+      "customer": {
+        "name": "Phạm Thu Dung",
+        "phone": "0912236646",
+        "address": "73 Đường abc, Quận xyz, TP HCM"
+      },
+      "items": [
+        {
+          "productId": "id_00000155-01",
+          "name": "Shirt Da (Leather) Solid Sleeveless Suspender (Women) - Zero Waste",
+          "variant": "Size XL",
+          "qty": 2,
+          "price": 350000,
+          "image": "/images/products/WOMEN-Blouses_Shirts-id_00000155-01_1_front.jpg"
+        },
+        {
+          "productId": "id_00000155-01",
+          "name": "Shirt Da (Leather) Solid Sleeveless Suspender (Women) - Zero Waste",
+          "variant": "Size L",
+          "qty": 2,
+          "price": 350000,
+          "image": "/images/products/WOMEN-Blouses_Shirts-id_00000155-01_1_front.jpg"
+        }
+      ],
+      "total": 1400000,
+      "sellerEmail": "seller_zerowaste@refashion.vn",
+      "store": "Zero Waste",
+      "status": "processing",
+      "note": "Vui lòng giao giờ hành chính"
+    },
+    {
+      "id": "ORD-10014",
+      "createdAt": "2026-03-19T17:00:00.000Z",
+      "buyerEmail": "buyer8@refashion.vn",
+      "customer": {
+        "name": "Võ Văn Long",
+        "phone": "0914050496",
+        "address": "123 Đường abc, Quận xyz, TP HCM"
+      },
+      "items": [
+        {
+          "productId": "id_00000067-02",
+          "name": "Shirt Cotton Graphic Sleeveless Suspender (Women) - Denim Craft",
+          "variant": "Size M",
+          "qty": 1,
+          "price": 530000,
+          "image": "/images/products/WOMEN-Blouses_Shirts-id_00000067-02_1_front.jpg"
+        },
+        {
+          "productId": "id_00000008-02",
+          "name": "Dress Cotton Solid Short-sleeve (Women) - Denim Craft",
+          "variant": "Size M",
+          "qty": 1,
+          "price": 1250000,
+          "image": "/images/products/WOMEN-Dresses-id_00000008-02_3_back.jpg"
+        },
+        {
+          "productId": "id_00000067-02",
+          "name": "Shirt Cotton Graphic Sleeveless Suspender (Women) - Denim Craft",
+          "variant": "Size M",
+          "qty": 2,
+          "price": 530000,
+          "image": "/images/products/WOMEN-Blouses_Shirts-id_00000067-02_1_front.jpg"
+        }
+      ],
+      "total": 2840000,
+      "sellerEmail": "seller_denim@refashion.vn",
+      "store": "Denim Craft",
+      "status": "cancelled",
+      "note": "Vui lòng giao giờ hành chính"
+    },
+    {
+      "id": "ORD-10015",
+      "createdAt": "2026-04-28T17:00:00.000Z",
+      "buyerEmail": "buyer12@refashion.vn",
+      "customer": {
+        "name": "Lê Xuân Mai",
+        "phone": "0916646036",
+        "address": "144 Đường abc, Quận xyz, TP HCM"
+      },
+      "items": [
+        {
+          "productId": "id_00004328-02",
+          "name": "Jacket Cotton Solid Long-sleeve Round Neck (Men) - Zero Waste",
+          "variant": "Size S",
+          "qty": 1,
+          "price": 710000,
+          "image": "/images/products/MEN-Jackets_Vests-id_00004328-02_1_front.jpg"
+        }
+      ],
+      "total": 710000,
+      "sellerEmail": "seller_zerowaste@refashion.vn",
+      "store": "Zero Waste",
+      "status": "cancelled",
+      "note": "Vui lòng giao giờ hành chính"
+    },
+    {
+      "id": "ORD-10016",
+      "createdAt": "2026-01-30T17:00:00.000Z",
+      "buyerEmail": "buyer8@refashion.vn",
+      "customer": {
+        "name": "Võ Văn Long",
+        "phone": "0914050496",
+        "address": "123 Đường abc, Quận xyz, TP HCM"
+      },
+      "items": [
+        {
+          "productId": "id_00000074-03",
+          "name": "Dress Cotton Solid Sleeveless Round Neck (Women) - Zero Waste",
+          "variant": "Size S",
+          "qty": 2,
+          "price": 800000,
+          "image": "/images/products/WOMEN-Dresses-id_00000074-03_1_front.jpg"
+        },
+        {
+          "productId": "id_00000074-03",
+          "name": "Dress Cotton Solid Sleeveless Round Neck (Women) - Zero Waste",
+          "variant": "Size M",
+          "qty": 1,
+          "price": 800000,
+          "image": "/images/products/WOMEN-Dresses-id_00000074-03_1_front.jpg"
+        }
       ],
       "total": 2400000,
-      "status": "confirmed",
-      "note": "Gói quà tặng"
+      "sellerEmail": "seller_zerowaste@refashion.vn",
+      "store": "Zero Waste",
+      "status": "shipped",
+      "note": "Vui lòng giao giờ hành chính"
     },
     {
-      "id": "ORD-9869",
-      "createdAt": "2026-07-01T09:20:00",
+      "id": "ORD-10017",
+      "createdAt": "2026-03-13T17:00:00.000Z",
+      "buyerEmail": "buyer9@refashion.vn",
       "customer": {
-        "name": "Phạm Minh Đức",
-        "phone": "0904 567 890",
-        "address": "12 Võ Văn Ngân, Thủ Đức, TP. HCM"
+        "name": "Phạm Thu Dung",
+        "phone": "0912236646",
+        "address": "73 Đường abc, Quận xyz, TP HCM"
       },
       "items": [
-        { "name": "Restyled Flannel Shirt", "variant": "Đỏ / Size L", "qty": 1, "price": 450000, "image": "" },
-        { "name": "Corduroy Upcycled Cap", "variant": "Be / Free Size", "qty": 1, "price": 250000, "image": "" }
-      ],
-      "total": 700000,
-      "status": "confirmed",
-      "note": ""
-    },
-    {
-      "id": "ORD-9868",
-      "createdAt": "2026-06-30T15:10:00",
-      "customer": {
-        "name": "Vũ Thanh Hằng",
-        "phone": "0905 678 901",
-        "address": "567 Hai Bà Trưng, Quận 3, TP. HCM"
-      },
-      "items": [
-        { "name": "Patchwork Denim Jeans", "variant": "Xanh đậm / Size 32", "qty": 1, "price": 850000, "image": "" }
-      ],
-      "total": 850000,
-      "status": "packed",
-      "note": ""
-    },
-    {
-      "id": "ORD-9867",
-      "createdAt": "2026-06-30T10:00:00",
-      "customer": {
-        "name": "Đặng Kim Ngân",
-        "phone": "0906 789 012",
-        "address": "89 Nguyễn Đình Chiểu, Quận 1, TP. HCM"
-      },
-      "items": [
-        { "name": "Refashioned Summer Dress", "variant": "Hoa / Size M", "qty": 1, "price": 680000, "image": "" }
-      ],
-      "total": 680000,
-      "status": "packed",
-      "note": ""
-    },
-    {
-      "id": "ORD-9866",
-      "createdAt": "2026-06-29T13:25:00",
-      "customer": {
-        "name": "Nguyễn Duy Anh",
-        "phone": "0907 890 123",
-        "address": "234 Phạm Văn Đồng, Thủ Đức, TP. HCM"
-      },
-      "items": [
-        { "name": "Corduroy Upcycled Cap", "variant": "Xám / Free Size", "qty": 2, "price": 250000, "image": "" },
-        { "name": "Reworked Denim Jacket", "variant": "Đen / Size XL", "qty": 1, "price": 1200000, "image": "" }
+        {
+          "productId": "id_00000170-01",
+          "name": "Dress Cotton Solid Sleeveless (Women) - Green Thread",
+          "variant": "Size XL",
+          "qty": 2,
+          "price": 850000,
+          "image": "/images/products/WOMEN-Dresses-id_00000170-01_1_front.jpg"
+        }
       ],
       "total": 1700000,
-      "status": "shipping",
-      "note": ""
+      "sellerEmail": "seller_greenthread@refashion.vn",
+      "store": "Green Thread",
+      "status": "shipped",
+      "note": "Vui lòng giao giờ hành chính"
     },
     {
-      "id": "ORD-9865",
-      "createdAt": "2026-06-28T08:45:00",
+      "id": "ORD-10018",
+      "createdAt": "2026-06-19T17:00:00.000Z",
+      "buyerEmail": "buyer13@refashion.vn",
       "customer": {
-        "name": "Hoàng Minh Tâm",
-        "phone": "0908 901 234",
-        "address": "345 Xô Viết Nghệ Tĩnh, Quận Bình Thạnh, TP. HCM"
+        "name": "Vũ Thu Dung",
+        "phone": "0911366430",
+        "address": "104 Đường abc, Quận xyz, TP HCM"
       },
       "items": [
-        { "name": "Vintage Patchwork Bag", "variant": "Đen / Free Size", "qty": 1, "price": 850000, "image": "" }
+        {
+          "productId": "id_00000089-45",
+          "name": "Long Pants Cotton Solid Short-sleeve (Men) - Zero Waste",
+          "variant": "Size M",
+          "qty": 1,
+          "price": 650000,
+          "image": "/images/products/MEN-Denim-id_00000089-45_7_additional.jpg"
+        },
+        {
+          "productId": "id_00000152-05",
+          "name": "Long Pants Denim Solid Short-sleeve (Women) - Zero Waste",
+          "variant": "Size XL",
+          "qty": 1,
+          "price": 1010000,
+          "image": "/images/products/WOMEN-Denim-id_00000152-05_1_front.jpg"
+        },
+        {
+          "productId": "id_00000074-03",
+          "name": "Dress Cotton Solid Sleeveless Round Neck (Women) - Zero Waste",
+          "variant": "Size S",
+          "qty": 1,
+          "price": 800000,
+          "image": "/images/products/WOMEN-Dresses-id_00000074-03_1_front.jpg"
+        }
       ],
-      "total": 850000,
-      "status": "shipping",
-      "note": "Giao trước 17h"
+      "total": 2460000,
+      "sellerEmail": "seller_zerowaste@refashion.vn",
+      "store": "Zero Waste",
+      "status": "cancelled",
+      "note": "Vui lòng giao giờ hành chính"
     },
     {
-      "id": "ORD-9864",
-      "createdAt": "2026-06-27T17:30:00",
+      "id": "ORD-10019",
+      "createdAt": "2026-01-06T17:00:00.000Z",
+      "buyerEmail": "buyer14@refashion.vn",
       "customer": {
-        "name": "Lý Thị Hoa",
-        "phone": "0909 012 345",
-        "address": "678 Lý Tự Trọng, Quận 1, TP. HCM"
+        "name": "Hoàng Thu Tuấn",
+        "phone": "0917062068",
+        "address": "141 Đường abc, Quận xyz, TP HCM"
       },
       "items": [
-        { "name": "Restyled Flannel Shirt", "variant": "Kẻ / Size M", "qty": 1, "price": 450000, "image": "" }
+        {
+          "productId": "id_00000129-01",
+          "name": "Shirt Cotton Striped Sleeveless Round Neck (Women) - Eco Wear",
+          "variant": "Size XL",
+          "qty": 1,
+          "price": 730000,
+          "image": "/images/products/WOMEN-Blouses_Shirts-id_00000129-01_1_front.jpg"
+        }
       ],
-      "total": 450000,
-      "status": "completed",
-      "note": ""
+      "total": 730000,
+      "sellerEmail": "seller@refashion.vn",
+      "store": "Eco Wear",
+      "status": "processing",
+      "note": "Vui lòng giao giờ hành chính"
     },
     {
-      "id": "ORD-9863",
-      "createdAt": "2026-06-26T14:00:00",
+      "id": "ORD-10020",
+      "createdAt": "2025-12-31T17:00:00.000Z",
+      "buyerEmail": "buyer17@refashion.vn",
       "customer": {
-        "name": "Trương Văn Hùng",
-        "phone": "0910 123 456",
-        "address": "90 Bùi Thị Xuân, Quận 1, TP. HCM"
+        "name": "Hoàng Thị Bình",
+        "phone": "0915566069",
+        "address": "56 Đường abc, Quận xyz, TP HCM"
       },
       "items": [
-        { "name": "Reworked Denim Jacket", "variant": "Xanh / Size L", "qty": 1, "price": 1200000, "image": "" },
-        { "name": "Corduroy Upcycled Cap", "variant": "Nâu / Free Size", "qty": 1, "price": 250000, "image": "" },
-        { "name": "Vintage Patchwork Bag", "variant": "Xanh rêu / Free Size", "qty": 1, "price": 850000, "image": "" }
+        {
+          "productId": "id_00000657-02",
+          "name": "Long Pants Denim Solid Short-sleeve (Women) - Zero Waste",
+          "variant": "Size M",
+          "qty": 2,
+          "price": 440000,
+          "image": "/images/products/WOMEN-Denim-id_00000657-02_1_front.jpg"
+        },
+        {
+          "productId": "id_00000206-01",
+          "name": "Shirt Cotton Graphic 3/4 sleeves V-Neck (Women) - Zero Waste",
+          "variant": "Size L",
+          "qty": 1,
+          "price": 710000,
+          "image": "/images/products/WOMEN-Blouses_Shirts-id_00000206-01_1_front.jpg"
+        },
+        {
+          "productId": "id_00000089-45",
+          "name": "Long Pants Cotton Solid Short-sleeve (Men) - Zero Waste",
+          "variant": "Size M",
+          "qty": 1,
+          "price": 650000,
+          "image": "/images/products/MEN-Denim-id_00000089-45_7_additional.jpg"
+        }
       ],
-      "total": 2300000,
-      "status": "completed",
-      "note": ""
+      "total": 2240000,
+      "sellerEmail": "seller_zerowaste@refashion.vn",
+      "store": "Zero Waste",
+      "status": "delivered",
+      "note": "Vui lòng giao giờ hành chính"
     },
     {
-      "id": "ORD-9862",
-      "createdAt": "2026-06-25T11:20:00",
+      "id": "ORD-10021",
+      "createdAt": "2026-05-03T17:00:00.000Z",
+      "buyerEmail": "buyer18@refashion.vn",
       "customer": {
-        "name": "Đỗ Thúy Vi",
-        "phone": "0911 234 567",
-        "address": "123 Lê Văn Sỹ, Quận 3, TP. HCM"
+        "name": "Trần Ngọc An",
+        "phone": "0917886916",
+        "address": "22 Đường abc, Quận xyz, TP HCM"
       },
       "items": [
-        { "name": "Patchwork Denim Jeans", "variant": "Đen / Size 30", "qty": 1, "price": 850000, "image": "" }
+        {
+          "productId": "id_00001099-03",
+          "name": "Long Pants Denim Solid Sleeveless (Women) - Retro Chic",
+          "variant": "Size L",
+          "qty": 1,
+          "price": 1070000,
+          "image": "/images/products/WOMEN-Denim-id_00001099-03_1_front.jpg"
+        }
       ],
-      "total": 850000,
-      "status": "completed",
-      "note": ""
+      "total": 1070000,
+      "sellerEmail": "seller_retro@refashion.vn",
+      "store": "Retro Chic",
+      "status": "delivered",
+      "note": "Vui lòng giao giờ hành chính"
     },
     {
-      "id": "ORD-9861",
-      "createdAt": "2026-06-24T09:15:00",
+      "id": "ORD-10022",
+      "createdAt": "2026-02-07T17:00:00.000Z",
+      "buyerEmail": "buyer20@refashion.vn",
       "customer": {
-        "name": "Bùi Quốc Bảo",
+        "name": "Phạm Thị Mai",
+        "phone": "0913423066",
+        "address": "134 Đường abc, Quận xyz, TP HCM"
+      },
+      "items": [
+        {
+          "productId": "id_00000035-04",
+          "name": "Dress Cotton Solid Long-sleeve Round Neck (Women) - Eco Wear",
+          "variant": "Size M",
+          "qty": 2,
+          "price": 650000,
+          "image": "/images/products/WOMEN-Dresses-id_00000035-04_1_front.jpg"
+        },
+        {
+          "productId": "id_00000057-03",
+          "name": "Shirt Chiffon Graphic 3/4 sleeves Round Neck (Women) - Eco Wear",
+          "variant": "Size L",
+          "qty": 1,
+          "price": 370000,
+          "image": "/images/products/WOMEN-Blouses_Shirts-id_00000057-03_1_front.jpg"
+        },
+        {
+          "productId": "id_00000108-03",
+          "name": "Shirt Cotton Graphic Sleeveless Round Neck (Women) - Eco Wear",
+          "variant": "Size XL",
+          "qty": 2,
+          "price": 610000,
+          "image": "/images/products/WOMEN-Blouses_Shirts-id_00000108-03_1_front.jpg"
+        }
+      ],
+      "total": 2890000,
+      "sellerEmail": "seller@refashion.vn",
+      "store": "Eco Wear",
+      "status": "shipped",
+      "note": "Vui lòng giao giờ hành chính"
+    },
+    {
+      "id": "ORD-10023",
+      "createdAt": "2026-03-13T17:00:00.000Z",
+      "buyerEmail": "buyer19@refashion.vn",
+      "customer": {
+        "name": "Nguyễn Minh Tuấn",
+        "phone": "0919368861",
+        "address": "23 Đường abc, Quận xyz, TP HCM"
+      },
+      "items": [
+        {
+          "productId": "id_00000172-03",
+          "name": "Shirt Cotton Graphic Sleeveless Round Neck (Women) - Green Thread",
+          "variant": "Size S",
+          "qty": 1,
+          "price": 570000,
+          "image": "/images/products/WOMEN-Blouses_Shirts-id_00000172-03_1_front.jpg"
+        },
+        {
+          "productId": "id_00000040-03",
+          "name": "Shirt Chiffon Graphic 3/4 sleeves V-Neck (Women) - Green Thread",
+          "variant": "Size M",
+          "qty": 2,
+          "price": 810000,
+          "image": "/images/products/WOMEN-Blouses_Shirts-id_00000040-03_1_front.jpg"
+        }
+      ],
+      "total": 2190000,
+      "sellerEmail": "seller_greenthread@refashion.vn",
+      "store": "Green Thread",
+      "status": "pending",
+      "note": "Vui lòng giao giờ hành chính"
+    },
+    {
+      "id": "ORD-10024",
+      "createdAt": "2026-05-26T17:00:00.000Z",
+      "buyerEmail": "buyer1@refashion.vn",
+      "customer": {
+        "name": "Đặng Thu Mai",
+        "phone": "0916479627",
+        "address": "74 Đường abc, Quận xyz, TP HCM"
+      },
+      "items": [
+        {
+          "productId": "id_00000447-01",
+          "name": "Long Pants Denim Solid Sleeveless (Women) - Denim Craft",
+          "variant": "Size M",
+          "qty": 1,
+          "price": 860000,
+          "image": "/images/products/WOMEN-Denim-id_00000447-01_1_front.jpg"
+        },
+        {
+          "productId": "id_00000765-01",
+          "name": "Long Pants Denim Solid 3/4 sleeves (Women) - Denim Craft",
+          "variant": "Size S",
+          "qty": 2,
+          "price": 800000,
+          "image": "/images/products/WOMEN-Denim-id_00000765-01_1_front.jpg"
+        },
+        {
+          "productId": "id_00000169-04",
+          "name": "Dress Cotton Floral Sleeveless Square Neck (Women) - Denim Craft",
+          "variant": "Size L",
+          "qty": 1,
+          "price": 950000,
+          "image": "/images/products/WOMEN-Dresses-id_00000169-04_1_front.jpg"
+        }
+      ],
+      "total": 3410000,
+      "sellerEmail": "seller_denim@refashion.vn",
+      "store": "Denim Craft",
+      "status": "shipped",
+      "note": "Vui lòng giao giờ hành chính"
+    },
+    {
+      "id": "ORD-10025",
+      "createdAt": "2026-04-02T17:00:00.000Z",
+      "buyerEmail": "buyer9@refashion.vn",
+      "customer": {
+        "name": "Phạm Thu Dung",
+        "phone": "0912236646",
+        "address": "73 Đường abc, Quận xyz, TP HCM"
+      },
+      "items": [
+        {
+          "productId": "id_00000274-01",
+          "name": "Long Pants Denim Solid Short-sleeve (Women) - Green Thread",
+          "variant": "Size L",
+          "qty": 2,
+          "price": 440000,
+          "image": "/images/products/WOMEN-Denim-id_00000274-01_1_front.jpg"
+        },
+        {
+          "productId": "id_00002268-01",
+          "name": "Jacket Cotton Solid Long-sleeve Standing Neck (Men) - Green Thread",
+          "variant": "Size L",
+          "qty": 1,
+          "price": 690000,
+          "image": "/images/products/MEN-Jackets_Vests-id_00002268-01_1_front.jpg"
+        },
+        {
+          "productId": "id_00000152-03",
+          "name": "Long Pants Denim Solid Short-sleeve (Women) - Green Thread",
+          "variant": "Size S",
+          "qty": 1,
+          "price": 620000,
+          "image": "/images/products/WOMEN-Denim-id_00000152-03_1_front.jpg"
+        }
+      ],
+      "total": 2190000,
+      "sellerEmail": "seller_greenthread@refashion.vn",
+      "store": "Green Thread",
+      "status": "delivered",
+      "note": "Vui lòng giao giờ hành chính"
+    },
+    {
+      "id": "ORD-10026",
+      "createdAt": "2026-06-07T17:00:00.000Z",
+      "buyerEmail": "buyer3@refashion.vn",
+      "customer": {
+        "name": "Vũ Xuân Dung",
+        "phone": "0916513912",
+        "address": "17 Đường abc, Quận xyz, TP HCM"
+      },
+      "items": [
+        {
+          "productId": "id_00000657-02",
+          "name": "Long Pants Denim Solid Short-sleeve (Women) - Zero Waste",
+          "variant": "Size M",
+          "qty": 2,
+          "price": 440000,
+          "image": "/images/products/WOMEN-Denim-id_00000657-02_1_front.jpg"
+        },
+        {
+          "productId": "id_00000025-05",
+          "name": "Shirt Chiffon Solid Sleeveless V-Neck (Women) - Zero Waste",
+          "variant": "Size L",
+          "qty": 2,
+          "price": 470000,
+          "image": "/images/products/WOMEN-Blouses_Shirts-id_00000025-05_1_front.jpg"
+        }
+      ],
+      "total": 1820000,
+      "sellerEmail": "seller_zerowaste@refashion.vn",
+      "store": "Zero Waste",
+      "status": "cancelled",
+      "note": "Vui lòng giao giờ hành chính"
+    },
+    {
+      "id": "ORD-10027",
+      "createdAt": "2026-01-02T17:00:00.000Z",
+      "buyerEmail": "buyer12@refashion.vn",
+      "customer": {
+        "name": "Lê Xuân Mai",
+        "phone": "0916646036",
+        "address": "144 Đường abc, Quận xyz, TP HCM"
+      },
+      "items": [
+        {
+          "productId": "id_00000183-01",
+          "name": "Shirt Cotton Striped Sleeveless Round Neck (Women) - Retro Chic",
+          "variant": "Size L",
+          "qty": 1,
+          "price": 430000,
+          "image": "/images/products/WOMEN-Blouses_Shirts-id_00000183-01_1_front.jpg"
+        },
+        {
+          "productId": "id_00000444-01",
+          "name": "Long Pants Denim Solid Long-sleeve (Women) - Retro Chic",
+          "variant": "Size XL",
+          "qty": 1,
+          "price": 620000,
+          "image": "/images/products/WOMEN-Denim-id_00000444-01_1_front.jpg"
+        }
+      ],
+      "total": 1050000,
+      "sellerEmail": "seller_retro@refashion.vn",
+      "store": "Retro Chic",
+      "status": "processing",
+      "note": "Vui lòng giao giờ hành chính"
+    },
+    {
+      "id": "ORD-10028",
+      "createdAt": "2026-03-23T17:00:00.000Z",
+      "buyerEmail": "buyer19@refashion.vn",
+      "customer": {
+        "name": "Nguyễn Minh Tuấn",
+        "phone": "0919368861",
+        "address": "23 Đường abc, Quận xyz, TP HCM"
+      },
+      "items": [
+        {
+          "productId": "id_00000653-01",
+          "name": "Jacket Cotton Solid Long-sleeve (Men) - Zero Waste",
+          "variant": "Size XL",
+          "qty": 2,
+          "price": 590000,
+          "image": "/images/products/MEN-Jackets_Vests-id_00000653-01_1_front.jpg"
+        },
+        {
+          "productId": "id_00002754-01",
+          "name": "Jacket Cotton Striped Long-sleeve Round Neck (Men) - Zero Waste",
+          "variant": "Size S",
+          "qty": 2,
+          "price": 350000,
+          "image": "/images/products/MEN-Jackets_Vests-id_00002754-01_1_front.jpg"
+        }
+      ],
+      "total": 1880000,
+      "sellerEmail": "seller_zerowaste@refashion.vn",
+      "store": "Zero Waste",
+      "status": "processing",
+      "note": "Vui lòng giao giờ hành chính"
+    },
+    {
+      "id": "ORD-10029",
+      "createdAt": "2026-03-25T17:00:00.000Z",
+      "buyerEmail": "buyer8@refashion.vn",
+      "customer": {
+        "name": "Võ Văn Long",
+        "phone": "0914050496",
+        "address": "123 Đường abc, Quận xyz, TP HCM"
+      },
+      "items": [
+        {
+          "productId": "id_00004319-01",
+          "name": "Jacket Da (Leather) Solid Long-sleeve Lapel Neck (Men) - Hemp & Bamboo",
+          "variant": "Size XL",
+          "qty": 1,
+          "price": 510000,
+          "image": "/images/products/MEN-Jackets_Vests-id_00004319-01_1_front.jpg"
+        }
+      ],
+      "total": 510000,
+      "sellerEmail": "seller_hemp@refashion.vn",
+      "store": "Hemp & Bamboo",
+      "status": "cancelled",
+      "note": "Vui lòng giao giờ hành chính"
+    },
+    {
+      "id": "ORD-10030",
+      "createdAt": "2026-06-14T17:00:00.000Z",
+      "buyerEmail": "buyer@refashion.vn",
+      "customer": {
+        "name": "Người Mua Demo",
         "phone": "0912 345 678",
-        "address": "456 Nguyễn Thị Minh Khai, Quận 1, TP. HCM"
+        "address": "123 Đường Láng, Đống Đa, Hà Nội"
       },
       "items": [
-        { "name": "Refashioned Summer Dress", "variant": "Trắng / Size S", "qty": 1, "price": 680000, "image": "" }
+        {
+          "productId": "id_00000059-02",
+          "name": "Dress Chiffon Floral Sleeveless Suspender (Women) - Zero Waste",
+          "variant": "Size L",
+          "qty": 2,
+          "price": 900000,
+          "image": "/images/products/WOMEN-Dresses-id_00000059-02_1_front.jpg"
+        }
       ],
-      "total": 680000,
-      "status": "completed",
-      "note": ""
+      "total": 1800000,
+      "sellerEmail": "seller_zerowaste@refashion.vn",
+      "store": "Zero Waste",
+      "status": "pending",
+      "note": "Vui lòng giao giờ hành chính"
     },
     {
-      "id": "ORD-9860",
-      "createdAt": "2026-06-23T16:40:00",
+      "id": "ORD-10031",
+      "createdAt": "2026-04-19T17:00:00.000Z",
+      "buyerEmail": "buyer5@refashion.vn",
       "customer": {
-        "name": "Phan Thảo Nguyên",
-        "phone": "0913 456 789",
-        "address": "789 Điện Biên Phủ, Quận Bình Thạnh, TP. HCM"
+        "name": "Trần Minh Hoa",
+        "phone": "0916890238",
+        "address": "192 Đường abc, Quận xyz, TP HCM"
       },
       "items": [
-        { "name": "Reworked Denim Jacket", "variant": "Đen / Size M", "qty": 1, "price": 1200000, "image": "" },
-        { "name": "Vintage Patchwork Bag", "variant": "Nâu / Free Size", "qty": 1, "price": 850000, "image": "" }
+        {
+          "productId": "id_00000228-01",
+          "name": "Shirt Cotton Solid Long-sleeve Round Neck (Women) - Green Thread",
+          "variant": "Size M",
+          "qty": 2,
+          "price": 690000,
+          "image": "/images/products/WOMEN-Blouses_Shirts-id_00000228-01_1_front.jpg"
+        },
+        {
+          "productId": "id_00000089-26",
+          "name": "Long Pants Cotton Solid 3/4 sleeves (Men) - Green Thread",
+          "variant": "Size S",
+          "qty": 1,
+          "price": 410000,
+          "image": "/images/products/MEN-Denim-id_00000089-26_7_additional.jpg"
+        },
+        {
+          "productId": "id_00000750-01",
+          "name": "Long Pants Denim Lattice Long-sleeve (Men) - Green Thread",
+          "variant": "Size M",
+          "qty": 2,
+          "price": 740000,
+          "image": "/images/products/MEN-Denim-id_00000750-01_1_front.jpg"
+        }
       ],
-      "total": 2050000,
-      "status": "completed",
-      "note": ""
-    },
-    {
-      "id": "ORD-9859",
-      "createdAt": "2026-06-22T10:30:00",
-      "customer": {
-        "name": "Dương Mỹ Linh",
-        "phone": "0914 567 890",
-        "address": "12 Ngô Gia Tự, Quận 10, TP. HCM"
-      },
-      "items": [
-        { "name": "Restyled Flannel Shirt", "variant": "Ca rô / Size L", "qty": 1, "price": 450000, "image": "" }
-      ],
-      "total": 450000,
+      "total": 3270000,
+      "sellerEmail": "seller_greenthread@refashion.vn",
+      "store": "Green Thread",
       "status": "cancelled",
-      "note": "Khách hủy do thay đổi nhu cầu"
+      "note": "Vui lòng giao giờ hành chính"
     },
     {
-      "id": "ORD-9858",
-      "createdAt": "2026-06-21T08:00:00",
+      "id": "ORD-10032",
+      "createdAt": "2026-03-21T17:00:00.000Z",
+      "buyerEmail": "buyer20@refashion.vn",
       "customer": {
-        "name": "Ngô Thanh Sơn",
-        "phone": "0915 678 901",
-        "address": "34 Hoàng Hoa Thám, Quận Tân Bình, TP. HCM"
+        "name": "Phạm Thị Mai",
+        "phone": "0913423066",
+        "address": "134 Đường abc, Quận xyz, TP HCM"
       },
       "items": [
-        { "name": "Corduroy Upcycled Cap", "variant": "Xanh / Free Size", "qty": 3, "price": 250000, "image": "" }
+        {
+          "productId": "id_00000168-02",
+          "name": "Jacket Cotton Striped Long-sleeve Round Neck (Men) - Zero Waste",
+          "variant": "Size M",
+          "qty": 2,
+          "price": 350000,
+          "image": "/images/products/MEN-Jackets_Vests-id_00000168-02_1_front.jpg"
+        },
+        {
+          "productId": "id_00000206-01",
+          "name": "Shirt Cotton Graphic 3/4 sleeves V-Neck (Women) - Zero Waste",
+          "variant": "Size S",
+          "qty": 1,
+          "price": 710000,
+          "image": "/images/products/WOMEN-Blouses_Shirts-id_00000206-01_1_front.jpg"
+        },
+        {
+          "productId": "id_00000653-02",
+          "name": "Jacket Cotton Solid Long-sleeve Lapel Neck (Men) - Zero Waste",
+          "variant": "Size XL",
+          "qty": 1,
+          "price": 590000,
+          "image": "/images/products/MEN-Jackets_Vests-id_00000653-02_1_front.jpg"
+        }
       ],
-      "total": 750000,
+      "total": 2000000,
+      "sellerEmail": "seller_zerowaste@refashion.vn",
+      "store": "Zero Waste",
+      "status": "shipped",
+      "note": "Vui lòng giao giờ hành chính"
+    },
+    {
+      "id": "ORD-10033",
+      "createdAt": "2026-01-21T17:00:00.000Z",
+      "buyerEmail": "buyer1@refashion.vn",
+      "customer": {
+        "name": "Đặng Thu Mai",
+        "phone": "0916479627",
+        "address": "74 Đường abc, Quận xyz, TP HCM"
+      },
+      "items": [
+        {
+          "productId": "id_00000165-02",
+          "name": "Shirt Cotton Graphic Short-sleeve Round Neck (Women) - Eco Wear",
+          "variant": "Size XL",
+          "qty": 1,
+          "price": 610000,
+          "image": "/images/products/WOMEN-Blouses_Shirts-id_00000165-02_1_front.jpg"
+        }
+      ],
+      "total": 610000,
+      "sellerEmail": "seller@refashion.vn",
+      "store": "Eco Wear",
+      "status": "shipped",
+      "note": "Vui lòng giao giờ hành chính"
+    },
+    {
+      "id": "ORD-10034",
+      "createdAt": "2026-01-04T17:00:00.000Z",
+      "buyerEmail": "buyer4@refashion.vn",
+      "customer": {
+        "name": "Đặng Thanh Tuấn",
+        "phone": "0919680778",
+        "address": "140 Đường abc, Quận xyz, TP HCM"
+      },
+      "items": [
+        {
+          "productId": "id_00002439-02",
+          "name": "Jacket Cotton Solid Long-sleeve Lapel Neck (Men) - Denim Craft",
+          "variant": "Size L",
+          "qty": 1,
+          "price": 410000,
+          "image": "/images/products/MEN-Jackets_Vests-id_00002439-02_1_front.jpg"
+        }
+      ],
+      "total": 410000,
+      "sellerEmail": "seller_denim@refashion.vn",
+      "store": "Denim Craft",
+      "status": "shipped",
+      "note": "Vui lòng giao giờ hành chính"
+    },
+    {
+      "id": "ORD-10035",
+      "createdAt": "2026-03-19T17:00:00.000Z",
+      "buyerEmail": "buyer17@refashion.vn",
+      "customer": {
+        "name": "Hoàng Thị Bình",
+        "phone": "0915566069",
+        "address": "56 Đường abc, Quận xyz, TP HCM"
+      },
+      "items": [
+        {
+          "productId": "id_00000089-46",
+          "name": "Long Pants Cotton Solid Short-sleeve (Men) - Hemp & Bamboo",
+          "variant": "Size XL",
+          "qty": 1,
+          "price": 680000,
+          "image": "/images/products/MEN-Denim-id_00000089-46_7_additional.jpg"
+        },
+        {
+          "productId": "id_00000090-03",
+          "name": "Shirt Cotton Graphic Sleeveless (Women) - Hemp & Bamboo",
+          "variant": "Size S",
+          "qty": 1,
+          "price": 270000,
+          "image": "/images/products/WOMEN-Blouses_Shirts-id_00000090-03_1_front.jpg"
+        },
+        {
+          "productId": "id_00000089-46",
+          "name": "Long Pants Cotton Solid Short-sleeve (Men) - Hemp & Bamboo",
+          "variant": "Size S",
+          "qty": 2,
+          "price": 680000,
+          "image": "/images/products/MEN-Denim-id_00000089-46_7_additional.jpg"
+        }
+      ],
+      "total": 2310000,
+      "sellerEmail": "seller_hemp@refashion.vn",
+      "store": "Hemp & Bamboo",
       "status": "cancelled",
-      "note": "Hết hàng"
+      "note": "Vui lòng giao giờ hành chính"
+    },
+    {
+      "id": "ORD-10036",
+      "createdAt": "2026-05-24T17:00:00.000Z",
+      "buyerEmail": "buyer19@refashion.vn",
+      "customer": {
+        "name": "Nguyễn Minh Tuấn",
+        "phone": "0919368861",
+        "address": "23 Đường abc, Quận xyz, TP HCM"
+      },
+      "items": [
+        {
+          "productId": "id_00000088-02",
+          "name": "Dress Cotton Solid Sleeveless Suspender (Women) - Eco Wear",
+          "variant": "Size S",
+          "qty": 1,
+          "price": 1450000,
+          "image": "/images/products/WOMEN-Dresses-id_00000088-02_1_front.jpg"
+        },
+        {
+          "productId": "id_00000088-02",
+          "name": "Dress Cotton Solid Sleeveless Suspender (Women) - Eco Wear",
+          "variant": "Size M",
+          "qty": 1,
+          "price": 1450000,
+          "image": "/images/products/WOMEN-Dresses-id_00000088-02_1_front.jpg"
+        },
+        {
+          "productId": "id_00000826-01",
+          "name": "Long Pants Cotton Solid Short-sleeve (Men) - Eco Wear",
+          "variant": "Size M",
+          "qty": 1,
+          "price": 530000,
+          "image": "/images/products/MEN-Denim-id_00000826-01_1_front.jpg"
+        }
+      ],
+      "total": 3430000,
+      "sellerEmail": "seller@refashion.vn",
+      "store": "Eco Wear",
+      "status": "pending",
+      "note": "Vui lòng giao giờ hành chính"
+    },
+    {
+      "id": "ORD-10037",
+      "createdAt": "2026-01-25T17:00:00.000Z",
+      "buyerEmail": "buyer13@refashion.vn",
+      "customer": {
+        "name": "Vũ Thu Dung",
+        "phone": "0911366430",
+        "address": "104 Đường abc, Quận xyz, TP HCM"
+      },
+      "items": [
+        {
+          "productId": "id_00000108-03",
+          "name": "Shirt Cotton Graphic Sleeveless Round Neck (Women) - Eco Wear",
+          "variant": "Size L",
+          "qty": 2,
+          "price": 610000,
+          "image": "/images/products/WOMEN-Blouses_Shirts-id_00000108-03_1_front.jpg"
+        },
+        {
+          "productId": "id_00000015-02",
+          "name": "Shirt Cotton Graphic Short-sleeve Round Neck (Women) - Eco Wear",
+          "variant": "Size M",
+          "qty": 2,
+          "price": 370000,
+          "image": "/images/products/WOMEN-Blouses_Shirts-id_00000015-02_1_front.jpg"
+        }
+      ],
+      "total": 1960000,
+      "sellerEmail": "seller@refashion.vn",
+      "store": "Eco Wear",
+      "status": "processing",
+      "note": "Vui lòng giao giờ hành chính"
+    },
+    {
+      "id": "ORD-10038",
+      "createdAt": "2026-02-19T17:00:00.000Z",
+      "buyerEmail": "buyer3@refashion.vn",
+      "customer": {
+        "name": "Vũ Xuân Dung",
+        "phone": "0916513912",
+        "address": "17 Đường abc, Quận xyz, TP HCM"
+      },
+      "items": [
+        {
+          "productId": "id_00001291-01",
+          "name": "Jacket Cotton Lattice Long-sleeve Lapel Neck (Men) - Eco Wear",
+          "variant": "Size L",
+          "qty": 1,
+          "price": 490000,
+          "image": "/images/products/MEN-Jackets_Vests-id_00001291-01_1_front.jpg"
+        },
+        {
+          "productId": "id_00000218-01",
+          "name": "Shirt Cotton Graphic 3/4 sleeves Round Neck (Women) - Eco Wear",
+          "variant": "Size L",
+          "qty": 1,
+          "price": 370000,
+          "image": "/images/products/WOMEN-Blouses_Shirts-id_00000218-01_1_front.jpg"
+        },
+        {
+          "productId": "id_00000037-02",
+          "name": "Dress Cotton Solid Sleeveless V-Neck (Women) - Eco Wear",
+          "variant": "Size S",
+          "qty": 1,
+          "price": 1450000,
+          "image": "/images/products/WOMEN-Dresses-id_00000037-02_1_front.jpg"
+        }
+      ],
+      "total": 2310000,
+      "sellerEmail": "seller@refashion.vn",
+      "store": "Eco Wear",
+      "status": "shipped",
+      "note": "Vui lòng giao giờ hành chính"
+    },
+    {
+      "id": "ORD-10039",
+      "createdAt": "2026-01-02T17:00:00.000Z",
+      "buyerEmail": "buyer15@refashion.vn",
+      "customer": {
+        "name": "Vũ Văn Mai",
+        "phone": "0913832995",
+        "address": "34 Đường abc, Quận xyz, TP HCM"
+      },
+      "items": [
+        {
+          "productId": "id_00000042-02",
+          "name": "Dress Cotton Graphic Sleeveless Round Neck (Women) - Hemp & Bamboo",
+          "variant": "Size M",
+          "qty": 2,
+          "price": 1000000,
+          "image": "/images/products/WOMEN-Dresses-id_00000042-02_1_front.jpg"
+        },
+        {
+          "productId": "id_00000042-02",
+          "name": "Dress Cotton Graphic Sleeveless Round Neck (Women) - Hemp & Bamboo",
+          "variant": "Size XL",
+          "qty": 2,
+          "price": 1000000,
+          "image": "/images/products/WOMEN-Dresses-id_00000042-02_1_front.jpg"
+        }
+      ],
+      "total": 4000000,
+      "sellerEmail": "seller_hemp@refashion.vn",
+      "store": "Hemp & Bamboo",
+      "status": "cancelled",
+      "note": "Vui lòng giao giờ hành chính"
+    },
+    {
+      "id": "ORD-10040",
+      "createdAt": "2026-01-30T17:00:00.000Z",
+      "buyerEmail": "buyer15@refashion.vn",
+      "customer": {
+        "name": "Vũ Văn Mai",
+        "phone": "0913832995",
+        "address": "34 Đường abc, Quận xyz, TP HCM"
+      },
+      "items": [
+        {
+          "productId": "id_00003311-01",
+          "name": "Jacket Da (Leather) Solid Long-sleeve (Men) - Eco Wear",
+          "variant": "Size L",
+          "qty": 2,
+          "price": 730000,
+          "image": "/images/products/MEN-Jackets_Vests-id_00003311-01_1_front.jpg"
+        },
+        {
+          "productId": "id_00000021-06",
+          "name": "Dress Cotton Graphic Sleeveless Suspender (Women) - Eco Wear",
+          "variant": "Size M",
+          "qty": 1,
+          "price": 650000,
+          "image": "/images/products/WOMEN-Dresses-id_00000021-06_1_front.jpg"
+        },
+        {
+          "productId": "id_00000624-03",
+          "name": "Long Pants Denim Solid Short-sleeve (Women) - Eco Wear",
+          "variant": "Size M",
+          "qty": 1,
+          "price": 1070000,
+          "image": "/images/products/WOMEN-Denim-id_00000624-03_1_front.jpg"
+        }
+      ],
+      "total": 3180000,
+      "sellerEmail": "seller@refashion.vn",
+      "store": "Eco Wear",
+      "status": "processing",
+      "note": "Vui lòng giao giờ hành chính"
+    },
+    {
+      "id": "ORD-10041",
+      "createdAt": "2026-02-04T17:00:00.000Z",
+      "buyerEmail": "buyer12@refashion.vn",
+      "customer": {
+        "name": "Lê Xuân Mai",
+        "phone": "0916646036",
+        "address": "144 Đường abc, Quận xyz, TP HCM"
+      },
+      "items": [
+        {
+          "productId": "id_00000041-03",
+          "name": "Dress Cotton Solid Sleeveless Round Neck (Women) - Denim Craft",
+          "variant": "Size M",
+          "qty": 1,
+          "price": 1250000,
+          "image": "/images/products/WOMEN-Dresses-id_00000041-03_1_front.jpg"
+        },
+        {
+          "productId": "id_00000011-02",
+          "name": "Dress Chiffon Floral Long-sleeve Suspender (Women) - Denim Craft",
+          "variant": "Size XL",
+          "qty": 2,
+          "price": 550000,
+          "image": "/images/products/WOMEN-Dresses-id_00000011-02_1_front.jpg"
+        },
+        {
+          "productId": "id_00000011-02",
+          "name": "Dress Chiffon Floral Long-sleeve Suspender (Women) - Denim Craft",
+          "variant": "Size S",
+          "qty": 1,
+          "price": 550000,
+          "image": "/images/products/WOMEN-Dresses-id_00000011-02_1_front.jpg"
+        }
+      ],
+      "total": 2900000,
+      "sellerEmail": "seller_denim@refashion.vn",
+      "store": "Denim Craft",
+      "status": "pending",
+      "note": "Vui lòng giao giờ hành chính"
+    },
+    {
+      "id": "ORD-10042",
+      "createdAt": "2026-02-27T17:00:00.000Z",
+      "buyerEmail": "buyer15@refashion.vn",
+      "customer": {
+        "name": "Vũ Văn Mai",
+        "phone": "0913832995",
+        "address": "34 Đường abc, Quận xyz, TP HCM"
+      },
+      "items": [
+        {
+          "productId": "id_00000057-02",
+          "name": "Shirt Chiffon Graphic 3/4 sleeves V-Neck (Women) - Retro Chic",
+          "variant": "Size S",
+          "qty": 2,
+          "price": 310000,
+          "image": "/images/products/WOMEN-Blouses_Shirts-id_00000057-02_1_front.jpg"
+        },
+        {
+          "productId": "id_00000183-01",
+          "name": "Shirt Cotton Striped Sleeveless Round Neck (Women) - Retro Chic",
+          "variant": "Size S",
+          "qty": 1,
+          "price": 430000,
+          "image": "/images/products/WOMEN-Blouses_Shirts-id_00000183-01_1_front.jpg"
+        },
+        {
+          "productId": "id_00000094-02",
+          "name": "Shirt Cotton Solid Long-sleeve Lapel Neck (Men) - Retro Chic",
+          "variant": "Size XL",
+          "qty": 1,
+          "price": 790000,
+          "image": "/images/products/MEN-Suiting-id_00000094-02_1_front.jpg"
+        }
+      ],
+      "total": 1840000,
+      "sellerEmail": "seller_retro@refashion.vn",
+      "store": "Retro Chic",
+      "status": "processing",
+      "note": "Vui lòng giao giờ hành chính"
+    },
+    {
+      "id": "ORD-10043",
+      "createdAt": "2026-01-02T17:00:00.000Z",
+      "buyerEmail": "buyer17@refashion.vn",
+      "customer": {
+        "name": "Hoàng Thị Bình",
+        "phone": "0915566069",
+        "address": "56 Đường abc, Quận xyz, TP HCM"
+      },
+      "items": [
+        {
+          "productId": "id_00000089-26",
+          "name": "Long Pants Cotton Solid 3/4 sleeves (Men) - Green Thread",
+          "variant": "Size M",
+          "qty": 1,
+          "price": 410000,
+          "image": "/images/products/MEN-Denim-id_00000089-26_7_additional.jpg"
+        },
+        {
+          "productId": "id_00000152-04",
+          "name": "Long Pants Denim Solid Short-sleeve (Women) - Green Thread",
+          "variant": "Size L",
+          "qty": 1,
+          "price": 1070000,
+          "image": "/images/products/WOMEN-Denim-id_00000152-04_1_front.jpg"
+        },
+        {
+          "productId": "id_00001248-01",
+          "name": "Long Pants Denim Woven Long-sleeve (Women) - Green Thread",
+          "variant": "Size M",
+          "qty": 1,
+          "price": 1040000,
+          "image": "/images/products/WOMEN-Denim-id_00001248-01_1_front.jpg"
+        }
+      ],
+      "total": 2520000,
+      "sellerEmail": "seller_greenthread@refashion.vn",
+      "store": "Green Thread",
+      "status": "processing",
+      "note": "Vui lòng giao giờ hành chính"
+    },
+    {
+      "id": "ORD-10044",
+      "createdAt": "2026-03-30T17:00:00.000Z",
+      "buyerEmail": "buyer15@refashion.vn",
+      "customer": {
+        "name": "Vũ Văn Mai",
+        "phone": "0913832995",
+        "address": "34 Đường abc, Quận xyz, TP HCM"
+      },
+      "items": [
+        {
+          "productId": "id_00000021-05",
+          "name": "Dress Cotton Graphic Sleeveless Suspender (Women) - Retro Chic",
+          "variant": "Size M",
+          "qty": 2,
+          "price": 1100000,
+          "image": "/images/products/WOMEN-Dresses-id_00000021-05_1_front.jpg"
+        }
+      ],
+      "total": 2200000,
+      "sellerEmail": "seller_retro@refashion.vn",
+      "store": "Retro Chic",
+      "status": "shipped",
+      "note": "Vui lòng giao giờ hành chính"
+    },
+    {
+      "id": "ORD-10045",
+      "createdAt": "2026-03-09T17:00:00.000Z",
+      "buyerEmail": "buyer2@refashion.vn",
+      "customer": {
+        "name": "Vũ Xuân Cường",
+        "phone": "0912335179",
+        "address": "102 Đường abc, Quận xyz, TP HCM"
+      },
+      "items": [
+        {
+          "productId": "id_00001903-01",
+          "name": "Jacket Cotton Solid Long-sleeve Lapel Neck (Men) - Zero Waste",
+          "variant": "Size S",
+          "qty": 2,
+          "price": 470000,
+          "image": "/images/products/MEN-Jackets_Vests-id_00001903-01_1_front.jpg"
+        }
+      ],
+      "total": 940000,
+      "sellerEmail": "seller_zerowaste@refashion.vn",
+      "store": "Zero Waste",
+      "status": "processing",
+      "note": "Vui lòng giao giờ hành chính"
+    },
+    {
+      "id": "ORD-10046",
+      "createdAt": "2025-12-31T17:00:00.000Z",
+      "buyerEmail": "buyer3@refashion.vn",
+      "customer": {
+        "name": "Vũ Xuân Dung",
+        "phone": "0916513912",
+        "address": "17 Đường abc, Quận xyz, TP HCM"
+      },
+      "items": [
+        {
+          "productId": "id_00000082-03",
+          "name": "Shirt Chiffon Solid 3/4 sleeves Lapel Neck (Women) - Green Thread",
+          "variant": "Size S",
+          "qty": 1,
+          "price": 690000,
+          "image": "/images/products/WOMEN-Blouses_Shirts-id_00000082-03_1_front.jpg"
+        },
+        {
+          "productId": "id_00000750-01",
+          "name": "Long Pants Denim Lattice Long-sleeve (Men) - Green Thread",
+          "variant": "Size XL",
+          "qty": 1,
+          "price": 740000,
+          "image": "/images/products/MEN-Denim-id_00000750-01_1_front.jpg"
+        },
+        {
+          "productId": "id_00000741-01",
+          "name": "Long Pants Denim Solid Long-sleeve (Women) - Green Thread",
+          "variant": "Size L",
+          "qty": 2,
+          "price": 860000,
+          "image": "/images/products/WOMEN-Denim-id_00000741-01_1_front.jpg"
+        }
+      ],
+      "total": 3150000,
+      "sellerEmail": "seller_greenthread@refashion.vn",
+      "store": "Green Thread",
+      "status": "processing",
+      "note": "Vui lòng giao giờ hành chính"
+    },
+    {
+      "id": "ORD-10047",
+      "createdAt": "2026-05-07T17:00:00.000Z",
+      "buyerEmail": "buyer16@refashion.vn",
+      "customer": {
+        "name": "Nguyễn Thị Long",
+        "phone": "0919984816",
+        "address": "60 Đường abc, Quận xyz, TP HCM"
+      },
+      "items": [
+        {
+          "productId": "id_00000035-04",
+          "name": "Dress Cotton Solid Long-sleeve Round Neck (Women) - Eco Wear",
+          "variant": "Size S",
+          "qty": 2,
+          "price": 650000,
+          "image": "/images/products/WOMEN-Dresses-id_00000035-04_1_front.jpg"
+        },
+        {
+          "productId": "id_00000021-06",
+          "name": "Dress Cotton Graphic Sleeveless Suspender (Women) - Eco Wear",
+          "variant": "Size S",
+          "qty": 2,
+          "price": 650000,
+          "image": "/images/products/WOMEN-Dresses-id_00000021-06_1_front.jpg"
+        }
+      ],
+      "total": 2600000,
+      "sellerEmail": "seller@refashion.vn",
+      "store": "Eco Wear",
+      "status": "delivered",
+      "note": "Vui lòng giao giờ hành chính"
+    },
+    {
+      "id": "ORD-10048",
+      "createdAt": "2026-06-25T17:00:00.000Z",
+      "buyerEmail": "buyer4@refashion.vn",
+      "customer": {
+        "name": "Đặng Thanh Tuấn",
+        "phone": "0919680778",
+        "address": "140 Đường abc, Quận xyz, TP HCM"
+      },
+      "items": [
+        {
+          "productId": "id_00000127-01",
+          "name": "Dress Cotton Solid 3/4 sleeves Round Neck (Women) - Hemp & Bamboo",
+          "variant": "Size M",
+          "qty": 2,
+          "price": 900000,
+          "image": "/images/products/WOMEN-Dresses-id_00000127-01_1_front.jpg"
+        },
+        {
+          "productId": "id_00001367-05",
+          "name": "Long Pants Denim Solid Long-sleeve (Women) - Hemp & Bamboo",
+          "variant": "Size S",
+          "qty": 2,
+          "price": 980000,
+          "image": "/images/products/WOMEN-Denim-id_00001367-05_1_front.jpg"
+        }
+      ],
+      "total": 3760000,
+      "sellerEmail": "seller_hemp@refashion.vn",
+      "store": "Hemp & Bamboo",
+      "status": "processing",
+      "note": "Vui lòng giao giờ hành chính"
+    },
+    {
+      "id": "ORD-10049",
+      "createdAt": "2026-06-22T17:00:00.000Z",
+      "buyerEmail": "buyer4@refashion.vn",
+      "customer": {
+        "name": "Đặng Thanh Tuấn",
+        "phone": "0919680778",
+        "address": "140 Đường abc, Quận xyz, TP HCM"
+      },
+      "items": [
+        {
+          "productId": "id_00000065-02",
+          "name": "Shirt Chiffon Lattice Short-sleeve Lapel Neck (Women) - Retro Chic",
+          "variant": "Size L",
+          "qty": 2,
+          "price": 670000,
+          "image": "/images/products/WOMEN-Blouses_Shirts-id_00000065-02_1_front.jpg"
+        },
+        {
+          "productId": "id_00001099-05",
+          "name": "Long Pants Denim Solid Sleeveless (Women) - Retro Chic",
+          "variant": "Size S",
+          "qty": 2,
+          "price": 500000,
+          "image": "/images/products/WOMEN-Denim-id_00001099-05_1_front.jpg"
+        },
+        {
+          "productId": "id_00000094-02",
+          "name": "Shirt Cotton Solid Long-sleeve Lapel Neck (Men) - Retro Chic",
+          "variant": "Size L",
+          "qty": 2,
+          "price": 790000,
+          "image": "/images/products/MEN-Suiting-id_00000094-02_1_front.jpg"
+        }
+      ],
+      "total": 3920000,
+      "sellerEmail": "seller_retro@refashion.vn",
+      "store": "Retro Chic",
+      "status": "processing",
+      "note": "Vui lòng giao giờ hành chính"
     }
   ]
 }

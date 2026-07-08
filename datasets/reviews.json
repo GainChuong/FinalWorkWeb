@@ -1,1408 +1,5897 @@
 {
-  "1": [
+  "id_00000084-04": [
     {
-      "user": "Minh Anh",
+      "user": "John D.",
+      "avatar": "J",
+      "rating": 5,
+      "date": "01/07/2026",
+      "comment": "Very beautiful product, the fabric is extremely cool and comfortable. Totally worth the money!"
+    },
+    {
+      "user": "Sarah T.",
+      "avatar": "S",
+      "rating": 4,
+      "date": "02/07/2026",
+      "comment": "Great fit, very flattering. Fast delivery too."
+    },
+    {
+      "user": "Michael H.",
       "avatar": "M",
-      "rating": 5,
-      "date": "28/06/2026",
-      "comment": "Áo khoác siêu nhẹ và ấm. Chất liệu tái chế mà vẫn rất bền, đường may tỉ mỉ. Rất thích!"
-    },
-    {
-      "user": "Lan Hương",
-      "avatar": "L",
-      "rating": 4,
-      "date": "15/06/2026",
-      "comment": "Sản phẩm tốt, mặc thoải mái. Màu xanh biển đẹp. Trừ 1 sao vì hơi rộng so với mô tả."
-    },
-    {
-      "user": "Hồ Hoàng Hà",
-      "avatar": "H",
-      "rating": 4,
-      "date": "19/07/2026",
-      "comment": "Rộng hơn dự tính nhưng vẫn ok. Chất tốt. Ủng hộ đồ xanh!"
-    },
-    {
-      "user": "Lê Thị Yến",
-      "avatar": "L",
-      "rating": 5,
-      "date": "11/06/2026",
-      "comment": "Chất vải mềm mại, mặc rất thoải mái. Ủng hộ đồ xanh!"
-    },
-    {
-      "user": "Dương Bảo Quỳnh",
-      "avatar": "D",
-      "rating": 4,
-      "date": "15/06/2026",
-      "comment": "Bền, đẹp, giá hợp lý. Sản phẩm từ thiên nhiên an toàn."
-    },
-    {
-      "user": "Hà Gia Thảo",
-      "avatar": "H",
-      "rating": 5,
-      "date": "06/07/2026",
-      "comment": "Nên mua! Chất liệu thiên nhiên thoáng mát."
-    },
-    {
-      "user": "Trịnh Kim Hoa",
-      "avatar": "T",
-      "rating": 1,
-      "date": "21/07/2026",
-      "comment": "Đẹp và đáng tiền. Chất liệu tái chế làm mình bất ngờ."
-    },
-    {
-      "user": "Lê Kim Cường",
-      "avatar": "L",
-      "rating": 1,
-      "date": "21/07/2026",
-      "comment": "Phù hợp với nhu cầu sử dụng hàng ngày. Sẽ ủng hộ dài lâu."
-    },
-    {
-      "user": "Phan Thanh Long",
-      "avatar": "P",
-      "rating": 3,
-      "date": "14/05/2026",
-      "comment": "Mặc đẹp, vải co giãn tốt. Lưng quần vừa vặn."
-    },
-    {
-      "user": "Tô Huy Khoa",
-      "avatar": "T",
-      "rating": 4,
-      "date": "24/06/2026",
-      "comment": "Tiết kiệm điện, đèn trang trí lung linh."
-    },
-    {
-      "user": "Quách Kim Khang",
-      "avatar": "Q",
-      "rating": 3,
-      "date": "07/06/2026",
-      "comment": "Xinh xắn, chất da mềm. Đựng vừa đồ đi làm."
-    },
-    {
-      "user": "Trịnh Kim Hà",
-      "avatar": "T",
-      "rating": 5,
-      "date": "06/07/2026",
-      "comment": "Nhẹ, gấp gọn, tiện lợi mang đi du lịch."
-    }
-  ],
-  "2": [
-    {
-      "user": "Hoàng Nam",
-      "avatar": "H",
-      "rating": 5,
-      "date": "20/06/2026",
-      "comment": "Balo nhẹ, chịu nước tốt. Mang đi dã ngoại 2 ngày vẫn thoải mái. Chất liệu tái chế nhưng rất chắc chắn."
-    },
-    {
-      "user": "Thảo Vy",
-      "avatar": "T",
-      "rating": 4,
-      "date": "05/06/2026",
-      "comment": "Rộng rãi, nhiều ngăn. Giá hơi cao nhưng xứng đáng vì bảo vệ môi trường."
-    },
-    {
-      "user": "Hà Công Huy",
-      "avatar": "H",
-      "rating": 5,
-      "date": "19/05/2026",
-      "comment": "Sản phẩm chất lượng tốt, đúng như mô tả. Giao hàng nhanh. Bảo vệ môi trường là tốt."
-    },
-    {
-      "user": "Lê Hữu Tùng",
-      "avatar": "L",
-      "rating": 5,
-      "date": "21/06/2026",
-      "comment": "Xinh xắn, chất da mềm. Đựng vừa đồ đi làm. Hàng thân thiện môi trường."
-    },
-    {
-      "user": "Lâm Thị Chi",
-      "avatar": "L",
-      "rating": 3,
-      "date": "14/07/2026",
-      "comment": "Xinh xắn, chất da mềm. Đựng vừa đồ đi làm. Ủng hộ đồ xanh!"
-    },
-    {
-      "user": "Hoàng Công Bình",
-      "avatar": "H",
-      "rating": 5,
-      "date": "14/06/2026",
-      "comment": "Shop giao nhanh, sản phẩm chất lượng. Ủng hộ đồ xanh."
-    },
-    {
-      "user": "Châu Thế Ngân",
-      "avatar": "C",
-      "rating": 4,
-      "date": "15/06/2026",
-      "comment": "Chất cotton dày dặn, rất bền. Hàng thân thiện môi trường."
-    },
-    {
-      "user": "Tạ Hoàng Quyên",
-      "avatar": "T",
-      "rating": 3,
-      "date": "07/06/2026",
-      "comment": "Hàng may cẩn thận, đường chỉ đều. Form vừa vặn."
-    },
-    {
-      "user": "Hà Minh Bích",
-      "avatar": "H",
-      "rating": 5,
-      "date": "12/06/2026",
-      "comment": "Vải thoáng mát, thích hợp mùa hè."
-    },
-    {
-      "user": "Võ Quốc Tuyết",
-      "avatar": "V",
-      "rating": 5,
-      "date": "19/07/2026",
-      "comment": "Đeo nhẹ, quai đệm êm. Phù hợp đi phượt."
-    },
-    {
-      "user": "Mai Huy Phong",
-      "avatar": "M",
-      "rating": 4,
-      "date": "06/05/2026",
-      "comment": "Áo mặc mát, phù hợp đi làm. Màu trắng dễ phối."
-    },
-    {
-      "user": "Hoàng Công Long",
-      "avatar": "H",
-      "rating": 5,
-      "date": "15/06/2026",
-      "comment": "Nhẹ, gấp gọn, tiện lợi mang đi du lịch."
-    }
-  ],
-  "3": [
-    {
-      "user": "Quốc Bảo",
-      "avatar": "Q",
-      "rating": 5,
-      "date": "25/06/2026",
-      "comment": "Giày cực êm, đi cả ngày không mỏi. Thiết kế đẹp, chất lượng hơn mong đợi. Ủng hộ đồ tái chế!"
-    },
-    {
-      "user": "Diễm My",
-      "avatar": "D",
-      "rating": 5,
-      "date": "12/06/2026",
-      "comment": "Đôi giày thứ 2 mình mua ở shop. Chất lượng ổn định, form chuẩn."
-    },
-    {
-      "user": "Lương Huy Dũng",
-      "avatar": "L",
-      "rating": 5,
-      "date": "23/05/2026",
-      "comment": "Hàng tốt, hơi đắt nhưng xứng đáng vì chất lượng. Sản phẩm bền vững đáng mua."
-    },
-    {
-      "user": "Châu Quốc Tuyết",
-      "avatar": "C",
-      "rating": 5,
-      "date": "08/06/2026",
-      "comment": "Sản phẩm tái chế mà chất lượng quá tốt. Khuyên mọi người nên mua."
-    },
-    {
-      "user": "Đặng Gia Cúc",
-      "avatar": "Đ",
-      "rating": 3,
-      "date": "18/07/2026",
-      "comment": "Shop tư vấn nhiệt tình. Hàng đúng mô tả. Cảm ơn! Chất liệu tự nhiên tuyệt vời."
-    },
-    {
-      "user": "Võ Thị Phong",
-      "avatar": "V",
-      "rating": 5,
-      "date": "12/07/2026",
-      "comment": "Túi nhiều ngăn tiện lợi. Chất vải tái chế tốt."
-    },
-    {
-      "user": "Đỗ Quốc Quân",
-      "avatar": "Đ",
-      "rating": 5,
-      "date": "05/05/2026",
-      "comment": "Giao hàng nhanh, đóng gói cẩn thận. Sản phẩm đẹp. Bảo vệ môi trường là tốt."
-    },
-    {
-      "user": "Hoàng Xuân Hồng",
-      "avatar": "H",
-      "rating": 5,
-      "date": "16/05/2026",
-      "comment": "Đeo nhẹ, quai đệm êm. Phù hợp đi phượt."
-    },
-    {
-      "user": "Dương Hữu Hạnh",
-      "avatar": "D",
-      "rating": 1,
-      "date": "23/06/2026",
-      "comment": "Mặc đẹp, vải co giãn tốt. Lưng quần vừa vặn."
-    },
-    {
-      "user": "Trần Quốc Mai",
-      "avatar": "T",
       "rating": 5,
       "date": "03/07/2026",
-      "comment": "Mặc đẹp, vải co giãn tốt. Lưng quần vừa vặn."
+      "comment": "Eco-friendly material, beautiful and durable design."
     },
     {
-      "user": "Huỳnh Nhật Nhung",
-      "avatar": "H",
-      "rating": 5,
-      "date": "22/07/2026",
-      "comment": "Ủng hộ đồ bảo vệ môi trường! Chất lượng tốt."
-    },
-    {
-      "user": "Hồ Minh Tuấn",
-      "avatar": "H",
-      "rating": 5,
-      "date": "07/06/2026",
-      "comment": "Màu pastel dễ thương, mặc đi biển đẹp."
-    }
-  ],
-  "4": [
-    {
-      "user": "Thanh Tùng",
-      "avatar": "T",
-      "rating": 4,
-      "date": "22/06/2026",
-      "comment": "Quần mặc đẹp, vải dày dặn. Ống hơi dài so với mình nhưng nói chung ưng."
-    },
-    {
-      "user": "Yến Nhi",
-      "avatar": "Y",
-      "rating": 5,
-      "date": "01/06/2026",
-      "comment": ""
-    },
-    {
-      "user": "Quách Mạnh Hồng",
-      "avatar": "Q",
-      "rating": 5,
-      "date": "09/06/2026",
-      "comment": "Hàng tốt, hơi đắt nhưng xứng đáng vì chất lượng. Sản phẩm tái chế rất tốt."
-    },
-    {
-      "user": "Trịnh Ngọc Bích",
-      "avatar": "T",
-      "rating": 5,
-      "date": "23/05/2026",
-      "comment": "Đeo nhẹ, quai đệm êm. Phù hợp đi phượt. Sản phẩm tái chế rất tốt."
-    },
-    {
-      "user": "Đỗ Mạnh Huy",
-      "avatar": "Đ",
-      "rating": 5,
-      "date": "02/05/2026",
-      "comment": "Lần đầu mua đồ tái chế, chất lượng ok, giá hợp lý."
-    },
-    {
-      "user": "Trịnh Xuân Quân",
-      "avatar": "T",
-      "rating": 5,
-      "date": "05/05/2026",
-      "comment": "Bao bì tái chế thân thiện. Sản phẩm chất lượng."
-    },
-    {
-      "user": "Hà Hữu Liên",
-      "avatar": "H",
-      "rating": 4,
-      "date": "26/07/2026",
-      "comment": "Áo mặc mát, phù hợp đi làm. Màu trắng dễ phối. Bảo vệ môi trường là tốt."
-    },
-    {
-      "user": "Nguyễn Quốc Diễm",
-      "avatar": "N",
-      "rating": 5,
-      "date": "03/05/2026",
-      "comment": "Đi êm chân, đế chống trượt tốt. Size chuẩn."
-    },
-    {
-      "user": "Vũ Thế Hà",
-      "avatar": "V",
-      "rating": 4,
-      "date": "09/07/2026",
-      "comment": "Lần thứ 3 mua, chất lượng ổn định. Uy tín!"
-    },
-    {
-      "user": "Đặng Mạnh Tâm",
-      "avatar": "Đ",
-      "rating": 5,
-      "date": "13/07/2026",
-      "comment": "Giao hàng nhanh, đóng gói cẩn thận. Sản phẩm đẹp."
-    },
-    {
-      "user": "Dương Mạnh Khang",
-      "avatar": "D",
-      "rating": 4,
-      "date": "17/06/2026",
-      "comment": "Màu sắc trung thực, chất liệu dày dặn."
-    },
-    {
-      "user": "Vương Hữu Thảo",
-      "avatar": "V",
-      "rating": 5,
-      "date": "05/07/2026",
-      "comment": "Mặc đẹp, vải co giãn tốt. Lưng quần vừa vặn."
-    }
-  ],
-  "5": [
-    {
-      "user": "Đức Huy",
-      "avatar": "Đ",
-      "rating": 5,
-      "date": "30/06/2026",
-      "comment": "Áo sơ mi chất vải xịn, mặc mát. Form regular fit chuẩn. Tái chế mà tốt thế này thì quá ok."
-    },
-    {
-      "user": "Mỹ Linh",
-      "avatar": "M",
-      "rating": 4,
-      "date": "10/06/2026",
-      "comment": "Màu trắng tinh, may đẹp. Trừ 1 sao vì giao hơi trễ."
-    },
-    {
-      "user": "Trịnh Văn Quyên",
-      "avatar": "T",
-      "rating": 4,
-      "date": "27/07/2026",
-      "comment": "Vải thoáng mát, thích hợp mùa hè. Hàng thân thiện môi trường."
-    },
-    {
-      "user": "Tô Minh Tùng",
-      "avatar": "T",
-      "rating": 5,
-      "date": "16/06/2026",
-      "comment": "Chất cotton dày dặn, rất bền. Sản phẩm tái chế rất tốt."
-    },
-    {
-      "user": "Hoàng Thanh Thắng",
-      "avatar": "H",
-      "rating": 5,
-      "date": "23/05/2026",
-      "comment": "Sẽ giới thiệu bạn bè. Hàng Việt Nam chất lượng cao. Chất liệu tự nhiên tuyệt vời."
-    },
-    {
-      "user": "Huỳnh Gia Hương",
-      "avatar": "H",
-      "rating": 5,
-      "date": "27/07/2026",
-      "comment": "Mặc đẹp, vải co giãn tốt. Lưng quần vừa vặn. Sản phẩm bền vững đáng mua."
-    },
-    {
-      "user": "Hoàng Huy Sơn",
-      "avatar": "H",
-      "rating": 5,
-      "date": "01/07/2026",
-      "comment": "Mua online nhưng chất lượng không khác ngoài tiệm. Tuyệt! Sản phẩm tái chế rất tốt."
-    },
-    {
-      "user": "Ngô Gia Trung",
-      "avatar": "N",
-      "rating": 4,
-      "date": "21/05/2026",
-      "comment": "Màu sắc đẹp, đúng hình. Chất vải dày dặn."
-    },
-    {
-      "user": "Trần Huy Nguyệt",
-      "avatar": "T",
-      "rating": 2,
-      "date": "10/05/2026",
-      "comment": "Màu sắc trung thực, chất liệu dày dặn."
-    },
-    {
-      "user": "Châu Hữu Trường",
-      "avatar": "C",
-      "rating": 5,
-      "date": "21/05/2026",
-      "comment": "Ủng hộ đồ bảo vệ môi trường! Chất lượng tốt."
-    },
-    {
-      "user": "Đặng Mạnh Sơn",
-      "avatar": "Đ",
+      "user": "Emma P.",
+      "avatar": "E",
       "rating": 3,
-      "date": "12/06/2026",
-      "comment": "Shop tư vấn nhiệt tình. Hàng đúng mô tả. Cảm ơn!"
-    },
-    {
-      "user": "Võ Văn Yến",
-      "avatar": "V",
-      "rating": 5,
-      "date": "14/06/2026",
-      "comment": "Ủng hộ đồ bảo vệ môi trường! Chất lượng tốt."
-    }
-  ],
-  "6": [
-    {
-      "user": "Anh Khoa",
-      "avatar": "A",
-      "rating": 5,
-      "date": "18/06/2026",
-      "comment": "Túi xách nhỏ xinh, chất da tái chế mềm mịn. Mang đi làm hàng ngày rất tiện."
-    },
-    {
-      "user": "Phương Trinh",
-      "avatar": "P",
-      "rating": 5,
-      "date": "02/06/2026",
-      "comment": "Rất thích! Thiết kế vintage độc đáo, không đụng hàng."
-    },
-    {
-      "user": "Đoàn Bảo Linh",
-      "avatar": "Đ",
-      "rating": 3,
-      "date": "18/07/2026",
-      "comment": "Chất vải mềm mại, mặc rất thoải mái. Bảo vệ môi trường là tốt."
-    },
-    {
-      "user": "Lý Hữu Hạnh",
-      "avatar": "L",
-      "rating": 4,
-      "date": "16/07/2026",
-      "comment": "Sản phẩm tốt, giao hàng đúng hẹn. Cảm ơn shop. Chất liệu tự nhiên tuyệt vời."
-    },
-    {
-      "user": "Mai Công Quyên",
-      "avatar": "M",
-      "rating": 5,
-      "date": "05/05/2026",
-      "comment": "Ủng hộ đồ bảo vệ môi trường! Chất lượng tốt."
-    },
-    {
-      "user": "Vương Xuân Vy",
-      "avatar": "V",
-      "rating": 5,
-      "date": "23/05/2026",
-      "comment": "Vải denim bền, lên form chuẩn. Sẽ mua thêm. Bảo vệ môi trường là tốt."
-    },
-    {
-      "user": "Châu Mạnh Khang",
-      "avatar": "C",
-      "rating": 4,
-      "date": "10/06/2026",
-      "comment": "Tiết kiệm điện, đèn trang trí lung linh."
-    },
-    {
-      "user": "Cao Công Long",
-      "avatar": "C",
-      "rating": 4,
-      "date": "07/05/2026",
-      "comment": "Sản phẩm tái chế mà chất lượng quá tốt. Khuyên mọi người nên mua."
-    },
-    {
-      "user": "Đinh Đức Tuyết",
-      "avatar": "Đ",
-      "rating": 4,
-      "date": "13/06/2026",
-      "comment": "Mình rất thích chất liệu thiên nhiên, an toàn cho da."
-    },
-    {
-      "user": "Hoàng Hữu Hải",
-      "avatar": "H",
-      "rating": 5,
-      "date": "04/06/2026",
-      "comment": "Nên mua! Chất liệu thiên nhiên thoáng mát."
-    },
-    {
-      "user": "Lưu Phương Thắng",
-      "avatar": "L",
-      "rating": 2,
-      "date": "07/07/2026",
-      "comment": "Mặc đẹp, vải co giãn tốt. Lưng quần vừa vặn."
-    },
-    {
-      "user": "Ngô Ngọc Trang",
-      "avatar": "N",
-      "rating": 4,
-      "date": "15/06/2026",
-      "comment": "Shop tư vấn nhiệt tình. Hàng đúng mô tả. Cảm ơn!"
-    }
-  ],
-  "7": [
-    {
-      "user": "Xuân Mai",
-      "avatar": "X",
-      "rating": 4,
-      "date": "19/06/2026",
-      "comment": "Đầm xinh, vải thoáng mát. Hơi ngắn một chút so với mình mong đợi."
-    },
-    {
-      "user": "Kim Ngân",
-      "avatar": "K",
-      "rating": 5,
-      "date": "08/06/2026",
-      "comment": "Màu vàng pastel siêu dễ thương. Mặc đi biển chụp ảnh rất đẹp!"
-    },
-    {
-      "user": "Lưu Văn Khang",
-      "avatar": "L",
-      "rating": 5,
-      "date": "01/06/2026",
-      "comment": "Quần mặc đẹp, ống hơi dài nhưng nói chung ưng. Sản phẩm bền vững đáng mua."
-    },
-    {
-      "user": "Cao Gia Hiền",
-      "avatar": "C",
-      "rating": 1,
-      "date": "09/05/2026",
-      "comment": "Chất cotton dày dặn, rất bền. Sản phẩm tái chế rất tốt."
-    },
-    {
-      "user": "Hoàng Thị Lan",
-      "avatar": "H",
-      "rating": 3,
-      "date": "14/05/2026",
-      "comment": "Sản phẩm hữu cơ rất tốt cho da. Mùi hương tự nhiên."
-    },
-    {
-      "user": "Lê Hoàng Hà",
-      "avatar": "L",
-      "rating": 4,
-      "date": "16/07/2026",
-      "comment": "Đồ tái chế chất lượng không thua hàng mới."
-    },
-    {
-      "user": "Tạ Bảo Hoa",
-      "avatar": "T",
-      "rating": 1,
-      "date": "10/06/2026",
-      "comment": "Quần mặc đẹp, ống hơi dài nhưng nói chung ưng. Sản phẩm bền vững đáng mua."
-    },
-    {
-      "user": "Lê Nhật Yến",
-      "avatar": "L",
-      "rating": 5,
-      "date": "06/06/2026",
-      "comment": "Xinh xắn, chất da mềm. Đựng vừa đồ đi làm."
-    },
-    {
-      "user": "Vương Nhật Phúc",
-      "avatar": "V",
-      "rating": 4,
-      "date": "15/05/2026",
-      "comment": "Shop tư vấn nhiệt tình. Hàng đúng mô tả. Cảm ơn!"
-    },
-    {
-      "user": "Lưu Huy Minh",
-      "avatar": "L",
-      "rating": 4,
-      "date": "27/07/2026",
-      "comment": "Hàng bền vững, thân thiện môi trường. Rất hài lòng."
-    },
-    {
-      "user": "Hồ Đức Vy",
-      "avatar": "H",
-      "rating": 4,
-      "date": "18/05/2026",
-      "comment": "Đồ handmade tỉ mỉ. Trân trọng công sức người làm."
-    },
-    {
-      "user": "Trần Thị Lan",
-      "avatar": "T",
-      "rating": 4,
-      "date": "18/05/2026",
-      "comment": "Mặc đẹp, vải co giãn tốt. Lưng quần vừa vặn."
-    }
-  ],
-  "8": [
-    {
-      "user": "Văn Trường",
-      "avatar": "V",
-      "rating": 4,
-      "date": "27/06/2026",
-      "comment": "Áo thun chất cotton dày dặn hơn tưởng tượng. In đẹp, màu sắc trung thực."
-    },
-    {
-      "user": "Bích Trâm",
-      "avatar": "B",
-      "rating": 5,
-      "date": "14/06/2026",
-      "comment": "Ủng hộ đồ tái chế từ vải thừa! Chất áo tốt, giá hợp lý. Sẽ mua thêm."
-    },
-    {
-      "user": "Lâm Xuân Vy",
-      "avatar": "L",
-      "rating": 5,
-      "date": "07/05/2026",
-      "comment": "Mặc lên người thoải mái và tự tin. Chất xanh tuyệt vời."
-    },
-    {
-      "user": "Đoàn Thị Sơn",
-      "avatar": "Đ",
-      "rating": 5,
-      "date": "01/05/2026",
-      "comment": "Sản phẩm chất lượng tốt, đúng như mô tả. Giao hàng nhanh. Sản phẩm bền vững đáng mua."
-    },
-    {
-      "user": "Huỳnh Quốc My",
-      "avatar": "H",
-      "rating": 4,
-      "date": "28/05/2026",
-      "comment": "Tiết kiệm điện, đèn trang trí lung linh."
-    },
-    {
-      "user": "Huỳnh Thị Hoa",
-      "avatar": "H",
-      "rating": 4,
-      "date": "25/06/2026",
-      "comment": "Đi êm chân, đế chống trượt tốt. Size chuẩn. Sản phẩm bền vững đáng mua."
-    },
-    {
-      "user": "Tạ Thế Sơn",
-      "avatar": "T",
-      "rating": 3,
-      "date": "22/05/2026",
-      "comment": "Giao hàng nhanh, đóng gói cẩn thận. Sản phẩm đẹp. Chất liệu tự nhiên tuyệt vời."
-    },
-    {
-      "user": "Cao Công Dũng",
-      "avatar": "C",
-      "rating": 4,
-      "date": "26/07/2026",
-      "comment": "Lần đầu mua đồ tái chế, chất lượng ok, giá hợp lý."
-    },
-    {
-      "user": "Vương Thế Diễm",
-      "avatar": "V",
-      "rating": 5,
-      "date": "06/05/2026",
-      "comment": "Sẽ giới thiệu bạn bè. Hàng Việt Nam chất lượng cao."
-    },
-    {
-      "user": "Hoàng Đức Vy",
-      "avatar": "H",
-      "rating": 4,
-      "date": "21/06/2026",
-      "comment": "Lần thứ 3 mua, chất lượng ổn định. Uy tín!"
-    },
-    {
-      "user": "Lý Thế Khoa",
-      "avatar": "L",
-      "rating": 5,
-      "date": "09/07/2026",
-      "comment": "Len dệt tay ấm áp, màu sắc tự nhiên."
-    },
-    {
-      "user": "Lâm Gia Quỳnh",
-      "avatar": "L",
-      "rating": 4,
-      "date": "21/06/2026",
-      "comment": "Đẹp hơn cả hình chụp. Rất ưng ý."
-    }
-  ],
-  "9": [
-    {
-      "user": "Gia Bảo",
-      "avatar": "G",
-      "rating": 5,
-      "date": "24/06/2026",
-      "comment": "Ghế đi xe đạp êm hơn hẳn ghế cũ. Lắp ráp đơn giản. Hàng tái chế tốt."
-    },
-    {
-      "user": "Nhật Lệ",
-      "avatar": "N",
-      "rating": 4,
-      "date": "07/06/2026",
-      "comment": "Chất lượng tốt nhưng hơi cồng kềnh khi mang vác."
-    },
-    {
-      "user": "Bùi Hoàng Anh",
-      "avatar": "B",
-      "rating": 5,
-      "date": "18/06/2026",
-      "comment": "Sản phẩm hữu cơ rất tốt cho da. Mùi hương tự nhiên."
-    },
-    {
-      "user": "Mai Công Thủy",
-      "avatar": "M",
-      "rating": 4,
-      "date": "22/07/2026",
-      "comment": "Đẹp và đáng tiền. Chất liệu tái chế làm mình bất ngờ."
-    },
-    {
-      "user": "Đặng Công Bích",
-      "avatar": "Đ",
-      "rating": 5,
-      "date": "01/07/2026",
-      "comment": "Đồ dùng bền, tiết kiệm chi phí mua sắm. Chất lượng ổn."
-    },
-    {
-      "user": "Trần Xuân Nhi",
-      "avatar": "T",
-      "rating": 4,
-      "date": "01/05/2026",
-      "comment": "Màu sắc tươi sáng, đường may đẹp. Rất hài lòng. Sản phẩm bền vững đáng mua."
-    },
-    {
-      "user": "Lưu Kim Ngân",
-      "avatar": "L",
-      "rating": 5,
-      "date": "10/05/2026",
-      "comment": "Bao bì tái chế thân thiện. Sản phẩm chất lượng."
-    },
-    {
-      "user": "Đỗ Quốc Thu",
-      "avatar": "Đ",
-      "rating": 3,
-      "date": "10/07/2026",
-      "comment": "Sản phẩm tái chế mà chất lượng quá tốt. Khuyên mọi người nên mua."
-    },
-    {
-      "user": "Đoàn Thế Khoa",
-      "avatar": "Đ",
-      "rating": 3,
-      "date": "20/05/2026",
-      "comment": "Form chuẩn, chất vải xịn."
-    },
-    {
-      "user": "Trần Bảo Mai",
-      "avatar": "T",
-      "rating": 5,
-      "date": "07/06/2026",
-      "comment": "Màu sắc trung thực, chất liệu dày dặn."
-    },
-    {
-      "user": "Lâm Xuân Phúc",
-      "avatar": "L",
-      "rating": 5,
-      "date": "07/07/2026",
-      "comment": "Đồ tái chế chất lượng không thua hàng mới."
-    },
-    {
-      "user": "Nguyễn Ngọc Loan",
-      "avatar": "N",
-      "rating": 3,
-      "date": "15/05/2026",
-      "comment": "Phù hợp với nhu cầu sử dụng hàng ngày. Sẽ ủng hộ dài lâu."
-    }
-  ],
-  "10": [
-    {
-      "user": "Tuấn Kiệt",
-      "avatar": "T",
-      "rating": 5,
-      "date": "21/06/2026",
-      "comment": "Tranh đẹp, khung gỗ chắc chắn. Hàng handmade tái chế có tâm."
-    },
-    {
-      "user": "Phan Kim Long",
-      "avatar": "P",
-      "rating": 4,
-      "date": "01/06/2026",
-      "comment": "Sẽ giới thiệu bạn bè. Hàng Việt Nam chất lượng cao. Bảo vệ môi trường là tốt."
-    },
-    {
-      "user": "Huỳnh Thanh Sen",
-      "avatar": "H",
-      "rating": 5,
-      "date": "12/06/2026",
-      "comment": "Bao bì tái chế thân thiện. Sản phẩm chất lượng."
-    },
-    {
-      "user": "Lý Quốc Bình",
-      "avatar": "L",
-      "rating": 4,
-      "date": "16/05/2026",
-      "comment": "Đồ dùng bền, tiết kiệm chi phí mua sắm. Chất lượng ổn."
-    },
-    {
-      "user": "Châu Gia Long",
-      "avatar": "C",
-      "rating": 4,
-      "date": "08/06/2026",
-      "comment": "Nên mua! Chất liệu thiên nhiên thoáng mát."
-    },
-    {
-      "user": "Tạ Huy Tuấn",
-      "avatar": "T",
-      "rating": 4,
-      "date": "11/05/2026",
-      "comment": "Đẹp hơn cả hình chụp. Rất ưng ý. Hàng thân thiện môi trường."
-    },
-    {
-      "user": "Đoàn Nhật Hà",
-      "avatar": "Đ",
-      "rating": 4,
-      "date": "24/07/2026",
-      "comment": "Đồ tái chế chất lượng không thua hàng mới."
-    },
-    {
-      "user": "Đinh Minh Chi",
-      "avatar": "Đ",
-      "rating": 1,
-      "date": "16/07/2026",
-      "comment": "Form chuẩn, chất vải xịn."
-    },
-    {
-      "user": "Tạ Thị Lan",
-      "avatar": "T",
-      "rating": 5,
-      "date": "19/05/2026",
-      "comment": "Phù hợp với nhu cầu sử dụng hàng ngày. Sẽ ủng hộ dài lâu."
-    },
-    {
-      "user": "Hồ Công Hương",
-      "avatar": "H",
-      "rating": 4,
-      "date": "08/05/2026",
-      "comment": "Màu sắc tươi sáng, đường may đẹp. Rất hài lòng."
-    },
-    {
-      "user": "Võ Gia Thắng",
-      "avatar": "V",
-      "rating": 5,
-      "date": "26/06/2026",
-      "comment": "Thiết kế tối giản mà tinh tế. Chất organic mềm mịn."
-    }
-  ],
-  "11": [
-    {
-      "user": "Hồng Đào",
-      "avatar": "H",
-      "rating": 5,
-      "date": "29/06/2026",
-      "comment": "Ví nhỏ gọn, da mềm. Nhiều ngăn đựng thẻ. Hàng tái chế mà đẹp không kém hàng mới."
-    },
-    {
-      "user": "Dương Hoàng Thủy",
-      "avatar": "D",
-      "rating": 5,
-      "date": "11/07/2026",
-      "comment": "Sản phẩm hữu cơ rất tốt cho da. Mùi hương tự nhiên."
-    },
-    {
-      "user": "Trịnh Nhật Yến",
-      "avatar": "T",
-      "rating": 5,
-      "date": "19/07/2026",
-      "comment": "Len dệt tay ấm áp, màu sắc tự nhiên. Bảo vệ môi trường là tốt."
-    },
-    {
-      "user": "Tô Mạnh Hà",
-      "avatar": "T",
-      "rating": 3,
-      "date": "24/06/2026",
-      "comment": "Quần mặc đẹp, ống hơi dài nhưng nói chung ưng. Bảo vệ môi trường là tốt."
-    },
-    {
-      "user": "Hà Hoàng Liên",
-      "avatar": "H",
-      "rating": 3,
-      "date": "02/07/2026",
-      "comment": "Mua online nhưng chất lượng không khác ngoài tiệm. Tuyệt! Bảo vệ môi trường là tốt."
-    },
-    {
-      "user": "Hồ Hoàng Hạnh",
-      "avatar": "H",
-      "rating": 3,
-      "date": "18/05/2026",
-      "comment": "Lần thứ 3 mua, chất lượng ổn định. Uy tín! Ủng hộ đồ xanh!"
-    },
-    {
-      "user": "Phạm Kim Ánh",
-      "avatar": "P",
-      "rating": 4,
-      "date": "02/05/2026",
-      "comment": "Nên mua! Chất liệu thiên nhiên thoáng mát."
-    },
-    {
-      "user": "Vương Văn Loan",
-      "avatar": "V",
-      "rating": 4,
-      "date": "08/07/2026",
-      "comment": "Sẽ giới thiệu bạn bè. Hàng Việt Nam chất lượng cao."
-    },
-    {
-      "user": "Tô Bảo Phúc",
-      "avatar": "T",
-      "rating": 4,
-      "date": "27/05/2026",
-      "comment": "Nên mua! Chất liệu thiên nhiên thoáng mát."
-    },
-    {
-      "user": "Hoàng Thế Trường",
-      "avatar": "H",
-      "rating": 4,
-      "date": "15/05/2026",
-      "comment": "Mua online nhưng chất lượng không khác ngoài tiệm. Tuyệt!"
-    },
-    {
-      "user": "Vũ Thanh Quân",
-      "avatar": "V",
-      "rating": 5,
-      "date": "24/05/2026",
-      "comment": "Ủng hộ đồ bảo vệ môi trường! Chất lượng tốt."
-    }
-  ],
-  "12": [
-    {
-      "user": "Phi Long",
-      "avatar": "P",
-      "rating": 4,
-      "date": "26/06/2026",
-      "comment": "Bộ ấm chén đẹp, men gốm mịn. Dùng làm quà tặng ý nghĩa."
-    },
-    {
-      "user": "Đoàn Huy Dung",
-      "avatar": "Đ",
-      "rating": 5,
-      "date": "18/06/2026",
-      "comment": "Chất cotton dày dặn, rất bền. Ủng hộ đồ xanh!"
-    },
-    {
-      "user": "Mai Bảo Linh",
-      "avatar": "M",
-      "rating": 4,
-      "date": "01/05/2026",
-      "comment": "Đeo nhẹ, quai đệm êm. Phù hợp đi phượt. Sản phẩm tái chế rất tốt."
-    },
-    {
-      "user": "Lưu Quốc Hải",
-      "avatar": "L",
-      "rating": 5,
-      "date": "02/07/2026",
-      "comment": "Lần thứ 3 mua, chất lượng ổn định. Uy tín! Sản phẩm tái chế rất tốt."
-    },
-    {
-      "user": "Phạm Nhật Phong",
-      "avatar": "P",
-      "rating": 3,
-      "date": "01/05/2026",
-      "comment": "Đi êm chân, đế chống trượt tốt. Size chuẩn. Hàng thân thiện môi trường."
-    },
-    {
-      "user": "Cao Thanh Thủy",
-      "avatar": "C",
-      "rating": 5,
-      "date": "27/06/2026",
-      "comment": "Lần đầu mua đồ tái chế, chất lượng ok, giá hợp lý."
-    },
-    {
-      "user": "Trịnh Huy Trinh",
-      "avatar": "T",
-      "rating": 3,
-      "date": "21/05/2026",
-      "comment": "Màu sắc đẹp, đúng hình. Chất vải dày dặn."
-    },
-    {
-      "user": "Lý Mạnh Bích",
-      "avatar": "L",
-      "rating": 3,
-      "date": "05/05/2026",
-      "comment": "Áo mặc mát, phù hợp đi làm. Màu trắng dễ phối."
-    },
-    {
-      "user": "Cao Công Phúc",
-      "avatar": "C",
-      "rating": 2,
-      "date": "16/05/2026",
-      "comment": "Nhẹ, gấp gọn, tiện lợi mang đi du lịch."
-    },
-    {
-      "user": "Đoàn Công Thắng",
-      "avatar": "Đ",
-      "rating": 3,
-      "date": "05/05/2026",
-      "comment": "Đầm xinh, vải thoáng mát. Mặc đi chơi rất đẹp."
-    },
-    {
-      "user": "Lâm Hoàng Liên",
-      "avatar": "L",
-      "rating": 5,
       "date": "04/07/2026",
-      "comment": "Màu sắc tươi sáng, đường may đẹp. Rất hài lòng."
-    }
-  ],
-  "13": [
-    {
-      "user": "Cẩm Tú",
-      "avatar": "C",
-      "rating": 5,
-      "date": "23/06/2026",
-      "comment": "Chăn ga mềm mại, thoáng mát. Hoàn toàn tự nhiên nên rất an tâm cho làn da."
+      "comment": "It's okay, but the color looks slightly different from the pictures."
     },
     {
-      "user": "Tô Kim Khang",
-      "avatar": "T",
-      "rating": 5,
-      "date": "17/06/2026",
-      "comment": "Thiết kế tối giản mà tinh tế. Chất organic mềm mịn."
-    },
-    {
-      "user": "Lương Xuân Nguyệt",
-      "avatar": "L",
-      "rating": 5,
-      "date": "10/05/2026",
-      "comment": "Rất thích chất liệu tái chế vừa đẹp vừa bảo vệ môi trường."
-    },
-    {
-      "user": "Hồ Bảo Hoa",
-      "avatar": "H",
-      "rating": 3,
-      "date": "26/05/2026",
-      "comment": "Chất vải mềm mại, mặc rất thoải mái. Chất liệu tự nhiên tuyệt vời."
-    },
-    {
-      "user": "Ngô Mạnh Phong",
-      "avatar": "N",
-      "rating": 4,
-      "date": "14/06/2026",
-      "comment": "Bao bì đẹp, thiết kế sang trọng. Quà tặng ý nghĩa. Sản phẩm bền vững đáng mua."
-    },
-    {
-      "user": "Châu Hữu Nguyệt",
-      "avatar": "C",
-      "rating": 4,
-      "date": "28/05/2026",
-      "comment": "Xinh xắn, chất da mềm. Đựng vừa đồ đi làm. Sản phẩm bền vững đáng mua."
-    },
-    {
-      "user": "Lâm Công Diễm",
-      "avatar": "L",
-      "rating": 1,
-      "date": "26/05/2026",
-      "comment": "Shop tư vấn nhiệt tình. Hàng đúng mô tả. Cảm ơn!"
-    },
-    {
-      "user": "Nguyễn Công Hải",
-      "avatar": "N",
-      "rating": 5,
-      "date": "27/05/2026",
-      "comment": "Rất thích chất liệu tái chế vừa đẹp vừa bảo vệ môi trường."
-    },
-    {
-      "user": "Lê Huy Sen",
-      "avatar": "L",
-      "rating": 5,
-      "date": "14/07/2026",
-      "comment": "Sẽ giới thiệu bạn bè. Hàng Việt Nam chất lượng cao."
-    },
-    {
-      "user": "Cao Xuân My",
-      "avatar": "C",
-      "rating": 4,
-      "date": "25/06/2026",
-      "comment": "Hàng bền vững, thân thiện môi trường. Rất hài lòng."
-    },
-    {
-      "user": "Huỳnh Thị Liên",
-      "avatar": "H",
-      "rating": 2,
-      "date": "11/05/2026",
-      "comment": "Nên mua! Chất liệu thiên nhiên thoáng mát."
-    }
-  ],
-  "14": [
-    {
-      "user": "Duy Anh",
+      "user": "David W.",
       "avatar": "D",
-      "rating": 5,
-      "date": "17/06/2026",
-      "comment": "Đèn trang trí đẹp lung linh. Tiết kiệm điện. Làm tư vị trí góc học tập thêm ấm cúng."
-    },
-    {
-      "user": "Tạ Kim Trung",
-      "avatar": "T",
-      "rating": 5,
-      "date": "19/05/2026",
-      "comment": "Chất vải mềm mại, mặc rất thoải mái. Ủng hộ đồ xanh!"
-    },
-    {
-      "user": "Huỳnh Thế Nhung",
-      "avatar": "H",
-      "rating": 5,
-      "date": "02/06/2026",
-      "comment": "Hàng tốt, hơi đắt nhưng xứng đáng vì chất lượng. Sản phẩm bền vững đáng mua."
-    },
-    {
-      "user": "Hà Gia Liên",
-      "avatar": "H",
-      "rating": 4,
-      "date": "26/07/2026",
-      "comment": "Form chuẩn, chất vải xịn. Sản phẩm tái chế rất tốt."
-    },
-    {
-      "user": "Hoàng Xuân Thủy",
-      "avatar": "H",
-      "rating": 5,
-      "date": "26/07/2026",
-      "comment": "Màu sắc trung thực, chất liệu dày dặn. Bảo vệ môi trường là tốt."
-    },
-    {
-      "user": "Đỗ Hoàng Loan",
-      "avatar": "Đ",
-      "rating": 4,
-      "date": "15/07/2026",
-      "comment": "Đi êm chân, đế chống trượt tốt. Size chuẩn. Sản phẩm bền vững đáng mua."
-    },
-    {
-      "user": "Hoàng Minh Tuyết",
-      "avatar": "H",
-      "rating": 4,
-      "date": "04/05/2026",
-      "comment": "Mặc lên người thoải mái và tự tin. Chất xanh tuyệt vời."
-    },
-    {
-      "user": "Mai Thanh Dũng",
-      "avatar": "M",
-      "rating": 4,
-      "date": "18/07/2026",
-      "comment": "Mình rất thích chất liệu thiên nhiên, an toàn cho da."
-    },
-    {
-      "user": "Quách Phương Hằng",
-      "avatar": "Q",
-      "rating": 4,
-      "date": "09/07/2026",
-      "comment": "Màu pastel dễ thương, mặc đi biển đẹp."
-    },
-    {
-      "user": "Vũ Kim Quyên",
-      "avatar": "V",
-      "rating": 5,
-      "date": "25/07/2026",
-      "comment": "Hàng đẹp, đóng gói chuyên nghiệp. Sẽ quay lại."
-    },
-    {
-      "user": "Mai Xuân Anh",
-      "avatar": "M",
-      "rating": 4,
-      "date": "20/05/2026",
-      "comment": "Shop tư vấn nhiệt tình. Hàng đúng mô tả. Cảm ơn!"
-    }
-  ],
-  "15": [
-    {
-      "user": "Phương Nhung",
-      "avatar": "P",
-      "rating": 4,
-      "date": "11/06/2026",
-      "comment": "Khăn choàng chất len dệt tay ấm áp. Màu sắc tự nhiên. Giá hơi cao."
-    },
-    {
-      "user": "Hà Hoàng Diễm",
-      "avatar": "H",
-      "rating": 5,
-      "date": "06/07/2026",
-      "comment": "Mặc lên người thoải mái và tự tin. Chất xanh tuyệt vời."
-    },
-    {
-      "user": "Nguyễn Huy Hiền",
-      "avatar": "N",
-      "rating": 4,
-      "date": "19/06/2026",
-      "comment": "Bao bì đẹp, thiết kế sang trọng. Quà tặng ý nghĩa. Ủng hộ đồ xanh!"
-    },
-    {
-      "user": "Huỳnh Nhật Sơn",
-      "avatar": "H",
-      "rating": 5,
-      "date": "25/06/2026",
-      "comment": "Sản phẩm chất lượng tốt, đúng như mô tả. Giao hàng nhanh. Sản phẩm bền vững đáng mua."
-    },
-    {
-      "user": "Đỗ Gia Sơn",
-      "avatar": "Đ",
-      "rating": 4,
-      "date": "25/07/2026",
-      "comment": "Mặc đẹp, vải co giãn tốt. Lưng quần vừa vặn. Bảo vệ môi trường là tốt."
-    },
-    {
-      "user": "Dương Mạnh Quỳnh",
-      "avatar": "D",
-      "rating": 4,
-      "date": "16/07/2026",
-      "comment": "Túi nhiều ngăn tiện lợi. Chất vải tái chế tốt."
-    },
-    {
-      "user": "Lâm Hữu Quyên",
-      "avatar": "L",
       "rating": 3,
-      "date": "16/06/2026",
-      "comment": "Chất cotton dày dặn, rất bền."
-    },
-    {
-      "user": "Vũ Hoàng Mai",
-      "avatar": "V",
-      "rating": 5,
-      "date": "19/06/2026",
-      "comment": "Mặc lên người thoải mái và tự tin. Chất xanh tuyệt vời."
-    },
-    {
-      "user": "Cao Quốc Tuấn",
-      "avatar": "C",
-      "rating": 5,
-      "date": "18/07/2026",
-      "comment": "Đẹp và đáng tiền. Chất liệu tái chế làm mình bất ngờ."
-    },
-    {
-      "user": "Châu Công Ánh",
-      "avatar": "C",
-      "rating": 5,
-      "date": "23/05/2026",
-      "comment": "Sẽ giới thiệu bạn bè. Hàng Việt Nam chất lượng cao."
-    },
-    {
-      "user": "Lý Quốc Trung",
-      "avatar": "L",
-      "rating": 4,
       "date": "05/07/2026",
-      "comment": "Đi êm chân, đế chống trượt tốt. Size chuẩn."
-    }
-  ],
-  "16": [
-    {
-      "user": "Trọng Nhân",
-      "avatar": "T",
-      "rating": 5,
-      "date": "06/06/2026",
-      "comment": "Set đồ jean tái chế cực chất! Quần áo lên form chuẩn, vải denim bền."
+      "comment": "Normal fabric, runs a bit large compared to the size chart."
     },
     {
-      "user": "Hà Hữu Bình",
-      "avatar": "H",
-      "rating": 3,
-      "date": "19/07/2026",
-      "comment": "Sản phẩm tốt, giao hàng đúng hẹn. Cảm ơn shop. Hàng thân thiện môi trường."
-    },
-    {
-      "user": "Lý Huy Bình",
-      "avatar": "L",
-      "rating": 4,
-      "date": "22/07/2026",
-      "comment": "Bền, đẹp, giá hợp lý. Sản phẩm từ thiên nhiên an toàn."
-    },
-    {
-      "user": "Quách Ngọc Hằng",
-      "avatar": "Q",
-      "rating": 5,
-      "date": "26/07/2026",
-      "comment": "Mua tặng bạn, bạn khen nhiều. Chất tự nhiên yên tâm. Ủng hộ đồ xanh!"
-    },
-    {
-      "user": "Ngô Xuân Hà",
-      "avatar": "N",
-      "rating": 5,
-      "date": "24/07/2026",
-      "comment": "Form chuẩn, chất vải xịn. Ủng hộ đồ xanh!"
-    },
-    {
-      "user": "Dương Đức Diễm",
-      "avatar": "D",
-      "rating": 5,
-      "date": "01/07/2026",
-      "comment": "Áo mặc mát, phù hợp đi làm. Màu trắng dễ phối. Bảo vệ môi trường là tốt."
-    },
-    {
-      "user": "Phan Đức Bình",
-      "avatar": "P",
-      "rating": 4,
-      "date": "13/07/2026",
-      "comment": "Len dệt tay ấm áp, màu sắc tự nhiên."
-    },
-    {
-      "user": "Hoàng Xuân Hiền",
-      "avatar": "H",
-      "rating": 5,
-      "date": "14/07/2026",
-      "comment": "Đẹp và đáng tiền. Chất liệu tái chế làm mình bất ngờ."
-    },
-    {
-      "user": "Đặng Văn Ngân",
-      "avatar": "Đ",
-      "rating": 5,
-      "date": "23/07/2026",
-      "comment": "Đầm xinh, vải thoáng mát. Mặc đi chơi rất đẹp."
-    },
-    {
-      "user": "Ngô Công Bình",
-      "avatar": "N",
-      "rating": 1,
-      "date": "09/07/2026",
-      "comment": "Đẹp hơn cả hình chụp. Rất ưng ý."
-    },
-    {
-      "user": "Tạ Kim Diễm",
-      "avatar": "T",
-      "rating": 5,
-      "date": "20/07/2026",
-      "comment": "Áo khoác siêu nhẹ, giữ ấm tốt. Phù hợp du lịch."
-    }
-  ],
-  "17": [
-    {
-      "user": "Ánh Tuyết",
-      "avatar": "A",
-      "rating": 5,
-      "date": "03/06/2026",
-      "comment": "Son dưỡng tự nhiên dưỡng môi mềm mịn. Mùi hương dễ chịu. Bao bì tái chế rất đẹp."
-    },
-    {
-      "user": "Lý Kim Tuyết",
-      "avatar": "L",
-      "rating": 5,
-      "date": "24/05/2026",
-      "comment": "Áo mặc mát, phù hợp đi làm. Màu trắng dễ phối. Ủng hộ đồ xanh!"
-    },
-    {
-      "user": "Hà Huy Sen",
-      "avatar": "H",
-      "rating": 5,
-      "date": "12/06/2026",
-      "comment": "Quần mặc đẹp, ống hơi dài nhưng nói chung ưng. Hàng thân thiện môi trường."
-    },
-    {
-      "user": "Cao Minh Phong",
-      "avatar": "C",
-      "rating": 4,
-      "date": "08/07/2026",
-      "comment": "Xinh xắn, chất da mềm. Đựng vừa đồ đi làm. Hàng thân thiện môi trường."
-    },
-    {
-      "user": "Vũ Minh Thắng",
-      "avatar": "V",
-      "rating": 5,
-      "date": "02/07/2026",
-      "comment": "Chất cotton dày dặn, rất bền. Sản phẩm bền vững đáng mua."
-    },
-    {
-      "user": "Nguyễn Bảo Thu",
-      "avatar": "N",
+      "user": "Jessica F.",
+      "avatar": "J",
       "rating": 2,
-      "date": "16/07/2026",
-      "comment": "Hàng may cẩn thận, đường chỉ đều. Form vừa vặn. Hàng thân thiện môi trường."
-    },
-    {
-      "user": "Hoàng Thế Bích",
-      "avatar": "H",
-      "rating": 3,
-      "date": "18/07/2026",
-      "comment": "Mình rất thích chất liệu thiên nhiên, an toàn cho da."
-    },
-    {
-      "user": "Đặng Thị Thắng",
-      "avatar": "Đ",
-      "rating": 5,
-      "date": "14/06/2026",
-      "comment": "Sản phẩm hữu cơ rất tốt cho da. Mùi hương tự nhiên."
-    },
-    {
-      "user": "Lý Nhật Long",
-      "avatar": "L",
-      "rating": 4,
-      "date": "03/07/2026",
-      "comment": "Ủng hộ đồ bảo vệ môi trường! Chất lượng tốt."
-    },
-    {
-      "user": "Vũ Đức Ánh",
-      "avatar": "V",
-      "rating": 2,
-      "date": "08/05/2026",
-      "comment": "Màu sắc đẹp, đúng hình. Chất vải dày dặn."
-    },
-    {
-      "user": "Phan Huy Long",
-      "avatar": "P",
-      "rating": 5,
       "date": "06/07/2026",
-      "comment": "Túi nhiều ngăn tiện lợi. Chất vải tái chế tốt."
+      "comment": "Slightly disappointed, the shirt is tight around the shoulders and feels hot."
+    },
+    {
+      "user": "Robert G.",
+      "avatar": "R",
+      "rating": 1,
+      "date": "07/07/2026",
+      "comment": "Terrible quality, the fabric is wrinkled and poorly stitched."
+    },
+    {
+      "user": "Olivia N.",
+      "avatar": "O",
+      "rating": 5,
+      "date": "08/07/2026",
+      "comment": "Excellent! Very breathable and eco-friendly."
+    }
+  ],
+  "id_00000001-02": [
+    {
+      "user": "Vũ Xuân Dung",
+      "avatar": "V",
+      "rating": 3,
+      "date": "28/4/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Hoàng Thu Tuấn",
+      "avatar": "H",
+      "rating": 5,
+      "date": "23/3/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Đặng Thanh Tuấn",
+      "avatar": "Đ",
+      "rating": 3,
+      "date": "5/5/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 3,
+      "date": "2/6/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Trần Văn Mai",
+      "avatar": "T",
+      "rating": 4,
+      "date": "5/7/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Võ Văn Long",
+      "avatar": "V",
+      "rating": 5,
+      "date": "7/5/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    }
+  ],
+  "id_00000084-05": [
+    {
+      "user": "Lê Xuân Mai",
+      "avatar": "L",
+      "rating": 4,
+      "date": "11/6/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Vũ Văn Mai",
+      "avatar": "V",
+      "rating": 5,
+      "date": "27/3/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 5,
+      "date": "14/6/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Võ Văn Long",
+      "avatar": "V",
+      "rating": 4,
+      "date": "31/3/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 3,
+      "date": "22/6/2026",
+      "comment": "True colors, thick material."
+    }
+  ],
+  "id_00000004-03": [
+    {
+      "user": "Phan Minh Tuấn",
+      "avatar": "P",
+      "rating": 4,
+      "date": "6/6/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Phan Minh Tuấn",
+      "avatar": "P",
+      "rating": 3,
+      "date": "7/7/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Phạm Thị Mai",
+      "avatar": "P",
+      "rating": 5,
+      "date": "30/3/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Phạm Thị Mai",
+      "avatar": "P",
+      "rating": 5,
+      "date": "7/5/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Nguyễn Thị Long",
+      "avatar": "N",
+      "rating": 3,
+      "date": "22/4/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    }
+  ],
+  "id_00000084-07": [
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 3,
+      "date": "23/4/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Nguyễn Minh Tuấn",
+      "avatar": "N",
+      "rating": 4,
+      "date": "19/3/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Võ Văn Long",
+      "avatar": "V",
+      "rating": 4,
+      "date": "1/5/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    }
+  ],
+  "id_00000004-05": [
+    {
+      "user": "Lê Xuân Mai",
+      "avatar": "L",
+      "rating": 4,
+      "date": "15/6/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Trần Văn Mai",
+      "avatar": "T",
+      "rating": 4,
+      "date": "28/5/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Võ Văn Long",
+      "avatar": "V",
+      "rating": 5,
+      "date": "22/6/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 5,
+      "date": "14/6/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 5,
+      "date": "30/3/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 3,
+      "date": "19/6/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    }
+  ],
+  "id_00000084-08": [
+    {
+      "user": "Phạm Thu Dung",
+      "avatar": "P",
+      "rating": 3,
+      "date": "25/5/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Vũ Xuân Cường",
+      "avatar": "V",
+      "rating": 5,
+      "date": "20/5/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Nguyễn Minh Tuấn",
+      "avatar": "N",
+      "rating": 4,
+      "date": "5/4/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    }
+  ],
+  "id_00000005-02": [
+    {
+      "user": "Phan Minh Tuấn",
+      "avatar": "P",
+      "rating": 5,
+      "date": "15/6/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Hoàng Thu Tuấn",
+      "avatar": "H",
+      "rating": 4,
+      "date": "2/5/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 3,
+      "date": "10/5/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    }
+  ],
+  "id_00000094-01": [
+    {
+      "user": "Nguyễn Minh Tuấn",
+      "avatar": "N",
+      "rating": 5,
+      "date": "12/5/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Nguyễn Thị Long",
+      "avatar": "N",
+      "rating": 4,
+      "date": "7/6/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Phan Minh Tuấn",
+      "avatar": "P",
+      "rating": 4,
+      "date": "21/3/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    }
+  ],
+  "id_00000015-02": [
+    {
+      "user": "Võ Văn Long",
+      "avatar": "V",
+      "rating": 3,
+      "date": "22/6/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 5,
+      "date": "10/4/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    }
+  ],
+  "id_00000094-02": [
+    {
+      "user": "Võ Văn Long",
+      "avatar": "V",
+      "rating": 5,
+      "date": "19/6/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 4,
+      "date": "5/4/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 5,
+      "date": "17/4/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Võ Văn Long",
+      "avatar": "V",
+      "rating": 3,
+      "date": "23/4/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    }
+  ],
+  "id_00000024-04": [
+    {
+      "user": "Đặng Thanh Tuấn",
+      "avatar": "Đ",
+      "rating": 4,
+      "date": "20/3/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Võ Văn Long",
+      "avatar": "V",
+      "rating": 5,
+      "date": "2/6/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Hoàng Thị Bình",
+      "avatar": "H",
+      "rating": 5,
+      "date": "26/6/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 4,
+      "date": "9/5/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Trần Ngọc An",
+      "avatar": "T",
+      "rating": 3,
+      "date": "15/5/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    }
+  ],
+  "id_00000094-04": [
+    {
+      "user": "Đặng Thanh Tuấn",
+      "avatar": "Đ",
+      "rating": 5,
+      "date": "1/5/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Nguyễn Thị Long",
+      "avatar": "N",
+      "rating": 5,
+      "date": "4/6/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Trần Văn Mai",
+      "avatar": "T",
+      "rating": 3,
+      "date": "8/6/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Nguyễn Thị Đức",
+      "avatar": "N",
+      "rating": 5,
+      "date": "5/6/2026",
+      "comment": "True colors, thick material."
+    }
+  ],
+  "id_00000025-05": [
+    {
+      "user": "Võ Văn Long",
+      "avatar": "V",
+      "rating": 4,
+      "date": "16/3/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Lê Xuân Mai",
+      "avatar": "L",
+      "rating": 4,
+      "date": "26/4/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    }
+  ],
+  "id_00000168-01": [
+    {
+      "user": "Trần Ngọc An",
+      "avatar": "T",
+      "rating": 5,
+      "date": "16/5/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 5,
+      "date": "24/4/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Phan Minh Tuấn",
+      "avatar": "P",
+      "rating": 5,
+      "date": "12/6/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    }
+  ],
+  "id_00000028-01": [
+    {
+      "user": "Vũ Xuân Dung",
+      "avatar": "V",
+      "rating": 3,
+      "date": "1/4/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Phan Minh Tuấn",
+      "avatar": "P",
+      "rating": 4,
+      "date": "18/3/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Võ Văn Long",
+      "avatar": "V",
+      "rating": 4,
+      "date": "21/6/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    }
+  ],
+  "id_00000168-02": [
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 5,
+      "date": "23/4/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Phạm Thu Dung",
+      "avatar": "P",
+      "rating": 4,
+      "date": "28/4/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Vũ Xuân Cường",
+      "avatar": "V",
+      "rating": 5,
+      "date": "23/3/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Vũ Văn Mai",
+      "avatar": "V",
+      "rating": 5,
+      "date": "5/5/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Phạm Thị Mai",
+      "avatar": "P",
+      "rating": 3,
+      "date": "21/5/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    }
+  ],
+  "id_00000031-02": [
+    {
+      "user": "Trần Ngọc An",
+      "avatar": "T",
+      "rating": 5,
+      "date": "19/4/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Lê Xuân Mai",
+      "avatar": "L",
+      "rating": 5,
+      "date": "16/6/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    }
+  ],
+  "id_00000168-03": [
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 4,
+      "date": "6/4/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 5,
+      "date": "26/5/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    }
+  ],
+  "id_00000038-01": [
+    {
+      "user": "Nguyễn Thị Long",
+      "avatar": "N",
+      "rating": 5,
+      "date": "3/6/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Phạm Thị Mai",
+      "avatar": "P",
+      "rating": 4,
+      "date": "4/7/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Nguyễn Thị Long",
+      "avatar": "N",
+      "rating": 3,
+      "date": "1/5/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Vũ Văn Mai",
+      "avatar": "V",
+      "rating": 4,
+      "date": "6/6/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Nguyễn Thị Đức",
+      "avatar": "N",
+      "rating": 4,
+      "date": "19/6/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Phan Minh Tuấn",
+      "avatar": "P",
+      "rating": 3,
+      "date": "18/4/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    }
+  ],
+  "id_00000393-01": [
+    {
+      "user": "Võ Văn Long",
+      "avatar": "V",
+      "rating": 4,
+      "date": "27/6/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Trần Ngọc An",
+      "avatar": "T",
+      "rating": 5,
+      "date": "24/6/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Lê Xuân Mai",
+      "avatar": "L",
+      "rating": 3,
+      "date": "24/6/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 3,
+      "date": "27/5/2026",
+      "comment": "True colors, thick material."
+    }
+  ],
+  "id_00000040-03": [
+    {
+      "user": "Phan Minh Tuấn",
+      "avatar": "P",
+      "rating": 3,
+      "date": "25/6/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Lê Xuân Mai",
+      "avatar": "L",
+      "rating": 3,
+      "date": "13/5/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Vũ Văn Mai",
+      "avatar": "V",
+      "rating": 3,
+      "date": "28/6/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Nguyễn Thị Long",
+      "avatar": "N",
+      "rating": 5,
+      "date": "23/4/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    }
+  ],
+  "id_00000653-01": [
+    {
+      "user": "Đặng Thu Mai",
+      "avatar": "Đ",
+      "rating": 3,
+      "date": "30/5/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Vũ Xuân Dung",
+      "avatar": "V",
+      "rating": 5,
+      "date": "9/5/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Nguyễn Thị Đức",
+      "avatar": "N",
+      "rating": 3,
+      "date": "30/3/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Phạm Thu Dung",
+      "avatar": "P",
+      "rating": 3,
+      "date": "21/6/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 4,
+      "date": "2/7/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Phan Minh Tuấn",
+      "avatar": "P",
+      "rating": 5,
+      "date": "17/6/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    }
+  ],
+  "id_00000043-01": [
+    {
+      "user": "Vũ Văn Mai",
+      "avatar": "V",
+      "rating": 3,
+      "date": "21/3/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Phạm Thu Dung",
+      "avatar": "P",
+      "rating": 3,
+      "date": "5/6/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Hoàng Thu Tuấn",
+      "avatar": "H",
+      "rating": 5,
+      "date": "6/7/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Phan Minh Tuấn",
+      "avatar": "P",
+      "rating": 3,
+      "date": "2/7/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 3,
+      "date": "29/4/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 4,
+      "date": "30/4/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    }
+  ],
+  "id_00000653-02": [
+    {
+      "user": "Nguyễn Thị Long",
+      "avatar": "N",
+      "rating": 4,
+      "date": "4/6/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 5,
+      "date": "15/4/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Đặng Thanh Tuấn",
+      "avatar": "Đ",
+      "rating": 4,
+      "date": "3/7/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Phan Minh Tuấn",
+      "avatar": "P",
+      "rating": 3,
+      "date": "22/5/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Trần Văn Mai",
+      "avatar": "T",
+      "rating": 3,
+      "date": "23/6/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Phạm Thu Dung",
+      "avatar": "P",
+      "rating": 4,
+      "date": "6/5/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    }
+  ],
+  "id_00000057-02": [
+    {
+      "user": "Trần Ngọc An",
+      "avatar": "T",
+      "rating": 5,
+      "date": "27/5/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Trần Văn Mai",
+      "avatar": "T",
+      "rating": 5,
+      "date": "3/4/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Nguyễn Thị Long",
+      "avatar": "N",
+      "rating": 3,
+      "date": "17/3/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Trần Văn Mai",
+      "avatar": "T",
+      "rating": 4,
+      "date": "18/6/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    }
+  ],
+  "id_00000653-04": [
+    {
+      "user": "Lê Xuân Mai",
+      "avatar": "L",
+      "rating": 4,
+      "date": "27/5/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Hoàng Thu Tuấn",
+      "avatar": "H",
+      "rating": 3,
+      "date": "26/3/2026",
+      "comment": "True colors, thick material."
+    }
+  ],
+  "id_00000057-03": [
+    {
+      "user": "Lê Xuân Mai",
+      "avatar": "L",
+      "rating": 3,
+      "date": "18/4/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 3,
+      "date": "7/4/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Hoàng Thị Bình",
+      "avatar": "H",
+      "rating": 4,
+      "date": "13/5/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    }
+  ],
+  "id_00000716-03": [
+    {
+      "user": "Đặng Thu Mai",
+      "avatar": "Đ",
+      "rating": 5,
+      "date": "6/4/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Phạm Thu Dung",
+      "avatar": "P",
+      "rating": 3,
+      "date": "31/5/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Hoàng Thị Bình",
+      "avatar": "H",
+      "rating": 5,
+      "date": "29/3/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Đặng Thu Mai",
+      "avatar": "Đ",
+      "rating": 4,
+      "date": "28/6/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Nguyễn Thị Long",
+      "avatar": "N",
+      "rating": 4,
+      "date": "28/4/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Phạm Thị Mai",
+      "avatar": "P",
+      "rating": 3,
+      "date": "26/4/2026",
+      "comment": "Should buy! Natural material, breathable."
+    }
+  ],
+  "id_00000065-02": [
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 5,
+      "date": "29/4/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Nguyễn Thị Long",
+      "avatar": "N",
+      "rating": 4,
+      "date": "24/4/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Hoàng Thu Tuấn",
+      "avatar": "H",
+      "rating": 5,
+      "date": "20/3/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    }
+  ],
+  "id_00000716-04": [
+    {
+      "user": "Phạm Thị Mai",
+      "avatar": "P",
+      "rating": 3,
+      "date": "2/7/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Vũ Xuân Dung",
+      "avatar": "V",
+      "rating": 5,
+      "date": "24/5/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Phan Minh Tuấn",
+      "avatar": "P",
+      "rating": 3,
+      "date": "13/5/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Hoàng Thu Tuấn",
+      "avatar": "H",
+      "rating": 4,
+      "date": "10/4/2026",
+      "comment": "Should buy! Natural material, breathable."
+    }
+  ],
+  "id_00000067-02": [
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 3,
+      "date": "10/5/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Phan Minh Tuấn",
+      "avatar": "P",
+      "rating": 5,
+      "date": "24/3/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Phạm Thị Mai",
+      "avatar": "P",
+      "rating": 3,
+      "date": "13/4/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    }
+  ],
+  "id_00000716-07": [
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 3,
+      "date": "24/3/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Phạm Thị Mai",
+      "avatar": "P",
+      "rating": 4,
+      "date": "1/6/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Trần Ngọc An",
+      "avatar": "T",
+      "rating": 5,
+      "date": "5/4/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Nguyễn Thị Đức",
+      "avatar": "N",
+      "rating": 5,
+      "date": "17/4/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Nguyễn Thị Long",
+      "avatar": "N",
+      "rating": 3,
+      "date": "8/6/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Hoàng Thị Bình",
+      "avatar": "H",
+      "rating": 4,
+      "date": "5/6/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    }
+  ],
+  "id_00000072-01": [
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 5,
+      "date": "1/7/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Phạm Thị Mai",
+      "avatar": "P",
+      "rating": 4,
+      "date": "12/6/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Vũ Văn Mai",
+      "avatar": "V",
+      "rating": 3,
+      "date": "12/4/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Võ Văn Long",
+      "avatar": "V",
+      "rating": 5,
+      "date": "7/6/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 3,
+      "date": "24/5/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Nguyễn Thị Đức",
+      "avatar": "N",
+      "rating": 3,
+      "date": "23/6/2026",
+      "comment": "Should buy! Natural material, breathable."
+    }
+  ],
+  "id_00000763-01": [
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 5,
+      "date": "17/5/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Trần Văn Mai",
+      "avatar": "T",
+      "rating": 5,
+      "date": "5/7/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 4,
+      "date": "6/4/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Vũ Văn Mai",
+      "avatar": "V",
+      "rating": 4,
+      "date": "31/5/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Hoàng Thị Bình",
+      "avatar": "H",
+      "rating": 4,
+      "date": "11/5/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Nguyễn Thị Long",
+      "avatar": "N",
+      "rating": 3,
+      "date": "15/3/2026",
+      "comment": "True colors, thick material."
+    }
+  ],
+  "id_00000082-03": [
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 3,
+      "date": "27/4/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Trần Ngọc An",
+      "avatar": "T",
+      "rating": 5,
+      "date": "9/6/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 5,
+      "date": "12/6/2026",
+      "comment": "Should buy! Natural material, breathable."
+    }
+  ],
+  "id_00000946-04": [
+    {
+      "user": "Trần Ngọc An",
+      "avatar": "T",
+      "rating": 3,
+      "date": "7/7/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 3,
+      "date": "30/3/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Nguyễn Thị Long",
+      "avatar": "N",
+      "rating": 4,
+      "date": "1/6/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    }
+  ],
+  "id_00000082-04": [
+    {
+      "user": "Vũ Văn Mai",
+      "avatar": "V",
+      "rating": 5,
+      "date": "20/6/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 5,
+      "date": "27/6/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 4,
+      "date": "9/4/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    }
+  ],
+  "id_00001291-01": [
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 4,
+      "date": "3/5/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 3,
+      "date": "12/5/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Trần Văn Mai",
+      "avatar": "T",
+      "rating": 3,
+      "date": "7/6/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 3,
+      "date": "4/7/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    }
+  ],
+  "id_00000090-03": [
+    {
+      "user": "Phạm Thị Mai",
+      "avatar": "P",
+      "rating": 4,
+      "date": "30/6/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Vũ Xuân Dung",
+      "avatar": "V",
+      "rating": 4,
+      "date": "3/4/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    }
+  ],
+  "id_00001875-01": [
+    {
+      "user": "Phan Minh Tuấn",
+      "avatar": "P",
+      "rating": 4,
+      "date": "10/6/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Phạm Thu Dung",
+      "avatar": "P",
+      "rating": 3,
+      "date": "10/5/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Nguyễn Thị Đức",
+      "avatar": "N",
+      "rating": 4,
+      "date": "29/5/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Hoàng Thị Bình",
+      "avatar": "H",
+      "rating": 5,
+      "date": "14/6/2026",
+      "comment": "True colors, thick material."
+    }
+  ],
+  "id_00000090-04": [
+    {
+      "user": "Phan Minh Tuấn",
+      "avatar": "P",
+      "rating": 5,
+      "date": "26/4/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Lê Xuân Mai",
+      "avatar": "L",
+      "rating": 4,
+      "date": "3/4/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    }
+  ],
+  "id_00001875-03": [
+    {
+      "user": "Trần Ngọc An",
+      "avatar": "T",
+      "rating": 5,
+      "date": "1/4/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Vũ Xuân Cường",
+      "avatar": "V",
+      "rating": 3,
+      "date": "18/5/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    }
+  ],
+  "id_00000093-01": [
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 4,
+      "date": "13/6/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 5,
+      "date": "4/5/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 3,
+      "date": "15/6/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Nguyễn Minh Tuấn",
+      "avatar": "N",
+      "rating": 5,
+      "date": "10/5/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    }
+  ],
+  "id_00001903-01": [
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 3,
+      "date": "19/4/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 5,
+      "date": "3/6/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    }
+  ],
+  "id_00000104-02": [
+    {
+      "user": "Trần Văn Mai",
+      "avatar": "T",
+      "rating": 4,
+      "date": "27/4/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Hoàng Thu Tuấn",
+      "avatar": "H",
+      "rating": 5,
+      "date": "5/7/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 3,
+      "date": "12/5/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Trần Ngọc An",
+      "avatar": "T",
+      "rating": 5,
+      "date": "26/4/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Trần Văn Mai",
+      "avatar": "T",
+      "rating": 3,
+      "date": "5/5/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Đặng Thanh Tuấn",
+      "avatar": "Đ",
+      "rating": 5,
+      "date": "9/4/2026",
+      "comment": "Should buy! Natural material, breathable."
+    }
+  ],
+  "id_00001903-03": [
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 5,
+      "date": "25/4/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Nguyễn Thị Long",
+      "avatar": "N",
+      "rating": 4,
+      "date": "1/5/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 4,
+      "date": "12/4/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 3,
+      "date": "28/4/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 4,
+      "date": "6/7/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    }
+  ],
+  "id_00000108-03": [
+    {
+      "user": "Trần Văn Mai",
+      "avatar": "T",
+      "rating": 3,
+      "date": "7/4/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Võ Văn Long",
+      "avatar": "V",
+      "rating": 3,
+      "date": "19/5/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Vũ Xuân Cường",
+      "avatar": "V",
+      "rating": 4,
+      "date": "29/6/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    }
+  ],
+  "id_00002173-04": [
+    {
+      "user": "Nguyễn Minh Tuấn",
+      "avatar": "N",
+      "rating": 3,
+      "date": "9/6/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Nguyễn Thị Đức",
+      "avatar": "N",
+      "rating": 5,
+      "date": "20/5/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Nguyễn Minh Tuấn",
+      "avatar": "N",
+      "rating": 4,
+      "date": "30/4/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    }
+  ],
+  "id_00000108-04": [
+    {
+      "user": "Đặng Thu Mai",
+      "avatar": "Đ",
+      "rating": 5,
+      "date": "14/5/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 4,
+      "date": "11/5/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    }
+  ],
+  "id_00002268-01": [
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 5,
+      "date": "17/6/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 5,
+      "date": "13/6/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 5,
+      "date": "22/6/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Vũ Xuân Dung",
+      "avatar": "V",
+      "rating": 5,
+      "date": "26/3/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    }
+  ],
+  "id_00000110-01": [
+    {
+      "user": "Đặng Thu Mai",
+      "avatar": "Đ",
+      "rating": 4,
+      "date": "20/6/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Nguyễn Thị Đức",
+      "avatar": "N",
+      "rating": 4,
+      "date": "17/4/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Phạm Thu Dung",
+      "avatar": "P",
+      "rating": 4,
+      "date": "30/3/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Vũ Xuân Dung",
+      "avatar": "V",
+      "rating": 5,
+      "date": "3/7/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Nguyễn Thị Đức",
+      "avatar": "N",
+      "rating": 4,
+      "date": "14/6/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    }
+  ],
+  "id_00002375-01": [
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 3,
+      "date": "5/6/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Lê Xuân Mai",
+      "avatar": "L",
+      "rating": 3,
+      "date": "10/4/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Đặng Thu Mai",
+      "avatar": "Đ",
+      "rating": 3,
+      "date": "4/6/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Vũ Xuân Cường",
+      "avatar": "V",
+      "rating": 4,
+      "date": "11/5/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Hoàng Thị Bình",
+      "avatar": "H",
+      "rating": 5,
+      "date": "23/5/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 4,
+      "date": "27/6/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    }
+  ],
+  "id_00000129-01": [
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 4,
+      "date": "15/5/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Vũ Xuân Cường",
+      "avatar": "V",
+      "rating": 3,
+      "date": "28/4/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    }
+  ],
+  "id_00002439-01": [
+    {
+      "user": "Lê Xuân Mai",
+      "avatar": "L",
+      "rating": 4,
+      "date": "3/6/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Trần Văn Mai",
+      "avatar": "T",
+      "rating": 5,
+      "date": "8/6/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Võ Văn Long",
+      "avatar": "V",
+      "rating": 5,
+      "date": "19/6/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    }
+  ],
+  "id_00000131-02": [
+    {
+      "user": "Đặng Thanh Tuấn",
+      "avatar": "Đ",
+      "rating": 3,
+      "date": "21/3/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Trần Văn Mai",
+      "avatar": "T",
+      "rating": 5,
+      "date": "19/4/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Hoàng Thu Tuấn",
+      "avatar": "H",
+      "rating": 3,
+      "date": "22/5/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Nguyễn Minh Tuấn",
+      "avatar": "N",
+      "rating": 5,
+      "date": "2/4/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Phạm Thị Mai",
+      "avatar": "P",
+      "rating": 3,
+      "date": "3/4/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    }
+  ],
+  "id_00000002-02": [
+    {
+      "user": "Phan Minh Tuấn",
+      "avatar": "P",
+      "rating": 5,
+      "date": "6/4/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Đặng Thanh Tuấn",
+      "avatar": "Đ",
+      "rating": 4,
+      "date": "27/4/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Nguyễn Thị Đức",
+      "avatar": "N",
+      "rating": 3,
+      "date": "7/5/2026",
+      "comment": "Should buy! Natural material, breathable."
+    }
+  ],
+  "id_00000132-02": [
+    {
+      "user": "Phạm Thu Dung",
+      "avatar": "P",
+      "rating": 3,
+      "date": "11/5/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Hoàng Thị Bình",
+      "avatar": "H",
+      "rating": 4,
+      "date": "20/3/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    }
+  ],
+  "id_00002439-02": [
+    {
+      "user": "Vũ Văn Mai",
+      "avatar": "V",
+      "rating": 4,
+      "date": "28/4/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 4,
+      "date": "19/4/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 3,
+      "date": "8/5/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    }
+  ],
+  "id_00000132-03": [
+    {
+      "user": "Đặng Thu Mai",
+      "avatar": "Đ",
+      "rating": 3,
+      "date": "18/3/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Nguyễn Thị Long",
+      "avatar": "N",
+      "rating": 4,
+      "date": "4/6/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Nguyễn Thị Đức",
+      "avatar": "N",
+      "rating": 5,
+      "date": "20/3/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Phan Minh Tuấn",
+      "avatar": "P",
+      "rating": 4,
+      "date": "29/3/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Đặng Thu Mai",
+      "avatar": "Đ",
+      "rating": 3,
+      "date": "21/6/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    }
+  ],
+  "id_00002439-04": [
+    {
+      "user": "Vũ Văn Mai",
+      "avatar": "V",
+      "rating": 3,
+      "date": "13/5/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Đặng Thu Mai",
+      "avatar": "Đ",
+      "rating": 3,
+      "date": "11/5/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Nguyễn Thị Long",
+      "avatar": "N",
+      "rating": 3,
+      "date": "9/4/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Phan Minh Tuấn",
+      "avatar": "P",
+      "rating": 3,
+      "date": "18/6/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Hoàng Thị Bình",
+      "avatar": "H",
+      "rating": 3,
+      "date": "6/5/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    }
+  ],
+  "id_00000132-04": [
+    {
+      "user": "Hoàng Thị Bình",
+      "avatar": "H",
+      "rating": 5,
+      "date": "20/3/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Hoàng Thu Tuấn",
+      "avatar": "H",
+      "rating": 3,
+      "date": "21/3/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    }
+  ],
+  "id_00002446-01": [
+    {
+      "user": "Trần Ngọc An",
+      "avatar": "T",
+      "rating": 4,
+      "date": "5/5/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Phạm Thu Dung",
+      "avatar": "P",
+      "rating": 4,
+      "date": "6/4/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    }
+  ],
+  "id_00000132-05": [
+    {
+      "user": "Phạm Thị Mai",
+      "avatar": "P",
+      "rating": 5,
+      "date": "1/7/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Đặng Thu Mai",
+      "avatar": "Đ",
+      "rating": 4,
+      "date": "16/5/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Hoàng Thu Tuấn",
+      "avatar": "H",
+      "rating": 3,
+      "date": "2/5/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 4,
+      "date": "13/5/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    }
+  ],
+  "id_00002446-04": [
+    {
+      "user": "Đặng Thu Mai",
+      "avatar": "Đ",
+      "rating": 3,
+      "date": "19/6/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 3,
+      "date": "8/6/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Hoàng Thị Bình",
+      "avatar": "H",
+      "rating": 4,
+      "date": "20/5/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Nguyễn Thị Đức",
+      "avatar": "N",
+      "rating": 5,
+      "date": "3/4/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Lê Xuân Mai",
+      "avatar": "L",
+      "rating": 5,
+      "date": "28/3/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Lê Xuân Mai",
+      "avatar": "L",
+      "rating": 4,
+      "date": "21/6/2026",
+      "comment": "Should buy! Natural material, breathable."
+    }
+  ],
+  "id_00000155-01": [
+    {
+      "user": "Nguyễn Thị Đức",
+      "avatar": "N",
+      "rating": 4,
+      "date": "12/5/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Vũ Xuân Cường",
+      "avatar": "V",
+      "rating": 5,
+      "date": "22/5/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    }
+  ],
+  "id_00002446-05": [
+    {
+      "user": "Vũ Xuân Cường",
+      "avatar": "V",
+      "rating": 3,
+      "date": "25/4/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Phạm Thu Dung",
+      "avatar": "P",
+      "rating": 3,
+      "date": "6/6/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 4,
+      "date": "9/6/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Hoàng Thị Bình",
+      "avatar": "H",
+      "rating": 5,
+      "date": "8/6/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    }
+  ],
+  "id_00000164-03": [
+    {
+      "user": "Vũ Xuân Cường",
+      "avatar": "V",
+      "rating": 5,
+      "date": "22/5/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 3,
+      "date": "21/5/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Hoàng Thị Bình",
+      "avatar": "H",
+      "rating": 5,
+      "date": "7/7/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    }
+  ],
+  "id_00002754-01": [
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 3,
+      "date": "11/4/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 4,
+      "date": "8/4/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Đặng Thanh Tuấn",
+      "avatar": "Đ",
+      "rating": 5,
+      "date": "15/6/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Võ Văn Long",
+      "avatar": "V",
+      "rating": 3,
+      "date": "1/4/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    }
+  ],
+  "id_00000165-02": [
+    {
+      "user": "Nguyễn Minh Tuấn",
+      "avatar": "N",
+      "rating": 5,
+      "date": "9/4/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Phạm Thu Dung",
+      "avatar": "P",
+      "rating": 5,
+      "date": "23/5/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    }
+  ],
+  "id_00002958-04": [
+    {
+      "user": "Trần Văn Mai",
+      "avatar": "T",
+      "rating": 3,
+      "date": "10/6/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 4,
+      "date": "30/6/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    }
+  ],
+  "id_00000171-01": [
+    {
+      "user": "Nguyễn Thị Đức",
+      "avatar": "N",
+      "rating": 5,
+      "date": "2/7/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Phạm Thu Dung",
+      "avatar": "P",
+      "rating": 4,
+      "date": "17/3/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    }
+  ],
+  "id_00003311-01": [
+    {
+      "user": "Nguyễn Thị Đức",
+      "avatar": "N",
+      "rating": 5,
+      "date": "27/3/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Võ Văn Long",
+      "avatar": "V",
+      "rating": 4,
+      "date": "14/6/2026",
+      "comment": "True colors, thick material."
+    }
+  ],
+  "id_00000172-03": [
+    {
+      "user": "Nguyễn Thị Long",
+      "avatar": "N",
+      "rating": 4,
+      "date": "24/5/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Nguyễn Thị Đức",
+      "avatar": "N",
+      "rating": 4,
+      "date": "15/5/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Trần Văn Mai",
+      "avatar": "T",
+      "rating": 4,
+      "date": "19/5/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Lê Xuân Mai",
+      "avatar": "L",
+      "rating": 5,
+      "date": "25/3/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    }
+  ],
+  "id_00003336-05": [
+    {
+      "user": "Nguyễn Thị Đức",
+      "avatar": "N",
+      "rating": 3,
+      "date": "27/5/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Hoàng Thu Tuấn",
+      "avatar": "H",
+      "rating": 3,
+      "date": "26/4/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Vũ Xuân Dung",
+      "avatar": "V",
+      "rating": 3,
+      "date": "24/6/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    }
+  ],
+  "id_00000179-01": [
+    {
+      "user": "Lê Xuân Mai",
+      "avatar": "L",
+      "rating": 4,
+      "date": "21/6/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Phạm Thu Dung",
+      "avatar": "P",
+      "rating": 3,
+      "date": "19/4/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Đặng Thu Mai",
+      "avatar": "Đ",
+      "rating": 4,
+      "date": "11/6/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Nguyễn Thị Đức",
+      "avatar": "N",
+      "rating": 5,
+      "date": "20/3/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Nguyễn Minh Tuấn",
+      "avatar": "N",
+      "rating": 3,
+      "date": "10/4/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    }
+  ],
+  "id_00003336-06": [
+    {
+      "user": "Vũ Xuân Cường",
+      "avatar": "V",
+      "rating": 4,
+      "date": "22/3/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Nguyễn Thị Long",
+      "avatar": "N",
+      "rating": 4,
+      "date": "18/4/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Võ Văn Long",
+      "avatar": "V",
+      "rating": 5,
+      "date": "2/5/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    }
+  ],
+  "id_00000179-02": [
+    {
+      "user": "Đặng Thanh Tuấn",
+      "avatar": "Đ",
+      "rating": 5,
+      "date": "21/5/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Võ Văn Long",
+      "avatar": "V",
+      "rating": 3,
+      "date": "17/5/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 4,
+      "date": "28/4/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 3,
+      "date": "17/5/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Lê Xuân Mai",
+      "avatar": "L",
+      "rating": 4,
+      "date": "27/6/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 3,
+      "date": "12/4/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    }
+  ],
+  "id_00003336-07": [
+    {
+      "user": "Nguyễn Thị Long",
+      "avatar": "N",
+      "rating": 3,
+      "date": "17/4/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Hoàng Thị Bình",
+      "avatar": "H",
+      "rating": 5,
+      "date": "16/4/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Phạm Thị Mai",
+      "avatar": "P",
+      "rating": 3,
+      "date": "18/4/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 4,
+      "date": "27/5/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 5,
+      "date": "28/6/2026",
+      "comment": "Should buy! Natural material, breathable."
+    }
+  ],
+  "id_00000181-03": [
+    {
+      "user": "Đặng Thu Mai",
+      "avatar": "Đ",
+      "rating": 4,
+      "date": "4/6/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 4,
+      "date": "13/4/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    }
+  ],
+  "id_00003336-08": [
+    {
+      "user": "Vũ Văn Mai",
+      "avatar": "V",
+      "rating": 5,
+      "date": "18/5/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Vũ Xuân Dung",
+      "avatar": "V",
+      "rating": 5,
+      "date": "30/4/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 4,
+      "date": "3/4/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Vũ Xuân Cường",
+      "avatar": "V",
+      "rating": 5,
+      "date": "5/7/2026",
+      "comment": "True colors, thick material."
+    }
+  ],
+  "id_00000183-01": [
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 4,
+      "date": "8/5/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Vũ Xuân Cường",
+      "avatar": "V",
+      "rating": 5,
+      "date": "29/6/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 3,
+      "date": "10/5/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Phạm Thu Dung",
+      "avatar": "P",
+      "rating": 4,
+      "date": "29/5/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    }
+  ],
+  "id_00003336-09": [
+    {
+      "user": "Phạm Thị Mai",
+      "avatar": "P",
+      "rating": 4,
+      "date": "21/4/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Võ Văn Long",
+      "avatar": "V",
+      "rating": 4,
+      "date": "21/4/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Vũ Xuân Dung",
+      "avatar": "V",
+      "rating": 5,
+      "date": "21/4/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 5,
+      "date": "16/6/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    }
+  ],
+  "id_00000190-02": [
+    {
+      "user": "Hoàng Thu Tuấn",
+      "avatar": "H",
+      "rating": 4,
+      "date": "1/6/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Vũ Xuân Cường",
+      "avatar": "V",
+      "rating": 3,
+      "date": "28/3/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Hoàng Thị Bình",
+      "avatar": "H",
+      "rating": 5,
+      "date": "29/4/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Hoàng Thị Bình",
+      "avatar": "H",
+      "rating": 4,
+      "date": "7/6/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Vũ Xuân Cường",
+      "avatar": "V",
+      "rating": 4,
+      "date": "5/5/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Hoàng Thị Bình",
+      "avatar": "H",
+      "rating": 3,
+      "date": "25/5/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    }
+  ],
+  "id_00003336-10": [
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 3,
+      "date": "2/4/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Phạm Thu Dung",
+      "avatar": "P",
+      "rating": 4,
+      "date": "15/3/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Nguyễn Minh Tuấn",
+      "avatar": "N",
+      "rating": 4,
+      "date": "25/5/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 3,
+      "date": "29/3/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    }
+  ],
+  "id_00000206-01": [
+    {
+      "user": "Vũ Văn Mai",
+      "avatar": "V",
+      "rating": 5,
+      "date": "3/7/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 4,
+      "date": "11/6/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Vũ Xuân Dung",
+      "avatar": "V",
+      "rating": 5,
+      "date": "4/6/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 5,
+      "date": "15/3/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Vũ Văn Mai",
+      "avatar": "V",
+      "rating": 3,
+      "date": "10/4/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Trần Ngọc An",
+      "avatar": "T",
+      "rating": 5,
+      "date": "4/6/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    }
+  ],
+  "id_00004014-01": [
+    {
+      "user": "Vũ Văn Mai",
+      "avatar": "V",
+      "rating": 4,
+      "date": "2/4/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Đặng Thu Mai",
+      "avatar": "Đ",
+      "rating": 5,
+      "date": "6/4/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Vũ Xuân Dung",
+      "avatar": "V",
+      "rating": 4,
+      "date": "9/5/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    }
+  ],
+  "id_00000207-02": [
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 5,
+      "date": "28/3/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Nguyễn Thị Đức",
+      "avatar": "N",
+      "rating": 3,
+      "date": "7/6/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Hoàng Thị Bình",
+      "avatar": "H",
+      "rating": 4,
+      "date": "23/3/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Nguyễn Minh Tuấn",
+      "avatar": "N",
+      "rating": 5,
+      "date": "29/3/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    }
+  ],
+  "id_00004014-02": [
+    {
+      "user": "Hoàng Thu Tuấn",
+      "avatar": "H",
+      "rating": 4,
+      "date": "22/4/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 4,
+      "date": "25/6/2026",
+      "comment": "Should buy! Natural material, breathable."
+    }
+  ],
+  "id_00000218-01": [
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 4,
+      "date": "2/6/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Vũ Xuân Dung",
+      "avatar": "V",
+      "rating": 5,
+      "date": "9/6/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Phan Minh Tuấn",
+      "avatar": "P",
+      "rating": 5,
+      "date": "11/5/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Trần Văn Mai",
+      "avatar": "T",
+      "rating": 3,
+      "date": "6/6/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Vũ Xuân Dung",
+      "avatar": "V",
+      "rating": 4,
+      "date": "21/5/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    }
+  ],
+  "id_00004014-03": [
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 4,
+      "date": "14/6/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 3,
+      "date": "1/5/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Hoàng Thu Tuấn",
+      "avatar": "H",
+      "rating": 4,
+      "date": "3/6/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 5,
+      "date": "22/6/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Phạm Thu Dung",
+      "avatar": "P",
+      "rating": 5,
+      "date": "23/4/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 3,
+      "date": "22/6/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    }
+  ],
+  "id_00000228-01": [
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 5,
+      "date": "26/4/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Võ Văn Long",
+      "avatar": "V",
+      "rating": 4,
+      "date": "21/6/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Võ Văn Long",
+      "avatar": "V",
+      "rating": 4,
+      "date": "31/5/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 5,
+      "date": "25/6/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 4,
+      "date": "18/5/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    }
+  ],
+  "id_00004235-01": [
+    {
+      "user": "Vũ Xuân Dung",
+      "avatar": "V",
+      "rating": 3,
+      "date": "21/6/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 3,
+      "date": "22/6/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Trần Văn Mai",
+      "avatar": "T",
+      "rating": 5,
+      "date": "31/3/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Đặng Thanh Tuấn",
+      "avatar": "Đ",
+      "rating": 4,
+      "date": "8/4/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Võ Văn Long",
+      "avatar": "V",
+      "rating": 4,
+      "date": "19/5/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 4,
+      "date": "17/6/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    }
+  ],
+  "id_00000230-01": [
+    {
+      "user": "Vũ Văn Mai",
+      "avatar": "V",
+      "rating": 4,
+      "date": "19/5/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Nguyễn Thị Long",
+      "avatar": "N",
+      "rating": 3,
+      "date": "25/6/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Vũ Xuân Cường",
+      "avatar": "V",
+      "rating": 4,
+      "date": "3/6/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    }
+  ],
+  "id_00004319-01": [
+    {
+      "user": "Vũ Văn Mai",
+      "avatar": "V",
+      "rating": 5,
+      "date": "21/5/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Phạm Thị Mai",
+      "avatar": "P",
+      "rating": 5,
+      "date": "17/4/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    }
+  ],
+  "id_00000230-02": [
+    {
+      "user": "Nguyễn Minh Tuấn",
+      "avatar": "N",
+      "rating": 4,
+      "date": "29/6/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Vũ Văn Mai",
+      "avatar": "V",
+      "rating": 4,
+      "date": "25/4/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Phan Minh Tuấn",
+      "avatar": "P",
+      "rating": 3,
+      "date": "5/7/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    }
+  ],
+  "id_00004319-03": [
+    {
+      "user": "Phạm Thị Mai",
+      "avatar": "P",
+      "rating": 4,
+      "date": "14/5/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 5,
+      "date": "29/5/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 4,
+      "date": "18/3/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Đặng Thu Mai",
+      "avatar": "Đ",
+      "rating": 5,
+      "date": "13/5/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Phạm Thị Mai",
+      "avatar": "P",
+      "rating": 4,
+      "date": "19/6/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    }
+  ],
+  "id_00000231-02": [
+    {
+      "user": "Vũ Văn Mai",
+      "avatar": "V",
+      "rating": 4,
+      "date": "17/4/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Lê Xuân Mai",
+      "avatar": "L",
+      "rating": 5,
+      "date": "16/5/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Phạm Thu Dung",
+      "avatar": "P",
+      "rating": 3,
+      "date": "23/5/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Đặng Thanh Tuấn",
+      "avatar": "Đ",
+      "rating": 5,
+      "date": "26/6/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Hoàng Thị Bình",
+      "avatar": "H",
+      "rating": 3,
+      "date": "28/6/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Nguyễn Thị Long",
+      "avatar": "N",
+      "rating": 5,
+      "date": "14/6/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    }
+  ],
+  "id_00004328-01": [
+    {
+      "user": "Hoàng Thu Tuấn",
+      "avatar": "H",
+      "rating": 3,
+      "date": "5/7/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Hoàng Thị Bình",
+      "avatar": "H",
+      "rating": 5,
+      "date": "27/3/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    }
+  ],
+  "id_00000232-02": [
+    {
+      "user": "Vũ Xuân Cường",
+      "avatar": "V",
+      "rating": 5,
+      "date": "18/4/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Lê Xuân Mai",
+      "avatar": "L",
+      "rating": 4,
+      "date": "21/6/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    }
+  ],
+  "id_00004328-02": [
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 5,
+      "date": "29/5/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 5,
+      "date": "9/6/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    }
+  ],
+  "id_00000055-04": [
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 5,
+      "date": "24/3/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 5,
+      "date": "1/5/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Đặng Thanh Tuấn",
+      "avatar": "Đ",
+      "rating": 3,
+      "date": "5/4/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Nguyễn Thị Đức",
+      "avatar": "N",
+      "rating": 5,
+      "date": "19/3/2026",
+      "comment": "True colors, thick material."
+    }
+  ],
+  "id_00000080-01": [
+    {
+      "user": "Vũ Xuân Dung",
+      "avatar": "V",
+      "rating": 5,
+      "date": "3/6/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 5,
+      "date": "16/5/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Nguyễn Minh Tuấn",
+      "avatar": "N",
+      "rating": 3,
+      "date": "14/4/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Hoàng Thị Bình",
+      "avatar": "H",
+      "rating": 5,
+      "date": "23/3/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Trần Ngọc An",
+      "avatar": "T",
+      "rating": 3,
+      "date": "2/5/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    }
+  ],
+  "id_00000152-03": [
+    {
+      "user": "Nguyễn Minh Tuấn",
+      "avatar": "N",
+      "rating": 3,
+      "date": "4/4/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 3,
+      "date": "18/4/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Võ Văn Long",
+      "avatar": "V",
+      "rating": 5,
+      "date": "2/4/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Vũ Xuân Cường",
+      "avatar": "V",
+      "rating": 5,
+      "date": "16/5/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Vũ Xuân Cường",
+      "avatar": "V",
+      "rating": 3,
+      "date": "25/4/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    }
+  ],
+  "id_00000089-01": [
+    {
+      "user": "Trần Văn Mai",
+      "avatar": "T",
+      "rating": 3,
+      "date": "1/5/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 4,
+      "date": "24/3/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 4,
+      "date": "22/6/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Vũ Xuân Cường",
+      "avatar": "V",
+      "rating": 4,
+      "date": "25/3/2026",
+      "comment": "True colors, thick material."
+    }
+  ],
+  "id_00000152-04": [
+    {
+      "user": "Lê Xuân Mai",
+      "avatar": "L",
+      "rating": 5,
+      "date": "4/5/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Hoàng Thị Bình",
+      "avatar": "H",
+      "rating": 4,
+      "date": "2/4/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    }
+  ],
+  "id_00000089-02": [
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 4,
+      "date": "4/7/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Vũ Xuân Cường",
+      "avatar": "V",
+      "rating": 4,
+      "date": "23/5/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 3,
+      "date": "21/6/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Hoàng Thị Bình",
+      "avatar": "H",
+      "rating": 3,
+      "date": "2/7/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    }
+  ],
+  "id_00000152-05": [
+    {
+      "user": "Phan Minh Tuấn",
+      "avatar": "P",
+      "rating": 3,
+      "date": "29/4/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Vũ Xuân Dung",
+      "avatar": "V",
+      "rating": 3,
+      "date": "5/7/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 3,
+      "date": "29/5/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    }
+  ],
+  "id_00000089-03": [
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 3,
+      "date": "27/4/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 4,
+      "date": "12/5/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Nguyễn Thị Long",
+      "avatar": "N",
+      "rating": 3,
+      "date": "30/4/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Nguyễn Thị Đức",
+      "avatar": "N",
+      "rating": 3,
+      "date": "26/6/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Hoàng Thu Tuấn",
+      "avatar": "H",
+      "rating": 5,
+      "date": "9/5/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Nguyễn Thị Đức",
+      "avatar": "N",
+      "rating": 5,
+      "date": "30/5/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    }
+  ],
+  "id_00000162-02": [
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 5,
+      "date": "24/4/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Lê Xuân Mai",
+      "avatar": "L",
+      "rating": 5,
+      "date": "20/5/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Vũ Xuân Dung",
+      "avatar": "V",
+      "rating": 3,
+      "date": "25/6/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    }
+  ],
+  "id_00000089-04": [
+    {
+      "user": "Vũ Văn Mai",
+      "avatar": "V",
+      "rating": 4,
+      "date": "2/7/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 4,
+      "date": "24/6/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    }
+  ],
+  "id_00000194-01": [
+    {
+      "user": "Hoàng Thu Tuấn",
+      "avatar": "H",
+      "rating": 5,
+      "date": "3/5/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Nguyễn Thị Đức",
+      "avatar": "N",
+      "rating": 4,
+      "date": "12/4/2026",
+      "comment": "Should buy! Natural material, breathable."
+    }
+  ],
+  "id_00000089-05": [
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 3,
+      "date": "6/5/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 5,
+      "date": "2/6/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Phạm Thu Dung",
+      "avatar": "P",
+      "rating": 3,
+      "date": "29/3/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Nguyễn Thị Đức",
+      "avatar": "N",
+      "rating": 3,
+      "date": "16/5/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 5,
+      "date": "1/4/2026",
+      "comment": "Should buy! Natural material, breathable."
+    }
+  ],
+  "id_00000274-01": [
+    {
+      "user": "Phạm Thị Mai",
+      "avatar": "P",
+      "rating": 4,
+      "date": "19/6/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Vũ Văn Mai",
+      "avatar": "V",
+      "rating": 5,
+      "date": "9/5/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Nguyễn Thị Long",
+      "avatar": "N",
+      "rating": 5,
+      "date": "19/3/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    }
+  ],
+  "id_00000089-08": [
+    {
+      "user": "Đặng Thu Mai",
+      "avatar": "Đ",
+      "rating": 3,
+      "date": "31/3/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Lê Xuân Mai",
+      "avatar": "L",
+      "rating": 3,
+      "date": "11/5/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    }
+  ],
+  "id_00000274-02": [
+    {
+      "user": "Vũ Xuân Cường",
+      "avatar": "V",
+      "rating": 3,
+      "date": "12/6/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Phạm Thu Dung",
+      "avatar": "P",
+      "rating": 5,
+      "date": "8/4/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Nguyễn Thị Long",
+      "avatar": "N",
+      "rating": 5,
+      "date": "7/6/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Lê Xuân Mai",
+      "avatar": "L",
+      "rating": 3,
+      "date": "30/3/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Phạm Thu Dung",
+      "avatar": "P",
+      "rating": 5,
+      "date": "22/3/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Trần Ngọc An",
+      "avatar": "T",
+      "rating": 3,
+      "date": "24/4/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    }
+  ],
+  "id_00000089-15": [
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 4,
+      "date": "23/6/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Nguyễn Thị Long",
+      "avatar": "N",
+      "rating": 4,
+      "date": "10/6/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Đặng Thu Mai",
+      "avatar": "Đ",
+      "rating": 4,
+      "date": "13/4/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Nguyễn Thị Long",
+      "avatar": "N",
+      "rating": 3,
+      "date": "17/6/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Trần Văn Mai",
+      "avatar": "T",
+      "rating": 4,
+      "date": "24/4/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    }
+  ],
+  "id_00000360-01": [
+    {
+      "user": "Nguyễn Thị Đức",
+      "avatar": "N",
+      "rating": 4,
+      "date": "23/3/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Phan Minh Tuấn",
+      "avatar": "P",
+      "rating": 3,
+      "date": "23/5/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Nguyễn Thị Đức",
+      "avatar": "N",
+      "rating": 3,
+      "date": "17/5/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 5,
+      "date": "4/5/2026",
+      "comment": "Should buy! Natural material, breathable."
+    }
+  ],
+  "id_00000089-17": [
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 3,
+      "date": "19/5/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 3,
+      "date": "1/5/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 4,
+      "date": "17/4/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Đặng Thu Mai",
+      "avatar": "Đ",
+      "rating": 3,
+      "date": "1/6/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 5,
+      "date": "29/6/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 3,
+      "date": "7/6/2026",
+      "comment": "True colors, thick material."
+    }
+  ],
+  "id_00000360-04": [
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 4,
+      "date": "3/7/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Trần Văn Mai",
+      "avatar": "T",
+      "rating": 3,
+      "date": "5/6/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Phan Minh Tuấn",
+      "avatar": "P",
+      "rating": 3,
+      "date": "5/6/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Nguyễn Minh Tuấn",
+      "avatar": "N",
+      "rating": 3,
+      "date": "12/5/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    }
+  ],
+  "id_00000089-18": [
+    {
+      "user": "Phan Minh Tuấn",
+      "avatar": "P",
+      "rating": 5,
+      "date": "16/6/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Trần Văn Mai",
+      "avatar": "T",
+      "rating": 3,
+      "date": "21/4/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 4,
+      "date": "3/5/2026",
+      "comment": "True colors, thick material."
+    }
+  ],
+  "id_00000361-01": [
+    {
+      "user": "Trần Ngọc An",
+      "avatar": "T",
+      "rating": 4,
+      "date": "28/6/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Phạm Thị Mai",
+      "avatar": "P",
+      "rating": 5,
+      "date": "25/4/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 4,
+      "date": "1/5/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Trần Văn Mai",
+      "avatar": "T",
+      "rating": 3,
+      "date": "30/5/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Nguyễn Minh Tuấn",
+      "avatar": "N",
+      "rating": 4,
+      "date": "27/5/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Hoàng Thu Tuấn",
+      "avatar": "H",
+      "rating": 3,
+      "date": "1/4/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    }
+  ],
+  "id_00000089-26": [
+    {
+      "user": "Trần Ngọc An",
+      "avatar": "T",
+      "rating": 3,
+      "date": "29/6/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Trần Ngọc An",
+      "avatar": "T",
+      "rating": 5,
+      "date": "14/4/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Phạm Thu Dung",
+      "avatar": "P",
+      "rating": 3,
+      "date": "20/6/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    }
+  ],
+  "id_00000444-01": [
+    {
+      "user": "Vũ Xuân Cường",
+      "avatar": "V",
+      "rating": 3,
+      "date": "29/3/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Đặng Thanh Tuấn",
+      "avatar": "Đ",
+      "rating": 3,
+      "date": "24/5/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 4,
+      "date": "16/6/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Lê Xuân Mai",
+      "avatar": "L",
+      "rating": 4,
+      "date": "17/3/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 3,
+      "date": "5/6/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Nguyễn Minh Tuấn",
+      "avatar": "N",
+      "rating": 3,
+      "date": "28/6/2026",
+      "comment": "True colors, thick material."
+    }
+  ],
+  "id_00000089-27": [
+    {
+      "user": "Phạm Thị Mai",
+      "avatar": "P",
+      "rating": 4,
+      "date": "20/6/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Phạm Thu Dung",
+      "avatar": "P",
+      "rating": 4,
+      "date": "25/6/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Nguyễn Thị Long",
+      "avatar": "N",
+      "rating": 5,
+      "date": "4/4/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Phạm Thu Dung",
+      "avatar": "P",
+      "rating": 4,
+      "date": "6/4/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 5,
+      "date": "1/4/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Trần Ngọc An",
+      "avatar": "T",
+      "rating": 3,
+      "date": "20/3/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    }
+  ],
+  "id_00000447-01": [
+    {
+      "user": "Lê Xuân Mai",
+      "avatar": "L",
+      "rating": 3,
+      "date": "30/5/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Vũ Xuân Dung",
+      "avatar": "V",
+      "rating": 4,
+      "date": "13/6/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    }
+  ],
+  "id_00000089-28": [
+    {
+      "user": "Võ Văn Long",
+      "avatar": "V",
+      "rating": 5,
+      "date": "20/4/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 4,
+      "date": "31/5/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 3,
+      "date": "31/5/2026",
+      "comment": "True colors, thick material."
+    }
+  ],
+  "id_00000624-02": [
+    {
+      "user": "Võ Văn Long",
+      "avatar": "V",
+      "rating": 3,
+      "date": "8/6/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 5,
+      "date": "1/5/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Hoàng Thu Tuấn",
+      "avatar": "H",
+      "rating": 4,
+      "date": "22/3/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    }
+  ],
+  "id_00000089-29": [
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 3,
+      "date": "22/3/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Vũ Xuân Cường",
+      "avatar": "V",
+      "rating": 5,
+      "date": "19/4/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Nguyễn Thị Long",
+      "avatar": "N",
+      "rating": 5,
+      "date": "5/5/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Võ Văn Long",
+      "avatar": "V",
+      "rating": 5,
+      "date": "15/4/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 5,
+      "date": "6/4/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    }
+  ],
+  "id_00000624-03": [
+    {
+      "user": "Hoàng Thị Bình",
+      "avatar": "H",
+      "rating": 5,
+      "date": "27/3/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 4,
+      "date": "21/4/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Trần Ngọc An",
+      "avatar": "T",
+      "rating": 4,
+      "date": "22/6/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Đặng Thanh Tuấn",
+      "avatar": "Đ",
+      "rating": 5,
+      "date": "26/3/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    }
+  ],
+  "id_00000089-44": [
+    {
+      "user": "Nguyễn Minh Tuấn",
+      "avatar": "N",
+      "rating": 3,
+      "date": "13/6/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Trần Ngọc An",
+      "avatar": "T",
+      "rating": 5,
+      "date": "31/5/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Nguyễn Thị Long",
+      "avatar": "N",
+      "rating": 3,
+      "date": "23/4/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 4,
+      "date": "14/5/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Đặng Thu Mai",
+      "avatar": "Đ",
+      "rating": 4,
+      "date": "12/6/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    }
+  ],
+  "id_00000657-02": [
+    {
+      "user": "Nguyễn Minh Tuấn",
+      "avatar": "N",
+      "rating": 3,
+      "date": "15/4/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 5,
+      "date": "31/5/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    }
+  ],
+  "id_00000089-45": [
+    {
+      "user": "Phạm Thị Mai",
+      "avatar": "P",
+      "rating": 4,
+      "date": "18/3/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Phạm Thị Mai",
+      "avatar": "P",
+      "rating": 5,
+      "date": "8/6/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Vũ Văn Mai",
+      "avatar": "V",
+      "rating": 4,
+      "date": "13/6/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 4,
+      "date": "10/5/2026",
+      "comment": "True colors, thick material."
+    }
+  ],
+  "id_00000741-01": [
+    {
+      "user": "Hoàng Thu Tuấn",
+      "avatar": "H",
+      "rating": 4,
+      "date": "27/6/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Phạm Thị Mai",
+      "avatar": "P",
+      "rating": 3,
+      "date": "26/3/2026",
+      "comment": "True colors, thick material."
+    }
+  ],
+  "id_00000089-46": [
+    {
+      "user": "Lê Xuân Mai",
+      "avatar": "L",
+      "rating": 4,
+      "date": "9/6/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Võ Văn Long",
+      "avatar": "V",
+      "rating": 3,
+      "date": "10/5/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    }
+  ],
+  "id_00000765-01": [
+    {
+      "user": "Lê Xuân Mai",
+      "avatar": "L",
+      "rating": 3,
+      "date": "11/4/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 3,
+      "date": "12/4/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Phạm Thị Mai",
+      "avatar": "P",
+      "rating": 3,
+      "date": "4/6/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Vũ Văn Mai",
+      "avatar": "V",
+      "rating": 5,
+      "date": "13/5/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Nguyễn Thị Long",
+      "avatar": "N",
+      "rating": 4,
+      "date": "15/5/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 3,
+      "date": "20/6/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    }
+  ],
+  "id_00000182-01": [
+    {
+      "user": "Hoàng Thu Tuấn",
+      "avatar": "H",
+      "rating": 3,
+      "date": "20/4/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 3,
+      "date": "20/4/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Đặng Thanh Tuấn",
+      "avatar": "Đ",
+      "rating": 4,
+      "date": "27/4/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Đặng Thu Mai",
+      "avatar": "Đ",
+      "rating": 4,
+      "date": "3/6/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Nguyễn Minh Tuấn",
+      "avatar": "N",
+      "rating": 3,
+      "date": "1/6/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 5,
+      "date": "12/4/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    }
+  ],
+  "id_00000810-02": [
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 4,
+      "date": "22/3/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 3,
+      "date": "23/4/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 3,
+      "date": "21/6/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Vũ Xuân Cường",
+      "avatar": "V",
+      "rating": 5,
+      "date": "3/7/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Nguyễn Minh Tuấn",
+      "avatar": "N",
+      "rating": 5,
+      "date": "6/5/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    }
+  ],
+  "id_00000265-01": [
+    {
+      "user": "Vũ Xuân Cường",
+      "avatar": "V",
+      "rating": 5,
+      "date": "18/3/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 5,
+      "date": "2/4/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Nguyễn Minh Tuấn",
+      "avatar": "N",
+      "rating": 3,
+      "date": "4/5/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    }
+  ],
+  "id_00001099-03": [
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 4,
+      "date": "2/4/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Hoàng Thu Tuấn",
+      "avatar": "H",
+      "rating": 4,
+      "date": "8/4/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    }
+  ],
+  "id_00000313-01": [
+    {
+      "user": "Trần Văn Mai",
+      "avatar": "T",
+      "rating": 3,
+      "date": "1/6/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Trần Văn Mai",
+      "avatar": "T",
+      "rating": 5,
+      "date": "19/6/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 5,
+      "date": "17/3/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Hoàng Thu Tuấn",
+      "avatar": "H",
+      "rating": 5,
+      "date": "1/7/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    }
+  ],
+  "id_00001099-05": [
+    {
+      "user": "Đặng Thu Mai",
+      "avatar": "Đ",
+      "rating": 5,
+      "date": "2/6/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Trần Ngọc An",
+      "avatar": "T",
+      "rating": 4,
+      "date": "19/3/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 3,
+      "date": "6/5/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Vũ Xuân Cường",
+      "avatar": "V",
+      "rating": 4,
+      "date": "24/6/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    }
+  ],
+  "id_00000353-01": [
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 5,
+      "date": "30/3/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Lê Xuân Mai",
+      "avatar": "L",
+      "rating": 5,
+      "date": "26/5/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    }
+  ],
+  "id_00001125-01": [
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 5,
+      "date": "22/4/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Đặng Thu Mai",
+      "avatar": "Đ",
+      "rating": 4,
+      "date": "1/5/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Lê Xuân Mai",
+      "avatar": "L",
+      "rating": 4,
+      "date": "11/6/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Đặng Thu Mai",
+      "avatar": "Đ",
+      "rating": 4,
+      "date": "15/4/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 3,
+      "date": "1/7/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    }
+  ],
+  "id_00000353-02": [
+    {
+      "user": "Đặng Thanh Tuấn",
+      "avatar": "Đ",
+      "rating": 4,
+      "date": "6/5/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Nguyễn Minh Tuấn",
+      "avatar": "N",
+      "rating": 5,
+      "date": "11/4/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Trần Ngọc An",
+      "avatar": "T",
+      "rating": 5,
+      "date": "22/5/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    }
+  ],
+  "id_00001248-01": [
+    {
+      "user": "Lê Xuân Mai",
+      "avatar": "L",
+      "rating": 3,
+      "date": "23/4/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 3,
+      "date": "29/3/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Nguyễn Minh Tuấn",
+      "avatar": "N",
+      "rating": 5,
+      "date": "16/6/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 5,
+      "date": "31/3/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    }
+  ],
+  "id_00000516-01": [
+    {
+      "user": "Vũ Văn Mai",
+      "avatar": "V",
+      "rating": 4,
+      "date": "26/6/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Vũ Xuân Dung",
+      "avatar": "V",
+      "rating": 3,
+      "date": "16/5/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Vũ Xuân Cường",
+      "avatar": "V",
+      "rating": 3,
+      "date": "21/3/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    }
+  ],
+  "id_00001248-02": [
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 5,
+      "date": "10/6/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Phạm Thu Dung",
+      "avatar": "P",
+      "rating": 5,
+      "date": "2/4/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Phan Minh Tuấn",
+      "avatar": "P",
+      "rating": 3,
+      "date": "23/3/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Đặng Thanh Tuấn",
+      "avatar": "Đ",
+      "rating": 3,
+      "date": "25/4/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Nguyễn Thị Long",
+      "avatar": "N",
+      "rating": 5,
+      "date": "6/6/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    }
+  ],
+  "id_00000565-01": [
+    {
+      "user": "Lê Xuân Mai",
+      "avatar": "L",
+      "rating": 4,
+      "date": "3/5/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 5,
+      "date": "14/5/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    }
+  ],
+  "id_00001275-01": [
+    {
+      "user": "Nguyễn Thị Đức",
+      "avatar": "N",
+      "rating": 4,
+      "date": "28/6/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 4,
+      "date": "19/5/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Phan Minh Tuấn",
+      "avatar": "P",
+      "rating": 3,
+      "date": "10/6/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Đặng Thu Mai",
+      "avatar": "Đ",
+      "rating": 5,
+      "date": "2/6/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Phan Minh Tuấn",
+      "avatar": "P",
+      "rating": 5,
+      "date": "27/3/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Võ Văn Long",
+      "avatar": "V",
+      "rating": 5,
+      "date": "30/3/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    }
+  ],
+  "id_00000750-01": [
+    {
+      "user": "Nguyễn Thị Đức",
+      "avatar": "N",
+      "rating": 5,
+      "date": "17/5/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Trần Văn Mai",
+      "avatar": "T",
+      "rating": 5,
+      "date": "3/5/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Phạm Thị Mai",
+      "avatar": "P",
+      "rating": 4,
+      "date": "2/7/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Hoàng Thị Bình",
+      "avatar": "H",
+      "rating": 5,
+      "date": "29/5/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    }
+  ],
+  "id_00001275-02": [
+    {
+      "user": "Phạm Thu Dung",
+      "avatar": "P",
+      "rating": 4,
+      "date": "22/4/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 4,
+      "date": "15/4/2026",
+      "comment": "True colors, thick material."
+    }
+  ],
+  "id_00000826-01": [
+    {
+      "user": "Phạm Thu Dung",
+      "avatar": "P",
+      "rating": 5,
+      "date": "8/5/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Vũ Xuân Cường",
+      "avatar": "V",
+      "rating": 4,
+      "date": "28/6/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    }
+  ],
+  "id_00001279-01": [
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 5,
+      "date": "16/5/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Vũ Xuân Cường",
+      "avatar": "V",
+      "rating": 5,
+      "date": "26/3/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Trần Văn Mai",
+      "avatar": "T",
+      "rating": 3,
+      "date": "4/7/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Hoàng Thị Bình",
+      "avatar": "H",
+      "rating": 5,
+      "date": "30/5/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Lê Xuân Mai",
+      "avatar": "L",
+      "rating": 5,
+      "date": "5/7/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Lê Xuân Mai",
+      "avatar": "L",
+      "rating": 3,
+      "date": "21/6/2026",
+      "comment": "True colors, thick material."
+    }
+  ],
+  "id_00000826-02": [
+    {
+      "user": "Đặng Thanh Tuấn",
+      "avatar": "Đ",
+      "rating": 4,
+      "date": "3/6/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 3,
+      "date": "2/5/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 4,
+      "date": "6/6/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Nguyễn Thị Đức",
+      "avatar": "N",
+      "rating": 5,
+      "date": "13/5/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 3,
+      "date": "28/6/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    }
+  ],
+  "id_00001367-03": [
+    {
+      "user": "Hoàng Thị Bình",
+      "avatar": "H",
+      "rating": 4,
+      "date": "18/6/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 3,
+      "date": "1/6/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Nguyễn Thị Đức",
+      "avatar": "N",
+      "rating": 3,
+      "date": "27/5/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Phạm Thu Dung",
+      "avatar": "P",
+      "rating": 5,
+      "date": "20/4/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Phạm Thị Mai",
+      "avatar": "P",
+      "rating": 3,
+      "date": "12/5/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Nguyễn Minh Tuấn",
+      "avatar": "N",
+      "rating": 4,
+      "date": "1/4/2026",
+      "comment": "Should buy! Natural material, breathable."
+    }
+  ],
+  "id_00000826-03": [
+    {
+      "user": "Trần Ngọc An",
+      "avatar": "T",
+      "rating": 3,
+      "date": "27/6/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 3,
+      "date": "30/3/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Trần Ngọc An",
+      "avatar": "T",
+      "rating": 5,
+      "date": "3/4/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Phạm Thu Dung",
+      "avatar": "P",
+      "rating": 3,
+      "date": "26/3/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Phạm Thu Dung",
+      "avatar": "P",
+      "rating": 4,
+      "date": "16/5/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Vũ Xuân Dung",
+      "avatar": "V",
+      "rating": 5,
+      "date": "23/4/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    }
+  ],
+  "id_00001367-05": [
+    {
+      "user": "Trần Văn Mai",
+      "avatar": "T",
+      "rating": 5,
+      "date": "15/3/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Nguyễn Minh Tuấn",
+      "avatar": "N",
+      "rating": 3,
+      "date": "30/3/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    }
+  ],
+  "id_00000826-04": [
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 4,
+      "date": "3/6/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Lê Xuân Mai",
+      "avatar": "L",
+      "rating": 3,
+      "date": "14/6/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 3,
+      "date": "26/5/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    }
+  ],
+  "id_00001659-06": [
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 4,
+      "date": "17/4/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Võ Văn Long",
+      "avatar": "V",
+      "rating": 4,
+      "date": "2/6/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Vũ Văn Mai",
+      "avatar": "V",
+      "rating": 5,
+      "date": "6/4/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Nguyễn Minh Tuấn",
+      "avatar": "N",
+      "rating": 3,
+      "date": "12/5/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    }
+  ],
+  "id_00000867-01": [
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 5,
+      "date": "21/6/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 4,
+      "date": "16/6/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 4,
+      "date": "18/5/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Vũ Xuân Dung",
+      "avatar": "V",
+      "rating": 5,
+      "date": "16/5/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Vũ Xuân Cường",
+      "avatar": "V",
+      "rating": 4,
+      "date": "19/3/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Võ Văn Long",
+      "avatar": "V",
+      "rating": 4,
+      "date": "8/4/2026",
+      "comment": "Should buy! Natural material, breathable."
+    }
+  ],
+  "id_00000008-02": [
+    {
+      "user": "Lê Xuân Mai",
+      "avatar": "L",
+      "rating": 4,
+      "date": "3/6/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 3,
+      "date": "12/5/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 5,
+      "date": "30/4/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Trần Ngọc An",
+      "avatar": "T",
+      "rating": 5,
+      "date": "20/4/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    }
+  ],
+  "id_00000009-02": [
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 3,
+      "date": "13/6/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Phạm Thị Mai",
+      "avatar": "P",
+      "rating": 4,
+      "date": "4/5/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    }
+  ],
+  "id_00000011-02": [
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 3,
+      "date": "24/3/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Nguyễn Thị Đức",
+      "avatar": "N",
+      "rating": 4,
+      "date": "20/3/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Đặng Thanh Tuấn",
+      "avatar": "Đ",
+      "rating": 3,
+      "date": "15/4/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Nguyễn Thị Long",
+      "avatar": "N",
+      "rating": 3,
+      "date": "20/4/2026",
+      "comment": "Should buy! Natural material, breathable."
+    }
+  ],
+  "id_00000021-04": [
+    {
+      "user": "Lê Xuân Mai",
+      "avatar": "L",
+      "rating": 5,
+      "date": "25/5/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Phạm Thu Dung",
+      "avatar": "P",
+      "rating": 4,
+      "date": "26/5/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Lê Xuân Mai",
+      "avatar": "L",
+      "rating": 4,
+      "date": "26/4/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 4,
+      "date": "29/4/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Hoàng Thu Tuấn",
+      "avatar": "H",
+      "rating": 5,
+      "date": "21/5/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    }
+  ],
+  "id_00000021-05": [
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 5,
+      "date": "12/6/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Phan Minh Tuấn",
+      "avatar": "P",
+      "rating": 5,
+      "date": "19/5/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Vũ Xuân Dung",
+      "avatar": "V",
+      "rating": 3,
+      "date": "16/6/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    }
+  ],
+  "id_00000021-06": [
+    {
+      "user": "Vũ Xuân Cường",
+      "avatar": "V",
+      "rating": 4,
+      "date": "24/6/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Trần Ngọc An",
+      "avatar": "T",
+      "rating": 3,
+      "date": "1/6/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 3,
+      "date": "11/4/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Đặng Thanh Tuấn",
+      "avatar": "Đ",
+      "rating": 3,
+      "date": "5/7/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 4,
+      "date": "25/4/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 5,
+      "date": "30/3/2026",
+      "comment": "Should buy! Natural material, breathable."
+    }
+  ],
+  "id_00000023-01": [
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 5,
+      "date": "12/6/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Phạm Thu Dung",
+      "avatar": "P",
+      "rating": 4,
+      "date": "3/5/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    }
+  ],
+  "id_00000027-01": [
+    {
+      "user": "Phan Minh Tuấn",
+      "avatar": "P",
+      "rating": 3,
+      "date": "26/6/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Nguyễn Minh Tuấn",
+      "avatar": "N",
+      "rating": 3,
+      "date": "17/6/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Đặng Thu Mai",
+      "avatar": "Đ",
+      "rating": 3,
+      "date": "22/6/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Phạm Thị Mai",
+      "avatar": "P",
+      "rating": 5,
+      "date": "19/6/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    }
+  ],
+  "id_00000027-02": [
+    {
+      "user": "Đặng Thanh Tuấn",
+      "avatar": "Đ",
+      "rating": 4,
+      "date": "6/4/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Võ Văn Long",
+      "avatar": "V",
+      "rating": 4,
+      "date": "17/4/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Vũ Xuân Dung",
+      "avatar": "V",
+      "rating": 3,
+      "date": "3/4/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Phan Minh Tuấn",
+      "avatar": "P",
+      "rating": 3,
+      "date": "15/3/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Nguyễn Minh Tuấn",
+      "avatar": "N",
+      "rating": 5,
+      "date": "18/3/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    }
+  ],
+  "id_00000034-02": [
+    {
+      "user": "Đặng Thanh Tuấn",
+      "avatar": "Đ",
+      "rating": 3,
+      "date": "1/6/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Vũ Xuân Dung",
+      "avatar": "V",
+      "rating": 5,
+      "date": "12/6/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    }
+  ],
+  "id_00000035-03": [
+    {
+      "user": "Vũ Xuân Cường",
+      "avatar": "V",
+      "rating": 3,
+      "date": "3/4/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 3,
+      "date": "5/7/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    }
+  ],
+  "id_00000035-04": [
+    {
+      "user": "Phạm Thị Mai",
+      "avatar": "P",
+      "rating": 4,
+      "date": "10/5/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Nguyễn Thị Đức",
+      "avatar": "N",
+      "rating": 4,
+      "date": "25/4/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Nguyễn Thị Long",
+      "avatar": "N",
+      "rating": 5,
+      "date": "22/5/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    }
+  ],
+  "id_00000035-05": [
+    {
+      "user": "Vũ Xuân Cường",
+      "avatar": "V",
+      "rating": 3,
+      "date": "20/4/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Phan Minh Tuấn",
+      "avatar": "P",
+      "rating": 5,
+      "date": "10/5/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Nguyễn Thị Long",
+      "avatar": "N",
+      "rating": 3,
+      "date": "14/6/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Vũ Văn Mai",
+      "avatar": "V",
+      "rating": 5,
+      "date": "5/7/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Vũ Xuân Cường",
+      "avatar": "V",
+      "rating": 3,
+      "date": "17/4/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Võ Văn Long",
+      "avatar": "V",
+      "rating": 5,
+      "date": "19/4/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    }
+  ],
+  "id_00000037-02": [
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 5,
+      "date": "2/5/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 4,
+      "date": "22/5/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Đặng Thu Mai",
+      "avatar": "Đ",
+      "rating": 3,
+      "date": "28/3/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 4,
+      "date": "25/5/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Nguyễn Thị Long",
+      "avatar": "N",
+      "rating": 3,
+      "date": "4/5/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Vũ Xuân Dung",
+      "avatar": "V",
+      "rating": 5,
+      "date": "13/5/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    }
+  ],
+  "id_00000041-03": [
+    {
+      "user": "Vũ Xuân Dung",
+      "avatar": "V",
+      "rating": 3,
+      "date": "6/6/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Võ Văn Long",
+      "avatar": "V",
+      "rating": 5,
+      "date": "7/7/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Võ Văn Long",
+      "avatar": "V",
+      "rating": 5,
+      "date": "7/7/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    }
+  ],
+  "id_00000042-02": [
+    {
+      "user": "Đặng Thanh Tuấn",
+      "avatar": "Đ",
+      "rating": 4,
+      "date": "6/4/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Phạm Thu Dung",
+      "avatar": "P",
+      "rating": 5,
+      "date": "2/6/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Đặng Thu Mai",
+      "avatar": "Đ",
+      "rating": 5,
+      "date": "1/4/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    }
+  ],
+  "id_00000047-01": [
+    {
+      "user": "Phạm Thu Dung",
+      "avatar": "P",
+      "rating": 5,
+      "date": "2/7/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 4,
+      "date": "6/6/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Nguyễn Thị Đức",
+      "avatar": "N",
+      "rating": 3,
+      "date": "14/6/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Phạm Thị Mai",
+      "avatar": "P",
+      "rating": 4,
+      "date": "21/6/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 4,
+      "date": "16/6/2026",
+      "comment": "True colors, thick material."
+    }
+  ],
+  "id_00000059-02": [
+    {
+      "user": "Nguyễn Thị Long",
+      "avatar": "N",
+      "rating": 3,
+      "date": "5/5/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Nguyễn Minh Tuấn",
+      "avatar": "N",
+      "rating": 5,
+      "date": "26/3/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    }
+  ],
+  "id_00000064-01": [
+    {
+      "user": "Nguyễn Thị Đức",
+      "avatar": "N",
+      "rating": 5,
+      "date": "7/4/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Nguyễn Thị Long",
+      "avatar": "N",
+      "rating": 5,
+      "date": "12/6/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Vũ Văn Mai",
+      "avatar": "V",
+      "rating": 4,
+      "date": "26/6/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Lê Xuân Mai",
+      "avatar": "L",
+      "rating": 4,
+      "date": "5/7/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 3,
+      "date": "29/5/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Lê Xuân Mai",
+      "avatar": "L",
+      "rating": 3,
+      "date": "29/4/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    }
+  ],
+  "id_00000073-02": [
+    {
+      "user": "Vũ Văn Mai",
+      "avatar": "V",
+      "rating": 5,
+      "date": "19/6/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 5,
+      "date": "28/5/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 4,
+      "date": "20/6/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    }
+  ],
+  "id_00000074-03": [
+    {
+      "user": "Nguyễn Minh Tuấn",
+      "avatar": "N",
+      "rating": 5,
+      "date": "12/4/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Phạm Thị Mai",
+      "avatar": "P",
+      "rating": 3,
+      "date": "7/6/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Nguyễn Thị Long",
+      "avatar": "N",
+      "rating": 5,
+      "date": "26/4/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 5,
+      "date": "20/3/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Vũ Xuân Cường",
+      "avatar": "V",
+      "rating": 4,
+      "date": "5/5/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    }
+  ],
+  "id_00000074-04": [
+    {
+      "user": "Trần Ngọc An",
+      "avatar": "T",
+      "rating": 3,
+      "date": "23/3/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 4,
+      "date": "25/5/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    }
+  ],
+  "id_00000083-02": [
+    {
+      "user": "Hoàng Thu Tuấn",
+      "avatar": "H",
+      "rating": 3,
+      "date": "21/5/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Nguyễn Minh Tuấn",
+      "avatar": "N",
+      "rating": 4,
+      "date": "21/6/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Trần Ngọc An",
+      "avatar": "T",
+      "rating": 5,
+      "date": "13/4/2026",
+      "comment": "True colors, thick material."
+    }
+  ],
+  "id_00000087-02": [
+    {
+      "user": "Hoàng Thị Bình",
+      "avatar": "H",
+      "rating": 3,
+      "date": "16/4/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Hoàng Thu Tuấn",
+      "avatar": "H",
+      "rating": 3,
+      "date": "1/4/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 5,
+      "date": "25/5/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 3,
+      "date": "23/3/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    }
+  ],
+  "id_00000088-02": [
+    {
+      "user": "Hoàng Thị Bình",
+      "avatar": "H",
+      "rating": 3,
+      "date": "29/6/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Lê Xuân Mai",
+      "avatar": "L",
+      "rating": 5,
+      "date": "25/5/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Hoàng Thu Tuấn",
+      "avatar": "H",
+      "rating": 3,
+      "date": "25/6/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    }
+  ],
+  "id_00000092-01": [
+    {
+      "user": "Vũ Thu Dung",
+      "avatar": "V",
+      "rating": 5,
+      "date": "23/6/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 3,
+      "date": "29/4/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 4,
+      "date": "5/5/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Nguyễn Thị Đức",
+      "avatar": "N",
+      "rating": 4,
+      "date": "23/6/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Phạm Thu Dung",
+      "avatar": "P",
+      "rating": 3,
+      "date": "17/5/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Đặng Thu Mai",
+      "avatar": "Đ",
+      "rating": 5,
+      "date": "17/5/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    }
+  ],
+  "id_00000096-02": [
+    {
+      "user": "Phan Minh Tuấn",
+      "avatar": "P",
+      "rating": 3,
+      "date": "15/4/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Phạm Thu Dung",
+      "avatar": "P",
+      "rating": 5,
+      "date": "10/4/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Đặng Thanh Tuấn",
+      "avatar": "Đ",
+      "rating": 5,
+      "date": "28/6/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    }
+  ],
+  "id_00000106-03": [
+    {
+      "user": "Hoàng Thu Tuấn",
+      "avatar": "H",
+      "rating": 4,
+      "date": "13/5/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Nguyễn Minh Tuấn",
+      "avatar": "N",
+      "rating": 4,
+      "date": "22/6/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Phạm Thị Mai",
+      "avatar": "P",
+      "rating": 5,
+      "date": "21/5/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Hoàng Thu Tuấn",
+      "avatar": "H",
+      "rating": 5,
+      "date": "1/4/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Nguyễn Minh Tuấn",
+      "avatar": "N",
+      "rating": 3,
+      "date": "19/3/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    }
+  ],
+  "id_00000118-03": [
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 4,
+      "date": "17/4/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Vũ Xuân Dung",
+      "avatar": "V",
+      "rating": 3,
+      "date": "31/5/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Nguyễn Minh Tuấn",
+      "avatar": "N",
+      "rating": 4,
+      "date": "5/4/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 5,
+      "date": "29/3/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 5,
+      "date": "16/3/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 3,
+      "date": "9/5/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    }
+  ],
+  "id_00000127-01": [
+    {
+      "user": "Nguyễn Thị Đức",
+      "avatar": "N",
+      "rating": 5,
+      "date": "3/5/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Võ Văn Long",
+      "avatar": "V",
+      "rating": 4,
+      "date": "21/5/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Đặng Thu Mai",
+      "avatar": "Đ",
+      "rating": 5,
+      "date": "4/7/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 3,
+      "date": "19/5/2026",
+      "comment": "True colors, thick material."
+    }
+  ],
+  "id_00000134-02": [
+    {
+      "user": "Nguyễn Minh Tuấn",
+      "avatar": "N",
+      "rating": 5,
+      "date": "31/3/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Vũ Văn Mai",
+      "avatar": "V",
+      "rating": 5,
+      "date": "3/7/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 3,
+      "date": "7/4/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Võ Văn Long",
+      "avatar": "V",
+      "rating": 4,
+      "date": "5/6/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Vũ Xuân Dung",
+      "avatar": "V",
+      "rating": 4,
+      "date": "24/5/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Vũ Xuân Dung",
+      "avatar": "V",
+      "rating": 4,
+      "date": "6/4/2026",
+      "comment": "True colors, thick material."
+    }
+  ],
+  "id_00000141-01": [
+    {
+      "user": "Võ Văn Long",
+      "avatar": "V",
+      "rating": 5,
+      "date": "29/3/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Trần Văn Mai",
+      "avatar": "T",
+      "rating": 4,
+      "date": "11/5/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    }
+  ],
+  "id_00000169-04": [
+    {
+      "user": "Trần Ngọc An",
+      "avatar": "T",
+      "rating": 5,
+      "date": "16/5/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Hoàng Thị Bình",
+      "avatar": "H",
+      "rating": 4,
+      "date": "30/6/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Trần Ngọc An",
+      "avatar": "T",
+      "rating": 4,
+      "date": "23/5/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Lê Xuân Mai",
+      "avatar": "L",
+      "rating": 4,
+      "date": "15/5/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    }
+  ],
+  "id_00000170-01": [
+    {
+      "user": "Phạm Thu Dung",
+      "avatar": "P",
+      "rating": 4,
+      "date": "21/3/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Nguyễn Thị Long",
+      "avatar": "N",
+      "rating": 5,
+      "date": "29/4/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Vũ Xuân Dung",
+      "avatar": "V",
+      "rating": 5,
+      "date": "6/4/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Phạm Thu Dung",
+      "avatar": "P",
+      "rating": 3,
+      "date": "30/3/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Trần Ngọc An",
+      "avatar": "T",
+      "rating": 3,
+      "date": "23/6/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    }
+  ],
+  "id_00000173-02": [
+    {
+      "user": "Hoàng Thu Tuấn",
+      "avatar": "H",
+      "rating": 5,
+      "date": "7/6/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Vũ Văn Mai",
+      "avatar": "V",
+      "rating": 5,
+      "date": "6/5/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Trần Ngọc An",
+      "avatar": "T",
+      "rating": 4,
+      "date": "24/6/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    },
+    {
+      "user": "Phạm Thu Dung",
+      "avatar": "P",
+      "rating": 5,
+      "date": "25/5/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Hoàng Thu Tuấn",
+      "avatar": "H",
+      "rating": 4,
+      "date": "1/7/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Vũ Xuân Dung",
+      "avatar": "V",
+      "rating": 5,
+      "date": "3/4/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    }
+  ],
+  "id_00000178-01": [
+    {
+      "user": "Phạm Thị Mai",
+      "avatar": "P",
+      "rating": 5,
+      "date": "23/3/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Phạm Thị Mai",
+      "avatar": "P",
+      "rating": 3,
+      "date": "31/5/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Người Mua Demo",
+      "avatar": "N",
+      "rating": 3,
+      "date": "21/3/2026",
+      "comment": "Roomier than expected but still ok. Good quality. Support green products!"
+    },
+    {
+      "user": "Phạm Thị Mai",
+      "avatar": "P",
+      "rating": 4,
+      "date": "28/3/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Phạm Thị Mai",
+      "avatar": "P",
+      "rating": 5,
+      "date": "21/5/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    }
+  ],
+  "id_00000178-02": [
+    {
+      "user": "Trần Ngọc An",
+      "avatar": "T",
+      "rating": 3,
+      "date": "23/5/2026",
+      "comment": "Suitable for daily use. Will support long-term."
+    },
+    {
+      "user": "Vũ Văn Mai",
+      "avatar": "V",
+      "rating": 3,
+      "date": "31/3/2026",
+      "comment": "Durable, beautiful, reasonable price. Natural product, safe."
+    },
+    {
+      "user": "Vũ Văn Mai",
+      "avatar": "V",
+      "rating": 5,
+      "date": "15/4/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Hoàng Thị Bình",
+      "avatar": "H",
+      "rating": 4,
+      "date": "25/4/2026",
+      "comment": "Super lightweight and warm jacket. Recycled material yet very durable."
+    }
+  ],
+  "id_00000188-02": [
+    {
+      "user": "Trần Minh Hoa",
+      "avatar": "T",
+      "rating": 5,
+      "date": "17/6/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Nguyễn Minh Tuấn",
+      "avatar": "N",
+      "rating": 4,
+      "date": "2/5/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Đặng Thanh Tuấn",
+      "avatar": "Đ",
+      "rating": 4,
+      "date": "21/5/2026",
+      "comment": "Looks good, fabric stretches well. Waistband fits perfectly."
+    },
+    {
+      "user": "Trần Hữu Tuấn",
+      "avatar": "T",
+      "rating": 4,
+      "date": "23/4/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Nguyễn Minh Tuấn",
+      "avatar": "N",
+      "rating": 3,
+      "date": "14/5/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Nguyễn Thị Đức",
+      "avatar": "N",
+      "rating": 4,
+      "date": "5/5/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    }
+  ],
+  "id_00000189-01": [
+    {
+      "user": "Nguyễn Thị Đức",
+      "avatar": "N",
+      "rating": 4,
+      "date": "9/5/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Hoàng Thu Tuấn",
+      "avatar": "H",
+      "rating": 3,
+      "date": "16/4/2026",
+      "comment": "True colors, thick material."
+    },
+    {
+      "user": "Phạm Thu Dung",
+      "avatar": "P",
+      "rating": 3,
+      "date": "26/6/2026",
+      "comment": "Should buy! Natural material, breathable."
+    },
+    {
+      "user": "Phạm Thị Mai",
+      "avatar": "P",
+      "rating": 4,
+      "date": "8/6/2026",
+      "comment": "Soft fabric, very comfortable to wear. Support green products!"
+    },
+    {
+      "user": "Vũ Văn Mai",
+      "avatar": "V",
+      "rating": 3,
+      "date": "20/3/2026",
+      "comment": "Good product, comfortable to wear. Minus 1 star because it's a bit roomier than described."
+    },
+    {
+      "user": "Vũ Xuân Cường",
+      "avatar": "V",
+      "rating": 5,
+      "date": "20/5/2026",
+      "comment": "True colors, thick material."
     }
   ]
 }

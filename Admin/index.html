@@ -1,43 +1,75 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta name="description" content="ReFashion - Hệ sinh thái thời trang tuần hoàn kết nối người mua, nhà thiết kế tái sinh và quản trị viên minh bạch.">
-  <meta property="og:title" content="ReFashion - Thời trang Tái sinh & Bền vững">
-  <meta property="og:description" content="Hệ sinh thái thời trang tuần hoàn kết nối người mua, nhà thiết kế tái sinh và quản trị viên minh bạch.">
+  <meta name="description" content="ReFashion - Circular fashion ecosystem connecting buyers, upcycle designers, and administrators.">
+  <meta property="og:title" content="ReFashion - Circular & Sustainable Fashion">
+  <meta property="og:description" content="Circular fashion ecosystem connecting buyers, upcycle designers, and administrators.">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Panel - ReFashion Platform</title>
-  <link rel="stylesheet" href="../css/maincss.css">
+  <link rel="stylesheet" href="../css/maincss.css?v=2">
   <link rel="stylesheet" href="../css/admin.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body>
+<body class="admin-body">
+
+  <!-- Ambient Blur Background Blobs -->
+  <div class="bg-ambient-blob blob-1"></div>
+  <div class="bg-ambient-blob blob-2"></div>
 
   <div class="admin-container">
-    <!-- Sidebar -->
+    <!-- Sidebar Navigation -->
     <aside class="sidebar">
-      <div class="sidebar-logo">ReFashion</div>
-      <div class="sidebar-tagline">Thời trang Tái sinh · Tác động Bền vững</div>
+      <div class="sidebar-header">
+        <h1 class="brand-logo">ReFashion</h1>
+        <span class="brand-tagline">Admin Control</span>
+      </div>
       
-      <ul class="nav-menu">
-        <li class="nav-item active" data-target="dashboard-sec">Overview Dashboard</li>
-        <li class="nav-item" data-target="users-sec">User Management</li>
-        <li class="nav-item" data-target="shops-sec">Shop Approvals</li>
-        <li class="nav-item" data-target="products-sec">Product Moderation</li>
-        <li class="nav-item" data-target="categories-sec">Categories</li>
-        <li class="nav-item" data-target="settings-sec">Settings & Campaigns</li>
-        <li class="nav-item" data-target="revenue-sec">Revenue & Withdrawals</li>
-      </ul>
-      <div class="sidebar-footer" style="padding: 20px 24px; border-top: 1px solid rgba(255,255,255,0.1); margin-top: auto; display:flex; flex-direction:column; gap:12px;">
-        <div class="user-profile" style="display:flex; align-items:center; gap:12px;">
-          <div style="width:36px; height:36px; border-radius:50%; background:#10B981; color:white; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:14px; flex-shrink:0;">A</div>
-          <div class="user-info" style="display:flex; flex-direction:column; overflow:hidden;">
-            <span class="user-name" style="font-size:13px; font-weight:600; color:white; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Admin ReFashion</span>
-            <span class="user-role" style="font-size:11px; color:#94A3B8;">Administrator</span>
+      <nav class="sidebar-nav">
+        <button class="nav-btn nav-item active" data-target="dashboard-sec">
+          <i data-lucide="bar-chart-2"></i> Overview
+        </button>
+        <button class="nav-btn nav-item" data-target="users-sec">
+          <i data-lucide="users"></i> Users
+        </button>
+        <button class="nav-btn nav-item" data-target="orders-sec">
+          <i data-lucide="shopping-bag"></i> Orders
+        </button>
+        <button class="nav-btn nav-item" data-target="shops-sec">
+          <i data-lucide="store"></i> Shop Approvals
+        </button>
+        <button class="nav-btn nav-item" data-target="subscriptions-sec">
+          <i data-lucide="credit-card"></i> Subscriptions
+        </button>
+        <button class="nav-btn nav-item" data-target="products-sec">
+          <i data-lucide="shield-alert"></i> Product Moderation
+        </button>
+        <button class="nav-btn nav-item" data-target="categories-sec">
+          <i data-lucide="grid"></i> Categories
+        </button>
+        <button class="nav-btn nav-item" data-target="settings-sec">
+          <i data-lucide="settings"></i> Campaigns & Settings
+        </button>
+
+        <button class="nav-btn nav-item" data-target="transactions-sec">
+          <i data-lucide="receipt"></i> Transaction Audit
+        </button>
+      </nav>
+      
+      <div class="sidebar-footer">
+        <div class="user-profile">
+          <div class="avatar-fallback">A</div>
+          <div class="user-info">
+            <span class="user-name">Admin ReFashion</span>
+            <span class="user-role">Administrator</span>
           </div>
         </div>
-        <button onclick="RefashionAuth.logout()" class="btn btn-outline" style="width:100%; justify-content:center; color:#94A3B8; border-color:rgba(255,255,255,0.2); font-size:11px; padding:8px 16px; text-transform:none; letter-spacing:0;">
-          <i class="fas fa-sign-out-alt" style="margin-right:8px;"></i>Đăng xuất
+        <button onclick="RefashionAuth.logout()" class="btn-logout-sidebar">
+          <i data-lucide="log-out"></i>Logout
         </button>
       </div>
     </aside>
@@ -47,38 +79,60 @@
       
       <!-- 1. Dashboard -->
       <section id="dashboard-sec" class="page-section active">
-        <div class="header">
-          <h1 class="header-title">Welcome to <span>Admin Panel</span></h1>
+        <div class="section-header">
+          <div>
+            <h2 class="text-display">Welcome to <span style="color:var(--primary-green)">Admin Panel</span></h2>
+            <p style="color:var(--text-secondary);font-size:14px;margin-top:4px;">Platform-wide management and sustainable circular fashion metrics.</p>
+          </div>
+          <span class="badge-editorial badge-accent" style="align-self:flex-start;"><i data-lucide="shield" style="width:12px;height:12px;margin-right:4px;display:inline-block;vertical-align:middle;"></i> System Admin</span>
         </div>
         
         <div class="dashboard-grid">
           <div class="eco-card float-anim">
             <div class="stat-label">Total Active Users</div>
-            <div class="stat-value">1,248</div>
+            <div class="stat-value" id="stat-active-users">1,248</div>
             <span class="badge badge-highlight">+12% this week</span>
           </div>
           <div class="eco-card float-anim" style="animation-delay: 0.2s;">
             <div class="stat-label">Pending Shop Requests</div>
-            <div class="stat-value">15</div>
+            <div class="stat-value" id="stat-pending-shops">15</div>
             <span class="badge badge-danger">Needs Review</span>
           </div>
           <div class="eco-card float-anim" style="animation-delay: 0.4s;">
             <div class="stat-label">Platform Revenue</div>
-            <div class="stat-value">45.2M VND</div>
+            <div class="stat-value" id="stat-revenue">45.2Mđ</div>
             <span class="badge badge-accent">On Target</span>
           </div>
           <div class="eco-card float-anim" style="animation-delay: 0.6s;">
             <div class="stat-label">Green Impact</div>
-            <div class="stat-value metric-text">-850 Kg CO₂</div>
+            <div class="stat-value metric-text" id="stat-green-impact">-850 Kg CO₂</div>
             <span class="badge badge-default">Since Launch</span>
+          </div>
+        </div>
+
+        <div class="dashboard-grid" style="grid-template-columns: 2fr 1fr; margin-top: 24px;">
+          <div class="eco-card float-anim" style="animation-delay: 0.8s;">
+            <h3 style="font-family: var(--font-serif); margin-bottom: 16px; color: var(--primary);">Platform Revenue</h3>
+            <div style="height: 300px; width: 100%;">
+              <canvas id="adminRevenueChart"></canvas>
+            </div>
+          </div>
+          <div class="eco-card float-anim" style="animation-delay: 1.0s;">
+            <h3 style="font-family: var(--font-serif); margin-bottom: 16px; color: var(--primary);">User Distribution</h3>
+            <div style="height: 300px; width: 100%; display: flex; justify-content: center; align-items: center;">
+              <canvas id="adminUsersChart"></canvas>
+            </div>
           </div>
         </div>
       </section>
 
       <!-- 2. Users -->
       <section id="users-sec" class="page-section">
-        <div class="header">
-          <h2 class="header-title">User <span>Management</span></h2>
+        <div class="section-header">
+          <div>
+            <h2 class="text-display">User <span style="color:var(--primary-green)">Management</span></h2>
+            <p style="color:var(--text-secondary);font-size:14px;margin-top:4px;">Manage platform user accounts, roles, and status credentials.</p>
+          </div>
         </div>
         <div class="eco-card">
           <div class="eco-table-wrapper">
@@ -100,13 +154,106 @@
         </div>
       </section>
 
-      <!-- 3. Shop Approvals -->
+      <!-- 3. Orders -->
+      <section id="orders-sec" class="page-section">
+        <div class="section-header">
+          <div>
+            <h2 class="text-display">Platform <span style="color:var(--primary-green)">Orders</span></h2>
+            <p style="color:var(--text-secondary);font-size:14px;margin-top:4px;">Monitor all orders across stores with platform fee tracking.</p>
+          </div>
+          <div style="display:flex;gap:12px;align-items:center;">
+            <div style="position:relative;width:220px;">
+              <i data-lucide="search" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);width:14px;height:14px;color:var(--text-secondary);"></i>
+              <input type="text" id="admin-order-search" class="eco-input" placeholder="Search order/customer..." style="padding-left:34px;height:38px;font-size:12px;">
+            </div>
+            <span class="badge badge-accent" id="admin-order-count">0 orders</span>
+          </div>
+        </div>
+        <div class="eco-card" style="padding:0;overflow:hidden;">
+          <div class="eco-table-wrapper">
+            <table class="eco-table">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Customer</th>
+                  <th>Store</th>
+                  <th>Items</th>
+                  <th>Total</th>
+                  <th>Fee</th>
+                  <th>Payment</th>
+                  <th>Status</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody id="orders-tbody">
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. Subscriptions -->
+      <section id="subscriptions-sec" class="page-section">
+        <div class="section-header">
+          <div>
+            <h2 class="text-display">Shop <span style="color:var(--primary-green)">Subscriptions</span></h2>
+            <p style="color:var(--text-secondary);font-size:14px;margin-top:4px;">Manage store subscription plans, renewals, and billing.</p>
+          </div>
+          <span class="badge-editorial badge-accent"><i data-lucide="shield" style="width:12px;height:12px;margin-right:4px;"></i> 3 Active Plans</span>
+        </div>
+        <div class="dashboard-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:24px;">
+          <div class="eco-card" style="text-align:center;">
+            <h3 style="font-size:14px;color:var(--text-secondary);margin-bottom:8px;">Basic</h3>
+            <div class="stat-value" style="font-size:28px;">99,000đ</div>
+            <span style="font-size:12px;color:var(--text-muted);">/month</span>
+            <div style="margin-top:12px;font-size:11px;color:var(--text-secondary);">Up to 20 products<br/>Email support<br/>Basic analytics</div>
+          </div>
+          <div class="eco-card" style="text-align:center;border-color:var(--primary-green);">
+            <span class="badge badge-accent" style="margin-bottom:8px;">Most Popular</span>
+            <h3 style="font-size:14px;color:var(--text-secondary);margin-bottom:8px;">Pro</h3>
+            <div class="stat-value" style="font-size:28px;color:var(--primary-green);">299,000đ</div>
+            <span style="font-size:12px;color:var(--text-muted);">/month</span>
+            <div style="margin-top:12px;font-size:11px;color:var(--text-secondary);">Up to 50 products<br/>Priority support<br/>Analytics dashboard<br/>Custom storefront</div>
+          </div>
+          <div class="eco-card" style="text-align:center;">
+            <h3 style="font-size:14px;color:var(--text-secondary);margin-bottom:8px;">Enterprise</h3>
+            <div class="stat-value" style="font-size:28px;">599,000đ</div>
+            <span style="font-size:12px;color:var(--text-muted);">/month</span>
+            <div style="margin-top:12px;font-size:11px;color:var(--text-secondary);">Unlimited products<br/>Dedicated manager<br/>API access<br/>Advanced analytics<br/>Multi-warehouse</div>
+          </div>
+        </div>
+        <div class="eco-card" style="padding:0;overflow:hidden;">
+          <h3 style="margin:16px 20px 4px;font-family:var(--font-serif);font-size:18px;">Store Subscription Details</h3>
+          <div class="eco-table-wrapper">
+            <table class="eco-table">
+              <thead>
+                <tr>
+                  <th>Sub ID</th>
+                  <th>Store</th>
+                  <th>Designer</th>
+                  <th>Plan</th>
+                  <th>Monthly Fee</th>
+                  <th>Products</th>
+                  <th>Renewal</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="subscriptions-tbody">
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. Shop Approvals -->
       <section id="shops-sec" class="page-section">
-        <div class="header">
-          <h2 class="header-title">Shop <span>Approvals</span></h2>
+        <div class="section-header">
+          <div>
+            <h2 class="text-display">Shop <span style="color:var(--primary-green)">Approvals</span></h2>
+            <p style="color:var(--text-secondary);font-size:14px;margin-top:4px;">Pending requests from Designers to open a storefront.</p>
+          </div>
         </div>
         <div class="eco-card">
-          <p style="margin-bottom: 20px; color: #64748B;">Pending requests from Designers to open a storefront.</p>
           <div class="eco-table-wrapper">
             <table class="eco-table">
               <thead>
@@ -126,13 +273,15 @@
         </div>
       </section>
 
-      <!-- 4. Product Moderation -->
+      <!-- 6. Product Moderation -->
       <section id="products-sec" class="page-section">
-        <div class="header">
-          <h2 class="header-title">Product <span>Moderation</span></h2>
+        <div class="section-header">
+          <div>
+            <h2 class="text-display">Product <span style="color:var(--primary-green)">Moderation</span></h2>
+            <p style="color:var(--text-secondary);font-size:14px;margin-top:4px;">Flagged or reported products violating circularity policies.</p>
+          </div>
         </div>
         <div class="eco-card">
-          <p style="margin-bottom: 20px; color: #64748B;">Flagged or reported products violating policies.</p>
           <div class="eco-table-wrapper">
             <table class="eco-table">
               <thead>
@@ -152,11 +301,16 @@
         </div>
       </section>
 
-      <!-- 5. Categories -->
+      <!-- 7. Categories -->
       <section id="categories-sec" class="page-section">
-        <div class="header">
-          <h2 class="header-title">Global <span>Categories</span></h2>
-          <button class="btn btn-primary" id="add-cat-btn">Add Category</button>
+        <div class="section-header">
+          <div>
+            <h2 class="text-display">Global <span style="color:var(--primary-green)">Categories</span></h2>
+            <p style="color:var(--text-secondary);font-size:14px;margin-top:4px;">Configure categories and classifications for eco-materials.</p>
+          </div>
+          <button class="btn btn-primary" id="add-cat-btn" style="height:44px; padding:0 24px; font-size:12px;">
+            <i data-lucide="plus" style="width:16px;height:16px;margin-right:6px;display:inline-block;vertical-align:middle;"></i> Add Category
+          </button>
         </div>
         <div class="eco-card">
           <div class="eco-table-wrapper">
@@ -177,14 +331,17 @@
         </div>
       </section>
 
-      <!-- 6. Settings & Campaigns -->
+      <!-- 8. Settings & Campaigns -->
       <section id="settings-sec" class="page-section">
-        <div class="header">
-          <h2 class="header-title">Settings <span>& Campaigns</span></h2>
+        <div class="section-header">
+          <div>
+            <h2 class="text-display">Settings <span style="color:var(--primary-green)">& Campaigns</span></h2>
+            <p style="color:var(--text-secondary);font-size:14px;margin-top:4px;">Manage transaction fees, promotions, and active community campaigns.</p>
+          </div>
         </div>
-        <div class="dashboard-grid">
-          <div class="eco-card">
-            <h3 style="margin-bottom: 16px;">Platform Fee Settings</h3>
+        <div style="display:flex;flex-direction:column;gap:24px;">
+          <div class="eco-card" style="max-width:420px;">
+            <h3 style="margin-bottom: 16px; font-family: var(--font-serif); font-size: 22px;">Platform Fee Settings</h3>
             <div class="input-group">
               <label for="platform-fee">Transaction Fee (%)</label>
               <input type="number" id="platform-fee" class="eco-input" value="5" min="1" max="20">
@@ -193,22 +350,22 @@
           </div>
           
           <div class="eco-card">
-            <h3 style="margin-bottom: 16px;">Active Campaigns</h3>
+            <h3 style="margin-bottom: 16px; font-family: var(--font-serif); font-size: 22px;">Active Campaigns</h3>
             <div class="eco-table-wrapper" style="margin-bottom: 16px;">
               <table class="eco-table">
                 <thead>
                   <tr>
                     <th>Code</th>
+                    <th>Name / Description</th>
                     <th>Discount</th>
+                    <th>Min Order</th>
+                    <th>Duration</th>
+                    <th>Usage</th>
                     <th>Status</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <td>ECOWEEK</td>
-                    <td>10%</td>
-                    <td><span class="badge badge-accent">Active</span></td>
-                  </tr>
+                <tbody id="campaigns-tbody">
+                  <!-- Rendered by JS -->
                 </tbody>
               </table>
             </div>
@@ -217,37 +374,36 @@
         </div>
       </section>
 
-      <!-- 7. Revenue & Withdrawals -->
-      <section id="revenue-sec" class="page-section">
-        <div class="header">
-          <h2 class="header-title">Revenue <span>& Withdrawals</span></h2>
-        </div>
-        
-        <div class="dashboard-grid">
-           <div class="eco-card pulse-green">
-             <div class="stat-label">Pending Payouts</div>
-             <div class="stat-value">3.7M VND</div>
-           </div>
-           <div class="eco-card">
-             <div class="stat-label">Total Platform Revenue</div>
-             <div class="stat-value">45.2M VND</div>
-           </div>
-        </div>
+      <!-- 9. Revenue & Withdrawals -->
 
-        <div class="eco-card" style="margin-top: 24px;">
-          <h3 style="margin-bottom: 16px;">Pending Designer Withdrawals</h3>
+
+      <!-- 10. Transaction Audit -->
+      <section id="transactions-sec" class="page-section">
+        <div class="section-header">
+          <div>
+            <h2 class="text-display">Transaction <span style="color:var(--primary-green)">Audit</span></h2>
+            <p style="color:var(--text-secondary);font-size:14px;margin-top:4px;">Monitor all completed financial transactions, fees, and settlement status.</p>
+          </div>
+          <span class="badge badge-accent" id="txn-summary">0 transactions</span>
+        </div>
+        <div class="eco-card" style="padding:0;overflow:hidden;">
           <div class="eco-table-wrapper">
             <table class="eco-table">
               <thead>
                 <tr>
-                  <th>Request ID</th>
-                  <th>Designer</th>
+                  <th>TXN ID</th>
+                  <th>Order ID</th>
+                  <th>Store</th>
+                  <th>Buyer</th>
                   <th>Amount</th>
+                  <th>Platform Fee</th>
+                  <th>Net Amount</th>
+                  <th>Payment</th>
+                  <th>Date</th>
                   <th>Status</th>
-                  <th>Action</th>
                 </tr>
               </thead>
-              <tbody id="withdrawals-tbody">
+              <tbody id="transactions-tbody">
                 <!-- Rendered by JS -->
               </tbody>
             </table>
@@ -255,10 +411,14 @@
         </div>
       </section>
 
+
+
     </main>
   </div>
 
-  <script src="../js/mainjs.js"></script>
+  <div id="footer-container"></div>
+
+  <script src="../js/mainjs.js?v=2"></script>
   <script src="../js/admin.js"></script>
 </body>
 </html>

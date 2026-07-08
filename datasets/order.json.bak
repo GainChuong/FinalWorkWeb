@@ -1,0 +1,354 @@
+﻿{
+    "orders":  [
+                   {
+                       "id":  "ORD-9872",
+                       "createdAt":  "2026-07-02T14:30:00",
+                       "customer":  {
+                                        "name":  "Nguy峄卬 V膬n An",
+                                        "phone":  "0901 234 567",
+                                        "address":  "123 Nguy峄卬 Hu峄? Qu岷璶 1, TP. HCM"
+                                    },
+                       "items":  [
+                                     {
+                                         "name":  "Reworked Denim Jacket",
+                                         "variant":  "Blue / Size L",
+                                         "qty":  1,
+                                         "price":  1200000,
+                                         "image":  ""
+                                     }
+                                 ],
+                       "total":  1200000,
+                       "status":  "pending",
+                       "note":  "Deliver during office hours"
+                   },
+                   {
+                       "id":  "ORD-9871",
+                       "createdAt":  "2026-07-02T11:15:00",
+                       "customer":  {
+                                        "name":  "Tr岷 Th峄?Mai",
+                                        "phone":  "0902 345 678",
+                                        "address":  "456 L锚 L峄, Qu岷璶 3, TP. HCM"
+                                    },
+                       "items":  [
+                                     {
+                                         "name":  "Vintage Patchwork Bag",
+                                         "variant":  "Brown / Free Size",
+                                         "qty":  1,
+                                         "price":  850000,
+                                         "image":  ""
+                                     }
+                                 ],
+                       "total":  850000,
+                       "status":  "pending",
+                       "note":  ""
+                   },
+                   {
+                       "id":  "ORD-9870",
+                       "createdAt":  "2026-07-01T16:45:00",
+                       "customer":  {
+                                        "name":  "L锚 Ho脿ng Long",
+                                        "phone":  "0903 456 789",
+                                        "address":  "789 Tr岷 H瓢ng 膼岷, Qu岷璶 5, TP. HCM"
+                                    },
+                       "items":  [
+                                     {
+                                         "name":  "Reworked Denim Jacket",
+                                         "variant":  "Blue / Size M",
+                                         "qty":  2,
+                                         "price":  1200000,
+                                         "image":  ""
+                                     }
+                                 ],
+                       "total":  2400000,
+                       "status":  "confirmed",
+                       "note":  "Gift wrapping"
+                   },
+                   {
+                       "id":  "ORD-9869",
+                       "createdAt":  "2026-07-01T09:20:00",
+                       "customer":  {
+                                        "name":  "Ph岷 Minh 膼峄ヽ",
+                                        "phone":  "0904 567 890",
+                                        "address":  "12 V玫 V膬n Ng芒n, Th峄?膼峄ヽ, TP. HCM"
+                                    },
+                       "items":  [
+                                     {
+                                         "name":  "Restyled Flannel Shirt",
+                                         "variant":  "Red / Size L",
+                                         "qty":  1,
+                                         "price":  450000,
+                                         "image":  ""
+                                     },
+                                     {
+                                         "name":  "Corduroy Upcycled Cap",
+                                         "variant":  "Beige / Free Size",
+                                         "qty":  1,
+                                         "price":  250000,
+                                         "image":  ""
+                                     }
+                                 ],
+                       "total":  700000,
+                       "status":  "confirmed",
+                       "note":  ""
+                   },
+                   {
+                       "id":  "ORD-9868",
+                       "createdAt":  "2026-06-30T15:10:00",
+                       "customer":  {
+                                        "name":  "V农 Thanh H岷眓g",
+                                        "phone":  "0905 678 901",
+                                        "address":  "567 Hai B脿 Tr瓢ng, Qu岷璶 3, TP. HCM"
+                                    },
+                       "items":  [
+                                     {
+                                         "name":  "Patchwork Denim Jeans",
+                                         "variant":  "Dark Blue / Size 32",
+                                         "qty":  1,
+                                         "price":  850000,
+                                         "image":  ""
+                                     }
+                                 ],
+                       "total":  850000,
+                       "status":  "packed",
+                       "note":  ""
+                   },
+                   {
+                       "id":  "ORD-9867",
+                       "createdAt":  "2026-06-30T10:00:00",
+                       "customer":  {
+                                        "name":  "膼岷穘g Kim Ng芒n",
+                                        "phone":  "0906 789 012",
+                                        "address":  "89 Nguy峄卬 膼矛nh Chi峄僽, Qu岷璶 1, TP. HCM"
+                                    },
+                       "items":  [
+                                     {
+                                         "name":  "Refashioned Summer Dress",
+                                         "variant":  "Floral / Size M",
+                                         "qty":  1,
+                                         "price":  680000,
+                                         "image":  ""
+                                     }
+                                 ],
+                       "total":  680000,
+                       "status":  "packed",
+                       "note":  ""
+                   },
+                   {
+                       "id":  "ORD-9866",
+                       "createdAt":  "2026-06-29T13:25:00",
+                       "customer":  {
+                                        "name":  "Nguy峄卬 Duy Anh",
+                                        "phone":  "0907 890 123",
+                                        "address":  "234 Ph岷 V膬n 膼峄搉g, Th峄?膼峄ヽ, TP. HCM"
+                                    },
+                       "items":  [
+                                     {
+                                         "name":  "Corduroy Upcycled Cap",
+                                         "variant":  "Gray / Free Size",
+                                         "qty":  2,
+                                         "price":  250000,
+                                         "image":  ""
+                                     },
+                                     {
+                                         "name":  "Reworked Denim Jacket",
+                                         "variant":  "Black / Size XL",
+                                         "qty":  1,
+                                         "price":  1200000,
+                                         "image":  ""
+                                     }
+                                 ],
+                       "total":  1700000,
+                       "status":  "shipping",
+                       "note":  ""
+                   },
+                   {
+                       "id":  "ORD-9865",
+                       "createdAt":  "2026-06-28T08:45:00",
+                       "customer":  {
+                                        "name":  "Ho脿ng Minh T芒m",
+                                        "phone":  "0908 901 234",
+                                        "address":  "345 X么 Vi岷縯 Ngh峄?T末nh, Qu岷璶 B矛nh Th岷h, TP. HCM"
+                                    },
+                       "items":  [
+                                     {
+                                         "name":  "Vintage Patchwork Bag",
+                                         "variant":  "Black / Free Size",
+                                         "qty":  1,
+                                         "price":  850000,
+                                         "image":  ""
+                                     }
+                                 ],
+                       "total":  850000,
+                       "status":  "shipping",
+                       "note":  "Deliver before 5 PM"
+                   },
+                   {
+                       "id":  "ORD-9864",
+                       "createdAt":  "2026-06-27T17:30:00",
+                       "customer":  {
+                                        "name":  "L媒 Th峄?Hoa",
+                                        "phone":  "0909 012 345",
+                                        "address":  "678 L媒 T峄?Tr峄峮g, Qu岷璶 1, TP. HCM"
+                                    },
+                       "items":  [
+                                     {
+                                         "name":  "Restyled Flannel Shirt",
+                                         "variant":  "Striped / Size M",
+                                         "qty":  1,
+                                         "price":  450000,
+                                         "image":  ""
+                                     }
+                                 ],
+                       "total":  450000,
+                       "status":  "completed",
+                       "note":  ""
+                   },
+                   {
+                       "id":  "ORD-9863",
+                       "createdAt":  "2026-06-26T14:00:00",
+                       "customer":  {
+                                        "name":  "Tr瓢啤ng V膬n H霉ng",
+                                        "phone":  "0910 123 456",
+                                        "address":  "90 B霉i Th峄?Xu芒n, Qu岷璶 1, TP. HCM"
+                                    },
+                       "items":  [
+                                     {
+                                         "name":  "Reworked Denim Jacket",
+                                         "variant":  "Blue / Size L",
+                                         "qty":  1,
+                                         "price":  1200000,
+                                         "image":  ""
+                                     },
+                                     {
+                                         "name":  "Corduroy Upcycled Cap",
+                                         "variant":  "Brown / Free Size",
+                                         "qty":  1,
+                                         "price":  250000,
+                                         "image":  ""
+                                     },
+                                     {
+                                         "name":  "Vintage Patchwork Bag",
+                                         "variant":  "Moss Green / Free Size",
+                                         "qty":  1,
+                                         "price":  850000,
+                                         "image":  ""
+                                     }
+                                 ],
+                       "total":  2300000,
+                       "status":  "completed",
+                       "note":  ""
+                   },
+                   {
+                       "id":  "ORD-9862",
+                       "createdAt":  "2026-06-25T11:20:00",
+                       "customer":  {
+                                        "name":  "膼峄?Th煤y Vi",
+                                        "phone":  "0911 234 567",
+                                        "address":  "123 L锚 V膬n S峄? Qu岷璶 3, TP. HCM"
+                                    },
+                       "items":  [
+                                     {
+                                         "name":  "Patchwork Denim Jeans",
+                                         "variant":  "Black / Size 30",
+                                         "qty":  1,
+                                         "price":  850000,
+                                         "image":  ""
+                                     }
+                                 ],
+                       "total":  850000,
+                       "status":  "completed",
+                       "note":  ""
+                   },
+                   {
+                       "id":  "ORD-9861",
+                       "createdAt":  "2026-06-24T09:15:00",
+                       "customer":  {
+                                        "name":  "B霉i Qu峄慶 B岷",
+                                        "phone":  "0912 345 678",
+                                        "address":  "456 Nguy峄卬 Th峄?Minh Khai, Qu岷璶 1, TP. HCM"
+                                    },
+                       "items":  [
+                                     {
+                                         "name":  "Refashioned Summer Dress",
+                                         "variant":  "White / Size S",
+                                         "qty":  1,
+                                         "price":  680000,
+                                         "image":  ""
+                                     }
+                                 ],
+                       "total":  680000,
+                       "status":  "completed",
+                       "note":  ""
+                   },
+                   {
+                       "id":  "ORD-9860",
+                       "createdAt":  "2026-06-23T16:40:00",
+                       "customer":  {
+                                        "name":  "Phan Th岷 Nguy锚n",
+                                        "phone":  "0913 456 789",
+                                        "address":  "789 膼i峄噉 Bi锚n Ph峄? Qu岷璶 B矛nh Th岷h, TP. HCM"
+                                    },
+                       "items":  [
+                                     {
+                                         "name":  "Reworked Denim Jacket",
+                                         "variant":  "Black / Size M",
+                                         "qty":  1,
+                                         "price":  1200000,
+                                         "image":  ""
+                                     },
+                                     {
+                                         "name":  "Vintage Patchwork Bag",
+                                         "variant":  "Brown / Free Size",
+                                         "qty":  1,
+                                         "price":  850000,
+                                         "image":  ""
+                                     }
+                                 ],
+                       "total":  2050000,
+                       "status":  "completed",
+                       "note":  ""
+                   },
+                   {
+                       "id":  "ORD-9859",
+                       "createdAt":  "2026-06-22T10:30:00",
+                       "customer":  {
+                                        "name":  "D瓢啤ng M峄?Linh",
+                                        "phone":  "0914 567 890",
+                                        "address":  "12 Ng么 Gia T峄? Qu岷璶 10, TP. HCM"
+                                    },
+                       "items":  [
+                                     {
+                                         "name":  "Restyled Flannel Shirt",
+                                         "variant":  "Plaid / Size L",
+                                         "qty":  1,
+                                         "price":  450000,
+                                         "image":  ""
+                                     }
+                                 ],
+                       "total":  450000,
+                       "status":  "cancelled",
+                       "note":  "Customer cancelled due to changed needs"
+                   },
+                   {
+                       "id":  "ORD-9858",
+                       "createdAt":  "2026-06-21T08:00:00",
+                       "customer":  {
+                                        "name":  "Ng么 Thanh S啤n",
+                                        "phone":  "0915 678 901",
+                                        "address":  "34 Ho脿ng Hoa Th谩m, Qu岷璶 T芒n B矛nh, TP. HCM"
+                                    },
+                       "items":  [
+                                     {
+                                         "name":  "Corduroy Upcycled Cap",
+                                         "variant":  "Blue / Free Size",
+                                         "qty":  3,
+                                         "price":  250000,
+                                         "image":  ""
+                                     }
+                                 ],
+                       "total":  750000,
+                       "status":  "cancelled",
+                       "note":  "Out of stock"
+                   }
+               ]
+}

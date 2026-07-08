@@ -2,12 +2,11 @@
 
 ## Philosophy
 
-Không lặp lại bố cục "text + image". Mỗi section phải có một hình dạng
-(shape) và nhịp điệu riêng để tạo cảm giác khám phá.
+Do not repeat the "text + image" layout. Each section must have its own unique shape and rhythm to create a sense of discovery.
 
 ## Section 1 -- Hero
 
--   Shape: Organic Blob hoặc Rounded Asymmetric Window.
+-   Shape: Organic Blob or Rounded Asymmetric Window.
 -   Layout: 45% text \| 55% video.
 -   Animation: Blob mask reveal, slow zoom, floating light.
 
@@ -24,9 +23,8 @@ ASCII:
 
 ## Section 2 -- The Problem
 
--   Hai ảnh xếp lệch (staggered collage): landfill ở trên trái, forest
-    dưới phải.
--   Scroll chuyển trọng tâm từ landfill sang forest.
+-   Two images in staggered collage: landfill on top left, forest on bottom right.
+-   Scroll shifts focus from landfill to forest.
 -   Animation: image reveal + counter.
 
 ASCII:
@@ -44,9 +42,9 @@ ASCII:
 
 ## Section 3 -- Our Belief
 
--   Collage 4 ảnh hình tròn.
--   Mỗi circle đại diện một công đoạn upcycling.
--   Hover: rotate 3° và scale nhẹ.
+-   4-image circle collage.
+-   Each circle represents an upcycling stage.
+-   Hover: rotate 3° and slight scale.
 
 ASCII:
 
@@ -58,8 +56,8 @@ ASCII:
 
 ## Section 4 -- Journey
 
--   Timeline cong với 5 glass cards.
--   SVG path tự vẽ khi scroll.
+-   Curved timeline with 5 glass cards.
+-   SVG path auto-draws on scroll.
 
 ASCII:
 
@@ -74,7 +72,7 @@ ASCII:
 ## Section 5 -- Marketplace
 
 -   Masonry gallery.
--   Không dùng lưới đều.
+-   No uniform grid.
 
 ASCII:
 
@@ -90,8 +88,8 @@ ASCII:
 
 ## Section 6 -- GreenCoin
 
--   Dashboard ở giữa.
--   Coin nổi xung quanh theo quỹ đạo.
+-   Dashboard in the center.
+-   Floating coins orbiting around it.
 
 ASCII:
 
@@ -105,8 +103,8 @@ ASCII:
 
 ## Section 7 -- Community
 
--   Avatar dạng mạng lưới.
--   Bezier lines kết nối.
+-   Avatar network grid.
+-   Connected by Bezier lines.
 
 ASCII:
 
@@ -121,8 +119,8 @@ ASCII:
 ## Section 8 -- Impact & CTA
 
 -   Video full-width.
--   Counter glass nổi trên video.
--   CTA cuối màn hình.
+-   Glass counter floating on video.
+-   CTA at bottom of screen.
 
 ASCII:
 
@@ -154,10 +152,10 @@ ASCII:
 
 ## Antigravity Rules
 
--   Mỗi section chỉ có 1 media chính.
--   Không slider.
--   Không lặp bố cục giữa các section.
--   Whitespace lớn (120--160px).
+-   Each section has only 1 primary media.
+-   No slider.
+-   No repeating layout between sections.
+-   Large whitespace (120--160px).
 -   Border radius 24--40px.
--   Motion tinh tế, không bounce.
--   Desktop: đa dạng bố cục; Mobile: xếp dọc nhưng giữ shape.
+-   Subtle motion, no bounce.
+-   Desktop: varied layouts; Mobile: stacked vertically while preserving shape.

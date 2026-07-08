@@ -22,6 +22,8 @@ function ajaxGetJSON(url, onSuccess, onError) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+    renderFooter('footer-container');
+
     // Initialize Lucide Icons
     if (typeof lucide !== 'undefined') {
         lucide.createIcons();
@@ -79,19 +81,27 @@ document.addEventListener('DOMContentLoaded', function () {
     var orderSearchQuery = '';
 
     function loadOrders() {
-      ajaxGetJSON(
-        '../datasets/order.json',
-        function (data) {
-          ordersData = data.orders || [];
-          updateOrderTabCounts();
-          renderOrders();
-        },
-        function (err) {
-          console.warn('[seller.js] Failed to load orders:', err.message);
-          document.getElementById('orders-list').innerHTML = '<div class="order-empty"><i data-lucide="alert-circle"></i><h3>Không thể tải dữ liệu</h3><p>Vui lòng thử lại sau.</p></div>';
-          if (typeof lucide !== 'undefined') lucide.createIcons();
-        }
-      );
+      var local = localStorage.getItem('refashion_shared_orders');
+      if (local) {
+        ordersData = JSON.parse(local);
+        updateOrderTabCounts();
+        renderOrders();
+      } else {
+        ajaxGetJSON(
+          '../datasets/order.json',
+          function (data) {
+            ordersData = data.orders || [];
+            localStorage.setItem('refashion_shared_orders', JSON.stringify(ordersData));
+            updateOrderTabCounts();
+            renderOrders();
+          },
+          function (err) {
+            console.warn('[seller.js] Failed to load orders:', err.message);
+            document.getElementById('orders-list').innerHTML = '<div class="order-empty"><i data-lucide="alert-circle"></i><h3>Không thể tải dữ liệu</h3><p>Vui lòng thử lại sau.</p></div>';
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+          }
+        );
+      }
     }
 
     function updateOrderTabCounts() {
@@ -104,6 +114,10 @@ document.addEventListener('DOMContentLoaded', function () {
       var processingCount = ordersData.filter(function (o) { return o.status === 'confirmed' || o.status === 'packed'; }).length;
       var processingEl = document.getElementById('count-processing');
       if (processingEl) processingEl.textContent = processingCount;
+
+      var returnsCount = ordersData.filter(function (o) { return o.status === 'return_pending' || o.status === 'disputed' || o.status === 'refunded'; }).length;
+      var returnsEl = document.getElementById('count-returns');
+      if (returnsEl) returnsEl.textContent = returnsCount;
     }
 
     function getStatusLabel(status) {
@@ -172,6 +186,18 @@ document.addEventListener('DOMContentLoaded', function () {
             <button class="btn-editorial btn-primary-editorial order-action-complete" style="height:38px;padding:0 18px;font-size:12px;">Đã Giao Thành Công</button>
           `;
           break;
+        case 'return_pending':
+          actions = `
+            <button class="btn-editorial order-action-dispute" style="height:38px;padding:0 18px;font-size:12px;border-color:var(--danger);color:var(--danger);">Khiếu Nại</button>
+            <button class="btn-editorial btn-primary-editorial order-action-accept-refund" style="height:38px;padding:0 18px;font-size:12px;">Đồng Ý Hoàn Tiền</button>
+          `;
+          break;
+        case 'disputed':
+          actions = `<span style="font-size:12px;color:var(--text-secondary);font-style:italic;"><i class="fa-solid fa-gavel"></i> Chờ Admin xử lý khiếu nại...</span>`;
+          break;
+        case 'refunded':
+          actions = `<span style="font-size:12px;color:#557A46;font-weight:700;"><i class="fa-solid fa-arrow-rotate-left"></i> Đã hoàn tiền cho người mua</span>`;
+          break;
       }
       return actions;
     }
@@ -185,6 +211,8 @@ document.addEventListener('DOMContentLoaded', function () {
           if (o.status !== 'pending') return false;
         } else if (currentOrderStatus === 'processing') {
           if (o.status !== 'confirmed' && o.status !== 'packed') return false;
+        } else if (currentOrderStatus === 'returns') {
+          if (o.status !== 'return_pending' && o.status !== 'disputed' && o.status !== 'refunded') return false;
         } else {
           if (o.status !== currentOrderStatus) return false;
         }
@@ -206,8 +234,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
       container.innerHTML = filtered.map(function (order) {
         var productsHtml = order.items.map(function (item) {
+          var imageHtml = item.image ? '<img src="' + item.image + '" style="width:100%; height:100%; object-fit:cover; border-radius:4px;">' : getProductIcon(item.name);
           return '<div class="order-product-item">' +
-            '<div class="order-product-img">' + getProductIcon(item.name) + '</div>' +
+            '<div class="order-product-img">' + imageHtml + '</div>' +
             '<div class="order-product-detail">' +
               '<div class="order-product-name">' + item.name + '</div>' +
               '<div class="order-product-variant">' + (item.variant || '') + '</div>' +
@@ -232,9 +261,9 @@ document.addEventListener('DOMContentLoaded', function () {
             '</div>' +
           '</div>' +
           '<div class="order-customer-info">' +
-            '<span><i data-lucide="user" style="width:12px;height:12px;"></i> ' + order.customer.name + '</span>' +
-            '<span><i data-lucide="phone" style="width:12px;height:12px;"></i> ' + order.customer.phone + '</span>' +
-            '<span><i data-lucide="map-pin" style="width:12px;height:12px;"></i> ' + order.customer.address + '</span>' +
+            '<span><i data-lucide="user" style="width:12px;height:12px;"></i> ' + (order.customer ? order.customer.name : 'Khách Hàng Ảo') + '</span>' +
+            '<span><i data-lucide="phone" style="width:12px;height:12px;"></i> ' + (order.customer ? order.customer.phone : '09xxxx') + '</span>' +
+            '<span><i data-lucide="map-pin" style="width:12px;height:12px;"></i> ' + (order.customer ? order.customer.address : 'Auto-generated') + '</span>' +
           '</div>' +
           (noteHtml ? '<div class="order-customer-info">' + noteHtml + '</div>' : '') +
           (actionsHtml ? '<div class="order-card-footer">' + actionsHtml + '</div>' : '') +
@@ -273,6 +302,49 @@ document.addEventListener('DOMContentLoaded', function () {
           var card = e.target.closest('.order-card');
           if (confirm('Bạn có chắc muốn hủy đơn hàng này?')) {
             updateOrderStatus(card, 'cancelled');
+          }
+        });
+      });
+      container.querySelectorAll('.order-action-accept-refund').forEach(function (btn) {
+        btn.addEventListener('click', function (e) {
+          var card = e.target.closest('.order-card');
+          if (confirm('Bạn đồng ý hoàn tiền? Khách hàng sẽ nhận lại tiền và đơn hàng chuyển sang trạng thái Đã Hoàn Tiền.')) {
+            updateOrderStatus(card, 'refunded');
+          }
+        });
+      });
+      container.querySelectorAll('.order-action-dispute').forEach(function (btn) {
+        btn.addEventListener('click', function (e) {
+          var card = e.target.closest('.order-card');
+          var modal = document.getElementById('disputeModal');
+          var submitBtn = document.getElementById('submitDisputeBtn');
+          var cancelBtn = document.getElementById('cancelDisputeBtn');
+          var closeBtn = document.getElementById('closeDisputeModal');
+          var reasonInput = document.getElementById('disputeReasonInput');
+
+          if (modal) {
+            modal.style.display = 'flex';
+            reasonInput.value = ''; 
+            
+            var newSubmitBtn = submitBtn.cloneNode(true);
+            submitBtn.parentNode.replaceChild(newSubmitBtn, submitBtn);
+
+            newSubmitBtn.addEventListener('click', function() {
+              if (reasonInput.value.trim() === '') {
+                alert('Vui lòng nhập lý do khiếu nại.');
+                return;
+              }
+              modal.style.display = 'none';
+              updateOrderStatus(card, 'disputed');
+            });
+
+            var closeModal = function() { modal.style.display = 'none'; };
+            cancelBtn.onclick = closeModal;
+            closeBtn.onclick = closeModal;
+          } else {
+            if (confirm('Bạn muốn khiếu nại yêu cầu trả hàng này lên Admin?')) {
+              updateOrderStatus(card, 'disputed');
+            }
           }
         });
       });
@@ -356,6 +428,77 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Load orders on init
     loadOrders();
+
+    // ==========================================
+    // AUTO SIMULATION FOR SELLER
+    // ==========================================
+    function simulateNewOrder() {
+      var allOrders = [];
+      try { allOrders = JSON.parse(localStorage.getItem('refashion_shared_orders')) || ordersData; } catch(e) { allOrders = ordersData; }
+      if (!allOrders || allOrders.length === 0) return;
+      var randIndex = Math.floor(Math.random() * allOrders.length);
+      var newOrder = JSON.parse(JSON.stringify(allOrders[randIndex]));
+      newOrder.id = 'ORD-SIM-' + Math.floor(Math.random() * 9999);
+      newOrder.status = 'pending';
+      newOrder.createdAt = new Date().toISOString();
+      newOrder.customer = { name: "Khách Ảo " + Math.floor(Math.random()*100), phone: "090" + Math.floor(Math.random()*10000000), address: "Auto-generated Address" };
+      
+      // Randomize items quantity to vary total
+      if (newOrder.items && newOrder.items.length > 0) {
+        var newTotal = 0;
+        newOrder.items.forEach(function(it) {
+          it.qty = Math.floor(Math.random() * 3) + 1; // 1 to 3
+          newTotal += it.price * it.qty;
+        });
+        newOrder.total = newTotal;
+      }
+      
+      allOrders.unshift(newOrder);
+      localStorage.setItem('refashion_shared_orders', JSON.stringify(allOrders));
+      
+      if (dashboardData && dashboardData.dashboard && dashboardData.dashboard.months) {
+        var m = dashboardData.dashboard.months.find(function(mo) { return mo.key === currentMonthKey; });
+        if (m) {
+          m.stats.orders += 1;
+          m.stats.revenue += (newOrder.total || 0);
+          applyMonth(currentMonthKey, false);
+        }
+      }
+
+      // Update UI
+      loadOrders();
+      
+      var toastContainer = document.getElementById('toast-container');
+      if (toastContainer) {
+        var toast = document.createElement('div');
+        toast.className = 'toast-notification';
+        toast.innerHTML = '<div class="toast-icon" style="background:#557A46;color:white;"><i data-lucide="bell"></i></div>' +
+          '<div class="toast-body">' +
+            '<div class="toast-title">New Order Simulated</div>' +
+            '<div class="toast-msg">Order <strong>#' + newOrder.id + '</strong> just arrived!</div>' +
+          '</div>';
+        toastContainer.appendChild(toast);
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+        setTimeout(function () {
+          toast.classList.add('closing');
+          toast.addEventListener('animationend', function () { toast.remove(); });
+        }, 5000);
+      }
+    }
+
+    // Trigger simulation every 5 seconds automatically
+    setInterval(simulateNewOrder, 5000);
+
+    // Also poll for changes from other tabs/admin
+    setInterval(function() {
+      var local = localStorage.getItem('refashion_shared_orders');
+      if (local) {
+        var parsed = JSON.parse(local);
+        if (parsed.length !== ordersData.length) {
+          loadOrders();
+        }
+      }
+    }, 3000);
 
     // ==========================================
     // CHAT — LOAD FROM comment.json
@@ -539,6 +682,18 @@ document.addEventListener('DOMContentLoaded', function () {
     function countUp(el, targetValue, duration = 1200, isCurrency = false, suffix = '') {
         if (!el) return;
         let start = 0;
+        var currentText = el.textContent.replace(/[^\d.-]/g, '');
+        if (currentText && !isNaN(currentText)) {
+            start = parseFloat(currentText);
+        }
+        if (start === targetValue) {
+            if (isCurrency) {
+                el.innerHTML = Math.round(targetValue).toLocaleString('vi-VN') + 'đ';
+            } else {
+                el.innerHTML = Math.round(targetValue).toLocaleString('en-US') + suffix;
+            }
+            return;
+        }
         const startTime = performance.now();
 
         function update(currentTime) {
@@ -611,10 +766,12 @@ document.addEventListener('DOMContentLoaded', function () {
     // Load seller.json and init dashboard
     function loadDashboardData() {
         ajaxGetJSON('../datasets/seller.json', function(data) {
-            dashboardData = data;
+            dashboardData = data['Eco Wear'] || data['ecowear@refashion.vn'] || Object.values(data)[0];
             if (dashboardData && dashboardData.dashboard && dashboardData.dashboard.months) {
                 applyMonth(currentMonthKey, true);
                 populateMonthDropdown();
+            } else {
+                initHardcodedDashboard();
             }
         }, function() {
             // Fallback: keep original hardcoded values if JSON fails
@@ -728,6 +885,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Initial load
     loadDashboardData();
+    loadSubscriptionPlan();
 
     // Fallback if JSON fails
     function initHardcodedDashboard() {
@@ -739,6 +897,58 @@ document.addEventListener('DOMContentLoaded', function () {
         if (statCo2MitigationEl) countUp(statCo2MitigationEl, -45, 1200, false, ' Kg CO<sub>2</sub>');
         if (window.animateEsgScore) animateEsgScore(85);
     }
+    
+    function loadSubscriptionPlan() {
+        ajaxGetJSON('../datasets/shop_sub.json', function(data) {
+            if (data && data.subscriptions) {
+                var currentEmail = 'seller_eco@refashion.vn'; 
+                var mySub = data.subscriptions.find(function(s) { return s.email === currentEmail || s.store === 'Eco Wear'; });
+                if (mySub) {
+                    var localPlan = localStorage.getItem('refashion_seller_plan');
+                    var localFee = localStorage.getItem('refashion_seller_fee');
+                    var planName = localPlan || mySub.plan;
+                    var planFee = localFee ? parseInt(localFee) : mySub.monthlyFee;
+                    
+                    var planEl = document.getElementById('stat-sub-plan');
+                    var feeEl = document.getElementById('stat-sub-fee');
+                    if(planEl) planEl.textContent = planName;
+                    if(feeEl) feeEl.textContent = planFee.toLocaleString('vi-VN') + 'đ / mo';
+                }
+            }
+        });
+    }
+
+    window.openPlanModal = function() {
+        var modal = document.getElementById('modal-change-plan');
+        if(modal) modal.style.display = 'flex';
+    };
+
+    window.submitPlanChange = function(planName, fee) {
+        localStorage.setItem('refashion_seller_plan', planName);
+        localStorage.setItem('refashion_seller_fee', fee.toString());
+        
+        var planEl = document.getElementById('stat-sub-plan');
+        var feeEl = document.getElementById('stat-sub-fee');
+        if(planEl) planEl.textContent = planName;
+        if(feeEl) feeEl.textContent = fee.toLocaleString('vi-VN') + 'đ / mo';
+        
+        var modal = document.getElementById('modal-change-plan');
+        if(modal) modal.style.display = 'none';
+        
+        var toastContainer = document.getElementById('toast-container');
+        if (toastContainer) {
+            var toast = document.createElement('div');
+            toast.className = 'toast-notification';
+            toast.innerHTML = '<div class="toast-icon" style="background:var(--primary-green);color:white;"><i data-lucide="check-circle"></i></div>' +
+              '<div class="toast-body">' +
+                '<div class="toast-title">Plan Updated</div>' +
+                '<div class="toast-msg">Successfully switched to <strong>' + planName + '</strong> plan.</div>' +
+              '</div>';
+            toastContainer.appendChild(toast);
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+            setTimeout(function() { toast.classList.add('hide'); setTimeout(function(){ toast.remove(); }, 300); }, 3000);
+        }
+    };
 
     // Hero Visual Mouse Parallax Effect (Gentle)
     const heroVisual = document.querySelector('.hero-visual');
@@ -1796,8 +2006,8 @@ function _renderShMarketGrid(grid, allItems) {
                     </span>
                 </div>
                 <div class="sh-market-actions">
-                    <button class="btn-call" onclick="window.open('tel:${item.phone}')">
-                        <i data-lucide="phone" style="width:13px;height:13px;"></i> Gọi Điện
+                    <button class="btn-call" onclick="openChatWith('${item.sellerName || 'Người bán'}')">
+                        <i data-lucide="message-circle" style="width:13px;height:13px;"></i> Contact
                     </button>
                     <button class="btn-buy" onclick="shMarketContact('${item.id}', '${item.name.replace(/'/g, "\\'")}', '${item.phone}', ${item.price})">
                         <i data-lucide="shopping-bag" style="width:13px;height:13px;"></i> Thu Mua
@@ -1813,6 +2023,70 @@ function _renderShMarketGrid(grid, allItems) {
     }).join('');
 
     if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+window.openChatWith = function(sellerName) {
+    // Navigate to chat view
+    const chatNavBtn = document.querySelector('.nav-btn[data-target="chat"]');
+    if (chatNavBtn) {
+        chatNavBtn.click();
+    }
+    
+    // Update chat interface
+    const chatHeader = document.querySelector('.chat-header strong');
+    const chatHeaderBadge = document.querySelector('.chat-header .badge-editorial');
+    const chatMessages = document.querySelector('.chat-messages');
+    const chatInputArea = document.querySelector('.chat-input-area');
+    
+    if (chatHeader) chatHeader.textContent = sellerName;
+    if (chatHeaderBadge) {
+        chatHeaderBadge.textContent = "Online";
+        chatHeaderBadge.className = "badge-editorial badge-accent";
+    }
+    
+    if (chatMessages) {
+        chatMessages.innerHTML = `
+            <div style="text-align: center; margin-bottom: 20px; color: var(--text-secondary); font-size: 12px;">
+                You are now chatting with ${sellerName}
+            </div>
+            <div style="display:flex; justify-content:flex-start; margin-bottom:12px;">
+                <div style="background:var(--bg-card); border:1px solid var(--border-color); border-radius:12px; padding:10px 14px; max-width:70%;">
+                    <p style="margin:0; font-size:13px; font-family:var(--font-sans);">Hi there! Are you interested in my secondhand item?</p>
+                    <span style="font-size:10px; color:var(--text-secondary); display:block; text-align:right; margin-top:4px;">Just now</span>
+                </div>
+            </div>
+        `;
+        // Scroll to bottom
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+    
+    if (chatInputArea) {
+        chatInputArea.style.display = 'flex';
+        // Basic enter to send mock
+        const input = chatInputArea.querySelector('input');
+        const sendBtn = chatInputArea.querySelector('button');
+        if (input && sendBtn && !sendBtn.hasAttribute('data-bound')) {
+            const sendMessage = () => {
+                const val = input.value.trim();
+                if (!val) return;
+                chatMessages.innerHTML += `
+                    <div style="display:flex; justify-content:flex-end; margin-bottom:12px;">
+                        <div style="background:var(--primary-green); color:white; border-radius:12px; padding:10px 14px; max-width:70%;">
+                            <p style="margin:0; font-size:13px; font-family:var(--font-sans);">${val}</p>
+                            <span style="font-size:10px; color:rgba(255,255,255,0.7); display:block; text-align:right; margin-top:4px;">Just now</span>
+                        </div>
+                    </div>
+                `;
+                input.value = '';
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            };
+            sendBtn.setAttribute('data-bound', 'true');
+            sendBtn.addEventListener('click', sendMessage);
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') sendMessage();
+            });
+        }
+    }
 }
 
 function _bindShMarketFilters() {

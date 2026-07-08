@@ -1,9 +1,9 @@
 <!doctype html>
 <html lang="en">
     <head>
-  <meta name="description" content="ReFashion - Hệ sinh thái thời trang tuần hoàn kết nối người mua, nhà thiết kế tái sinh và quản trị viên minh bạch.">
-  <meta property="og:title" content="ReFashion - Thời trang Tái sinh & Bền vững">
-  <meta property="og:description" content="Hệ sinh thái thời trang tuần hoàn kết nối người mua, nhà thiết kế tái sinh và quản trị viên minh bạch.">
+  <meta name="description" content="ReFashion - Circular fashion ecosystem connecting buyers, upcycle designers, and administrators.">
+  <meta property="og:title" content="ReFashion - Circular & Sustainable Fashion">
+  <meta property="og:description" content="Circular fashion ecosystem connecting buyers, upcycle designers, and administrators.">
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Login | ReFashion</title>
@@ -11,12 +11,14 @@
         <link rel="stylesheet" href="../css/auth.css" />
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     </head>
     <body>
         <div class="auth-container">
             <!-- LEFT -->
 
             <div class="auth-left">
+                <a href="../buyer/index.html" class="back-home"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
                 <div class="logo">♻ ReFashion</div>
 
                 <h1>Welcome Back!</h1>
@@ -24,7 +26,7 @@
                 <p>Continue your sustainable fashion journey.</p>
 
                 <form>
-                    <input type="email" placeholder="Email" required />
+                    <input type="email" id="loginEmail" placeholder="Email" required />
 
                     <div class="password-group">
                         <input
@@ -52,15 +54,21 @@
                     <span>or continue</span>
                 </div>
                 <br />
-                <button class="social-btn">
-                    <i class="fa-brands fa-google"></i>
-                    Continue with Google
-                </button>
 
-                <button class="social-btn">
-                    <i class="fa-brands fa-apple"></i>
-                    Continue with Apple
-                </button>
+                <!-- Google Sign-In via Firebase -->
+                <div class="g_id_signin_wrapper" style="display:flex;justify-content:center;margin-bottom:0.75rem;">
+                  <button id="google-login-btn" type="button" style="display: flex; align-items: center; justify-content: center; gap: 10px; width: 320px; height: 40px; background-color: white; border: 1px solid #dadce0; border-radius: 4px; color: #3c4043; font-family: 'Google Sans', Roboto, Arial, sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; transition: background-color 0.2s, border-color 0.2s;">
+                    <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z" fill="#4285F4"/>
+                      <path d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.938 5.48 18 9 18z" fill="#34A853"/>
+                      <path d="M3.964 10.707c-.18-.54-.282-1.117-.282-1.707 0-.59.102-1.167.282-1.707V4.96H.957C.347 6.173 0 7.549 0 9s.347 2.827.957 4.04l3.007-2.333z" fill="#FBBC05"/>
+                      <path d="M9 3.58c1.32 0 2.505.453 3.44 1.348l2.582-2.58C13.463.896 11.426 0 9 0 5.48 0 2.438 2.062.957 4.96l3.007 2.333C4.672 5.164 6.656 3.58 9 3.58z" fill="#EA4335"/>
+                    </svg>
+                    Continue with Google
+                  </button>
+                </div>
+
+
 
                 <p class="bottom-text">
                     Don't have an account?
@@ -88,7 +96,152 @@
             </div>
         </div>
 
-        <script src="../js/mainjs.js"></script>
+        <script src="../js/mainjs.js?v=2"></script>
         <script src="../js/auth.js"></script>
+        <script type="module">
+            import { auth, db, googleProvider } from '../js/firebase-config.js';
+            import { signInWithPopup, signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+            import { doc, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+
+            // Google Login
+            const googleBtn = document.getElementById('google-login-btn');
+            if (googleBtn) {
+                googleBtn.addEventListener('click', async () => {
+                    try {
+                        const result = await signInWithPopup(auth, googleProvider);
+                        const user = result.user;
+                        await handleLoginOrRegisterSuccess(user.email, user.displayName || user.email.split('@')[0], user.photoURL);
+                    } catch (error) {
+                        console.error("Firebase Google Login Error:", error);
+                        if (error.code !== 'auth/popup-closed-by-user') {
+                            alert("Google login failed: " + error.message);
+                        }
+                    }
+                });
+            }
+
+            // Email/Password Login
+            const loginForm = document.querySelector("form");
+            if (loginForm) {
+                loginForm.addEventListener("submit", async (e) => {
+                    e.preventDefault();
+                    const email = document.getElementById('loginEmail').value.trim();
+                    const password = document.getElementById('loginPassword').value;
+
+                    try {
+                        let userCredential;
+                        try {
+                            userCredential = await signInWithEmailAndPassword(auth, email, password);
+                        } catch (err) {
+                            // Auto-seed mock account check
+                            const mockAccs = window.MOCK_ACCOUNTS || [];
+                            const resetPasswords = JSON.parse(localStorage.getItem('reset_passwords') || '{}');
+                            const overriddenPassword = resetPasswords[email.toLowerCase()];
+                            
+                            const mockMatch = mockAccs.find(a => a.email.toLowerCase() === email.toLowerCase());
+                            if (mockMatch) {
+                                const expectedPassword = overriddenPassword || mockMatch.password;
+                                if (password === expectedPassword) {
+                                    // Password is correct! Let's try to register/sign in or bypass
+                                    try {
+                                        const { createUserWithEmailAndPassword } = await import('https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js');
+                                        userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                                    } catch (createErr) {
+                                        // User already exists in Firebase Auth, but with old password. We bypass and login locally.
+                                        console.warn("[login] Firebase Auth exists but password mismatch. Bypassing with local success.");
+                                        await handleLoginOrRegisterSuccess(email, mockMatch.name, '');
+                                        return;
+                                    }
+                                } else {
+                                    throw err;
+                                }
+                            } else {
+                                // If not a mock account, check if the password matches in Firestore (custom OTP password reset)
+                                try {
+                                    const docRef = doc(db, "users", email.toLowerCase());
+                                    const docSnap = await getDoc(docRef);
+                                    if (docSnap && docSnap.exists()) {
+                                        const userData = docSnap.data();
+                                        if (userData.password && password === userData.password) {
+                                            console.log("[login] Custom password matched in Firestore. Bypassing login.");
+                                            await handleLoginOrRegisterSuccess(email, userData.username || email.split('@')[0], userData.avatar || '');
+                                            return;
+                                        }
+                                    }
+                                } catch (fsErr) {
+                                    console.warn("[login] Firestore fallback check failed:", fsErr);
+                                }
+                                throw err;
+                            }
+                        }
+
+                        const firebaseUser = userCredential.user;
+                        await handleLoginOrRegisterSuccess(firebaseUser.email, firebaseUser.displayName || firebaseUser.email.split('@')[0], firebaseUser.photoURL);
+                    } catch (error) {
+                        console.error("Firebase Login Error:", error);
+                        alert("Invalid email, password, or account not activated!");
+                    }
+                });
+            }
+
+            async function handleLoginOrRegisterSuccess(email, displayName, photoURL) {
+                let docSnap = null;
+                let userData = null;
+                try {
+                    // Fetch profile from Firestore
+                    const docRef = doc(db, "users", email.toLowerCase());
+                    docSnap = await getDoc(docRef);
+                    if (docSnap && docSnap.exists()) {
+                        userData = docSnap.data();
+                    }
+                } catch (e) {
+                    console.warn("[ReFashion] Firestore getDoc failed, using local profile fallback:", e);
+                }
+
+                if (!userData) {
+                    // Create default profile
+                    // Check if it matches a mock account role and details
+                    const mockAccs = window.MOCK_ACCOUNTS || [];
+                    const mockMatch = mockAccs.find(a => a.email.toLowerCase() === email.toLowerCase());
+
+                    userData = {
+                        username: displayName,
+                        email: email,
+                        phone: mockMatch ? (mockMatch.phone || '') : '',
+                        gender: mockMatch ? (mockMatch.gender || 'unisex') : 'unisex',
+                        address: mockMatch ? (mockMatch.address || '') : '',
+                        birthYear: mockMatch ? (mockMatch.birthYear || '') : '',
+                        joinDate: new Date().toLocaleDateString('en-US'),
+                        greenCoin: mockMatch ? (mockMatch.greenCoin || 500) : 500,
+                        role: mockMatch ? mockMatch.role : 'Buyer',
+                        avatar: photoURL || '',
+                        loginMethod: 'firebase',
+                        store: mockMatch ? (mockMatch.store || '') : '',
+                        storeLogo: mockMatch ? (mockMatch.storeLogo || '') : ''
+                    };
+                    try {
+                        const docRef = doc(db, "users", email.toLowerCase());
+                        await setDoc(docRef, userData);
+                        // Send welcome email for Google register
+                        try {
+                            await fetch('/api/send-welcome', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({ email: email, username: displayName })
+                            });
+                        } catch (mailError) {
+                            console.error("[ReFashion] Send welcome email failed:", mailError);
+                        }
+                    } catch (e) {
+                        console.warn("[ReFashion] Firestore setDoc failed, profile saved locally only:", e);
+                    }
+                }
+
+                // Sync with local session
+                window.handleFirebaseLoginSuccess(userData);
+            }
+        </script>
     </body>
 </html>

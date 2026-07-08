@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta name="description" content="ReFashion - Hệ sinh thái thời trang tuần hoàn kết nối người mua, nhà thiết kế tái sinh và quản trị viên minh bạch.">
-  <meta property="og:title" content="ReFashion - Thời trang Tái sinh & Bền vững">
-  <meta property="og:description" content="Hệ sinh thái thời trang tuần hoàn kết nối người mua, nhà thiết kế tái sinh và quản trị viên minh bạch.">
+  <meta name="description" content="ReFashion - Circular fashion ecosystem connecting buyers, regenerative designers and transparent administrators.">
+  <meta property="og:title" content="ReFashion - Regenerative & Sustainable Fashion">
+  <meta property="og:description" content="Circular fashion ecosystem connecting buyers, regenerative designers and transparent administrators.">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ReFashion Seller Center - Designer Portal</title>
@@ -35,33 +35,33 @@
             
             <nav class="sidebar-nav">
                 <button class="nav-btn active" data-target="dashboard">
-                    <i data-lucide="bar-chart-2"></i> Tổng Quan
+                    <i data-lucide="bar-chart-2"></i> Overview
                 </button>
                 <button class="nav-btn" data-target="profile">
-                    <i data-lucide="store"></i> Hồ Sơ Gian Hàng
+                    <i data-lucide="store"></i> Store Profile
                 </button>
                 <button class="nav-btn" data-target="products">
-                    <i data-lucide="package"></i> Quản Lý Sản Phẩm
+                    <i data-lucide="package"></i> Products
                 </button>
                 <button class="nav-btn" data-target="orders">
-                    <i data-lucide="shopping-bag"></i> Quản Lý Đơn Hàng
+                    <i data-lucide="shopping-bag"></i> Orders
                 </button>
                 <button class="nav-btn" data-target="vouchers">
-                    <i data-lucide="ticket"></i> Mã Giảm Giá
+                    <i data-lucide="ticket"></i> Vouchers
                 </button>
                 <button class="nav-btn" data-target="chat">
-                    <i data-lucide="message-square"></i> Chat Trực Tiếp
+                    <i data-lucide="message-square"></i> Live Chat
                     <span class="badge-accent notification-badge">3</span>
                 </button>
                 <button class="nav-btn" data-target="secondhand-market">
-                    <i data-lucide="shopping-cart"></i> Chợ Đồ Cũ
+                    <i data-lucide="shopping-cart"></i> Secondhand Market
                     <span class="badge-accent notification-badge">8</span>
                 </button>
             </nav>
 
             <div class="sidebar-footer">
                 <button onclick="RefashionAuth.logout()" class="btn-editorial w-100" style="justify-content: center; font-size: 11px; padding: 10px 16px; height: auto;">
-                    <i data-lucide="log-out" style="margin-right: 8px;"></i>Đăng xuất
+                    <i data-lucide="log-out" style="margin-right: 8px;"></i>Log out
                 </button>
             </div>
         </aside>
@@ -70,22 +70,16 @@
         <main class="main-content">
             <!-- Top Header -->
             <header class="top-header">
-                <div class="header-search">
-                    <div class="search-bar">
-                        <i data-lucide="search"></i>
-                        <input type="text" class="input-editorial" placeholder="Tìm kiếm đơn hàng, sản phẩm...">
-                    </div>
-                </div>
                 <div class="header-actions">
                     <div class="bell-wrapper">
                         <button class="icon-btn" id="bell-btn"><i data-lucide="bell"></i><span class="bell-badge" id="bell-badge">0</span></button>
                         <div class="notif-dropdown" id="notif-dropdown">
                             <div class="notif-dropdown-header">
-                                <h4>Thông Báo</h4>
-                                <button id="notif-mark-read">Đánh dấu đã đọc</button>
+                                <h4>Notifications</h4>
+                                <button id="notif-mark-read">Mark all as read</button>
                             </div>
                             <div class="notif-dropdown-body" id="notif-dropdown-body">
-                                <div class="notif-empty">Chưa có thông báo nào.</div>
+                                <div class="notif-empty">No notifications yet.</div>
                             </div>
                         </div>
                     </div>
@@ -108,15 +102,14 @@
                     <div class="dashboard-header-row">
                         <div class="header-left">
                             <span class="hero-tagline"><i data-lucide="scissors" style="width:12px;height:12px;display:inline-block;vertical-align:middle;margin-right:4px"></i> Designer Portal</span>
-                            <h2 class="hero-title mt-1">Không Gian Sáng Tạo Xanh</h2>
-                            <p class="hero-desc">Theo dõi doanh số, quản lý thiết kế độc bản và tác động tích cực đến môi trường của bạn.</p>
-                            <div class="hero-actions-container" style="margin-top: 1.5rem;">
-                                <button id="btn-toggle-simulation" class="btn-editorial">
-                                    <span class="realtime-indicator"></span>
-                                    <span id="simulation-text">Mô Phỏng Live: Tắt</span>
-                                </button>
+                            <div style="display: flex; align-items: center; gap: 12px;" class="mt-1">
+                                <h2 class="hero-title" style="margin-top: 0;">Green Creative Space</h2>
+                                <span id="seller-subscription-badge" class="badge-editorial badge-primary" style="display: none; font-size: 11px; padding: 4px 8px;"></span>
+                            </div>
+                            <p class="hero-desc">Track sales, manage unique designs and your positive environmental impact.</p>
+                            <div class="hero-actions-container">
                                 <button id="btn-download-report" class="btn-editorial btn-primary-editorial">
-                                    Tải Báo Cáo <i data-lucide="download"></i>
+                                    Download Report <i data-lucide="download"></i>
                                 </button>
                             </div>
                         </div>
@@ -124,35 +117,32 @@
                             <div class="date-selector-wrapper">
                                 <button class="btn-editorial date-picker-btn" id="date-picker-btn">
                                     <i data-lucide="calendar"></i>
-                                    <span id="date-picker-label">Tháng 07, 2026</span>
+                                    <span id="date-picker-label">July 2026</span>
                                     <i data-lucide="chevron-down"></i>
                                 </button>
                                 <div class="month-dropdown" id="month-dropdown">
-                                    <div class="month-dropdown-header">Chọn tháng</div>
+                                    <div class="month-dropdown-header">Select month</div>
                                     <div class="month-dropdown-body" id="month-dropdown-body"></div>
                                 </div>
-                            </div>
-                            <div class="hero-visual-sphere">
-                                <img src="../images/dashboard_hero_art.png" alt="3D Sustainability Object" class="hero-parallax-img" id="hero-parallax-img">
                             </div>
                         </div>
                     </div>
                     
                     <!-- Stats Grid mimicking "Total Emissions", "Renewable Energy", "Water Usage" row -->
                     <div class="stats-grid-3col mt-4">
-                        <!-- Card 1: Doanh Thu -->
+                        <!-- Card 1: Revenue -->
                         <div class="card-editorial stat-card">
                             <div class="stat-card-content">
                                 <div class="card-icon-wrapper"><i data-lucide="dollar-sign"></i></div>
                                 <div class="stat-info">
-                                    <div class="stat-title">Doanh Thu Tháng</div>
+                                    <div class="stat-title">Monthly Revenue</div>
                                     <div class="stat-value text-mono" id="stat-revenue">12,500,000đ</div>
                                 </div>
                             </div>
                             <div class="stat-footer-row">
                                 <div class="stat-trend positive">
                                     <i data-lucide="trending-up" style="width:16px;height:16px;"></i> 
-                                    <span id="stat-revenue-trend">+15% vs tháng trước</span>
+                                    <span id="stat-revenue-trend">+15% vs last month</span>
                                 </div>
                                 <div class="mini-chart-container">
                                     <svg class="mini-trend-line" viewBox="0 0 100 30">
@@ -162,19 +152,19 @@
                             </div>
                         </div>
                         
-                        <!-- Card 2: Đơn Hàng Mới -->
+                        <!-- Card 2: New Orders -->
                         <div class="card-editorial stat-card">
                             <div class="stat-card-content">
                                 <div class="card-icon-wrapper"><i data-lucide="shopping-bag"></i></div>
                                 <div class="stat-info">
-                                    <div class="stat-title">Đơn Hàng Mới</div>
+                                    <div class="stat-title">New Orders</div>
                                     <div class="stat-value text-mono" id="stat-orders">24</div>
                                 </div>
                             </div>
                             <div class="stat-footer-row">
                                 <div class="stat-trend pending">
                                     <i data-lucide="clock" style="width:16px;height:16px;"></i> 
-                                    <span id="stat-orders-trend">Chờ xử lý</span>
+                                    <span id="stat-orders-trend">Pending</span>
                                 </div>
                                 <div class="mini-chart-container">
                                     <svg class="mini-trend-line" viewBox="0 0 100 30">
@@ -184,19 +174,19 @@
                             </div>
                         </div>
                         
-                        <!-- Card 3: Giảm Phát CO₂ -->
+                        <!-- Card 3: CO₂ Mitigation -->
                         <div class="card-editorial stat-card">
                             <div class="stat-card-content">
                                 <div class="card-icon-wrapper"><i data-lucide="leaf"></i></div>
                                 <div class="stat-info">
-                                    <div class="stat-title">Giảm Phát CO<sub>2</sub></div>
+                                    <div class="stat-title">CO<sub>2</sub> Mitigation</div>
                                     <div class="stat-value text-mono highlight-lime" id="stat-co2-mitigation">-45 Kg CO<sub>2</sub></div>
                                 </div>
                             </div>
                             <div class="stat-footer-row">
                                 <div class="stat-trend positive">
                                     <i data-lucide="check-circle" style="width:16px;height:16px;"></i> 
-                                    <span id="stat-co2-trend">Từ sản phẩm Upcycling</span>
+                                    <span id="stat-co2-trend">From Upcycling products</span>
                                 </div>
                                 <div class="mini-chart-container">
                                     <svg class="mini-trend-line" viewBox="0 0 100 30">
@@ -205,13 +195,30 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        <!-- Card 4: Subscription Plan -->
+                        <div class="card-editorial stat-card" style="border:1px solid var(--primary-green);">
+                            <div class="stat-card-content">
+                                <div class="card-icon-wrapper" style="background-color:var(--primary-green); color:white;"><i data-lucide="award"></i></div>
+                                <div class="stat-info">
+                                    <div class="stat-title">Current Plan</div>
+                                    <div class="stat-value text-mono highlight-lime" id="stat-sub-plan" style="font-size:20px;">Loading...</div>
+                                </div>
+                            </div>
+                            <div class="stat-footer-row" style="justify-content:space-between; align-items:center;">
+                                <div class="stat-trend">
+                                    <span id="stat-sub-fee" style="font-size:12px;color:var(--text-secondary);"></span>
+                                </div>
+                                <button class="btn btn-outline" style="padding:4px 10px; font-size:11px; border-color:var(--primary-green); color:var(--primary-green);" onclick="window.openPlanModal()">Change Plan</button>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Bottom Grid mimicking "ESG Performance", "Emissions Breakdown", "SDG Alignment" row -->
                     <div class="dashboard-bottom-grid mt-4">
                         <!-- Column 1: ESG Performance -->
                         <div class="card-editorial chart-card esg-score-card-rebuilt">
-                            <h3 class="chart-title">Chỉ Số Tác Động ESG</h3>
+                            <h3 class="chart-title">ESG Impact Score</h3>
                             <div class="esg-score-wrapper" style="margin: 20px auto;">
                                 <svg class="circular-progress" viewBox="0 0 100 100">
                                     <circle class="bg-circle" cx="50" cy="50" r="40" stroke="#EFE7DA" stroke-width="8" fill="none"></circle>
@@ -224,16 +231,16 @@
                             </div>
                             <div class="stat-description text-center" style="margin-top: 10px;">
                                 <span class="highlight-green font-sans" id="stat-environment" style="font-size:24px; font-weight:700; display:block; color:var(--primary-green)">-45 Kg CO<sub>2</sub></span>
-                                <span id="stat-environment-trend" style="font-size:12px; color:var(--text-muted);">Từ 15 sản phẩm Upcycling</span>
-                                <span style="font-size:11px; color:var(--primary-green); font-weight:600; display:block; margin-top:8px;"><i data-lucide="trending-up" style="width:12px;height:12px;display:inline-block;vertical-align:middle;margin-right:2px"></i> +6 điểm vs tháng trước</span>
+                                <span id="stat-environment-trend" style="font-size:12px; color:var(--text-muted);">From 15 Upcycling products</span>
+                                <span style="font-size:11px; color:var(--primary-green); font-weight:600; display:block; margin-top:8px;"><i data-lucide="trending-up" style="width:12px;height:12px;display:inline-block;vertical-align:middle;margin-right:2px"></i> +6 points vs last month</span>
                             </div>
                         </div>
 
-                        <!-- Column 2: Emissions Breakdown (Phân Phối Doanh Số) -->
+                        <!-- Column 2: Revenue Distribution -->
                         <div class="card-editorial chart-card">
                             <div class="chart-header-container">
-                                <h3 class="chart-title">Phân Phối Doanh Số</h3>
-                                <span class="badge-editorial">Danh mục</span>
+                                <h3 class="chart-title">Revenue Distribution</h3>
+                                <span class="badge-editorial">Category</span>
                             </div>
                             <div class="chart-canvas-wrapper" style="height: 220px; margin-top: 10px;">
                                 <canvas id="categoryChart"></canvas>
@@ -243,14 +250,14 @@
                         <!-- Column 3: SDG Alignment -->
                         <div class="card-editorial chart-card sdg-alignment-card">
                             <div class="chart-header-container">
-                                <h3 class="chart-title">Mục Tiêu Phát Triển Bền Vững (SDG)</h3>
+                                <h3 class="chart-title">Sustainable Development Goals (SDG)</h3>
                                 <span class="badge-editorial">SDG Alignment</span>
                             </div>
                             <div class="sdg-list" style="display:flex; flex-direction:column; gap:16px; margin-top:10px;">
                                 <div class="sdg-item">
                                     <div class="sdg-header">
                                         <div class="sdg-badge" style="background:#1f493b;">13</div>
-                                        <span class="sdg-name">Hành động vì Khí hậu</span>
+                                        <span class="sdg-name">Climate Action</span>
                                         <span class="sdg-val">85%</span>
                                     </div>
                                     <div class="progress-bar-container" style="background: rgba(31,73,59,0.1); height:6px;">
@@ -260,7 +267,7 @@
                                 <div class="sdg-item">
                                     <div class="sdg-header">
                                         <div class="sdg-badge" style="background:#df7627;">07</div>
-                                        <span class="sdg-name">Năng lượng Sạch & Rẻ</span>
+                                        <span class="sdg-name">Clean & Affordable Energy</span>
                                         <span class="sdg-val">72%</span>
                                     </div>
                                     <div class="progress-bar-container" style="background: rgba(223,118,39,0.1); height:6px;">
@@ -270,7 +277,7 @@
                                 <div class="sdg-item">
                                     <div class="sdg-header">
                                         <div class="sdg-badge" style="background:#b38328;">12</div>
-                                        <span class="sdg-name">Tiêu dùng & SX Tuần hoàn</span>
+                                        <span class="sdg-name">Circular Consumption & Production</span>
                                         <span class="sdg-val">65%</span>
                                     </div>
                                     <div class="progress-bar-container" style="background: rgba(179,131,40,0.1); height:6px;">
@@ -280,7 +287,7 @@
                                 <div class="sdg-item">
                                     <div class="sdg-header">
                                         <div class="sdg-badge" style="background:#28743b;">15</div>
-                                        <span class="sdg-name">Bảo vệ Hệ sinh thái Cạn</span>
+                                        <span class="sdg-name">Protect Terrestrial Ecosystems</span>
                                         <span class="sdg-val">60%</span>
                                     </div>
                                     <div class="progress-bar-container" style="background: rgba(40,116,59,0.1); height:6px;">
@@ -296,10 +303,10 @@
                         <!-- Revenue Chart -->
                         <div class="card-editorial chart-card">
                             <div class="chart-header-container">
-                                <h3 class="chart-title">Doanh Thu Theo Thời Gian</h3>
+                                <h3 class="chart-title">Revenue Over Time</h3>
                                 <div class="chart-tabs">
-                                    <button class="chart-tab active" data-period="weekly">Tuần</button>
-                                    <button class="chart-tab" data-period="daily">Ngày</button>
+                                    <button class="chart-tab active" data-period="weekly">Week</button>
+                                    <button class="chart-tab" data-period="daily">Day</button>
                                 </div>
                             </div>
                             <div class="chart-canvas-wrapper" style="height:240px;margin-top:10px;">
@@ -309,8 +316,8 @@
                         <!-- Environmental Impact Chart -->
                         <div class="card-editorial chart-card">
                             <div class="chart-header-container">
-                                <h3 class="chart-title">Tác Động Môi Trường</h3>
-                                <span class="badge-editorial">CO₂ / Sản phẩm</span>
+                                <h3 class="chart-title">Environmental Impact</h3>
+                                <span class="badge-editorial">CO₂ / Product</span>
                             </div>
                             <div class="chart-canvas-wrapper" style="height:240px;margin-top:10px;">
                                 <canvas id="environmentalChart"></canvas>
@@ -323,11 +330,11 @@
                         <div class="commitment-left">
                             <div class="commitment-icon"><i data-lucide="leaf"></i></div>
                             <div class="commitment-text">
-                                <h3>Cam Kết Của Chúng Tôi</h3>
-                                <p>ReFashion đồng hành cùng các Designer kiến tạo nền thời trang xanh, tối ưu hóa nguyên liệu tuần hoàn để giảm thiểu rác thải dệt may.</p>
+                                <h3>Our Commitment</h3>
+                                <p>ReFashion partners with Designers to build a green fashion economy, optimizing circular materials to reduce textile waste.</p>
                             </div>
                         </div>
-                        <button class="btn-editorial LearnMore-btn">Tìm hiểu thêm <i data-lucide="arrow-right"></i></button>
+                        <button class="btn-editorial LearnMore-btn">Learn More <i data-lucide="arrow-right"></i></button>
                     </div>
                 </section>
 
@@ -335,10 +342,10 @@
                 <section id="secondhand-market" class="view-section">
                     <div class="section-header">
                         <div>
-                            <h2 class="text-display">Chợ Đồ Cũ Từ Cộng Đồng</h2>
-                            <p style="color:var(--text-secondary);font-size:14px;margin-top:4px;">Tìm kiếm và thu mua nguyên liệu tái chế từ Buyer. Dữ liệu đồng bộ thời gian thực.</p>
+                            <h2 class="text-display">Community Secondhand Market</h2>
+                            <p style="color:var(--text-secondary);font-size:14px;margin-top:4px;">Find and source recycled materials from Buyers. Real-time synchronized data.</p>
                         </div>
-                        <span class="badge-editorial badge-accent" style="align-self:flex-start;"><i data-lucide="scissors" style="width:12px;height:12px;margin-right:4px;"></i> Nguồn Nguyên Liệu Thô</span>
+                        <span class="badge-editorial badge-accent" style="align-self:flex-start;"><i data-lucide="scissors" style="width:12px;height:12px;margin-right:4px;"></i> Raw Material Source</span>
                     </div>
 
                     <!-- Filters -->
@@ -346,21 +353,21 @@
                         <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
                             <div style="position:relative;flex:1;min-width:200px;">
                                 <i data-lucide="search" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);width:14px;height:14px;color:var(--text-secondary);"></i>
-                                <input type="text" id="sh-market-search" class="input-editorial" placeholder="Tìm tên đồ cũ, mô tả..." style="padding-left:36px;">
+                                <input type="text" id="sh-market-search" class="input-editorial" placeholder="Search secondhand items, description..." style="padding-left:36px;">
                             </div>
                             <select id="sh-market-category" class="input-editorial" style="width:auto;min-width:150px;">
-                                <option value="all">Tất Cả Danh Mục</option>
-                                <option value="shirt">Áo Thun / Sơ Mi</option>
-                                <option value="pants">Quần Jeans / Kaki</option>
-                                <option value="jacket">Áo Khoác</option>
-                                <option value="dress">Váy / Đầm</option>
-                                <option value="others">Phụ Kiện Khác</option>
+                                <option value="all">All Categories</option>
+                                <option value="shirt">T-Shirt / Shirt</option>
+                                <option value="pants">Jeans / Khaki</option>
+                                <option value="jacket">Jacket</option>
+                                <option value="dress">Dress</option>
+                                <option value="others">Other Accessories</option>
                             </select>
                             <select id="sh-market-condition" class="input-editorial" style="width:auto;min-width:150px;">
-                                <option value="all">Mọi Tình Trạng</option>
-                                <option value="new">Còn Rất Mới</option>
-                                <option value="good">Còn Tốt</option>
-                                <option value="reusable">Hơi Cũ</option>
+                                <option value="all">All Conditions</option>
+                                <option value="new">Like New</option>
+                                <option value="good">Good</option>
+                                <option value="reusable">Slightly Used</option>
                             </select>
                         </div>
                     </div>
@@ -369,7 +376,7 @@
                     <div id="sh-market-grid" class="sh-market-grid">
                         <div class="sh-market-loading">
                             <i data-lucide="loader-2" style="width:28px;height:28px;color:var(--text-secondary);animation:spin 1s linear infinite;"></i>
-                            <p>Đang tải dữ liệu từ chợ...</p>
+                            <p>Loading market data...</p>
                         </div>
                     </div>
                 </section>
@@ -377,36 +384,36 @@
                 <!-- PROFILE VIEW -->
                 <section id="profile" class="view-section">
                     <div class="section-header">
-                        <h2 class="text-display">Hồ Sơ Gian Hàng</h2>
-                        <span class="badge-editorial badge-accent">Đã Phê Duyệt</span>
+                        <h2 class="text-display">Store Profile</h2>
+                        <span class="badge-editorial badge-accent">Approved</span>
                     </div>
                     
                     <div class="card-editorial">
                         <form class="profile-form">
                             <div class="form-group">
-                                <label>Tên Shop</label>
+                                <label>Shop Name</label>
                                 <input type="text" class="input-editorial" value="Eco Wear" required>
                             </div>
                             <div class="form-group">
-                                <label>Mô Tả Cửa Hàng</label>
-                                <textarea class="input-editorial" rows="4">Chuyên tái chế đồ Denim cũ thành các sản phẩm thời trang cao cấp độc bản.</textarea>
+                                <label>Store Description</label>
+                                <textarea class="input-editorial" rows="4">Specializing in recycling old Denim into unique high-end fashion products.</textarea>
                             </div>
                             <div class="form-group">
-                                <label>Logo (Kéo thả hoặc Click chọn ảnh)</label>
+                                <label>Logo (Drag & drop or Click to select)</label>
                                 <div class="upload-area" id="logo-upload-area">
                                     <input type="file" id="logo-file-input" accept="image/*" style="display: none;">
                                     <div class="upload-placeholder" id="logo-upload-placeholder" style="display: none;">
                                         <i data-lucide="upload-cloud"></i>
-                                        <span>Kéo thả ảnh logo vào đây hoặc bấm để chọn tệp</span>
+                                        <span>Drag & drop logo image here or click to select file</span>
                                     </div>
                                     <div class="upload-preview-container" id="logo-upload-preview-container" style="display: flex;">
                                         <img src="../images/store_logo.png" alt="Logo Preview" class="upload-preview-img" id="logo-preview-img">
-                                        <span class="upload-preview-text">Nhấp để thay đổi ảnh</span>
+                                        <span class="upload-preview-text">Click to change image</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-actions">
-                                <button type="button" class="btn-editorial btn-primary-editorial">Cập Nhật Hồ Sơ</button>
+                                <button type="button" class="btn-editorial btn-primary-editorial">Update Profile</button>
                             </div>
                         </form>
                     </div>
@@ -415,19 +422,19 @@
                 <!-- PRODUCTS VIEW -->
                 <section id="products" class="view-section">
                     <div class="section-header">
-                        <h2 class="text-display">Sản Phẩm Upcycling</h2>
-                        <button id="btn-add-product" class="btn-editorial btn-primary-editorial"><i data-lucide="plus"></i> Đăng Sản Phẩm Mới</button>
+                        <h2 class="text-display">Upcycling Products</h2>
+                        <button id="btn-add-product" class="btn-editorial btn-primary-editorial"><i data-lucide="plus"></i> Add New Product</button>
                     </div>
                     
                     <div class="card-editorial">
                         <table class="data-table">
                             <thead>
                                 <tr>
-                                    <th>Sản Phẩm</th>
-                                    <th>Giá Bán</th>
-                                    <th>Kho</th>
-                                    <th>Trạng Thái</th>
-                                    <th>Thao Tác</th>
+                                    <th>Product</th>
+                                    <th>Price</th>
+                                    <th>Stock</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody id="products-table-body">
@@ -437,13 +444,13 @@
                                             <div class="product-img mock-img-1"></div>
                                             <div>
                                                 <strong>Reworked Denim Jacket</strong><br>
-                                                <span class="text-sans">Xanh / Size L</span>
+                                                <span class="text-sans">Blue / Size L</span>
                                             </div>
                                         </div>
                                     </td>
                                     <td class="text-mono">1,200,000đ</td>
                                     <td>5</td>
-                                    <td><span class="badge-editorial badge-accent">Đang Bán</span></td>
+                                    <td><span class="badge-editorial badge-accent">Selling</span></td>
                                     <td>
                                         <button class="icon-btn"><i data-lucide="edit-3"></i></button>
                                         <button class="icon-btn delete"><i data-lucide="trash-2"></i></button>
@@ -455,13 +462,13 @@
                                             <div class="product-img mock-img-2"></div>
                                             <div>
                                                 <strong>Vintage Patchwork Bag</strong><br>
-                                                <span class="text-sans">Nhiều màu / Free Size</span>
+                                                <span class="text-sans">Multi-color / Free Size</span>
                                             </div>
                                         </div>
                                     </td>
                                     <td class="text-mono">850,000đ</td>
                                     <td>2</td>
-                                    <td><span class="badge-editorial badge-accent">Đang Bán</span></td>
+                                    <td><span class="badge-editorial badge-accent">Selling</span></td>
                                     <td>
                                         <button class="icon-btn"><i data-lucide="edit-3"></i></button>
                                         <button class="icon-btn delete"><i data-lucide="trash-2"></i></button>
@@ -476,24 +483,25 @@
                 <section id="orders" class="view-section">
                     <div class="section-header">
                         <div>
-                            <h2 class="text-display">Quản Lý Đơn Hàng</h2>
-                            <p style="color:var(--text-secondary);font-size:14px;margin-top:4px;">Theo dõi và xử lý đơn hàng từ người mua</p>
+                            <h2 class="text-display">Order Management</h2>
+                            <p style="color:var(--text-secondary);font-size:14px;margin-top:4px;">Track and manage orders from buyers</p>
                         </div>
                         <div style="display:flex;gap:12px;align-items:center;">
                             <div style="position:relative;width:280px;">
                                 <i data-lucide="search" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);width:15px;height:15px;color:var(--text-secondary);"></i>
-                                <input type="text" id="order-search" class="input-editorial" placeholder="Tìm mã đơn, tên khách hàng..." style="padding-left:38px;height:42px;font-size:13px;">
+                                <input type="text" id="order-search" class="input-editorial" placeholder="Search order code, customer name..." style="padding-left:38px;height:42px;font-size:13px;">
                             </div>
-                            <button id="order-refresh" class="btn-editorial" style="height:42px;padding:0 18px;font-size:12px;gap:6px;"><i data-lucide="refresh-cw" style="width:14px;height:14px;"></i> Làm Mới</button>
+                            <button id="order-refresh" class="btn-editorial" style="height:42px;padding:0 18px;font-size:12px;gap:6px;"><i data-lucide="refresh-cw" style="width:14px;height:14px;"></i> Refresh</button>
                         </div>
                     </div>
                     
                     <div class="tabs-editorial" id="order-tabs">
-                        <button class="tab-item active" data-status="pending">Chờ Xác Nhận <span class="order-tab-count" id="count-pending">0</span></button>
-                        <button class="tab-item" data-status="processing">Chờ Lấy Hàng <span class="order-tab-count" id="count-processing">0</span></button>
-                        <button class="tab-item" data-status="shipping">Đang Giao <span class="order-tab-count" id="count-shipping">0</span></button>
-                        <button class="tab-item" data-status="completed">Đã Giao <span class="order-tab-count" id="count-completed">0</span></button>
-                        <button class="tab-item" data-status="cancelled">Đã Hủy <span class="order-tab-count" id="count-cancelled">0</span></button>
+                        <button class="tab-item active" data-status="pending">Pending <span class="order-tab-count" id="count-pending">0</span></button>
+                        <button class="tab-item" data-status="processing">To Ship <span class="order-tab-count" id="count-processing">0</span></button>
+                        <button class="tab-item" data-status="shipping">Shipping <span class="order-tab-count" id="count-shipping">0</span></button>
+                        <button class="tab-item" data-status="completed">Completed <span class="order-tab-count" id="count-completed">0</span></button>
+                        <button class="tab-item" data-status="cancelled">Cancelled <span class="order-tab-count" id="count-cancelled">0</span></button>
+                        <button class="tab-item" data-status="returns">Returns / Disputes <span class="order-tab-count" id="count-returns">0</span></button>
                     </div>
 
                     <div class="card-editorial mt-4" id="orders-list-container" style="padding:0;">
@@ -504,28 +512,28 @@
                 <!-- VOUCHERS VIEW -->
                 <section id="vouchers" class="view-section">
                     <div class="section-header">
-                        <h2 class="text-display">Mã Giảm Giá Shop</h2>
-                        <button class="btn-editorial btn-primary-editorial"><i data-lucide="plus"></i> Tạo Voucher Mới</button>
+                        <h2 class="text-display">Shop Vouchers</h2>
+                        <button class="btn-editorial btn-primary-editorial"><i data-lucide="plus"></i> Create New Voucher</button>
                     </div>
                     
                     <div class="card-editorial">
                         <table class="data-table">
                             <thead>
                                 <tr>
-                                    <th>Mã Voucher</th>
-                                    <th>Giảm Giá</th>
-                                    <th>Điều Kiện</th>
-                                    <th>Lượt Dùng</th>
-                                    <th>Trạng Thái</th>
+                                    <th>Voucher Code</th>
+                                    <th>Discount</th>
+                                    <th>Condition</th>
+                                    <th>Usage</th>
+                                    <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td><strong class="text-mono shimmer-text">DESIGNER10</strong></td>
-                                    <td>10% (Tối đa 50k)</td>
-                                    <td>Đơn từ 300k</td>
+                                    <td>10% (Max 50k)</td>
+                                    <td>Min order 300k</td>
                                     <td>15/100</td>
-                                    <td><span class="badge-editorial badge-accent">Đang Chạy</span></td>
+                                    <td><span class="badge-editorial badge-accent">Active</span></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -540,12 +548,12 @@
                         </div>
                         <div class="chat-main">
                             <div class="chat-header">
-                                <strong>Chọn một hội thoại</strong>
-                                <span class="badge-editorial">Chưa chọn</span>
+                                <strong>Select a conversation</strong>
+                                <span class="badge-editorial">Not selected</span>
                             </div>
                             <div class="chat-messages"></div>
                             <div class="chat-input-area" style="display:none;">
-                                <input type="text" class="input-editorial" placeholder="Nhập tin nhắn...">
+                                <input type="text" class="input-editorial" placeholder="Type a message...">
                                 <button class="btn-editorial btn-primary-editorial"><i data-lucide="send"></i></button>
                             </div>
                         </div>
@@ -555,37 +563,37 @@
                 <!-- UPCYCLING TASKS VIEW -->
                 <section id="upcycling" class="view-section">
                     <div class="section-header">
-                        <h2 class="text-display">Nhận Đồ Cũ (Upcycling)</h2>
-                        <span class="badge-editorial badge-highlight">2 Nhiệm Vụ Mới</span>
+                        <h2 class="text-display">Receive Secondhand Items (Upcycling)</h2>
+                        <span class="badge-editorial badge-highlight">2 New Tasks</span>
                     </div>
 
                     <div class="grid-2col">
                         <div class="card-editorial float-anim">
                             <div class="task-header">
                                 <span class="text-mono">Task: #UPC-112</span>
-                                <span class="badge-editorial badge-highlight">Chờ Nhận Đồ</span>
+                                <span class="badge-editorial badge-highlight">Awaiting Items</span>
                             </div>
-                            <p><strong>Khách hàng gửi:</strong> 2 quần Jeans cũ</p>
-                            <p><strong>Yêu cầu thiết kế:</strong> Tái chế thành túi xách đeo chéo phong cách bụi bặm.</p>
-                            <p><strong>Người gửi:</strong> Lê Thị C (Đã xác nhận vận chuyển)</p>
+                            <p><strong>Customer sent:</strong> 2 old Jeans</p>
+                            <p><strong>Design request:</strong> Upcycle into a crossbody bag with rugged style.</p>
+                            <p><strong>Sender:</strong> Lê Thị C (Shipping confirmed)</p>
                             <div class="mt-4">
-                                <button class="btn-editorial btn-primary-editorial w-100">Xác Nhận Đã Nhận Đồ</button>
+                                <button class="btn-editorial btn-primary-editorial w-100">Confirm Receipt</button>
                             </div>
                         </div>
 
                         <div class="card-editorial">
                             <div class="task-header">
                                 <span class="text-mono">Task: #UPC-089</span>
-                                <span class="badge-editorial badge-accent">Đang Thiết Kế</span>
+                                <span class="badge-editorial badge-accent">Designing</span>
                             </div>
-                            <p><strong>Khách hàng gửi:</strong> Áo sơ mi cũ</p>
-                            <p><strong>Yêu cầu thiết kế:</strong> May lại thành Crop-top.</p>
+                            <p><strong>Customer sent:</strong> Old shirt</p>
+                            <p><strong>Design request:</strong> Tailor into a Crop-top.</p>
                             <div class="progress-bar-container">
                                 <div class="progress-bar" style="width: 60%"></div>
                             </div>
-                            <p class="text-sans mt-2">Tiến độ: 60%</p>
+                            <p class="text-sans mt-2">Progress: 60%</p>
                             <div class="mt-4">
-                                <button class="btn-editorial w-100">Cập Nhật Trạng Thái</button>
+                                <button class="btn-editorial w-100">Update Status</button>
                             </div>
                         </div>
                     </div>
@@ -599,69 +607,73 @@
     <div id="add-product-modal" class="modal-backdrop">
         <div class="modal-content card-editorial">
             <div class="modal-header">
-                <h3 class="text-display">Đăng Sản Phẩm Mới</h3>
+                <h3 class="text-display">New Product</h3>
                 <button class="close-modal-btn" id="btn-close-product-modal">&times;</button>
             </div>
             <form id="add-product-form">
                 <div class="modal-body">
                     <div class="form-group">
-                        <label>Tên Sản Phẩm Upcycling</label>
-                        <input type="text" id="new-product-name" class="input-editorial" placeholder="VD: Custom Denim Corset" required>
+                        <label>Product Name</label>
+                        <input type="text" id="new-product-name" class="input-editorial" placeholder="e.g. Custom Denim Corset" required>
                     </div>
                     <div class="grid-2col">
                         <div class="form-group">
-                            <label>Phân Loại</label>
+                            <label>Category</label>
                             <select id="new-product-category" class="input-editorial" style="height: 46px;" required>
-                                <option value="jacket">Áo Khoác</option>
-                                <option value="backpack">Balo & Túi</option>
-                                <option value="tshirt">Áo Thun</option>
-                                <option value="pants">Quần</option>
-                                <option value="shoes">Giày</option>
-                                <option value="others">Phụ Kiện Khác</option>
+                                <option value="jacket">Jacket</option>
+                                <option value="backpack">Backpack & Bag</option>
+                                <option value="tshirt">T-Shirt</option>
+                                <option value="pants">Pants</option>
+                                <option value="shoes">Shoes</option>
+                                <option value="others">Other Accessories</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Mô Tả Ngắn</label>
-                            <input type="text" id="new-product-desc" class="input-editorial" placeholder="VD: Chất liệu Denim tái chế">
+                            <label>Short Description</label>
+                            <input type="text" id="new-product-desc" class="input-editorial" placeholder="e.g. Recycled Denim material">
                         </div>
                     </div>
 
                     <!-- Multi-Image Upload -->
                     <div class="form-group">
-                        <label>Ảnh sản phẩm (có thể chọn nhiều)</label>
+                        <label>Product Images (select multiple)</label>
                         <div class="upload-area" id="product-upload-area" style="padding: 16px; background: rgba(5, 150, 105, 0.01);">
                             <input type="file" id="product-file-input" accept="image/*" multiple style="display: none;">
                             <div id="product-upload-placeholder">
                                 <i data-lucide="images" style="width: 24px; height: 24px; stroke: var(--primary-green); margin: 0 auto 6px auto;"></i>
-                                <span style="font-size: 12px; display: block; color: #666;">Nhấp để chọn nhiều ảnh hoặc kéo thả</span>
+                                <span style="font-size: 12px; display: block; color: #666;">Click to select multiple images or drag & drop</span>
                             </div>
                             <div id="product-image-gallery" class="image-gallery"></div>
+                            <button type="button" class="btn-editorial btn-primary-editorial" onclick="sellerOpenVtonStudio()" style="margin-top:12px;width:100%;font-size:13px;">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i> Generate AI Model Image
+                            </button>
+                            <p style="font-size:11px;color:var(--text-muted);margin-top:6px;text-align:center;">Uses AI to create a model-worn photo from your flat product image</p>
                         </div>
                     </div>
 
                     <!-- Variants Builder -->
                     <div class="form-group">
-                        <label>Phân Loại Hàng (Kích cỡ / Màu sắc)</label>
+                        <label>Variants (Size / Color)</label>
                         <div class="variant-list" id="variant-list">
                             <div class="variant-row">
                                 <input type="text" class="input-editorial variant-size" placeholder="Size" style="width:80px;">
-                                <input type="text" class="input-editorial variant-color" placeholder="Màu" style="flex:1;">
-                                <input type="number" class="input-editorial variant-price" placeholder="Giá (đ)" min="0" style="width:120px;">
-                                <input type="number" class="input-editorial variant-stock" placeholder="Kho" min="0" style="width:90px;">
+                                <input type="text" class="input-editorial variant-color" placeholder="Color" style="flex:1;">
+                                <input type="number" class="input-editorial variant-price" placeholder="Price (VND)" min="0" style="width:120px;">
+                                <input type="number" class="input-editorial variant-stock" placeholder="Stock" min="0" style="width:90px;">
                                 <button type="button" class="btn-remove-variant" style="display:none;">&times;</button>
                             </div>
                         </div>
-                        <button type="button" class="btn-editorial" id="btn-add-variant" style="margin-top:8px;font-size:12px;"><i data-lucide="plus" style="width:12px;height:12px;"></i> Thêm Phân Loại</button>
+                        <button type="button" class="btn-editorial" id="btn-add-variant" style="margin-top:8px;font-size:12px;"><i data-lucide="plus" style="width:12px;height:12px;"></i> Add Variant</button>
                     </div>
 
                     <!-- Size Chart Upload -->
                     <div class="form-group">
-                        <label>Bảng Hướng Dẫn Chọn Size</label>
+                        <label>Size Guide Chart</label>
                         <div class="upload-area" id="sizechart-upload-area" style="padding:16px;background:rgba(5,150,105,0.01);">
                             <input type="file" id="sizechart-file-input" accept="image/*" style="display:none;">
                             <div id="sizechart-upload-placeholder">
                                 <i data-lucide="ruler" style="width:24px;height:24px;stroke:var(--primary-green);margin:0 auto 6px auto;"></i>
-                                <span style="font-size:12px;display:block;color:#666;">Tải lên bảng size (ảnh nền trắng, dễ đọc)</span>
+                                <span style="font-size:12px;display:block;color:#666;">Upload size chart image (white background, easy to read)</span>
                             </div>
                             <div id="sizechart-preview" style="display:none;position:relative;margin-top:8px;">
                                 <img id="sizechart-preview-img" alt="Size Chart" style="max-width:100%;max-height:200px;border-radius:8px;border:1px solid var(--border-color);">
@@ -671,15 +683,175 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn-editorial" id="btn-cancel-product-modal">Hủy</button>
-                    <button type="submit" class="btn-editorial btn-primary-editorial">Đăng Bán Ngay</button>
+                    <button type="button" class="btn-editorial" id="btn-cancel-product-modal">Cancel</button>
+                    <button type="submit" class="btn-editorial btn-primary-editorial">List Product</button>
                 </div>
             </form>
         </div>
     </div>
 
+    <!-- VTON Modal for AI Product Image Generation -->
+    <div id="seller-vton-modal" class="vton-modal">
+        <div class="vton-modal-content">
+            <button class="vton-modal-close" onclick="sellerCloseVtonStudio()">&times;</button>
+            <div class="vton-header">
+                <h2><i class="fa-solid fa-wand-magic-sparkles" style="color: var(--primary);"></i> AI Product Image Generator</h2>
+                <p>Generate model-worn product images from your flat garment photos</p>
+            </div>
+            <div class="vton-grid">
+                <!-- COLUMN 1: SELECT MODEL -->
+                <div class="vton-col vton-col-models">
+                    <h3><i class="fa-solid fa-user-tie"></i> 1. Select Model</h3>
+                    <div class="vton-models-list" id="seller-vton-models-list"></div>
+                    <div class="vton-upload-area">
+                        <button class="btn btn-outline btn-vton-upload" onclick="document.getElementById('seller-vton-file-input').click()">
+                            <i class="fa-solid fa-upload"></i> Upload your portrait
+                        </button>
+                        <input type="file" id="seller-vton-file-input" accept="image/*" style="display: none;" onchange="sellerHandleVtonUserUpload(event)" />
+                        <p class="upload-tip">Front-facing photo, simple background, clear upper body</p>
+                    </div>
+                </div>
+                <!-- COLUMN 2: PROCESSING STUDIO -->
+                <div class="vton-col vton-col-workspace">
+                    <h3><i class="fa-solid fa-shirt"></i> 2. Processing Studio</h3>
+                    <div class="vton-workspace">
+                        <div class="vton-ws-card vton-ws-model">
+                            <span class="ws-tag">Model Image</span>
+                            <img id="seller-vton-ws-model-img" src="" alt="Selected Model" />
+                        </div>
+                        <div class="vton-ws-connector">
+                            <div class="connector-line"></div>
+                            <div class="connector-badge"><i class="fa-solid fa-circle-nodes"></i></div>
+                        </div>
+                        <div class="vton-ws-card vton-ws-garment">
+                            <span class="ws-tag">Product</span>
+                            <img id="seller-vton-ws-garment-img" src="" alt="Product Image" />
+                        </div>
+                    </div>
+                    <div class="vton-actions">
+                        <button id="seller-btn-start-vton" class="btn btn-primary" onclick="sellerStartVtonInference()">
+                            <i class="fa-solid fa-circle-play"></i> Generate AI Image
+                        </button>
+                    </div>
+                </div>
+                <!-- COLUMN 3: RESULT -->
+                <div class="vton-col vton-col-result">
+                    <h3><i class="fa-solid fa-circle-check"></i> 3. Generated Result</h3>
+                    <div class="vton-result-container" id="seller-vton-result-container">
+                        <div class="vton-state-empty" id="seller-vton-state-empty">
+                            <div class="vton-empty-graphic">
+                                <i class="fa-solid fa-shirt" style="font-size: 3rem; color: var(--border);"></i>
+                            </div>
+                            <p>Select a model and your product image, then click <strong>"Generate AI Image"</strong>.</p>
+                        </div>
+                        <div class="vton-state-loading" id="seller-vton-state-loading" style="display: none;">
+                            <div class="sewing-animation">
+                                <i class="fa-solid fa-needle needle-icon"></i>
+                                <div class="stitch-dots">
+                                    <span></span><span></span><span></span><span></span><span></span>
+                                </div>
+                            </div>
+                            <h4>Generating product image with AI...</h4>
+                            <div class="progress-bar-wrap">
+                                <div class="progress-bar-fill" id="seller-vton-progress-fill"></div>
+                            </div>
+                            <span class="progress-text" id="seller-vton-progress-text">0%</span>
+                        </div>
+                        <div class="vton-state-success" id="seller-vton-state-success" style="display: none;">
+                            <div class="compare-slider-container">
+                                <div class="compare-image-before">
+                                    <img id="seller-vton-result-before-img" src="" alt="Original model" />
+                                </div>
+                                <div class="compare-image-after">
+                                    <img id="seller-vton-result-after-img" src="" alt="Generated result" />
+                                </div>
+                                <div class="compare-slider-bar" id="seller-vton-compare-slider-bar">
+                                    <div class="compare-slider-button">
+                                        <i class="fa-solid fa-left-right"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="vton-result-actions" style="margin-top: 15px; display: flex; gap: 8px;">
+                                <button class="btn btn-outline" style="flex: 1;" onclick="sellerDownloadVtonResult()">
+                                    <i class="fa-solid fa-download"></i> Download
+                                </button>
+                                <button class="btn btn-primary" style="flex: 1.5;" onclick="sellerUseVtonResult()">
+                                    <i class="fa-solid fa-image"></i> Use as Product Image
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dispute Modal -->
+    <div id="disputeModal" class="modal-editorial" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; justify-content:center; align-items:center;">
+        <div style="background:white; padding:32px; border-radius:16px; width:450px; max-width:90%; position:relative;">
+            <button id="closeDisputeModal" style="position:absolute; top:20px; right:20px; background:none; border:none; cursor:pointer;"><i data-lucide="x"></i></button>
+            <h3 style="font-family:var(--font-serif); color:var(--primary); font-size:24px; margin-bottom:16px;">File a Dispute</h3>
+            <p style="font-size:14px; color:var(--text-secondary); margin-bottom:24px;">Please provide the reason and evidence for rejecting this return request. This will be sent to the Admin for final resolution.</p>
+            <textarea id="disputeReasonInput" rows="4" style="width:100%; border:1px solid var(--border); border-radius:8px; padding:12px; margin-bottom:16px; font-family:var(--font-sans);" placeholder="Enter your reason here... (e.g. Item was as described, Buyer damaged the item)"></textarea>
+            <div style="display:flex; justify-content:flex-end; gap:12px;">
+                <button id="cancelDisputeBtn" class="btn-editorial" style="background:#f3f4f6; color:#374151;">Cancel</button>
+                <button id="submitDisputeBtn" class="btn-editorial btn-primary-editorial" style="background:var(--danger); border-color:var(--danger);">Submit Dispute</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Change Plan Modal -->
+    <div id="modal-change-plan" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; justify-content:center; align-items:center;">
+        <div style="background:white; padding:32px; border-radius:16px; width:650px; max-width:90%; position:relative;">
+            <button onclick="document.getElementById('modal-change-plan').style.display='none'" style="position:absolute; top:20px; right:20px; background:none; border:none; cursor:pointer;"><i data-lucide="x"></i></button>
+            <h3 style="font-family:var(--font-serif); color:var(--primary); font-size:24px; margin-bottom:24px;">Upgrade Your Plan</h3>
+            
+            <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;">
+                <!-- Basic Plan -->
+                <div style="border: 1px solid var(--border); padding: 16px; border-radius: 8px; text-align:center;">
+                    <h4 style="margin-top:0; font-family:var(--font-sans);">Basic</h4>
+                    <div style="font-size:20px; font-weight:600; margin:12px 0;">99,000đ<span style="font-size:12px;font-weight:400;color:var(--text-secondary)">/mo</span></div>
+                    <ul style="text-align:left; font-size:12px; padding-left:16px; margin-bottom:24px; color:var(--text-secondary);">
+                        <li>Up to 20 products</li>
+                        <li>Standard Support</li>
+                        <li>5% transaction fee</li>
+                    </ul>
+                    <button class="btn btn-outline" style="width:100%; padding:8px;" onclick="window.submitPlanChange('Basic', 99000)">Select Basic</button>
+                </div>
+                
+                <!-- Pro Plan -->
+                <div style="border: 2px solid var(--primary-green); padding: 16px; border-radius: 8px; text-align:center; position:relative;">
+                    <div style="position:absolute; top:-10px; left:50%; transform:translateX(-50%); background:var(--primary-green); color:white; font-size:10px; padding:2px 8px; border-radius:12px; font-weight:bold;">POPULAR</div>
+                    <h4 style="margin-top:0; font-family:var(--font-sans);">Pro</h4>
+                    <div style="font-size:20px; font-weight:600; margin:12px 0;">299,000đ<span style="font-size:12px;font-weight:400;color:var(--text-secondary)">/mo</span></div>
+                    <ul style="text-align:left; font-size:12px; padding-left:16px; margin-bottom:24px; color:var(--text-secondary);">
+                        <li>Up to 50 products</li>
+                        <li>Priority Support</li>
+                        <li>3% transaction fee</li>
+                    </ul>
+                    <button class="btn btn-primary" style="width:100%; padding:8px; background:var(--primary-green); color:white;" onclick="window.submitPlanChange('Pro', 299000)">Select Pro</button>
+                </div>
+                
+                <!-- Enterprise Plan -->
+                <div style="border: 1px solid var(--border); padding: 16px; border-radius: 8px; text-align:center;">
+                    <h4 style="margin-top:0; font-family:var(--font-sans);">Enterprise</h4>
+                    <div style="font-size:20px; font-weight:600; margin:12px 0;">599,000đ<span style="font-size:12px;font-weight:400;color:var(--text-secondary)">/mo</span></div>
+                    <ul style="text-align:left; font-size:12px; padding-left:16px; margin-bottom:24px; color:var(--text-secondary);">
+                        <li>Unlimited products</li>
+                        <li>24/7 Support</li>
+                        <li>1.5% transaction fee</li>
+                    </ul>
+                    <button class="btn btn-outline" style="width:100%; padding:8px;" onclick="window.submitPlanChange('Enterprise', 599000)">Select Enterprise</button>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
     <!-- Toast Notification Container -->
     <div id="toast-container" class="toast-container"></div>
+
+    <div id="footer-container"></div>
 
     <script src="../js/mainjs.js"></script>
     <script src="../js/seller.js"></script>

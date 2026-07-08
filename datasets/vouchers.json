@@ -1,0 +1,42 @@
+[
+  {
+    "id": "v1",
+    "store": "Eco Wear",
+    "code": "ECOWEA50K",
+    "discountAmount": 50000,
+    "description": "50,000đ OFF for all Eco Wear items.",
+    "minOrderValue": 100000
+  },
+  {
+    "id": "v2",
+    "store": "Eco Wear",
+    "code": "ECO100K",
+    "discountAmount": 100000,
+    "description": "100,000đ OFF for orders over 500k.",
+    "minOrderValue": 500000
+  },
+  {
+    "id": "v3",
+    "store": "Retro Chic",
+    "code": "RETROCHIC30K",
+    "discountAmount": 30000,
+    "description": "30,000đ OFF for your next Retro Chic purchase.",
+    "minOrderValue": 0
+  },
+  {
+    "id": "v4",
+    "store": "Urban Style",
+    "code": "URBANSTYLE40K",
+    "discountAmount": 40000,
+    "description": "40,000đ OFF on Urban Style.",
+    "minOrderValue": 200000
+  },
+  {
+    "id": "v5",
+    "store": "Vintage Finds",
+    "code": "VINTAGE20K",
+    "discountAmount": 20000,
+    "description": "Save 20,000đ at Vintage Finds.",
+    "minOrderValue": 0
+  }
+]

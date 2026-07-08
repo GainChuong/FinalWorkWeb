@@ -1,15 +1,70 @@
+function getTopRecommendedIds() {
+  var topSet = new Set();
+  var user = typeof RefashionAuth !== 'undefined' ? RefashionAuth._getUser() : null;
+  var stylePrefs = user && user.stylePreferences ? user.stylePreferences : null;
+
+  if (typeof AI_REC_SYSTEM !== 'undefined' && AI_REC_SYSTEM.initialized && AI_REC_SYSTEM.similarities && typeof SHOP_PRODUCTS !== 'undefined') {
+    var sorted = SHOP_PRODUCTS.slice().sort(function(a, b) {
+      var scoreA = AI_REC_SYSTEM.similarities[a.id] || 0;
+      var scoreB = AI_REC_SYSTEM.similarities[b.id] || 0;
+      if (stylePrefs) {
+        var aDesc = (a.description + ' ' + a.name + ' ' + a.category).toLowerCase();
+        var bDesc = (b.description + ' ' + b.name + ' ' + b.category).toLowerCase();
+        if (stylePrefs.shapes) stylePrefs.shapes.forEach(function(s) { if (aDesc.indexOf(s) !== -1) scoreA += 15; if (bDesc.indexOf(s) !== -1) scoreB += 15; });
+        if (stylePrefs.fabrics) stylePrefs.fabrics.forEach(function(f) { if (aDesc.indexOf(f) !== -1) scoreA += 20; if (bDesc.indexOf(f) !== -1) scoreB += 20; });
+        if (stylePrefs.patterns) stylePrefs.patterns.forEach(function(p) { if (aDesc.indexOf(p) !== -1) scoreA += 15; if (bDesc.indexOf(p) !== -1) scoreB += 15; });
+      }
+      return scoreB - scoreA;
+    });
+    for (var i = 0; i < Math.min(12, sorted.length); i++) {
+      var baseScore = AI_REC_SYSTEM.similarities[sorted[i].id] || 0;
+      if (baseScore > 30 || stylePrefs) {
+        topSet.add(sorted[i].id);
+      }
+    }
+  }
+  return topSet;
+}
+
 function renderFeaturedProducts(prefix) {
   prefix = prefix || '';
   var grid = document.getElementById('featured-products-grid');
   if (!grid) return;
-  
+
   var list = SHOP_PRODUCTS.slice();
-  if (typeof AI_REC_SYSTEM !== 'undefined' && AI_REC_SYSTEM.hasPreferences() && AI_REC_SYSTEM.similarities) {
-    list.sort(function(a, b) { return (AI_REC_SYSTEM.similarities[b.id] || 0) - (AI_REC_SYSTEM.similarities[a.id] || 0); });
+  var user = typeof RefashionAuth !== 'undefined' ? RefashionAuth._getUser() : null;
+  var stylePrefs = user && user.stylePreferences ? user.stylePreferences : null;
+
+  if (typeof AI_REC_SYSTEM !== 'undefined' && AI_REC_SYSTEM.initialized && AI_REC_SYSTEM.similarities) {
+    list.sort(function(a, b) { 
+      var scoreA = AI_REC_SYSTEM.similarities[a.id] || 0;
+      var scoreB = AI_REC_SYSTEM.similarities[b.id] || 0;
+      if (stylePrefs) {
+        var aDesc = (a.description + ' ' + a.name + ' ' + a.category).toLowerCase();
+        var bDesc = (b.description + ' ' + b.name + ' ' + b.category).toLowerCase();
+        if (stylePrefs.shapes) stylePrefs.shapes.forEach(function(s) { if (aDesc.indexOf(s) !== -1) scoreA += 15; if (bDesc.indexOf(s) !== -1) scoreB += 15; });
+        if (stylePrefs.fabrics) stylePrefs.fabrics.forEach(function(f) { if (aDesc.indexOf(f) !== -1) scoreA += 20; if (bDesc.indexOf(f) !== -1) scoreB += 20; });
+        if (stylePrefs.patterns) stylePrefs.patterns.forEach(function(p) { if (aDesc.indexOf(p) !== -1) scoreA += 15; if (bDesc.indexOf(p) !== -1) scoreB += 15; });
+      }
+      return scoreB - scoreA; 
+    });
   }
-  
-  var displayList = list.slice(0, 4);
+
+  var displayList = list.slice(0, 8);
+
+  if (displayList.length === 0) {
+    grid.innerHTML =
+      '<div style="grid-column:1/-1;text-align:center;padding:4rem 2rem;color:var(--text-muted)">' +
+        '<i class="fa-solid fa-compass" style="font-size:3rem;margin-bottom:1rem;opacity:0.3"></i>' +
+        '<h3 style="font-size:1.2rem;font-weight:700;margin-bottom:0.5rem;color:var(--foreground)">Discover Your Style</h3>' +
+        '<p style="font-size:0.9rem;margin-bottom:1.5rem">Browse products and we\'ll recommend pieces tailored just for you.</p>' +
+        '<a href="shop.html" class="btn btn-primary" style="border-radius:12px">Explore Shop</a>' +
+      '</div>';
+    return;
+  }
+
   var html = '';
+  var topRecIds = getTopRecommendedIds();
   for (var i = 0; i < displayList.length; i++) {
     var p = displayList[i];
     var stars = Math.round(p.rating || 4.5);
@@ -20,16 +75,16 @@ function renderFeaturedProducts(prefix) {
     var sale = i % 3 === 1;
     var saleBadge = sale ? '<span class="badge-sale">-20%</span>' : '';
     var salePrice = sale ? '<span style="text-decoration:line-through;color:var(--text-muted);font-size:0.9rem;margin-right:6px">' + Math.round(p.price * 1.25).toLocaleString('vi-VN') + 'đ</span>' : '';
-    var aiBadge = (typeof AI_REC_SYSTEM !== 'undefined' && AI_REC_SYSTEM.initialized && AI_REC_SYSTEM.similarities[p.id] > 60 ? '<span class="ai-match-badge"><i class="fa-solid fa-wand-magic-sparkles"></i> Gợi Ý Cho Bạn</span>' : '');
+    var aiBadge = (topRecIds.has(p.id) ? '<span class="ai-match-badge"><i class="fa-solid fa-wand-magic-sparkles"></i> Suggest for You</span>' : '');
     html +=
       '<div class="product-card" style="cursor:pointer" onclick="goToDetail(\'' + p.id + '\')">' +
-        (sale ? '<span class="badge-sale-corner">Giảm 20%</span>' : '') +
+        (sale ? '<span class="badge-sale-corner">20% OFF</span>' : '') +
         '<div class="product-img-wrap">' +
           '<img src="' + p.image + '" alt="' + p.name + '" onerror="this.onerror=null;this.src=\'' + (p.storeLogo || '../images/store_logo.png') + '\'" />' +
           aiBadge +
         '</div>' +
         '<div class="product-info">' +
-          '<p class="product-category">' + p.store + '</p>' +
+          '<p class="product-category" style="cursor:pointer" onclick="event.stopPropagation(); goToShop(\'' + p.store.replace(/'/g, "\\'") + '\')">' + p.store + '</p>' +
           '<h2 class="product-name" style="height:44px;overflow:hidden">' + p.name + '</h2>' +
           '<div class="product-price-row">' +
             '<span class="product-price">' + salePrice + p.priceStr + '</span>' +
@@ -38,9 +93,12 @@ function renderFeaturedProducts(prefix) {
           '<div class="product-rating-row">' +
             starHtml +
             '<span class="product-rating-num">' + (p.rating || 4.5).toFixed(1) + '</span>' +
-            '<span class="product-rating-count">(' + p.ratingCount + ' đánh giá)</span>' +
+            '<span class="product-rating-count">(' + p.ratingCount + ' reviews)</span>' +
           '</div>' +
-          '<a href="javascript:void(0)" class="btn btn-primary" style="width:100%;border-radius:10px;margin-top:12px;display:flex;align-items:center;justify-content:center;gap:6px" onclick="event.stopPropagation(); goToDetail(\'' + p.id + '\')"><i class="fa-solid fa-eye"></i> Xem Chi Tiết</a>' +
+          '<div style="display:flex;gap:8px;margin-top:12px;">' +
+'<button class="btn btn-outline" style="flex:1;border-radius:10px;font-size:0.75rem;padding:0.5rem;display:flex;align-items:center;justify-content:center;gap:4px;" onclick="event.stopPropagation(); RefashionAuth.addToCart({productId:\'' + p.id + '\',name:\'' + p.name.replace(/'/g, "\\'") + '\',price:' + p.price + ',priceStr:\'' + p.priceStr + '\',image:\'' + p.image + '\'}); showToast(\'\u2705 Added to cart!\')"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>' +
+'<button class="btn btn-primary" style="flex:1;border-radius:10px;font-size:0.75rem;padding:0.5rem;display:flex;align-items:center;justify-content:center;gap:4px;" onclick="event.stopPropagation(); RefashionAuth.addToCart({productId:\'' + p.id + '\',name:\'' + p.name.replace(/'/g, "\\'") + '\',price:' + p.price + ',priceStr:\'' + p.priceStr + '\',image:\'' + p.image + '\'}); window.location.href=\'/buyer/cart.html\'"><i class="fa-solid fa-bolt"></i> Buy Now</button>' +
+'</div>' +
         '</div>' +
       '</div>';
   }
@@ -119,8 +177,10 @@ function initShopPage() {
   }
 
   renderShopBanner();
+  renderShopFilters();
   renderShopProducts();
   bindShopFilters();
+  initAdvancedSearch();
 
   // Banner buttons (follow + chat)
   document.addEventListener('click', function(e) {
@@ -128,17 +188,22 @@ function initShopPage() {
     if (followBtn) {
       var isFollowing = followBtn.classList.toggle('following');
       if (isFollowing) {
-        followBtn.innerHTML = '<i class="fa-solid fa-check"></i> Đang Theo Dõi';
-        showToast('Cảm ơn bạn đã theo dõi cửa hàng!');
+        followBtn.innerHTML = '<i class="fa-solid fa-check"></i> Following';
+        showToast('Thank you for following!');
       } else {
-        followBtn.innerHTML = '<i class="fa-solid fa-plus"></i> Theo Dõi';
-        showToast('Đã hủy theo dõi cửa hàng');
+        followBtn.innerHTML = '<i class="fa-solid fa-plus"></i> Follow';
+        showToast('Unfollowed store');
       }
       return;
     }
     var chatBtn = e.target.closest('.btn-chat-store');
     if (chatBtn) {
-      showToast('Sẽ sớm hỗ trợ chat trực tiếp với cửa hàng!');
+      var storeName = shopState.selectedStore || 'Eco Wear';
+      if (typeof openBuyerChatWithStore === 'function') {
+        openBuyerChatWithStore(storeName);
+      } else {
+        showToast('Direct chat with ' + storeName + ' coming soon!');
+      }
     }
   });
 }
@@ -171,36 +236,95 @@ function renderShopBanner() {
       '<div style="display: flex; align-items: center; gap: 20px;">' +
         '<div style="position: relative;">' +
           '<img src="' + storeLogo + '" style="width: 80px; height: 80px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.8); object-fit: cover; background: white;" />' +
-          '<span style="position: absolute; bottom: 0; right: 0; background: var(--accent); color: white; font-size: 0.6rem; padding: 2px 6px; border-radius: 10px; font-weight: 700; text-transform: uppercase;">Yêu Thích</span>' +
+          '<span style="position: absolute; bottom: 0; right: 0; background: var(--accent); color: white; font-size: 0.6rem; padding: 2px 6px; border-radius: 10px; font-weight: 700; text-transform: uppercase;">Favorite</span>' +
         '</div>' +
         '<div>' +
           '<h2 style="font-family: var(--font-serif); font-size: 1.75rem; margin: 0; font-weight: 400; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">' + storeName + '</h2>' +
-          '<p style="font-size: 0.8rem; opacity: 0.9; margin: 4px 0 0 0;"><i class="fa-solid fa-circle" style="color: #4ade80; font-size: 0.55rem; margin-right: 4px;"></i> Đang hoạt động</p>' +
+          '<p style="font-size: 0.8rem; opacity: 0.9; margin: 4px 0 0 0;"><i class="fa-solid fa-circle" style="color: #4ade80; font-size: 0.55rem; margin-right: 4px;"></i> Active</p>' +
         '</div>' +
       '</div>' +
       '<div style="display: flex; gap: 2rem; flex-wrap: wrap; align-items: center;">' +
         '<div style="display: flex; gap: 2rem; border-right: 1px solid rgba(255,255,255,0.2); padding-right: 2rem;">' +
           '<div style="text-align: center;">' +
-            '<p style="font-size: 0.75rem; opacity: 0.75; margin: 0;">Đánh Giá</p>' +
+            '<p style="font-size: 0.75rem; opacity: 0.75; margin: 0;">Reviews</p>' +
             '<p style="font-size: 1.1rem; font-weight: 800; margin: 2px 0 0 0; color: var(--accent);">4.9 / 5.0</p>' +
           '</div>' +
           '<div style="text-align: center;">' +
-            '<p style="font-size: 0.75rem; opacity: 0.75; margin: 0;">Sản Phẩm</p>' +
+            '<p style="font-size: 0.75rem; opacity: 0.75; margin: 0;">Products</p>' +
             '<p style="font-size: 1.1rem; font-weight: 800; margin: 2px 0 0 0; color: white;">24</p>' +
           '</div>' +
           '<div style="text-align: center;">' +
-            '<p style="font-size: 0.75rem; opacity: 0.75; margin: 0;">Phản Hồi</p>' +
+            '<p style="font-size: 0.75rem; opacity: 0.75; margin: 0;">Responses</p>' +
             '<p style="font-size: 1.1rem; font-weight: 800; margin: 2px 0 0 0; color: white;">98%</p>' +
           '</div>' +
         '</div>' +
         '<div style="display: flex; gap: 10px;">' +
           '<button type="button" class="btn btn-accent btn-chat-store" style="font-size: 0.8rem; padding: 10px 18px; border-radius: 12px; font-weight: 700; border: none; cursor: pointer;"><i class="fa-solid fa-comments"></i> Chat</button>' +
-          '<button type="button" class="btn btn-outline btn-follow-store" style="font-size: 0.8rem; padding: 10px 18px; border-radius: 12px; font-weight: 700; border: 1.5px solid white; color: white; background: transparent; cursor: pointer; transition: all 0.2s;"><i class="fa-solid fa-plus"></i> Theo Dõi</button>' +
-          '<button type="button" class="btn btn-outline" style="font-size: 0.8rem; padding: 10px 14px; border-radius: 12px; font-weight: 700; border: 1.5px solid white; color: white; background: transparent; cursor: pointer; transition: all 0.2s;" onclick="window.location.href=\x27/buyer/shop.html\x27" title="Xem tất cả cửa hàng"><i class="fa-solid fa-xmark"></i></button>' +
+          '<button type="button" class="btn btn-outline btn-follow-store" style="font-size: 0.8rem; padding: 10px 18px; border-radius: 12px; font-weight: 700; border: 1.5px solid white; color: white; background: transparent; cursor: pointer; transition: all 0.2s;"><i class="fa-solid fa-plus"></i> Follow</button>' +
+          '<button type="button" class="btn btn-outline" style="font-size: 0.8rem; padding: 10px 14px; border-radius: 12px; font-weight: 700; border: 1.5px solid white; color: white; background: transparent; cursor: pointer; transition: all 0.2s;" onclick="window.location.href=\x27/buyer/shop.html\x27" title="View all stores"><i class="fa-solid fa-xmark"></i></button>' +
         '</div>' +
       '</div>' +
     '</div>';
 }
+
+function renderFeaturedStores() {
+  var grid = document.getElementById('featured-stores-grid');
+  if (!grid) return;
+
+  var storeMap = {};
+  for (var i = 0; i < SHOP_PRODUCTS.length; i++) {
+    var p = SHOP_PRODUCTS[i];
+    if (p.store && !storeMap[p.store]) {
+      storeMap[p.store] = p.storeLogo || '../images/store_logo.png';
+    }
+  }
+
+  var stores = Object.keys(storeMap).sort();
+  var html = '';
+
+  for (var j = 0; j < stores.length; j++) {
+    var storeName = stores[j];
+    var logo = storeMap[storeName];
+    html +=
+      '<div class="partner-logo-item" onclick="goToShop(\'' + storeName.replace(/'/g, "\\'") + '\')" title="' + storeName + '">' +
+        '<img src="' + logo + '" alt="' + storeName + '" class="partner-logo-img" onerror="this.onerror=null;this.src=\'../images/store_logo.png\'" />' +
+      '</div>';
+  }
+  grid.innerHTML = html;
+}
+
+function renderShopFilters() {
+  var group = document.getElementById('filter-shop-group');
+  if (!group) return;
+
+  var stores = [];
+  for (var i = 0; i < SHOP_PRODUCTS.length; i++) {
+    if (SHOP_PRODUCTS[i].store && stores.indexOf(SHOP_PRODUCTS[i].store) === -1) {
+      stores.push(SHOP_PRODUCTS[i].store);
+    }
+  }
+  stores.sort();
+
+  var html = '<label><input type="radio" name="shop-filter" value="all" ' + (shopState.selectedStore === 'all' ? 'checked' : '') + ' onchange="onShopFilterChange(this)" /><span>All Shops</span></label>';
+  for (var j = 0; j < stores.length; j++) {
+    var checked = shopState.selectedStore === stores[j] ? 'checked' : '';
+    html += '<label><input type="radio" name="shop-filter" value="' + stores[j].replace(/&/g, '&amp;').replace(/"/g, '&quot;') + '" ' + checked + ' onchange="onShopFilterChange(this)" /><span>' + stores[j] + '</span></label>';
+  }
+  group.innerHTML = html;
+  
+  // Render Shopee-style prominent stores section
+  renderFeaturedStores();
+}
+
+window.onShopFilterChange = function(radio) {
+  if (radio.checked) {
+    shopState.selectedStore = radio.value;
+    shopState.currentPage = 1;
+    saveShopState();
+    renderShopBanner();
+    renderShopProducts();
+  }
+};
 
 function filterShopProducts() {
   var result = SHOP_PRODUCTS.slice();
@@ -213,8 +337,22 @@ function filterShopProducts() {
   if (shopState.sortBy === 'price-asc') result.sort(function(a, b) { return a.price - b.price; });
   else if (shopState.sortBy === 'price-desc') result.sort(function(a, b) { return b.price - a.price; });
   else if (shopState.sortBy === 'ai-rec' || (shopState.sortBy === 'default' && typeof AI_REC_SYSTEM !== 'undefined' && AI_REC_SYSTEM.hasPreferences())) {
+    var user = typeof RefashionAuth !== 'undefined' ? RefashionAuth._getUser() : null;
+    var stylePrefs = user && user.stylePreferences ? user.stylePreferences : null;
+
     if (typeof AI_REC_SYSTEM !== 'undefined' && AI_REC_SYSTEM.similarities) {
-      result.sort(function(a, b) { return (AI_REC_SYSTEM.similarities[b.id] || 0) - (AI_REC_SYSTEM.similarities[a.id] || 0); });
+      result.sort(function(a, b) { 
+        var scoreA = AI_REC_SYSTEM.similarities[a.id] || 0;
+        var scoreB = AI_REC_SYSTEM.similarities[b.id] || 0;
+        if (stylePrefs) {
+          var aDesc = (a.description + ' ' + a.name + ' ' + a.category).toLowerCase();
+          var bDesc = (b.description + ' ' + b.name + ' ' + b.category).toLowerCase();
+          if (stylePrefs.shapes) stylePrefs.shapes.forEach(function(s) { if (aDesc.indexOf(s) !== -1) scoreA += 15; if (bDesc.indexOf(s) !== -1) scoreB += 15; });
+          if (stylePrefs.fabrics) stylePrefs.fabrics.forEach(function(f) { if (aDesc.indexOf(f) !== -1) scoreA += 20; if (bDesc.indexOf(f) !== -1) scoreB += 20; });
+          if (stylePrefs.patterns) stylePrefs.patterns.forEach(function(p) { if (aDesc.indexOf(p) !== -1) scoreA += 15; if (bDesc.indexOf(p) !== -1) scoreB += 15; });
+        }
+        return scoreB - scoreA; 
+      });
     }
   }
   return result;
@@ -251,8 +389,8 @@ function renderShopProducts() {
     grid.innerHTML =
       '<div class="not-found">' +
         '<i class="fa-solid fa-folder-open" style="font-size:3rem;color:var(--text-muted);margin-bottom:1.5rem"></i>' +
-        '<h3 style="font-size:1.25rem;font-weight:700;margin-bottom:0.5rem">Kh\u00f4ng t\u00ecm th\u1ea5y s\u1ea3n ph\u1ea9m n\u00e0o</h3>' +
-        '<p style="color:var(--text-muted);font-size:0.95rem">H\u00e3y th\u1eed x\u00f3a b\u1edbt c\u00e1c b\u1ed9 l\u1ecdc \u0111\u1ec3 t\u00ecm ki\u1ebfm th\u00eam s\u1ea3n ph\u1ea9m th\u00e2n thi\u1ec7n v\u1edbi m\u00f4i tr\u01b0\u1eddng kh\u00e1c nh\u00e9.</p>' +
+'<h3 style="font-size:1.25rem;font-weight:700;margin-bottom:0.5rem">No products found</h3>' +
+'<p style="color:var(--text-muted);font-size:0.95rem">Try clearing some filters to discover more eco-friendly products.</p>' +
       '</div>';
     var pagDiv = document.getElementById('shop-pagination');
     if (pagDiv) pagDiv.innerHTML = '';
@@ -263,6 +401,7 @@ function renderShopProducts() {
   var startIndex = (shopState.currentPage - 1) * shopState.itemsPerPage;
   var endIndex = Math.min(startIndex + shopState.itemsPerPage, results.length);
   var pageProducts = results.slice(startIndex, endIndex);
+  var topRecIds = getTopRecommendedIds();
   var html = '';
   for (var i = 0; i < pageProducts.length; i++) {
     var p = pageProducts[i];
@@ -274,17 +413,20 @@ function renderShopProducts() {
     var sale = ((startIndex + i) % 3 === 1); // Maintain consistency with global index
     var saleBadge = sale ? '<span class="badge-sale">-20%</span>' : '';
     var salePrice = sale ? '<span style="text-decoration:line-through;color:var(--text-muted);font-size:0.9rem;margin-right:6px">' + Math.round(p.price * 1.25).toLocaleString('vi-VN') + 'đ</span>' : '';
-    var aiBadge = (typeof AI_REC_SYSTEM !== 'undefined' && AI_REC_SYSTEM.initialized && AI_REC_SYSTEM.similarities[p.id] > 60 ? '<span class="ai-match-badge"><i class="fa-solid fa-wand-magic-sparkles"></i> Gợi Ý Cho Bạn</span>' : '');
+    var isRecommended = topRecIds.has(p.id);
+    var aiBadge = (isRecommended ? '<span class="ai-match-badge"><i class="fa-solid fa-wand-magic-sparkles"></i> Suggest for You</span>' : '');
+    var xaiButton = (isRecommended ? '<button class="xai-btn-outline" onclick="event.stopPropagation(); showXaiModal(\'' + p.id + '\')"><i class="fa-solid fa-wand-magic-sparkles"></i> Why am I seeing this?</button>' : '');
     html +=
       '<div class="product-card" style="cursor:pointer" onclick="goToDetail(\'' + p.id + '\')">' +
-        (sale ? '<span class="badge-sale-corner">Giảm 20%</span>' : '') +
+        (sale ? '<span class="badge-sale-corner">20% OFF</span>' : '') +
         '<div class="product-img-wrap">' +
           '<img src="' + p.image + '" alt="' + p.name + '" onerror="this.onerror=null;this.src=\'' + (p.storeLogo || '../images/store_logo.png') + '\'" />' +
-          (p.clothFile ? '<span style="position:absolute;bottom:8px;left:8px;background:rgba(91,116,83,0.9);color:white;font-size:0.65rem;font-weight:700;padding:3px 8px;border-radius:20px;display:flex;align-items:center;gap:4px"><i class=\'fa-solid fa-wand-magic-sparkles\'></i>Thử Đồ AI</span>' : '') +
+          (p.clothFile ? '<span style="position:absolute;bottom:8px;left:8px;background:rgba(91,116,83,0.9);color:white;font-size:0.65rem;font-weight:700;padding:3px 8px;border-radius:20px;display:flex;align-items:center;gap:4px"><i class=\'fa-solid fa-wand-magic-sparkles\'></i>AI Try-On</span>'
+        : '') +
           aiBadge +
         '</div>' +
         '<div class="product-info" style="display:flex; flex-direction:column">' +
-          '<p class="product-category">' + p.store + '</p>' +
+          '<p class="product-category" style="cursor:pointer" onclick="event.stopPropagation(); goToShop(\'' + p.store.replace(/'/g, "\\'") + '\')">' + p.store + '</p>' +
           '<h2 class="product-name" style="height:44px;overflow:hidden">' + p.name + '</h2>' +
           '<div class="product-price-row">' +
             '<span class="product-price">' + salePrice + p.priceStr + '</span>' +
@@ -292,11 +434,14 @@ function renderShopProducts() {
           '<div class="product-rating-row">' +
             starHtml +
             '<span class="product-rating-num">' + (p.rating || 4.5).toFixed(1) + '</span>' +
-            '<span class="product-rating-count">(' + p.ratingCount + ' đánh giá)</span>' +
+            '<span class="product-rating-count">(' + p.ratingCount + ' reviews)</span>' +
           '</div>' +
-          '<a href="javascript:void(0)" class="btn btn-primary" style="width:100%;border-radius:10px;margin-top:12px;display:flex;align-items:center;justify-content:center;gap:6px" onclick="event.stopPropagation(); goToDetail(\'' + p.id + '\')"><i class="fa-solid fa-eye"></i> Xem Chi Tiết</a>' +
-          '<button class="xai-btn-outline" onclick="event.stopPropagation(); showXaiModal(\'' + p.id + '\')"><i class="fa-solid fa-wand-magic-sparkles"></i> Tại sao tôi thấy gợi ý này?</button>' +
-          '<button class="dpp-btn-outline" onclick="event.stopPropagation(); showDppModal(\'' + p.id + '\')"><i class="fa-solid fa-passport"></i> Xem Hộ Chiếu Số DPP</button>' +
+          '<div style="display:flex;gap:8px;margin-top:12px;">' +
+'<button class="btn btn-outline" style="flex:1;border-radius:10px;font-size:0.75rem;padding:0.5rem;display:flex;align-items:center;justify-content:center;gap:4px;" onclick="event.stopPropagation(); RefashionAuth.addToCart({productId:\'' + p.id + '\',name:\'' + p.name.replace(/'/g, "\\'") + '\',price:' + p.price + ',priceStr:\'' + p.priceStr + '\',image:\'' + p.image + '\'}); showToast(\'\u2705 Added to cart!\')"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>' +
+'<button class="btn btn-primary" style="flex:1;border-radius:10px;font-size:0.75rem;padding:0.5rem;display:flex;align-items:center;justify-content:center;gap:4px;" onclick="event.stopPropagation(); RefashionAuth.addToCart({productId:\'' + p.id + '\',name:\'' + p.name.replace(/'/g, "\\'") + '\',price:' + p.price + ',priceStr:\'' + p.priceStr + '\',image:\'' + p.image + '\'}); window.location.href=\'/buyer/cart.html\'"><i class="fa-solid fa-bolt"></i> Buy Now</button>' +
+'</div>' +
+          xaiButton +
+          '<button class="dpp-btn-outline" onclick="event.stopPropagation(); showDppModal(\'' + p.id + '\')"><i class="fa-solid fa-passport"></i> View DPP</button>' +
         '</div>' +
       '</div>';
   }
@@ -359,6 +504,21 @@ function bindShopFilters() {
       }
     });
   }
+  var shopRadios = document.querySelectorAll('input[name="shop-filter"]');
+  for (var si = 0; si < shopRadios.length; si++) {
+    if (shopRadios[si].value === shopState.selectedStore) {
+      shopRadios[si].checked = true;
+    }
+    shopRadios[si].addEventListener('change', function() {
+      if (this.checked) {
+        shopState.selectedStore = this.value;
+        shopState.currentPage = 1;
+        saveShopState();
+        renderShopBanner();
+        renderShopProducts();
+      }
+    });
+  }
   var searchInput = document.getElementById('filter-search');
   if (searchInput) {
     // Restore search input text
@@ -368,6 +528,9 @@ function bindShopFilters() {
       shopState.currentPage = 1;
       saveShopState();
       renderShopProducts();
+      if (typeof AI_REC_SYSTEM !== 'undefined' && this.value.trim().length > 2) {
+        AI_REC_SYSTEM.trackSearch(this.value);
+      }
     });
     var clearBtn = document.getElementById('filter-search-clear');
     if (clearBtn) clearBtn.addEventListener('click', function() {
@@ -429,9 +592,9 @@ function renderCart() {
     container.innerHTML =
       '<div class="empty-cart">' +
         '<div style="width:100px;height:100px;border-radius:50%;background-color:var(--primary-light);display:flex;align-items:center;justify-content:center;margin:0 auto 2rem auto"><i class="fa-solid fa-bag-shopping" style="font-size:2.5rem;color:var(--primary);opacity:0.5"></i></div>' +
-        '<h2 style="font-family:var(--font-serif);font-size:1.75rem;margin-bottom:0.75rem">Gi\u1ecf h\u00e0ng tr\u1ed1ng</h2>' +
-        '<p style="color:var(--text-muted);font-size:1rem;margin-bottom:2rem">B\u1ea1n ch\u01b0a th\u00eam s\u1ea3n ph\u1ea9m n\u00e0o v\u00e0o gi\u1ecf h\u00e0ng. H\u00e3y kh\u00e1m ph\u00e1 b\u1ed9 s\u01b0u t\u1eadp th\u1eddi trang xanh c\u1ee7a ch\u00fang t\u00f4i!</p>' +
-        '<a href="/buyer/shop.html" class="btn btn-primary" style="padding:1rem 2.5rem;border-radius:14px;font-size:1rem"><i class="fa-solid fa-bag-shopping" style="margin-right:0.4rem"></i>Kh\u00e1m Ph\u00e1 C\u1eeda H\u00e0ng</a>' +
+        '<h2 style="font-family:var(--font-serif);font-size:1.75rem;margin-bottom:0.75rem">Your Cart is Empty</h2>' +
+        '<p style="color:var(--text-muted);font-size:1rem;margin-bottom:2rem">You haven\'t added any products yet. Explore our green fashion collection!</p>' +
+        '<a href="/buyer/shop.html" class="btn btn-primary" style="padding:1rem 2.5rem;border-radius:14px;font-size:1rem"><i class="fa-solid fa-bag-shopping" style="margin-right:0.4rem"></i>Explore Store</a>' +
       '</div>';
     return;
   }
@@ -442,20 +605,20 @@ function renderCart() {
     var item = cart[i];
     itemsHtml +=
       '<div class="cart-item">' +
-        '<div class="cart-item-img"><img src="' + item.image + '" alt="' + item.name + '" /></div>' +
+        '<div class="cart-item-img"><img src="' + item.image + '" alt="' + item.name + '" onerror="this.onerror=null;this.src=\'../images/sh_denim_shirt.png\'" /></div>' +
         '<div class="cart-item-info">' +
           '<div class="cart-item-header">' +
             '<div><h3 style="font-size:1.05rem;font-weight:700">' + item.name + '</h3>' +
-            '<p style="font-size:0.8rem;color:var(--text-muted);margin:0.25rem 0"><i class="fa-solid fa-tags" style="font-size:0.7rem;margin-right:0.25rem"></i>Phân loại: ' + (item.variant || 'Tiêu chuẩn') + '</p></div>' +
-            '<button onclick="removeCartItem(\'' + item.productId + '\', \'' + (item.variant || 'Tiêu chuẩn') + '\')" style="background:transparent;border:none;cursor:pointer;color:var(--text-muted);font-size:1rem;padding:0.25rem;border-radius:8px" title="Xóa sản phẩm"><i class="fa-solid fa-trash-can"></i></button>' +
+            '<p style="font-size:0.8rem;color:var(--text-muted);margin:0.25rem 0"><i class="fa-solid fa-tags" style="font-size:0.7rem;margin-right:0.25rem"></i>Variant: ' + (item.variant || 'Standard') + '</p></div>' +
+            '<button onclick="removeCartItem(\'' + item.productId + '\', \'' + (item.variant || 'Standard') + '\')" style="background:transparent;border:none;cursor:pointer;color:var(--text-muted);font-size:1rem;padding:0.25rem;border-radius:8px" title="Remove product"><i class="fa-solid fa-trash-can"></i></button>' +
           '</div>' +
           '<p class="cart-item-price">' + item.priceStr + '</p>' +
           '<div style="display:flex;align-items:center;gap:0.75rem">' +
-            '<span style="font-size:0.85rem;color:var(--text-muted);font-weight:500">Số lượng:</span>' +
+            '<span style="font-size:0.85rem;color:var(--text-muted);font-weight:500">Qty:</span>' +
             '<div class="quantity-control">' +
-              '<button onclick="updateQty(\'' + item.productId + '\', \'' + (item.variant || 'Tiêu chuẩn') + '\', ' + (item.quantity - 1) + ')"><i class="fa-solid fa-minus" style="font-size:0.7rem"></i></button>' +
+              '<button onclick="updateQty(\'' + item.productId + '\', \'' + (item.variant || 'Standard') + '\', ' + (item.quantity - 1) + ')"><i class="fa-solid fa-minus" style="font-size:0.7rem"></i></button>' +
               '<span class="qty-value">' + item.quantity + '</span>' +
-              '<button onclick="updateQty(\'' + item.productId + '\', \'' + (item.variant || 'Tiêu chuẩn') + '\', ' + (item.quantity + 1) + ')"><i class="fa-solid fa-plus" style="font-size:0.7rem"></i></button>' +
+              '<button onclick="updateQty(\'' + item.productId + '\', \'' + (item.variant || 'Standard') + '\', ' + (item.quantity + 1) + ')"><i class="fa-solid fa-plus" style="font-size:0.7rem"></i></button>' +
             '</div>' +
             '<span style="font-size:0.85rem;color:var(--text-muted)">= <strong style="color:var(--accent)">' + (item.price * item.quantity).toLocaleString('vi-VN') + ' đ</strong></span>' +
           '</div>' +
@@ -467,7 +630,7 @@ function renderCart() {
     var item = cart[i];
     itemsSummaryHtml +=
       '<div style="display:flex;justify-content:space-between;font-size:0.9rem;color:var(--text-muted)">' +
-        '<span style="max-width:60%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + item.name + ' (' + (item.variant || 'Tiêu chuẩn') + ') x' + item.quantity + '</span>' +
+        '<span style="max-width:60%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + item.name + ' (' + (item.variant || 'Standard') + ') x' + item.quantity + '</span>' +
         '<span style="font-weight:600;color:var(--foreground)">' + (item.price * item.quantity).toLocaleString('vi-VN') + ' đ</span>' +
       '</div>';
   }
@@ -475,25 +638,25 @@ function renderCart() {
     '<div class="cart-layout">' +
       '<div class="cart-items">' + itemsHtml + '</div>' +
       '<div class="order-summary">' +
-        '<h3>T\u00f3m T\u1eaft \u0110\u01a1n H\u00e0ng</h3>' +
+        '<h3>Order Summary</h3>' +
         '<div style="display:flex;flex-direction:column;gap:0.75rem;margin-bottom:1.5rem">' + itemsSummaryHtml + '</div>' +
         '<hr style="border:0;border-top:1px solid var(--border);margin-bottom:1.5rem" />' +
         '<div style="display:flex;flex-direction:column;gap:0.5rem;margin-bottom:1.25rem">' +
-          '<div style="display:flex;justify-content:space-between;font-size:0.9rem"><span style="color:var(--text-muted)">T\u1ea1m t\u00ednh</span><span style="font-weight:600">' + total.toLocaleString('vi-VN') + ' \u0111</span></div>' +
-          '<div style="display:flex;justify-content:space-between;font-size:0.9rem"><span style="color:var(--text-muted)">Ph\u00ed v\u1eadn chuy\u1ec3n</span><span style="font-weight:600;color:var(--sentiment-pos)">Mi\u1ec5n ph\u00ed</span></div>' +
+          '<div style="display:flex;justify-content:space-between;font-size:0.9rem"><span style="color:var(--text-muted)">Subtotal</span><span style="font-weight:600">' + total.toLocaleString('vi-VN') + ' \u0111</span></div>' +
+          '<div style="display:flex;justify-content:space-between;font-size:0.9rem"><span style="color:var(--text-muted)">Shipping</span><span style="font-weight:600;color:var(--sentiment-pos)">Free</span></div>' +
         '</div>' +
         '<hr style="border:0;border-top:2px solid var(--primary);margin-bottom:1.25rem" />' +
-        '<div style="display:flex;justify-content:space-between;margin-bottom:1rem"><span style="font-size:1.15rem;font-weight:700">T\u1ed5ng c\u1ed9ng</span><span style="font-size:1.5rem;font-weight:900;color:var(--accent)">' + total.toLocaleString('vi-VN') + ' \u0111</span></div>' +
-        '<div style="background-color:var(--sentiment-pos-light);border-radius:12px;padding:0.85rem 1rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:0.5rem;font-size:0.85rem;font-weight:600;color:var(--sentiment-pos)"><i class="fa-solid fa-leaf"></i> B\u1ea1n s\u1ebd nh\u1eadn \u0111\u01b0\u1ee3c +' + greenCoinEst + ' GreenCoin sau khi \u0111\u1eb7t h\u00e0ng!</div>' +
-        '<a href="/buyer/checkout.html" class="btn btn-primary" style="width:100%;padding:1rem;border-radius:14px;font-size:1.05rem;font-weight:700;display:block;text-align:center"><i class="fa-solid fa-lock" style="margin-right:0.35rem"></i>Ti\u1ebfn H\u00e0nh Thanh To\u00e1n</a>' +
-        '<p style="text-align:center;font-size:0.75rem;color:var(--text-muted);margin-top:1rem"><i class="fa-solid fa-shield-halved" style="margin-right:0.25rem"></i>Thanh to\u00e1n an to\u00e0n & b\u1ea3o m\u1eadt</p>' +
+        '<div style="display:flex;justify-content:space-between;margin-bottom:1rem"><span style="font-size:1.15rem;font-weight:700">Total</span><span style="font-size:1.5rem;font-weight:900;color:var(--accent)">' + total.toLocaleString('vi-VN') + ' \u0111</span></div>' +
+        '<div style="background-color:var(--sentiment-pos-light);border-radius:12px;padding:0.85rem 1rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:0.5rem;font-size:0.85rem;font-weight:600;color:var(--sentiment-pos)"><i class="fa-solid fa-leaf"></i> You\'ll earn +' + greenCoinEst + ' GreenCoin after ordering!</div>' +
+        '<a href="/buyer/checkout.html" class="btn btn-primary" style="width:100%;padding:1rem;border-radius:14px;font-size:1.05rem;font-weight:700;display:block;text-align:center;margin-top:1.25rem;"><i class="fa-solid fa-lock" style="margin-right:0.35rem"></i>Proceed to Checkout</a>' +
+        '<p style="text-align:center;font-size:0.75rem;color:var(--text-muted);margin-top:1rem"><i class="fa-solid fa-shield-halved" style="margin-right:0.25rem"></i>Secure & encrypted payment</p>' +
       '</div>' +
     '</div>';
 }
 
 function removeCartItem(productId, variant) {
   RefashionAuth.removeFromCart(productId, variant);
-  showToast('✅ Đã xóa phân loại sản phẩm khỏi giỏ hàng');
+  showToast('✅ Removed product variant from cart');
   renderCart();
 }
 
@@ -618,8 +781,8 @@ var PRODUCTS_DB = {
     store: 'Hemp & Bamboo',
     storeLogo: '../images/store_hemp_bamboo.png',
     variants: [
-      { size: 'Tiêu chuẩn', color: 'Trắng Ngà', price: 180000, stock: 25 },
-      { size: 'Tiêu chuẩn', color: 'Đen', price: 180000, stock: 15 }
+      { size: 'Standard', color: 'Trắng Ngà', price: 180000, stock: 25 },
+      { size: 'Standard', color: 'Đen', price: 180000, stock: 15 }
     ]
   },
   '6': {
@@ -732,7 +895,7 @@ var PRODUCTS_DB = {
     store: 'Denim Craft',
     storeLogo: '../images/store_denim_craft.png',
     variants: [
-      { size: 'Tiêu chuẩn', color: 'Canvas Patchwork', price: 320000, stock: 15 }
+      { size: 'Standard', color: 'Canvas Patchwork', price: 320000, stock: 15 }
     ]
   },
   '11': {
@@ -885,7 +1048,7 @@ var PRODUCTS_DB = {
     store: 'Zero Waste',
     storeLogo: '../images/store_zero_waste.png',
     variants: [
-      { size: 'Tiêu chuẩn', color: 'Trắng Kem', price: 220000, stock: 30 }
+      { size: 'Standard', color: 'Trắng Kem', price: 220000, stock: 30 }
     ]
   }
 };
@@ -916,21 +1079,21 @@ function syncSellerProductsToDB() {
           PRODUCTS_DB[idStr] = {
             id: idStr,
             name: p.name,
-            category: p.category === 'jacket' ? 'Áo Khoác Nam/Nữ' : p.category === 'tshirt' ? 'Áo Thun Polo' : p.category === 'pants' ? 'Quần' : p.category === 'shoes' ? 'Giày' : 'Sản Phẩm Khác',
-            price: minPrice.toLocaleString('vi-VN') + ' đ',
+            category: p.category === 'jacket' ? 'Men/Women Jacket' : p.category === 'tshirt' ? 'Polo T-Shirt' : p.category === 'pants' ? 'Pants' : p.category === 'shoes' ? 'Shoes' : 'Other Products',
+            price: minPrice.toLocaleString('vi-VN') + ' VND',
             image: p.images && p.images.length > 0 ? p.images[0] : (p.image || '../images/store_logo.png'),
             description: p.description || '',
-            carbonFootprint: '1.2 kg CO₂e (Giảm 60% so với trung bình)',
-            waterSaved: '450 Lít nước sạch',
+            carbonFootprint: '1.2 kg CO₂e (60% reduction vs average)',
+            waterSaved: '450 Liters of clean water',
             details: [
-              'Chế tác tinh xảo từ chất liệu tái chế.',
-              'Nguyên liệu upcycling bảo vệ tài nguyên.',
-              'Phụ kiện tái sinh thân thiện môi trường.'
+              'Exquisitely crafted from recycled materials.',
+              'Upcycled materials protect resources.',
+              'Regenerated accessories, environment friendly.'
             ],
             sizeChart: p.sizeChart || '../images/sizeselection.jpg',
             store: storeName,
             storeLogo: storeLogo,
-            variants: p.variants || [{ size: 'Tiêu chuẩn', color: 'Mộc', price: minPrice, stock: 10 }]
+            variants: p.variants || [{ size: 'Standard', color: 'Raw', price: minPrice, stock: 10 }]
           };
         }
       }
@@ -959,6 +1122,11 @@ function goToDetail(productId) {
 }
 window.goToDetail = goToDetail;
 
+function goToShop(storeName) {
+  window.location.href = '/buyer/store-detail.html?store=' + encodeURIComponent(storeName);
+}
+window.goToShop = goToShop;
+
 function initDetailPage() {
   var params = new URLSearchParams(window.location.search);
   var id = params.get('id') || '';
@@ -978,27 +1146,27 @@ function initDetailPage() {
     var p = {
       id: zalandoProd.id,
       name: zalandoProd.name,
-      category: zalandoProd.category === 'upper' ? 'Áo' : zalandoProd.category === 'lower' ? 'Quần' : 'Đồ Bộ',
+      category: zalandoProd.category === 'upper' ? 'Top' : zalandoProd.category === 'lower' ? 'Bottom' : 'Suit',
       price: zalandoProd.priceStr,
       priceNum: zalandoProd.price,
       image: zalandoProd.image,
       description: zalandoProd.description || '',
-      carbonFootprint: '1.5 kg CO₂e (Giảm 55% so với sản phẩm mới)',
-      waterSaved: '1.200 Lít nước sạch',
+      carbonFootprint: '1.5 kg CO₂e (55% reduction vs new product)',
+      waterSaved: '1,200 Liters of clean water',
       details: [
-        'Chế tác từ chất liệu tái chế chất lượng cao.',
-        'Quy trình upcycling giảm thiểu rác thải dệt may.',
-        'Thiết kế bền vững, kéo dài vòng đời sản phẩm.',
-        'Mang lại giá trị kinh tế tuần hoàn cho cộng đồng.'
+        'Crafted from high-quality recycled materials.',
+        'Upcycling process minimizes textile waste.',
+        'Sustainable design, extending product lifespan.',
+        'Brings circular economy value to the community.'
       ],
       store: zalandoProd.store,
       storeLogo: zalandoProd.storeLogo,
       clothFile: zalandoProd.clothFile,
       garmentType: zalandoProd.garmentType || zalandoProd.category,
       variants: [
-        { size: 'S', color: 'Mặc định', price: zalandoProd.price, stock: 15 },
-        { size: 'M', color: 'Mặc định', price: zalandoProd.price, stock: 20 },
-        { size: 'L', color: 'Mặc định', price: zalandoProd.price, stock: 10 }
+        { size: 'S', color: 'Default', price: zalandoProd.price, stock: 15 },
+        { size: 'M', color: 'Default', price: zalandoProd.price, stock: 20 },
+        { size: 'L', color: 'Default', price: zalandoProd.price, stock: 10 }
       ]
     };
     renderProductDetail(p);
@@ -1017,7 +1185,7 @@ function initDetailPage() {
       container.innerHTML =
         '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;gap:1.5rem">' +
           '<i class="fa-solid fa-spinner fa-spin" style="font-size:2.5rem;color:var(--primary)"></i>' +
-          '<p style="color:var(--text-muted);font-size:1.05rem">Đang tải thông tin sản phẩm...</p>' +
+          '<p style="color:var(--text-muted);font-size:1.05rem">Loading product information...</p>' +
         '</div>';
     }
   }
@@ -1059,7 +1227,7 @@ function initDetailPage() {
   // 2. Catalog not yet loaded — show spinner, then fetch catalog ourselves
   showLoading();
 
-  var catalogUrl = '/datasets/zalando-catalog.json';
+  var catalogUrl = '/datasets/products.json';
   fetch(catalogUrl)
     .then(function(r) {
       if (!r.ok) throw new Error('HTTP ' + r.status);
@@ -1088,9 +1256,250 @@ function initDetailPage() {
     });
 }
 
+/* ==================== STORE DETAIL PAGE ==================== */
+var STORE_DESCRIPTIONS = {
+  'Eco Wear': 'Specializing in recycling old Denim into unique high-end fashion products.',
+  'Hemp & Bamboo': 'Store providing products made from sustainable natural hemp and bamboo fibers.',
+  'Retro Chic': 'Classic-style recycled fashion, nostalgic and Earth-friendly.',
+  'Denim Craft': 'Handcrafted workshop transforming old denim into fashionable pieces.',
+  'Green Thread': 'Organic fashion combined with exquisite, original hand embroidery.',
+  'Zero Waste': 'Committed to zero textile waste, optimizing leftover materials into unique accessories.'
+};
 
+function initStorePage() {
+  renderNavbar('navbar-container');
+  renderFooter('footer-container');
+
+  var params = new URLSearchParams(window.location.search);
+  var storeName = params.get('store');
+  if (!storeName) {
+    window.location.href = '/buyer/shop.html';
+    return;
+  }
+  renderStoreDetail(storeName);
+
+  // Re-render when catalog finishes loading (async fetch may not be done yet)
+  document.addEventListener('zalandoCatalogReady', function () {
+    renderStoreDetail(storeName);
+  });
+  
+  setTimeout(function() {
+      triggerShopVoucherPopup(storeName);
+  }, 1000);
+}
+
+function triggerShopVoucherPopup(storeName) {
+  var claimed = JSON.parse(localStorage.getItem('refashion_claimed_vouchers') || '{}');
+  if (claimed[storeName]) return;
+
+  fetch('../datasets/vouchers.json')
+    .then(res => res.json())
+    .then(data => {
+      var voucher = data.find(v => v.store.toLowerCase() === storeName.toLowerCase());
+      if (!voucher) return; // No mock voucher for this store
+
+      var overlay = document.createElement('div');
+      overlay.id = 'voucher-popup-overlay';
+      overlay.style = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:center;';
+      
+      var popup = document.createElement('div');
+      popup.style = 'background:white;padding:32px;border-radius:16px;width:350px;text-align:center;position:relative;box-shadow:0 10px 30px rgba(0,0,0,0.2)';
+      
+      var closeBtn = document.createElement('button');
+      closeBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+      closeBtn.style = 'position:absolute;top:16px;right:16px;background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--text-muted)';
+      closeBtn.onclick = function() { document.body.removeChild(overlay); };
+      
+      var code = voucher.code;
+      
+      popup.innerHTML = 
+        '<div style="background:var(--primary);color:white;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:24px;">' +
+          '<i class="fa-solid fa-ticket"></i>' +
+        '</div>' +
+        '<h3 style="font-family:var(--font-serif);font-size:1.5rem;color:var(--primary);margin-bottom:8px;">Welcome!</h3>' +
+        '<p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:24px;">Claim your <strong>' + voucher.discountAmount.toLocaleString('vi-VN') + 'đ</strong> discount voucher for your purchase at ' + voucher.store + '.</p>' +
+        '<div style="border:2px dashed var(--primary);border-radius:8px;padding:12px;margin-bottom:24px;font-weight:700;font-size:1.2rem;letter-spacing:1px;color:var(--primary);background:var(--surface)">' +
+          code +
+        '</div>' +
+        '<button id="claim-voucher-btn" class="btn btn-primary" style="width:100%;border-radius:24px;padding:12px;font-weight:600;">Save Voucher</button>';
+      
+      popup.appendChild(closeBtn);
+      overlay.appendChild(popup);
+      document.body.appendChild(overlay);
+      
+      document.getElementById('claim-voucher-btn').onclick = function() {
+        claimed[storeName] = { code: voucher.code, amount: voucher.discountAmount, store: voucher.store };
+        localStorage.setItem('refashion_claimed_vouchers', JSON.stringify(claimed));
+        this.innerHTML = '<i class="fa-solid fa-check"></i> Saved';
+        this.style.background = 'var(--primary-green)';
+        setTimeout(function() { document.body.removeChild(overlay); }, 1000);
+      };
+    })
+    .catch(err => console.error("Could not load mock vouchers: ", err));
+}
+
+var storeDetailState = { currentPage: 1, itemsPerPage: 12 };
+
+function renderStoreDetail(storeName, page) {
+  var container = document.getElementById('store-detail-content');
+  if (!container) return;
+  page = page || 1;
+  storeDetailState.currentPage = page;
+
+  // Gather products from this store
+  var storeProducts = [];
+  for (var i = 0; i < SHOP_PRODUCTS.length; i++) {
+    if (SHOP_PRODUCTS[i].store === storeName) {
+      storeProducts.push(SHOP_PRODUCTS[i]);
+    }
+  }
+
+  var storeLogo = '../images/store_logo.png';
+  for (var j = 0; j < storeProducts.length; j++) {
+    if (storeProducts[j].storeLogo) {
+      storeLogo = storeProducts[j].storeLogo;
+      break;
+    }
+  }
+
+  var description = STORE_DESCRIPTIONS[storeName] || 'Sustainable recycled fashion store.';
+
+  // Paginate
+  var totalItems = storeProducts.length;
+  var totalPages = Math.ceil(totalItems / storeDetailState.itemsPerPage);
+  var startIndex = (page - 1) * storeDetailState.itemsPerPage;
+  var endIndex = Math.min(startIndex + storeDetailState.itemsPerPage, totalItems);
+  var pageProducts = storeProducts.slice(startIndex, endIndex);
+
+  // Build product cards HTML
+  var productsHtml = '';
+  for (var k = 0; k < pageProducts.length; k++) {
+    var p = pageProducts[k];
+    var stars = Math.round(p.rating || 4.5);
+    var starHtml = '';
+    for (var s = 0; s < 5; s++) {
+      starHtml += s < stars ? '<i class="fa-solid fa-star" style="color:var(--accent);font-size:0.75rem"></i>' : '<i class="fa-regular fa-star" style="color:var(--accent);font-size:0.75rem"></i>';
+    }
+    productsHtml +=
+      '<div class="product-card" style="cursor:pointer" onclick="goToDetail(\'' + p.id + '\')">' +
+        '<div class="product-img-wrap">' +
+          '<img src="' + p.image + '" alt="' + p.name + '" onerror="this.onerror=null;this.src=\'' + (p.storeLogo || '../images/store_logo.png') + '\'" />' +
+          (p.clothFile ? '<span style="position:absolute;bottom:8px;left:8px;background:rgba(91,116,83,0.9);color:white;font-size:0.65rem;font-weight:700;padding:3px 8px;border-radius:20px;display:flex;align-items:center;gap:4px"><i class=\'fa-solid fa-wand-magic-sparkles\'></i>AI Try-On</span>' : '') +
+        '</div>' +
+        '<div class="product-info" style="display:flex; flex-direction:column">' +
+          '<p class="product-category">' + p.store + '</p>' +
+          '<h2 class="product-name" style="height:44px;overflow:hidden">' + p.name + '</h2>' +
+          '<div class="product-price-row">' +
+            '<span class="product-price">' + p.priceStr + '</span>' +
+          '</div>' +
+          '<div class="product-rating-row">' +
+            starHtml +
+            '<span class="product-rating-num">' + (p.rating || 4.5).toFixed(1) + '</span>' +
+            '<span class="product-rating-count">(' + (p.ratingCount || 0) + ' reviews)</span>' +
+          '</div>' +
+          '<div style="display:flex;gap:8px;margin-top:12px;">' +
+'<button class="btn btn-outline" style="flex:1;border-radius:10px;font-size:0.75rem;padding:0.5rem;display:flex;align-items:center;justify-content:center;gap:4px;" onclick="event.stopPropagation(); RefashionAuth.addToCart({productId:\'' + p.id + '\',name:\'' + p.name.replace(/'/g, "\\'") + '\',price:' + p.price + ',priceStr:\'' + p.priceStr + '\',image:\'' + p.image + '\'}); showToast(\'\u2705 Added to cart!\')"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>' +
+'<button class="btn btn-primary" style="flex:1;border-radius:10px;font-size:0.75rem;padding:0.5rem;display:flex;align-items:center;justify-content:center;gap:4px;" onclick="event.stopPropagation(); RefashionAuth.addToCart({productId:\'' + p.id + '\',name:\'' + p.name.replace(/'/g, "\\'") + '\',price:' + p.price + ',priceStr:\'' + p.priceStr + '\',image:\'' + p.image + '\'}); window.location.href=\'/buyer/cart.html\'"><i class="fa-solid fa-bolt"></i> Buy Now</button>' +
+'</div>' +
+        '</div>' +
+      '</div>';
+  }
+
+  // Build pagination HTML
+  var paginationHtml = '';
+  if (totalPages > 1) {
+    paginationHtml = '<div class="store-pagination" style="display:flex;justify-content:center;gap:0.5rem;align-items:center;margin-top:2rem;flex-wrap:wrap">';
+    paginationHtml += '<button class="pagination-btn"' + (page <= 1 ? ' disabled' : '') + ' onclick="changeStorePage(\'' + storeName + '\',' + (page - 1) + ')"><i class="fa-solid fa-chevron-left"></i></button>';
+    for (var pi = 1; pi <= totalPages; pi++) {
+      if (pi === page) {
+        paginationHtml += '<button class="pagination-btn active">' + pi + '</button>';
+      } else {
+        paginationHtml += '<button class="pagination-btn" onclick="changeStorePage(\'' + storeName + '\',' + pi + ')">' + pi + '</button>';
+      }
+    }
+    paginationHtml += '<button class="pagination-btn"' + (page >= totalPages ? ' disabled' : '') + ' onclick="changeStorePage(\'' + storeName + '\',' + (page + 1) + ')"><i class="fa-solid fa-chevron-right"></i></button>';
+    paginationHtml += '</div>';
+  }
+
+  if (productsHtml === '' && totalItems === 0) {
+    productsHtml = '<div class="not-found" style="text-align:center;padding:3rem"><i class="fa-solid fa-store" style="font-size:3rem;color:var(--text-muted);margin-bottom:1.5rem"></i><h3 style="font-size:1.25rem;font-weight:700;margin-bottom:0.5rem">No products from this store yet</h3><p style="color:var(--text-muted);font-size:0.95rem">Check back later for new arrivals.</p></div>';
+  }
+
+  container.innerHTML =
+    '<div class="store-detail-wrap" style="max-width:1200px;margin:0 auto;padding:1rem 2rem 3rem">' +
+
+      /* Breadcrumb */
+      '<nav class="store-breadcrumb" style="display:inline-flex;align-items:center;gap:8px;font-size:0.85rem;color:var(--text-muted);margin-bottom:1.5rem;flex-wrap:wrap;background:rgba(255,255,255,0.95);border:1px solid var(--border);padding:0.75rem 1.25rem;border-radius:14px;box-shadow:0 4px 15px rgba(0,0,0,0.03);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)">' +
+        '<a href="/buyer/index.html" style="color:var(--text-muted);text-decoration:none;transition:color 0.2s" onmouseover="this.style.color=\'var(--primary)\'" onmouseout="this.style.color=\'var(--text-muted)\'"><i class="fa-solid fa-house"></i> Home</a>' +
+        '<span style="opacity:0.4"><i class="fa-solid fa-chevron-right" style="font-size:0.65rem"></i></span>' +
+        '<a href="/buyer/shop.html" style="color:var(--text-muted);text-decoration:none;transition:color 0.2s" onmouseover="this.style.color=\'var(--primary)\'" onmouseout="this.style.color=\'var(--text-muted)\'">Shop</a>' +
+        '<span style="opacity:0.4"><i class="fa-solid fa-chevron-right" style="font-size:0.65rem"></i></span>' +
+        '<span style="color:var(--primary);font-weight:600">' + storeName + '</span>' +
+      '</nav>' +
+
+      /* Store Header Card */
+      '<div class="store-hero" style="background:linear-gradient(135deg,var(--primary),#3b5242);border-radius:24px;padding:2.5rem;color:white;display:flex;align-items:center;gap:2rem;flex-wrap:wrap;margin-bottom:2.5rem;position:relative;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,0.08)">' +
+        '<div style="position:absolute;right:-40px;bottom:-40px;font-size:12rem;opacity:0.06;color:white;pointer-events:none"><i class="fa-solid fa-store"></i></div>' +
+        '<img src="' + storeLogo + '" style="width:100px;height:100px;border-radius:50%;border:3px solid rgba(255,255,255,0.8);object-fit:cover;background:white;flex-shrink:0" onerror="this.onerror=null;this.src=\'../images/store_logo.png\'" />' +
+        '<div style="flex:1;min-width:200px">' +
+          '<h1 style="font-family:var(--font-serif);font-size:2rem;margin:0;font-weight:400">' + storeName + '</h1>' +
+          '<p style="font-size:0.9rem;opacity:0.9;margin:8px 0 12px 0;max-width:500px">' + description + '</p>' +
+          '<div style="display:flex;gap:1.5rem;flex-wrap:wrap">' +
+            '<span style="font-size:0.8rem;opacity:0.85"><i class="fa-solid fa-star" style="color:var(--accent);margin-right:4px"></i> 4.9/5.0 (250+ reviews)</span>' +
+            '<span style="font-size:0.8rem;opacity:0.85"><i class="fa-solid fa-box" style="margin-right:4px"></i> ' + totalItems + ' products</span>' +
+            '<span style="font-size:0.8rem;opacity:0.85"><i class="fa-solid fa-circle" style="color:#4ade80;font-size:0.5rem;margin-right:4px;vertical-align:middle"></i> Active</span>' +
+          '</div>' +
+        '</div>' +
+        '<div style="display:flex;gap:10px;flex-shrink:0">' +
+          '<button type="button" class="btn btn-accent btn-chat-store" style="font-size:0.8rem;padding:10px 18px;border-radius:12px;font-weight:700;border:none;cursor:pointer"><i class="fa-solid fa-comments"></i> Chat</button>' +
+          '<button type="button" class="btn btn-outline btn-follow-store" style="font-size:0.8rem;padding:10px 18px;border-radius:12px;font-weight:700;border:1.5px solid white;color:white;background:transparent;cursor:pointer;transition:all 0.2s"><i class="fa-solid fa-plus"></i> Follow</button>' +
+        '</div>' +
+      '</div>' +
+
+      /* Products Section */
+      '<div class="store-products-section">' +
+        '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem">' +
+          '<h2 style="font-family:var(--font-serif);font-size:1.5rem;margin:0;color:var(--foreground)">Products <span style="font-size:0.9rem;color:var(--text-muted);font-weight:400;font-family:var(--font-sans)">(' + totalItems + ' items)</span></h2>' +
+        '</div>' +
+        '<div class="product-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.5rem">' + productsHtml + '</div>' +
+        paginationHtml +
+      '</div>' +
+    '</div>';
+
+  // Wire follow/chat buttons
+  var followBtn = container.querySelector('.btn-follow-store');
+  if (followBtn) {
+    followBtn.addEventListener('click', function(e) {
+      var isFollowing = this.classList.toggle('following');
+      if (isFollowing) {
+        this.innerHTML = '<i class="fa-solid fa-check"></i> Following';
+        showToast('Thank you for following ' + storeName + '!');
+      } else {
+        this.innerHTML = '<i class="fa-solid fa-plus"></i> Follow';
+        showToast('Unfollowed ' + storeName);
+      }
+    });
+  }
+  var chatBtn = container.querySelector('.btn-chat-store');
+  if (chatBtn) {
+    chatBtn.addEventListener('click', function() {
+      if (typeof openBuyerChatWithStore === 'function') {
+        openBuyerChatWithStore(storeName);
+      } else {
+        showToast('Direct chat with ' + storeName + ' coming soon!');
+      }
+    });
+  }
+}
+
+window.changeStorePage = function(storeName, page) {
+  renderStoreDetail(storeName, page);
+  var wrap = document.querySelector('.store-detail-wrap');
+  if (wrap) wrap.scrollIntoView({ behavior: 'smooth' });
+};
 
 function renderProductDetail(product) {
+  var currentUser = RefashionAuth._getUser();
   var container = document.getElementById('detail-content');
   if (!container) return;
 
@@ -1119,7 +1528,7 @@ function renderProductDetail(product) {
   var sizeHtml = '';
   if (uniqueSizes.length > 0) {
     sizeHtml = '<div class="variant-select-section" style="margin: 0.75rem 0;">' +
-                 '<span class="variant-label" style="font-weight: 700; font-size: 0.85rem; color: var(--primary); display: block; margin-bottom: 0.4rem;">Kích cỡ:</span>' +
+                 '<span class="variant-label" style="font-weight: 700; font-size: 0.85rem; color: var(--primary); display: block; margin-bottom: 0.4rem;">Size:</span>' +
                  '<div class="variant-options size-options-group" style="display: flex; gap: 6px; flex-wrap: wrap;">' +
                    uniqueSizes.map(function(s) {
                      return '<button type="button" class="btn-variant-opt btn-size-opt" data-size="' + s + '">' + s + '</button>';
@@ -1131,7 +1540,7 @@ function renderProductDetail(product) {
   var colorHtml = '';
   if (uniqueColors.length > 0) {
     colorHtml = '<div class="variant-select-section" style="margin: 0.75rem 0;">' +
-                 '<span class="variant-label" style="font-weight: 700; font-size: 0.85rem; color: var(--primary); display: block; margin-bottom: 0.4rem;">Màu sắc:</span>' +
+                 '<span class="variant-label" style="font-weight: 700; font-size: 0.85rem; color: var(--primary); display: block; margin-bottom: 0.4rem;">Color:</span>' +
                  '<div class="variant-options color-options-group" style="display: flex; gap: 6px; flex-wrap: wrap;">' +
                    uniqueColors.map(function(c) {
                      return '<button type="button" class="btn-variant-opt btn-color-opt" data-color="' + c + '">' + c + '</button>';
@@ -1141,7 +1550,7 @@ function renderProductDetail(product) {
   }
 
   var stockHtml = '<div class="variant-stock-info" style="margin: 0.5rem 0 0.75rem 0; font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">' +
-                    'Kho hàng: <span id="detail-stock-value" style="font-weight:700; color:var(--foreground);">' + (product.stock || 0) + '</span> sản phẩm có sẵn' +
+                    'Stock: <span id="detail-stock-value" style="font-weight:700; color:var(--foreground);">' + (product.stock || 0) + '</span> items available' +
                   '</div>';
 
   var shopCardHtml = '<div class="shop-info-card" style="display: flex; align-items: center; justify-content: space-between; padding: 0.85rem 1rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; margin: 1rem 0; gap: 0.75rem; flex-wrap: wrap;">' +
@@ -1149,10 +1558,10 @@ function renderProductDetail(product) {
                          '<img src="' + (product.storeLogo || '../images/store_logo.png') + '" style="width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border);" onerror="this.onerror=null;this.src=\'../images/store_logo.png\'" />' +
                          '<div>' +
                            '<h4 style="font-weight: 800; font-size: 0.9rem; color: var(--primary); margin: 0;">' + (product.store || 'Eco Wear') + '</h4>' +
-                           '<p style="font-size: 0.7rem; color: var(--text-muted); margin: 2px 0 0 0;"><i class="fa-solid fa-star" style="color: var(--accent); margin-right: 4px;"></i>4.9/5.0 (250+ Đánh giá)</p>' +
+                           '<p style="font-size: 0.7rem; color: var(--text-muted); margin: 2px 0 0 0;"><i class="fa-solid fa-star" style="color: var(--accent); margin-right: 4px;"></i>4.9/5.0 (250+ reviews)</p>' +
                          '</div>' +
                        '</div>' +
-                       '<a href="shop.html?store=' + encodeURIComponent(product.store || 'Eco Wear') + '" class="btn btn-outline" style="font-size: 0.7rem; padding: 5px 10px; border-radius: 8px; border-color: var(--primary); color: var(--primary); font-weight: 600;">Xem Cửa Hàng</a>' +
+                       '<a href="javascript:void(0)" onclick="goToShop(\'' + (product.store || 'Eco Wear').replace(/'/g, "\\'") + '\')" class="btn btn-outline" style="font-size: 0.7rem; padding: 5px 10px; border-radius: 8px; border-color: var(--primary); color: var(--primary); font-weight: 600;">Visit Store</a>' +
                      '</div>';
 
   var priceNum = product.priceNum || parseInt((product.price || '0').replace(/[^0-9]/g, ''), 10);
@@ -1164,7 +1573,7 @@ function renderProductDetail(product) {
   var mainImgUrl = product.image;
   var baseImgUrl = mainImgUrl;
   var hasSuffix = false;
-  var suffixes = ['_1_front.jpg', '_2_side.jpg', '_3_back.jpg', '_4_full.jpg', '_7_additional.jpg'];
+  var suffixes = ['_1_front.jpg', '_2_side.jpg', '_3_back.jpg', '_4_full.jpg', '_6_flat.jpg', '_7_additional.jpg'];
   for (var sIdx = 0; sIdx < suffixes.length; sIdx++) {
     if (mainImgUrl.indexOf(suffixes[sIdx]) !== -1) {
       baseImgUrl = mainImgUrl.substring(0, mainImgUrl.indexOf(suffixes[sIdx]));
@@ -1177,11 +1586,12 @@ function renderProductDetail(product) {
   if (hasSuffix) {
     galleryHtml = '<div class="detail-image-gallery">';
     var possibleAngles = [
-      { suffix: '_1_front.jpg', label: 'Chính diện' },
-      { suffix: '_2_side.jpg', label: 'Góc nghiêng' },
-      { suffix: '_3_back.jpg', label: 'Phía sau' },
-      { suffix: '_4_full.jpg', label: 'Toàn thân' },
-      { suffix: '_7_additional.jpg', label: 'Góc khác' }
+      { suffix: '_1_front.jpg', label: 'Front' },
+      { suffix: '_2_side.jpg', label: 'Side' },
+      { suffix: '_3_back.jpg', label: 'Back' },
+      { suffix: '_4_full.jpg', label: 'Full Body' },
+      { suffix: '_6_flat.jpg', label: 'Flat' },
+      { suffix: '_7_additional.jpg', label: 'Detail' }
     ];
     for (var aIdx = 0; aIdx < possibleAngles.length; aIdx++) {
       var angle = possibleAngles[aIdx];
@@ -1225,58 +1635,64 @@ function renderProductDetail(product) {
 
 
   var vtonBtnHtml = product.clothFile
-    ? '<button class="btn btn-primary" id="btn-open-vton" style="margin-top:10px;width:100%;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,#3d6b4f,#3b7a57);font-size:1rem;padding:14px" onclick="openVtonStudio(window._currentDetailProduct)"><i class="fa-solid fa-wand-magic-sparkles"></i>' + ' Th\u1eed \u0110\u1ed3 AI \u2013 Virtual Try-On' + '</button>'
+    ? '<button class="btn btn-primary" id="btn-open-vton" style="margin-top:10px;width:100%;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,#3d6b4f,#3b7a57);font-size:1rem;padding:14px" onclick="openVtonStudio(window._currentDetailProduct)"><i class="fa-solid fa-wand-magic-sparkles"></i>' + ' AI Try-On \u2013 Virtual Try-On' + '</button>'
     : '';
 
   container.innerHTML =
     '<div class="container">' +
-      '<div class="detail-breadcrumb"><a href="index.html">Trang chủ</a> / <a href="shop.html">Cửa hàng</a> / <span style="color:var(--primary);font-weight:600">' + product.name + '</span></div>' +
+      '<div class="detail-breadcrumb" style="display:inline-flex;align-items:center;gap:8px;font-size:0.85rem;color:var(--text-muted);margin-bottom:1.5rem;flex-wrap:wrap;background:rgba(255,255,255,0.95);border:1px solid var(--border);padding:0.75rem 1.25rem;border-radius:14px;box-shadow:0 4px 15px rgba(0,0,0,0.03);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)">' +
+        '<a href="index.html" style="color:var(--text-muted);text-decoration:none;transition:color 0.2s" onmouseover="this.style.color=\'var(--primary)\'" onmouseout="this.style.color=\'var(--text-muted)\'"><i class="fa-solid fa-house"></i> Home</a>' +
+        '<span style="opacity:0.4"><i class="fa-solid fa-chevron-right" style="font-size:0.65rem"></i></span>' +
+        '<a href="shop.html" style="color:var(--text-muted);text-decoration:none;transition:color 0.2s" onmouseover="this.style.color=\'var(--primary)\'" onmouseout="this.style.color=\'var(--text-muted)\'">Shop</a>' +
+        '<span style="opacity:0.4"><i class="fa-solid fa-chevron-right" style="font-size:0.65rem"></i></span>' +
+        '<span style="color:var(--primary);font-weight:600">' + product.name + '</span>' +
+      '</div>' +
       '<div class="detail-grid">' +
         imageColHtml +
         '<div class="detail-info">' +
-          '<div class="detail-badges"><span class="badge badge-accent" style="font-size:0.8rem">1% For Planet</span>' + (product.clothFile ? '<span class="badge" style="background:rgba(91,116,83,0.1);color:var(--primary);border:1px solid var(--primary);font-size:0.72rem;margin-left:6px"><i class="fa-solid fa-wand-magic-sparkles"></i> H\u1ed7 tr\u1ee3 Th\u1eed \u0110\u1ed3 AI</span>' : '') + '</div>' +
+          '<div class="detail-badges"><span class="badge badge-accent" style="font-size:0.8rem">1% For Planet</span>' + (product.clothFile ? '<span class="badge" style="background:rgba(91,116,83,0.1);color:var(--primary);border:1px solid var(--primary);font-size:0.72rem;margin-left:6px"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Try-On Supported</span>' : '') + '</div>' +
           '<h1 class="detail-name">' + product.name + '</h1>' +
           '<p class="detail-price" style="font-size: 1.75rem; font-weight: 900; color: var(--accent); margin: 0.5rem 0;">' + product.price + '</p>' +
           '<p class="detail-desc">' + product.description + '</p>' +
           '<div class="detail-impact">' +
-            '<div class="impact-item"><span class="impact-label">Dấu chân Carbon</span><p class="impact-value">' + product.carbonFootprint + '</p></div>' +
-            '<div class="impact-item accent"><span class="impact-label">Nước Tiết Kiệm</span><p class="impact-value">' + product.waterSaved + '</p></div>' +
+            '<div class="impact-item"><span class="impact-label">Carbon Footprint</span><p class="impact-value">' + product.carbonFootprint + '</p></div>' +
+            '<div class="impact-item accent"><span class="impact-label">Water Saved</span><p class="impact-value">' + product.waterSaved + '</p></div>' +
           '</div>' +
           sizeHtml +
           colorHtml +
           stockHtml +
           '<div class="detail-sizechart" id="detail-sizechart" style="' + (product.sizeChart ? '' : 'display:none') + '">' +
             '<button type="button" class="btn-sizeguide" onclick="document.getElementById(\'sizechart-modal\').classList.add(\'show\')">' +
-              '<i class="fa-solid fa-ruler-combined"></i> Hướng dẫn chọn size' +
+              '<i class="fa-solid fa-ruler-combined"></i> Size Guide' +
             '</button>' +
           '</div>' +
           shopCardHtml +
           '<div class="detail-actions" style="margin-top: 0.75rem; display: flex; gap: 10px; flex-wrap: wrap;">' +
-            '<button class="btn btn-outline btn-add-cart" style="border-color:var(--primary);color:var(--primary); display: flex; align-items: center; justify-content: center; gap: 8px; border-radius: 12px;"><i class="fa-solid fa-bag-shopping"></i>Thêm vào Giỏ Hàng</button>' +
-            '<button class="btn btn-primary btn-buy-now" style="display: flex; align-items: center; justify-content: center; gap: 8px; border-radius: 12px;"><i class="fa-solid fa-bolt"></i>Mua Ngay</button>' +
+            '<button class="btn btn-outline btn-add-cart" style="border-color:var(--primary);color:var(--primary); display: flex; align-items: center; justify-content: center; gap: 8px; border-radius: 12px;"><i class="fa-solid fa-bag-shopping"></i>Add to Cart</button>' +
+            '<button class="btn btn-primary btn-buy-now" style="display: flex; align-items: center; justify-content: center; gap: 8px; border-radius: 12px;"><i class="fa-solid fa-bolt"></i>Buy Now</button>' +
           '</div>' +
           vtonBtnHtml +
           '<div style="margin-top: 15px; display: flex; flex-direction: column; gap: 10px; width: 100%;">' +
-            '<button class="xai-btn-outline" onclick="showXaiModal(\'' + product.id + '\')"><i class="fa-solid fa-wand-magic-sparkles"></i> Tại sao tôi thấy gợi ý này?</button>' +
-            '<button class="dpp-btn-outline" onclick="showDppModal(\'' + product.id + '\')"><i class="fa-solid fa-passport"></i> Xem Hộ Chiếu Số DPP</button>' +
+            (getTopRecommendedIds().has(product.id) ? '<button class="xai-btn-outline" onclick="showXaiModal(\'' + product.id + '\')"><i class="fa-solid fa-wand-magic-sparkles"></i> Why am I seeing this?</button>' : '') +
+            '<button class="dpp-btn-outline" onclick="showDppModal(\'' + product.id + '\')"><i class="fa-solid fa-passport"></i> View DPP</button>' +
           '</div>' +
         '</div>' +
       '</div>' +
       '<div class="detail-specs">' +
-        '<div><h3 style="font-family:var(--font-serif);font-size:1.35rem;margin-bottom:1rem;color:var(--primary)">Chi tiết Thiết kế & Tác động</h3><ul class="specs-list">' +
+        '<div><h3 style="font-family:var(--font-serif);font-size:1.35rem;margin-bottom:1rem;color:var(--primary)">Design Details & Impact</h3><ul class="specs-list">' +
           product.details.map(function(d) { return '<li><i class="fa-solid fa-circle-check"></i><span>' + d + '</span></li>'; }).join('') +
         '</ul></div>' +
       '</div>' +
       '<div class="review-section" id="review-section">' +
-        '<h3>Đánh Giá & Nhận Xét từ Khách Hàng</h3>' +
+        '<h3>Customer Reviews & Feedback</h3>' +
         '<div class="review-layout">' +
           '<div class="review-form-card" id="review-form-card">' +
-            '<h4>Đánh Giá Sản Phẩm</h4>' +
+            '<h4>Product Review</h4>' +
+            (currentUser ? '<p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:12px">Reviewing as: <strong style="color:var(--primary)">' + currentUser.username + '</strong></p>' : '<p style="font-size:0.85rem;color:var(--sentiment-neg);margin-bottom:12px">Please <a href="/auth/login.html?redirect=' + encodeURIComponent(window.location.pathname + window.location.search) + '" style="text-decoration:underline;font-weight:600">log in</a> to write a review.</p>') +
             '<form id="review-form">' +
-              '<div class="form-group"><label>Họ & Tên</label><input type="text" id="review-name" placeholder="Nhập tên của bạn..." required /></div>' +
-              '<div class="form-group"><label>Đánh giá số sao</label><select id="review-rating"><option value="5">⭐⭐⭐⭐⭐ (5 sao - Tuyệt vời)</option><option value="4">⭐⭐⭐⭐ (4 sao - Tốt)</option><option value="3">⭐⭐⭐ (3 sao - Bình thường)</option><option value="2">⭐⭐ (2 sao - Kém)</option><option value="1">⭐ (1 sao - Rất tệ)</option></select></div>' +
-              '<div class="form-group"><label>Nội dung nhận xét</label><textarea id="review-text" rows="4" placeholder="Viết đánh giá của bạn tại đây..." required></textarea></div>' +
-              '<button type="submit" class="btn btn-primary" style="width:100%;border-radius:10px">Gửi Nhận Xét</button>' +
+              '<div class="form-group"><label>Rating</label><select id="review-rating"><option value="5">⭐⭐⭐⭐⭐ (5 stars - Excellent)</option><option value="4">⭐⭐⭐⭐ (4 stars - Good)</option><option value="3">⭐⭐⭐ (3 stars - Average)</option><option value="2">⭐⭐ (2 stars - Poor)</option><option value="1">⭐ (1 star - Terrible)</option></select></div>' +
+              '<div class="form-group"><label>Review content</label><textarea id="review-text" rows="4" placeholder="Write your review here..." required></textarea></div>' +
+              '<button type="submit" class="btn btn-primary" style="width:100%;border-radius:10px" ' + (currentUser ? '' : 'disabled') + '>Submit Review</button>' +
             '</form>' +
           '</div>' +
           '<div class="review-list" id="review-list"></div>' +
@@ -1312,7 +1728,7 @@ function renderProductDetail(product) {
       if (stockEl) stockEl.textContent = match.stock;
 
       if (match.stock <= 0) {
-        if (stockEl) stockEl.innerHTML = '<strong style="color:var(--sentiment-neg)">Hết hàng</strong>';
+        if (stockEl) stockEl.innerHTML = '<strong style="color:var(--sentiment-neg)">Out of stock</strong>';
         if (buyNowBtn) { buyNowBtn.disabled = true; buyNowBtn.style.opacity = '0.5'; }
         if (addToCartBtn) { addToCartBtn.disabled = true; addToCartBtn.style.opacity = '0.5'; }
       } else {
@@ -1353,14 +1769,14 @@ function renderProductDetail(product) {
   var addToCartBtn = container.querySelector('.btn-add-cart');
   if (addToCartBtn) {
     addToCartBtn.addEventListener('click', function() {
-      if (uniqueSizes.length > 0 && !selectedSize) { showToast('Vui lòng chọn Kích cỡ!'); return; }
-      if (uniqueColors.length > 0 && !selectedColor) { showToast('Vui lòng chọn Màu sắc!'); return; }
+      if (uniqueSizes.length > 0 && !selectedSize) { showToast('Please select a size!'); return; }
+      if (uniqueColors.length > 0 && !selectedColor) { showToast('Please select a color!'); return; }
 
       var variantStr = '';
       if (selectedSize && selectedColor) variantStr = selectedSize + ' - ' + selectedColor;
       else if (selectedSize) variantStr = selectedSize;
       else if (selectedColor) variantStr = selectedColor;
-      else variantStr = 'Tiêu chuẩn';
+      else variantStr = 'Standard';
 
       var finalPrice = priceNum;
       var finalPriceStr = product.price;
@@ -1388,21 +1804,21 @@ function renderProductDetail(product) {
         image: product.image,
         variant: variantStr
       });
-      showToast('🛍️ Đã thêm "' + product.name + ' (' + variantStr + ')" vào giỏ hàng thành công!');
+      showToast('🛍️ Added "' + product.name + ' (' + variantStr + ')" to cart successfully!');
     });
   }
 
   var buyNowBtn = container.querySelector('.btn-buy-now');
   if (buyNowBtn) {
     buyNowBtn.addEventListener('click', function() {
-      if (uniqueSizes.length > 0 && !selectedSize) { showToast('Vui lòng chọn Kích cỡ!'); return; }
-      if (uniqueColors.length > 0 && !selectedColor) { showToast('Vui lòng chọn Màu sắc!'); return; }
+      if (uniqueSizes.length > 0 && !selectedSize) { showToast('Please select a size!'); return; }
+      if (uniqueColors.length > 0 && !selectedColor) { showToast('Please select a color!'); return; }
 
       var variantStr = '';
       if (selectedSize && selectedColor) variantStr = selectedSize + ' - ' + selectedColor;
       else if (selectedSize) variantStr = selectedSize;
       else if (selectedColor) variantStr = selectedColor;
-      else variantStr = 'Tiêu chuẩn';
+      else variantStr = 'Standard';
 
       var finalPrice = priceNum;
       var finalPriceStr = product.price;
@@ -1450,21 +1866,26 @@ function initReviewSystem(product) {
   if (form) {
     form.addEventListener('submit', function(e) {
       e.preventDefault();
-      var name = document.getElementById('review-name').value;
+      var user = RefashionAuth._getUser();
+      if (!user) {
+        showToast('Please log in to submit a review.');
+        window.location.href = '/auth/login.html?redirect=' + encodeURIComponent(window.location.pathname + window.location.search);
+        return;
+      }
+      var name = user.username || user.email || 'Guest';
       var rating = parseInt(document.getElementById('review-rating').value);
       var text = document.getElementById('review-text').value;
-      if (!name.trim() || !text.trim()) return;
+      if (!text.trim()) return;
       var review = {
         id: reviews.length + 1,
         user: name,
         avatar: name.charAt(0).toUpperCase(),
         rating: rating,
-        date: new Date().toLocaleDateString('vi-VN'),
+        date: new Date().toLocaleDateString('en-US'),
         comment: text
       };
       reviews.unshift(review);
       renderReviews(reviews);
-      document.getElementById('review-name').value = '';
       document.getElementById('review-text').value = '';
       document.getElementById('review-rating').value = '5';
     });
@@ -1493,13 +1914,128 @@ function loadExternalReviews(product, callback) {
   xhr.send();
 }
 
+window.toggleAIInsights = function() {
+  var panel = document.getElementById('ai-insights-panel');
+  if (panel) {
+    if (panel.style.display === 'none') {
+      panel.style.display = 'flex';
+    } else {
+      panel.style.display = 'none';
+    }
+  }
+}
 
+function analyzeSentimentAndKeywords(reviews) {
+  if (!reviews || reviews.length === 0) return null;
+  var pos = 0, neu = 0, neg = 0;
+  var keywords = {
+    'beautiful': 0, 'cool': 0, 'comfortable': 0, 'durable': 0, 'eco-friendly': 0, 'fit': 0, 'fast': 0, 'great': 0,
+    'tight': 0, 'large': 0, 'hot': 0, 'terrible': 0, 'wrinkled': 0, 'poorly': 0, 'disappointed': 0, 'different': 0
+  };
+  
+  var posWords = ['beautiful', 'cool', 'comfortable', 'durable', 'eco-friendly', 'fit', 'fast', 'great'];
+  var negWords = ['tight', 'large', 'hot', 'terrible', 'wrinkled', 'poorly', 'disappointed', 'different'];
+  
+  for (var i = 0; i < reviews.length; i++) {
+    var r = reviews[i];
+    if (r.rating >= 4) pos++;
+    else if (r.rating === 3) neu++;
+    else neg++;
+    
+    var text = (r.comment || '').toLowerCase();
+    for (var kw in keywords) {
+      if (text.indexOf(kw) !== -1) {
+        keywords[kw]++;
+      }
+    }
+  }
+  
+  var total = reviews.length;
+  var posPct = Math.round((pos / total) * 100);
+  var neuPct = Math.round((neu / total) * 100);
+  var negPct = Math.round((neg / total) * 100);
+  
+  var topPosKws = [];
+  var topNegKws = [];
+  
+  for (var kw in keywords) {
+    if (keywords[kw] > 0) {
+      if (posWords.indexOf(kw) !== -1) topPosKws.push({word: kw, count: keywords[kw]});
+      if (negWords.indexOf(kw) !== -1) topNegKws.push({word: kw, count: keywords[kw]});
+    }
+  }
+  
+  topPosKws.sort(function(a,b){return b.count - a.count});
+  topPosKws = topPosKws.slice(0, 4);
+  topNegKws.sort(function(a,b){return b.count - a.count});
+  topNegKws = topNegKws.slice(0, 3);
+  
+  var summaryText = '<p style="margin-bottom:1.5rem; font-size:0.95rem; line-height:1.6; color:var(--text-muted)">Based on an analysis of <strong>' + total + '</strong> customer reviews, the AI assistant summarizes the following key points:</p>';
+  
+  summaryText += '<div style="margin-bottom:1.25rem; background:rgba(34, 197, 94, 0.05); padding:1rem; border-radius:8px; border-left:4px solid var(--sentiment-pos);">';
+  summaryText += '<h5 style="color:var(--sentiment-pos); margin-bottom:0.5rem; font-size:1rem;"><i class="fa-solid fa-thumbs-up" style="margin-right:6px;"></i> Highlights (Pros)</h5>';
+  if (topPosKws.length > 0) {
+    summaryText += '<p style="margin:0; font-size:0.95rem; line-height:1.5;">Customers particularly love the product for: <strong style="color:var(--text-dark)">' + topPosKws.map(function(k){return k.word}).join(', ') + '</strong>. Most are satisfied with the design and overall experience.</p>';
+  } else {
+    summaryText += '<p style="margin:0; font-size:0.95rem; line-height:1.5;">Not many specific positive reviews yet.</p>';
+  }
+  summaryText += '</div>';
+  
+  summaryText += '<div style="background:rgba(239, 68, 68, 0.05); padding:1rem; border-radius:8px; border-left:4px solid var(--sentiment-neg);">';
+  summaryText += '<h5 style="color:var(--sentiment-neg); margin-bottom:0.5rem; font-size:1rem;"><i class="fa-solid fa-triangle-exclamation" style="margin-right:6px;"></i> Points to Note (Cons)</h5>';
+  if (topNegKws.length > 0) {
+    summaryText += '<p style="margin:0; font-size:0.95rem; line-height:1.5;">However, some feedback mentions: <strong style="color:var(--text-dark)">' + topNegKws.map(function(k){return k.word}).join(', ') + '</strong>. You should consider this carefully or chat with the store for more advice.</p>';
+  } else {
+    summaryText += '<p style="margin:0; font-size:0.95rem; line-height:1.5;">Almost no significant complaints from customers.</p>';
+  }
+  summaryText += '</div>';
 
+  return {
+    total: total,
+    pos: pos, neu: neu, neg: neg,
+    posPct: posPct, neuPct: neuPct, negPct: negPct,
+    summaryText: summaryText
+  };
+}
 
 function renderReviews(reviews) {
   var container = document.getElementById('review-list');
   if (!container) return;
   var html = '';
+  
+  var insights = analyzeSentimentAndKeywords(reviews);
+  if (insights) {
+    html += '<div style="margin-bottom: 1.5rem;">' +
+      '<button type="button" class="btn" style="border-radius:12px; width: 100%; border: none; background: var(--primary); color: white; padding: 12px; font-weight: 600; font-size: 0.95rem; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: all 0.2s ease;" onmouseover="this.style.transform=\'translateY(-2px)\'; this.style.boxShadow=\'0 6px 16px rgba(0,0,0,0.2)\'" onmouseout="this.style.transform=\'translateY(0)\'; this.style.boxShadow=\'0 4px 12px rgba(0,0,0,0.15)\'" onclick="toggleAIInsights()"><i class="fa-solid fa-wand-magic-sparkles" style="margin-right: 8px;"></i> View AI Review Summary</button>' +
+      '<div id="ai-insights-panel" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.55); z-index:9999; justify-content:center; align-items:center; backdrop-filter:blur(4px);">' +
+        '<div style="background:var(--background); padding:2rem; border-radius:20px; width:92%; max-width:550px; max-height:85vh; overflow-y:auto; box-shadow:0 20px 40px rgba(0,0,0,0.2); position:relative;">' +
+          '<button onclick="toggleAIInsights()" style="position:absolute; top:1.25rem; right:1.25rem; background:var(--background-alt); border:none; width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.25rem; cursor:pointer; color:var(--text-muted); transition:all 0.2s ease;"><i class="fa-solid fa-xmark"></i></button>' +
+          
+          '<h3 style="font-family: var(--font-serif); color: var(--primary); margin-bottom: 1.5rem; font-size: 1.4rem; padding-right:2rem;"><i class="fa-solid fa-wand-magic-sparkles" style="margin-right: 8px;"></i> AI Insights</h3>' +
+          
+          '<div style="margin-bottom: 2rem;">' +
+            '<h4 style="font-size: 1.05rem; font-weight:600; margin-bottom: 1rem; color:var(--text-dark)">Sentiment Distribution</h4>' +
+            '<div style="display:flex; height: 12px; border-radius: 6px; overflow: hidden; margin-bottom: 0.75rem;">' +
+              '<div style="width: ' + insights.posPct + '%; background-color: var(--sentiment-pos);"></div>' +
+              '<div style="width: ' + insights.neuPct + '%; background-color: #fbbf24;"></div>' +
+              '<div style="width: ' + insights.negPct + '%; background-color: var(--sentiment-neg);"></div>' +
+            '</div>' +
+            '<div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">' +
+              '<span style="color:var(--sentiment-pos)">Positive: ' + insights.posPct + '%</span>' +
+              '<span style="color:#fbbf24">Neutral: ' + insights.neuPct + '%</span>' +
+              '<span style="color:var(--sentiment-neg)">Negative: ' + insights.negPct + '%</span>' +
+            '</div>' +
+          '</div>' +
+          
+          '<div>' +
+            '<h4 style="font-size: 1.05rem; font-weight:600; margin-bottom: 1rem; color:var(--text-dark)">Đánh giá tổng quan</h4>' +
+            insights.summaryText +
+          '</div>' +
+          
+        '</div>' +
+      '</div>' +
+    '</div>';
+  }
   for (var i = 0; i < reviews.length; i++) {
     var r = reviews[i];
     html +=
@@ -1521,7 +2057,7 @@ function handleAddToCart(id, name, price, priceStr, image) {
   var user = RefashionAuth._getUser();
   if (!user) { window.location.href = '/auth/login.html?redirect=/buyer/shop-detail.html?id=' + id; return; }
   RefashionAuth.addToCart({ productId: id, name: name, price: price, priceStr: priceStr, image: image });
-  showToast('\u0110\u00e3 th\u00eam "' + name + '" v\u00e0o gi\u1ecf h\u00e0ng!');
+  showToast('✅ Added "' + name + '" to cart!');
 }
 
 function handleBuyNow(id) {
@@ -1552,12 +2088,12 @@ function renderCheckoutForm() {
   if (buyNowId && PRODUCTS_DB[buyNowId]) {
     var p = PRODUCTS_DB[buyNowId];
     var priceNum = parseInt(p.price.replace(/[^0-9]/g, ''), 10);
-    items = [{ productId: p.id, name: p.name, price: priceNum, priceStr: p.price, image: p.image, quantity: 1 }];
+    items = [{ productId: p.id, name: p.name, price: priceNum, priceStr: p.price, image: p.image, quantity: 1, store: p.store }];
   } else {
     items = JSON.parse(JSON.stringify(cart));
   }
   if (items.length === 0) {
-    container.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;min-height:40vh;flex-direction:column;gap:1rem"><i class="fa-solid fa-bag-shopping" style="font-size:3rem;color:var(--text-muted);opacity:0.3"></i><p style="color:var(--text-muted);font-size:1.1rem">Kh\u00f4ng c\u00f3 s\u1ea3n ph\u1ea9m n\u00e0o \u0111\u1ec3 thanh to\u00e1n.</p><a href="shop.html" class="btn btn-primary" style="border-radius:12px">Quay l\u1ea1i C\u1eeda H\u00e0ng</a></div>';
+    container.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;min-height:40vh;flex-direction:column;gap:1rem"><i class="fa-solid fa-bag-shopping" style="font-size:3rem;color:var(--text-muted);opacity:0.3"></i><p style="color:var(--text-muted);font-size:1.1rem">No products to checkout.</p><a href="shop.html" class="btn btn-primary" style="border-radius:12px">Back to Store</a></div>';
     return;
   }
   var subtotal = items.reduce(function(s, i) { return s + i.price * i.quantity; }, 0);
@@ -1577,7 +2113,7 @@ function renderCheckoutForm() {
         '<img src="' + item.image + '" style="width:56px;height:56px;border-radius:10px;object-fit:cover;border:1px solid var(--border)" />' +
         '<div style="flex:1;overflow:hidden">' +
           '<p style="font-size:0.85rem;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + item.name + '</p>' +
-          '<p style="font-size:0.78rem;color:var(--text-muted);margin:2px 0 0 0">Phân loại: ' + (item.variant || 'Tiêu chuẩn') + ' • x' + item.quantity + '</p>' +
+          '<p style="font-size:0.78rem;color:var(--text-muted);margin:2px 0 0 0">Variant: ' + (item.variant || 'Standard') + ' • x' + item.quantity + '</p>' +
         '</div>' +
         '<span style="font-weight:700;font-size:0.9rem">' + (item.price * item.quantity).toLocaleString('vi-VN') + ' đ</span>' +
       '</div>';
@@ -1586,61 +2122,112 @@ function renderCheckoutForm() {
     '<div class="checkout-layout" id="checkout-layout">' +
       '<div class="checkout-form-section">' +
         '<div class="checkout-card">' +
-          '<h3><i class="fa-solid fa-location-dot"></i> Th\u00f4ng Tin Giao H\u00e0ng</h3>' +
+          '<h3><i class="fa-solid fa-location-dot"></i> Shipping Information</h3>' +
           '<div class="form-row">' +
-            '<div><label style="display:block;font-size:0.85rem;font-weight:600;margin-bottom:0.35rem">H\u1ecd v\u00e0 T\u00ean *</label><input type="text" id="checkout-name" value="' + (user.username || '') + '" placeholder="Nguy\u1ec5n V\u0103n A" style="width:100%;padding:0.75rem 1rem;border-radius:12px;border:1px solid var(--border);background-color:var(--background);color:var(--foreground);font-size:0.95rem;box-sizing:border-box" /></div>' +
-            '<div><label style="display:block;font-size:0.85rem;font-weight:600;margin-bottom:0.35rem">S\u1ed1 \u0110i\u1ec7n Tho\u1ea1i *</label><input type="tel" id="checkout-phone" value="' + (user.phone || '') + '" placeholder="0912 345 678" style="width:100%;padding:0.75rem 1rem;border-radius:12px;border:1px solid var(--border);background-color:var(--background);color:var(--foreground);font-size:0.95rem;box-sizing:border-box" /></div>' +
+            '<div><label style="display:block;font-size:0.85rem;font-weight:600;margin-bottom:0.35rem">Full Name *</label><input type="text" id="checkout-name" value="' + (user.username || '') + '" placeholder="John Doe" style="width:100%;padding:0.75rem 1rem;border-radius:12px;border:1px solid var(--border);background-color:var(--background);color:var(--foreground);font-size:0.95rem;box-sizing:border-box" /></div>' +
+            '<div><label style="display:block;font-size:0.85rem;font-weight:600;margin-bottom:0.35rem">Phone Number *</label><input type="tel" id="checkout-phone" value="' + (user.phone || '') + '" placeholder="0912 345 678" style="width:100%;padding:0.75rem 1rem;border-radius:12px;border:1px solid var(--border);background-color:var(--background);color:var(--foreground);font-size:0.95rem;box-sizing:border-box" /></div>' +
           '</div>' +
-          '<div style="margin-bottom:1rem"><label style="display:block;font-size:0.85rem;font-weight:600;margin-bottom:0.35rem">T\u1ec9nh / Th\u00e0nh Ph\u1ed1 *</label><select id="checkout-province" style="width:100%;padding:0.75rem 1rem;border-radius:12px;border:1px solid var(--border);background-color:var(--background);color:var(--foreground);font-size:0.95rem"><option value="">\u2014 Ch\u1ecdn t\u1ec9nh/th\u00e0nh ph\u1ed1 \u2014</option>' + PROVINCES.map(function(p) { return '<option value="' + p + '">' + p + '</option>'; }).join('') + '</select></div>' +
-          '<div style="margin-bottom:1rem"><label style="display:block;font-size:0.85rem;font-weight:600;margin-bottom:0.35rem">\u0110\u1ecba Ch\u1ec9 Chi Ti\u1ebft *</label><input type="text" id="checkout-address" placeholder="S\u1ed1 nh\u00e0, t\u00ean \u0111\u01b0\u1eddng, ph\u01b0\u1eddng/x\u00e3, qu\u1eadn/huy\u1ec7n" style="width:100%;padding:0.75rem 1rem;border-radius:12px;border:1px solid var(--border);background-color:var(--background);color:var(--foreground);font-size:0.95rem;box-sizing:border-box" /></div>' +
-          '<div><label style="display:block;font-size:0.85rem;font-weight:600;margin-bottom:0.35rem">Ghi Ch\u00fa (T\u00f9y ch\u1ecdn)</label><textarea id="checkout-note" rows="3" placeholder="V\u00ed d\u1ee5: Giao ngo\u00e0i gi\u1edd h\u00e0nh ch\u00ednh, g\u1ecdi tr\u01b0\u1edbc 30 ph\u00fat..." style="width:100%;padding:0.75rem 1rem;border-radius:12px;border:1px solid var(--border);background-color:var(--background);color:var(--foreground);font-size:0.95rem;resize:vertical;box-sizing:border-box"></textarea></div>' +
+          '<div style="margin-bottom:1rem"><label style="display:block;font-size:0.85rem;font-weight:600;margin-bottom:0.35rem">Province / City *</label><select id="checkout-province" style="width:100%;padding:0.75rem 1rem;border-radius:12px;border:1px solid var(--border);background-color:var(--background);color:var(--foreground);font-size:0.95rem"><option value="">\u2014 Select province/city \u2014</option>' + PROVINCES.map(function(p) { return '<option value="' + p + '">' + p + '</option>'; }).join('') + '</select></div>' +
+          '<div style="margin-bottom:1rem"><label style="display:block;font-size:0.85rem;font-weight:600;margin-bottom:0.35rem">Detailed Address *</label><input type="text" id="checkout-address" placeholder="Street number, street name, ward, district" style="width:100%;padding:0.75rem 1rem;border-radius:12px;border:1px solid var(--border);background-color:var(--background);color:var(--foreground);font-size:0.95rem;box-sizing:border-box" /></div>' +
+          '<div><label style="display:block;font-size:0.85rem;font-weight:600;margin-bottom:0.35rem">Note (Optional)</label><textarea id="checkout-note" rows="3" placeholder="E.g. Deliver after office hours, call 30 minutes before..." style="width:100%;padding:0.75rem 1rem;border-radius:12px;border:1px solid var(--border);background-color:var(--background);color:var(--foreground);font-size:0.95rem;resize:vertical;box-sizing:border-box"></textarea></div>' +
         '</div>' +
         '<div class="checkout-card">' +
-          '<h3><i class="fa-solid fa-credit-card"></i> Ph\u01b0\u01a1ng Th\u1ee9c Thanh To\u00e1n</h3>' +
+          '<h3><i class="fa-solid fa-credit-card"></i> Payment Method</h3>' +
           '<div style="display:flex;flex-direction:column;gap:0.75rem">' +
             '<div class="payment-option selected" id="payment-cod" onclick="selectPayment(\'cod\')">' +
               '<div class="payment-radio"></div>' +
-              '<div><p style="font-weight:700;font-size:0.95rem"><i class="fa-solid fa-money-bill-wave" style="margin-right:0.35rem;color:var(--sentiment-pos)"></i> Thanh to\u00e1n khi nh\u1eadn h\u00e0ng (COD)</p><p style="font-size:0.8rem;color:var(--text-muted)">Thanh to\u00e1n b\u1eb1ng ti\u1ec1n m\u1eb7t khi nh\u1eadn h\u00e0ng</p></div>' +
+              '<div><p style="font-weight:700;font-size:0.95rem"><i class="fa-solid fa-money-bill-wave" style="margin-right:0.35rem;color:var(--sentiment-pos)"></i> Cash on Delivery (COD)</p><p style="font-size:0.8rem;color:var(--text-muted)">Pay with cash upon delivery</p></div>' +
             '</div>' +
             '<div class="payment-option" id="payment-momo" onclick="selectPayment(\'momo\')">' +
               '<div class="payment-radio" style="border-color:var(--border)"></div>' +
-              '<div><p style="font-weight:700;font-size:0.95rem"><i class="fa-solid fa-wallet" style="margin-right:0.35rem;color:#a50064"></i> V\u00ed MoMo <span class="badge" style="margin-left:0.5rem;background-color:#fef0f8;color:#a50064;font-size:0.6rem;border:1px solid #a50064">Sandbox</span></p><p style="font-size:0.8rem;color:var(--text-muted)">Thanh to\u00e1n qua v\u00ed \u0111i\u1ec7n t\u1eed MoMo (m\u00f4i tr\u01b0\u1eddng test)</p></div>' +
+              '<div><p style="font-weight:700;font-size:0.95rem"><i class="fa-solid fa-wallet" style="margin-right:0.35rem;color:#a50064"></i> MoMo Wallet <span class="badge" style="margin-left:0.5rem;background-color:#fef0f8;color:#a50064;font-size:0.6rem;border:1px solid #a50064">Sandbox</span></p><p style="font-size:0.8rem;color:var(--text-muted)">Pay via MoMo e-wallet (test environment)</p></div>' +
             '</div>' +
           '</div>' +
         '</div>' +
-        '<div class="delivery-estimate"><i class="fa-solid fa-truck-fast" style="font-size:2rem;opacity:0.8"></i><div><p style="font-weight:700;font-size:0.95rem;margin-bottom:0.25rem">Th\u1eddi gian giao h\u00e0ng d\u1ef1 ki\u1ebfn</p><p style="font-size:1.25rem;font-weight:900">\ud83d\udce6 ' + getDeliveryRange() + '</p><p style="font-size:0.8rem;opacity:0.85;margin-top:0.25rem">Mi\u1ec5n ph\u00ed v\u1eadn chuy\u1ec3n cho \u0111\u01a1n h\u00e0ng th\u00e2n thi\u1ec7n m\u00f4i tr\u01b0\u1eddng</p></div></div>' +
+        '<div class="checkout-card">' +
+          '<h3><i class="fa-solid fa-truck-fast"></i> Shipping Method</h3>' +
+          '<div style="display:flex;flex-direction:column;gap:0.75rem">' +
+            '<div class="payment-option selected" id="shipping-standard" onclick="selectShipping(\'standard\')">' +
+              '<div class="payment-radio" style="width:20px;height:20px;border-radius:50%;flex-shrink:0;border:6px solid var(--primary)"></div>' +
+              '<div style="flex:1">' +
+                '<div style="display:flex;justify-content:space-between;align-items:flex-start">' +
+                  '<div><p style="font-weight:700;font-size:0.95rem">' + getDeliveryRange() + '</p><p style="font-size:0.8rem;color:var(--text-muted)">Standard Delivery</p></div>' +
+                  '<span style="font-weight:700;color:var(--sentiment-pos)">Free <i class="fa-solid fa-ticket"></i></span>' +
+                '</div>' +
+              '</div>' +
+            '</div>' +
+            '<div class="payment-option" id="shipping-locker" onclick="selectShipping(\'locker\')">' +
+              '<div class="payment-radio" style="width:20px;height:20px;border-radius:50%;flex-shrink:0;border:2px solid var(--border)"></div>' +
+              '<div style="flex:1">' +
+                '<div style="display:flex;justify-content:space-between;align-items:flex-start">' +
+                  '<div>' +
+                    '<p style="font-weight:700;font-size:0.95rem">Smart Locker \u2022 ' + getDeliveryRange() + '</p>' +
+                    '<p style="font-size:0.8rem;color:var(--text-muted);margin-top:2px"><i class="fa-solid fa-gift" style="color:var(--accent);margin-right:4px"></i>Get +50 GreenCoins for self-pickup</p>' +
+                    '<p style="font-size:0.8rem;color:var(--primary);margin-top:6px;cursor:pointer">Select Locker Location <i class="fa-solid fa-chevron-right" style="font-size:0.7rem"></i></p>' +
+                  '</div>' +
+                  '<span style="font-weight:700;color:var(--sentiment-pos)">Free <i class="fa-solid fa-ticket"></i></span>' +
+                '</div>' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
       '</div>' +
       '<div style="position:sticky;top:90px" id="checkout-summary">' +
         '<div class="checkout-card">' +
-          '<h3>T\u00f3m T\u1eaft \u0110\u01a1n H\u00e0ng</h3>' +
+        '<h3>Order Summary</h3>' +
           '<div style="display:flex;flex-direction:column;gap:1rem;margin-bottom:1.5rem">' + itemsHtml + '</div>' +
           '<hr style="border:0;border-top:1px solid var(--border);margin-bottom:1.25rem" />' +
           '<div style="margin-bottom:1.25rem">' +
-            '<label style="display:block;font-size:0.85rem;font-weight:600;margin-bottom:0.5rem"><i class="fa-solid fa-ticket" style="margin-right:0.35rem;color:var(--accent)"></i> M\u00e3 Voucher</label>' +
-            '<div id="voucher-section" style="display:flex;gap:0.5rem">' +
-              '<input type="text" id="voucher-input" placeholder="Nh\u1eadp m\u00e3 voucher..." style="flex:1;padding:0.65rem 1rem;border-radius:10px;border:1px solid var(--border);background-color:var(--background);color:var(--foreground);font-size:0.85rem" />' +
-              '<button onclick="applyVoucherCode()" class="btn btn-outline" style="padding:0.65rem 1rem;border-radius:10px;font-size:0.8rem">\u00c1p d\u1ee5ng</button>' +
+            '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">' +
+              '<div>' +
+                '<label style="display:block;font-size:0.85rem;font-weight:600;margin-bottom:0.15rem"><i class="fa-solid fa-leaf" style="color:var(--primary-green);margin-right:0.35rem"></i>Use GreenCoins</label>' +
+                '<span style="font-size:0.75rem;color:var(--text-muted)">Balance: <span id="gc-balance">' + (parseInt(localStorage.getItem('refashion_greencoins')||0)).toLocaleString('vi-VN') + '</span> Coins</span>' +
+              '</div>' +
+              '<label class="switch"><input type="checkbox" id="greencoin-toggle" onchange="updateCheckoutTotal(window._lastDiscountPercent || 0)"><span class="slider round"></span></label>' +
             '</div>' +
+            '<label style="display:block;font-size:0.85rem;font-weight:600;margin-bottom:0.5rem"><i class="fa-solid fa-ticket" style="margin-right:0.35rem;color:var(--accent)"></i> Shop Voucher</label>' +
+            '<div id="sv-trigger-row" style="margin-bottom:0.75rem; border:1px solid var(--border); border-radius:10px; padding:12px; display:flex; justify-content:space-between; align-items:center; cursor:pointer;" onclick="openShopeeVoucherModal()">' +
+              '<span style="font-size:0.85rem; color:var(--text-muted);" id="sv-trigger-text">Select or enter voucher...</span>' +
+              '<i class="fa-solid fa-chevron-right" style="color:var(--text-muted);font-size:0.8rem;"></i>' +
+            '</div>' +
+            '<input type="hidden" id="voucher-input" />' +
             '<div id="voucher-applied" style="display:none"></div>' +
             '<p id="voucher-error" style="font-size:0.72rem;color:#ef4444;margin-top:0.25rem;display:none"></p>' +
           '</div>' +
           '<hr style="border:0;border-top:1px solid var(--border);margin-bottom:1.25rem" />' +
           '<div style="display:flex;flex-direction:column;gap:0.5rem;margin-bottom:1.25rem">' +
-            '<div style="display:flex;justify-content:space-between;font-size:0.9rem"><span style="color:var(--text-muted)">T\u1ea1m t\u00ednh</span><span style="font-weight:600" id="checkout-subtotal">' + subtotal.toLocaleString('vi-VN') + ' \u0111</span></div>' +
-            '<div id="checkout-discount-row" style="display:none"><div style="display:flex;justify-content:space-between;font-size:0.9rem"><span style="color:var(--sentiment-pos)">Gi\u1ea3m gi\u00e1</span><span style="font-weight:600;color:var(--sentiment-pos)" id="checkout-discount-amount">0 \u0111</span></div></div>' +
-            '<div style="display:flex;justify-content:space-between;font-size:0.9rem"><span style="color:var(--text-muted)">Ph\u00ed v\u1eadn chuy\u1ec3n</span><span style="font-weight:600;color:var(--sentiment-pos)">Mi\u1ec5n ph\u00ed</span></div>' +
+            '<div style="display:flex;justify-content:space-between;font-size:0.9rem"><span style="color:var(--text-muted)">Subtotal</span><span style="font-weight:600" id="checkout-subtotal">' + subtotal.toLocaleString('vi-VN') + ' \u0111</span></div>' +
+            '<div id="checkout-discount-row" style="display:none"><div style="display:flex;justify-content:space-between;font-size:0.9rem"><span style="color:var(--sentiment-pos)">Voucher Discount</span><span style="font-weight:600;color:var(--sentiment-pos)" id="checkout-discount-amount">0 \u0111</span></div></div>' +
+            '<div id="checkout-gc-row" style="display:none"><div style="display:flex;justify-content:space-between;font-size:0.9rem"><span style="color:var(--sentiment-pos)">GreenCoins Applied</span><span style="font-weight:600;color:var(--sentiment-pos)" id="checkout-gc-amount">0 \u0111</span></div></div>' +
+            '<div style="display:flex;justify-content:space-between;font-size:0.9rem"><span style="color:var(--text-muted)">Shipping</span><span style="font-weight:600;color:var(--sentiment-pos)">Free</span></div>' +
           '</div>' +
           '<hr style="border:0;border-top:2px solid var(--primary);margin-bottom:1.25rem" />' +
-          '<div style="display:flex;justify-content:space-between;margin-bottom:1rem"><span style="font-size:1.15rem;font-weight:700">T\u1ed5ng c\u1ed9ng</span><span style="font-size:1.5rem;font-weight:900;color:var(--accent)" id="checkout-total">' + subtotal.toLocaleString('vi-VN') + ' \u0111</span></div>' +
-          '<div style="background-color:var(--sentiment-pos-light);border-radius:12px;padding:0.75rem 1rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:0.5rem;font-size:0.85rem;font-weight:600;color:var(--sentiment-pos)" id="checkout-greencoin-estimate"><i class="fa-solid fa-leaf"></i> Nh\u1eadn +' + (Math.floor(subtotal / 100000) * 5) + ' GreenCoin sau khi \u0111\u1eb7t h\u00e0ng!</div>' +
-          '<button onclick="placeOrder()" class="btn btn-primary" style="width:100%;padding:1rem;border-radius:14px;font-size:1.05rem;font-weight:700;display:block;text-align:center" id="place-order-btn"><i class="fa-solid fa-lock" style="margin-right:0.35rem"></i>X\u00e1c Nh\u1eadn \u0110\u1eb7t H\u00e0ng (COD)</button>' +
-          '<p style="text-align:center;font-size:0.75rem;color:var(--text-muted);margin-top:1rem"><i class="fa-solid fa-shield-halved" style="margin-right:0.25rem"></i>Thanh to\u00e1n an to\u00e0n & b\u1ea3o m\u1eadt</p>' +
+          '<div style="display:flex;justify-content:space-between;margin-bottom:1rem"><span style="font-size:1.15rem;font-weight:700">Total</span><span style="font-size:1.5rem;font-weight:900;color:var(--accent)" id="checkout-total">' + subtotal.toLocaleString('vi-VN') + ' \u0111</span></div>' +
+          '<div style="background-color:var(--sentiment-pos-light);border-radius:12px;padding:0.75rem 1rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:0.5rem;font-size:0.85rem;font-weight:600;color:var(--sentiment-pos)" id="checkout-greencoin-estimate"><i class="fa-solid fa-leaf"></i> Earn +' + (Math.floor(subtotal / 100000) * 5) + ' GreenCoin after ordering!</div>' +
+          '<button onclick="placeOrder()" class="btn btn-primary" style="width:100%;padding:1rem;border-radius:14px;font-size:1.05rem;font-weight:700;display:block;text-align:center;margin-top:1.25rem;" id="place-order-btn"><i class="fa-solid fa-lock" style="margin-right:0.35rem"></i>Confirm Order (COD)</button>' +
+'<p style="text-align:center;font-size:0.75rem;color:var(--text-muted);margin-top:1rem"><i class="fa-solid fa-shield-halved" style="margin-right:0.25rem"></i>Secure & encrypted payment</p>' +
         '</div>' +
       '</div>' +
     '</div>';
 }
 
 var checkoutPaymentMethod = 'cod';
+var checkoutShippingMethod = 'standard';
+
+window.selectShipping = function(method) {
+  checkoutShippingMethod = method;
+  var std = document.getElementById('shipping-standard');
+  var lck = document.getElementById('shipping-locker');
+  if (std) {
+    std.className = method === 'standard' ? 'payment-option selected' : 'payment-option';
+    std.querySelector('.payment-radio').style.cssText = method === 'standard' ? 'width:20px;height:20px;border-radius:50%;flex-shrink:0;border:6px solid var(--primary)' : 'width:20px;height:20px;border-radius:50%;flex-shrink:0;border:2px solid var(--border)';
+  }
+  if (lck) {
+    lck.className = method === 'locker' ? 'payment-option selected' : 'payment-option';
+    lck.querySelector('.payment-radio').style.cssText = method === 'locker' ? 'width:20px;height:20px;border-radius:50%;flex-shrink:0;border:6px solid var(--primary)' : 'width:20px;height:20px;border-radius:50%;flex-shrink:0;border:2px solid var(--border)';
+  }
+  updateCheckoutTotal();
+}
 
 function selectPayment(method) {
   checkoutPaymentMethod = method;
@@ -1659,66 +2246,225 @@ function selectPayment(method) {
   }
   if (btn) {
     if (method === 'momo') {
-      btn.innerHTML = '<i class="fa-solid fa-wallet" style="margin-right:0.35rem"></i> Thanh To\u00e1n Qua MoMo';
+      btn.innerHTML = '<i class="fa-solid fa-wallet" style="margin-right:0.35rem"></i> Pay via MoMo';
       btn.style.background = 'linear-gradient(135deg, #a50064, #d82d8b)';
     } else {
-      btn.innerHTML = '<i class="fa-solid fa-lock" style="margin-right:0.35rem"></i> X\u00e1c Nh\u1eadn \u0110\u1eb7t H\u00e0ng (COD)';
+      btn.innerHTML = '<i class="fa-solid fa-lock" style="margin-right:0.35rem"></i> Confirm Order (COD)';
       btn.style.background = '';
     }
   }
 }
 
+function openShopeeVoucherModal() {
+  var overlay = document.createElement('div');
+  overlay.className = 'shopee-voucher-overlay';
+  overlay.id = 'shopee-voucher-overlay';
+  
+  var modal = document.createElement('div');
+  modal.className = 'shopee-voucher-modal';
+  
+  var header = document.createElement('div');
+  header.className = 'shopee-voucher-header';
+  var firstItem = (window._checkoutData && window._checkoutData.items && window._checkoutData.items.length > 0) ? window._checkoutData.items[0] : null;
+  var storeName = firstItem ? (firstItem.store || firstItem.shop || 'ReFashion') : 'ReFashion';
+  if (storeName === 'undefined') storeName = 'ReFashion';
+  header.innerHTML = storeName + ' Voucher<button class="shopee-voucher-close" onclick="document.body.removeChild(document.getElementById(\'shopee-voucher-overlay\'))"><i class="fa-solid fa-xmark"></i></button>';
+  
+  var inputArea = document.createElement('div');
+  inputArea.className = 'shopee-voucher-input-area';
+  inputArea.innerHTML = '<input type="text" id="modal-voucher-input" placeholder="Enter Shop Voucher code" /><button onclick="confirmShopeeVoucher()">Apply</button>';
+  
+  var list = document.createElement('div');
+  list.className = 'shopee-voucher-list';
+  
+  var claimed = JSON.parse(localStorage.getItem('refashion_claimed_vouchers') || '{}');
+  var options = '';
+  
+  for (var k in claimed) {
+    // Construct store logo path, e.g. "Eco Wear" -> "../images/store_eco_wear.png"
+    var storeStr = claimed[k].store ? claimed[k].store.toLowerCase().replace(/ & /g, '_').replace(/ /g, '_') : 'default';
+    var itemImg = '../images/store_' + storeStr + '.png';
+    
+    options += '<div class="shopee-voucher-item" onclick="selectShopeeVoucher(this, \''+claimed[k].code+'\', '+claimed[k].amount+')">' +
+        '<div class="sv-logo"><img src="' + itemImg + '" onerror="this.src=\'../images/app-logo.png\'" alt="logo" style="width:48px;height:48px;object-fit:cover;border-radius:50%;"/><span class="sv-mall">Mall</span></div>' +
+        '<div class="sv-content"><div class="sv-title">' + (claimed[k].amount/1000) + 'kđ OFF</div><div class="sv-cond">Min. order ' + ((claimed[k].amount*2)/1000) + 'kđ</div><div class="sv-expiry">Exp: 31.08.2026 <a href="#" style="color:var(--primary);text-decoration:none;">T&C</a></div></div>' +
+        '<div class="sv-radio"><span class="sv-radio-btn" data-code="'+claimed[k].code+'"></span></div>' +
+      '</div>';
+  }
+  if (options === '') {
+    options = '<p style="text-align:center;color:var(--text-muted);margin-top:24px;">No vouchers claimed yet.</p>';
+  }
+  list.innerHTML = options;
+  
+  var footer = document.createElement('div');
+  footer.className = 'shopee-voucher-footer';
+  footer.innerHTML = '<div class="sv-discount" id="modal-discount-text">Discount: <span>0đ</span></div><button class="sv-confirm-btn" onclick="confirmShopeeVoucher()">Apply</button>';
+  
+  modal.appendChild(header);
+  modal.appendChild(inputArea);
+  modal.appendChild(list);
+  modal.appendChild(footer);
+  overlay.appendChild(modal);
+  document.body.appendChild(overlay);
+}
+
+function selectShopeeVoucher(el, code, amount) {
+  var btns = document.querySelectorAll('.sv-radio-btn');
+  btns.forEach(b => b.classList.remove('selected'));
+  var btn = el.querySelector('.sv-radio-btn');
+  if (btn) btn.classList.add('selected');
+  
+  document.getElementById('modal-voucher-input').value = code;
+  document.getElementById('modal-discount-text').innerHTML = 'Discount: <span>-' + amount.toLocaleString('vi-VN') + 'đ</span>';
+}
+
+function applyModalVoucher() {
+  // Deprecated, use confirmShopeeVoucher instead for direct application
+}
+
+function confirmShopeeVoucher() {
+  var code = document.getElementById('modal-voucher-input').value.trim();
+  if (code) {
+    var input = document.getElementById('voucher-input');
+    if (input) input.value = code;
+    
+    var triggerText = document.getElementById('sv-trigger-text');
+    if (triggerText) {
+        triggerText.textContent = code;
+        triggerText.style.color = 'var(--primary)';
+        triggerText.style.fontWeight = '600';
+    }
+    
+    var triggerRow = document.getElementById('sv-trigger-row');
+    if (triggerRow) triggerRow.style.display = 'none';
+    
+    applyVoucherCode();
+  }
+  var overlay = document.getElementById('shopee-voucher-overlay');
+  if (overlay) document.body.removeChild(overlay);
+}
+
 function applyVoucherCode() {
   var input = document.getElementById('voucher-input');
-  var code = input ? input.value.trim() : '';
+  var code = input ? input.value.trim().toUpperCase() : '';
   var errorEl = document.getElementById('voucher-error');
-  if (!code) { if (errorEl) { errorEl.textContent = 'Vui l\u00f2ng nh\u1eadp m\u00e3 voucher.'; errorEl.style.display = 'block'; } return; }
-  var voucher = RefashionAuth.applyVoucher(code);
+  if (!code) { if (errorEl) { errorEl.textContent = 'Please enter a voucher code.'; errorEl.style.display = 'block'; } return; }
+  
+  var claimed = JSON.parse(localStorage.getItem('refashion_claimed_vouchers') || '{}');
+  var voucher = null;
+  for (var k in claimed) {
+    if (claimed[k].code === code) {
+      voucher = { code: claimed[k].code, discount: 0, fixedAmount: claimed[k].amount, description: 'Shop Voucher: ' + claimed[k].amount.toLocaleString('vi-VN') + 'đ OFF', store: claimed[k].store };
+      break;
+    }
+  }
+  
+  if (!voucher) {
+    voucher = RefashionAuth.applyVoucher(code); // Fallback to system vouchers (percentage)
+  }
+  
   if (voucher) {
     var section = document.getElementById('voucher-section');
     var applied = document.getElementById('voucher-applied');
     if (section) section.style.display = 'none';
     if (applied) {
       applied.style.display = 'block';
+      var textInfo = voucher.fixedAmount ? (voucher.fixedAmount.toLocaleString('vi-VN') + 'đ OFF') : (voucher.discount + '% OFF');
       applied.innerHTML =
-        '<div class="voucher-applied">' +
-          '<div><p style="font-weight:700;font-size:0.85rem;color:var(--sentiment-pos)"><i class="fa-solid fa-check-circle" style="margin-right:0.25rem"></i>' + voucher.code + ' \u2014 Gi\u1ea3m ' + voucher.discount + '%</p><p style="font-size:0.75rem;color:var(--text-muted)">' + voucher.description + '</p></div>' +
+        '<div class="voucher-applied" data-code="' + voucher.code + '" data-discount="' + voucher.discount + '" data-fixed="' + (voucher.fixedAmount||0) + '" data-store="' + (voucher.store||'') + '">' +
+          '<div><p style="font-weight:700;font-size:0.85rem;color:var(--sentiment-pos)"><i class="fa-solid fa-check-circle" style="margin-right:0.25rem"></i>' + voucher.code + ' \u2014 ' + textInfo + '</p><p style="font-size:0.75rem;color:var(--text-muted)">' + voucher.description + '</p></div>' +
           '<button onclick="removeVoucher()" style="background:transparent;border:none;cursor:pointer;color:var(--sentiment-neg);font-size:0.85rem"><i class="fa-solid fa-xmark"></i></button>' +
         '</div>';
     }
     if (errorEl) errorEl.style.display = 'none';
-    updateCheckoutTotal(voucher.discount);
+    updateCheckoutTotal(voucher.discount, voucher.fixedAmount);
   } else {
-    if (errorEl) { errorEl.textContent = 'M\u00e3 voucher kh\u00f4ng h\u1ee3p l\u1ec7, \u0111\u00e3 h\u1ebft h\u1ea1n ho\u1eb7c \u0111\u00e3 \u0111\u01b0\u1ee3c s\u1eed d\u1ee5ng.'; errorEl.style.display = 'block'; }
+    if (errorEl) { errorEl.textContent = 'Invalid voucher code, expired or already used.'; errorEl.style.display = 'block'; }
   }
 }
 
 function removeVoucher() {
-  var section = document.getElementById('voucher-section');
+  var triggerRow = document.getElementById('sv-trigger-row');
   var applied = document.getElementById('voucher-applied');
-  if (section) section.style.display = 'flex';
+  var input = document.getElementById('voucher-input');
+  var triggerText = document.getElementById('sv-trigger-text');
+  
+  if (triggerRow) triggerRow.style.display = 'flex';
   if (applied) { applied.style.display = 'none'; applied.innerHTML = ''; }
-  updateCheckoutTotal(0);
+  if (input) input.value = '';
+  if (triggerText) {
+      triggerText.textContent = 'Select or enter voucher...';
+      triggerText.style.color = 'var(--text-muted)';
+      triggerText.style.fontWeight = 'normal';
+  }
+  updateCheckoutTotal(0, 0);
 }
 
-function updateCheckoutTotal(discountPercent) {
+function updateCheckoutTotal(discountPercent, fixedAmount) {
   var data = window._checkoutData;
   if (!data) return;
-  var discountAmount = Math.floor(data.subtotal * discountPercent / 100);
-  var total = data.subtotal - discountAmount;
+  
+  var applied = document.querySelector('.voucher-applied');
+  if (applied) {
+    if (discountPercent === undefined) discountPercent = parseInt(applied.getAttribute('data-discount') || 0);
+    if (fixedAmount === undefined) fixedAmount = parseInt(applied.getAttribute('data-fixed') || 0);
+  } else {
+    discountPercent = discountPercent || 0;
+    fixedAmount = fixedAmount || 0;
+  }
+  
+  window._lastDiscountPercent = discountPercent;
+  window._lastFixedAmount = fixedAmount;
+
+  var discountAmount = fixedAmount > 0 ? fixedAmount : Math.floor(data.subtotal * discountPercent / 100);
+  
+  var gcToggle = document.getElementById('greencoin-toggle');
+  var gcAmount = 0;
+  var availableGc = parseInt(localStorage.getItem('refashion_greencoins') || 0);
+  
+  var tempTotal = data.subtotal - discountAmount;
+  if (tempTotal < 0) tempTotal = 0;
+  
+  if (gcToggle && gcToggle.checked) {
+    gcAmount = Math.min(availableGc, tempTotal); // Can't use more GC than the total price
+  }
+  
+  var total = tempTotal - gcAmount;
+  if (total < 0) total = 0;
+  
   var gcEst = Math.floor(total / 100000) * 5;
+  if (checkoutShippingMethod === 'locker') {
+    gcEst += 50;
+  }
+  
   var subtotalEl = document.getElementById('checkout-discount-amount');
   var totalEl = document.getElementById('checkout-total');
   var gcEl = document.getElementById('checkout-greencoin-estimate');
   var discountRow = document.getElementById('checkout-discount-row');
-  if (discountPercent > 0) {
+  
+  var gcRowEl = document.getElementById('checkout-gc-amount');
+  var gcRow = document.getElementById('checkout-gc-row');
+  
+  if (discountAmount > 0) {
     if (discountRow) discountRow.style.display = 'block';
     if (subtotalEl) subtotalEl.textContent = '-' + discountAmount.toLocaleString('vi-VN') + ' \u0111';
   } else {
     if (discountRow) discountRow.style.display = 'none';
   }
+  
+  if (gcAmount > 0) {
+    if (gcRow) gcRow.style.display = 'block';
+    if (gcRowEl) gcRowEl.textContent = '-' + gcAmount.toLocaleString('vi-VN') + ' \u0111';
+  } else {
+    if (gcRow) gcRow.style.display = 'none';
+  }
+  
   if (totalEl) totalEl.textContent = total.toLocaleString('vi-VN') + ' \u0111';
-  if (gcEl) gcEl.innerHTML = '<i class="fa-solid fa-leaf"></i> Nh\u1eadn +' + gcEst + ' GreenCoin sau khi \u0111\u1eb7t h\u00e0ng!';
+  if (gcEl) gcEl.innerHTML = '<i class="fa-solid fa-leaf"></i> Earn +' + gcEst + ' GreenCoin after ordering!';
+  
+  data.finalTotal = total;
+  data.gcAmount = gcAmount;
+  data.voucherStore = applied ? applied.getAttribute('data-store') : null;
 }
 
 function placeOrder() {
@@ -1730,33 +2476,57 @@ function placeOrder() {
   var address = document.getElementById('checkout-address').value.trim();
   var note = document.getElementById('checkout-note').value.trim();
   var errs = [];
-  if (!name) errs.push('H\u1ecd t\u00ean');
-  if (!phone || phone.length < 9) errs.push('S\u1ed1 \u0111i\u1ec7n tho\u1ea1i');
-  if (!province) errs.push('T\u1ec9nh/th\u00e0nh ph\u1ed1');
-  if (!address) errs.push('\u0110\u1ecba ch\u1ec9 chi ti\u1ebft');
-  if (errs.length > 0) { showToast('Vui l\u00f2ng nh\u1eadp: ' + errs.join(', ')); return; }
+  if (!name) errs.push('Full name');
+  if (!phone || phone.length < 9) errs.push('Phone number');
+  if (!province) errs.push('Province/City');
+  if (!address) errs.push('Detailed address');
+  if (errs.length > 0) { showToast('Please fill in: ' + errs.join(', ')); return; }
   var discountPercent = 0;
   var voucherCode = null;
   var applied = document.querySelector('.voucher-applied');
   if (applied) {
-    var match = applied.textContent.match(/Gi\u1ea3m (\d+)%/);
-    if (match) discountPercent = parseInt(match[1]);
-    var codeMatch = applied.textContent.match(/(RF\d+-\w+)/);
-    if (codeMatch) voucherCode = codeMatch[1];
+    discountPercent = parseInt(applied.getAttribute('data-discount') || 0);
+    voucherCode = applied.getAttribute('data-code');
   }
   if (checkoutPaymentMethod === 'momo') {
-    showToast('\u0110ang chuy\u1ec3n \u0111\u1ebfn MoMo...');
+    showToast('Redirecting to MoMo Payment Gateway...');
     var btn = document.getElementById('place-order-btn');
-    if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin" style="margin-right:0.35rem"></i> \u0110ang chuy\u1ec3n \u0111\u1ebfn MoMo...'; }
-    var orderId = 'RF-' + Date.now().toString(36).toUpperCase();
-    RefashionAuth.placeOrderWithDetails({ items: data.items, discountPercent: discountPercent, voucherCode: voucherCode, phone: phone, address: address + ', ' + province, note: note });
-    window.open('momo-return.html?resultCode=0&orderId=' + orderId + '&amount=' + (data.subtotal - Math.floor(data.subtotal * discountPercent / 100)), '_blank');
-    if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-wallet" style="margin-right:0.35rem"></i> Thanh To\u00e1n Qua MoMo'; }
-    showSuccessView(orderId, data.subtotal, discountPercent);
+    if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin" style="margin-right:0.35rem"></i> Redirecting...'; }
+    var order = RefashionAuth.placeOrderWithDetails({ items: data.items, discountPercent: discountPercent, voucherCode: voucherCode, phone: phone, address: address + ', ' + province, note: note, gcAmount: data.gcAmount });
+    if (!order) {
+      showToast('Error placing order.');
+      if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-wallet" style="margin-right:0.35rem"></i> Pay via MoMo'; }
+      return;
+    }
+    processGreenCoinAndVoucher(data.gcAmount, data.voucherStore, data.finalTotal);
+    window.location.href = 'momo-gateway.html?orderId=' + order.id + '&amount=' + order.total;
     return;
   }
-  var order = RefashionAuth.placeOrderWithDetails({ items: data.items, discountPercent: discountPercent, voucherCode: voucherCode, phone: phone, address: address + ', ' + province, note: note });
-  if (order) showSuccessView(order.id, order.total, 0);
+  var order = RefashionAuth.placeOrderWithDetails({ items: data.items, discountPercent: discountPercent, voucherCode: voucherCode, phone: phone, address: address + ', ' + province, note: note, gcAmount: data.gcAmount });
+  if (order) {
+    processGreenCoinAndVoucher(data.gcAmount, data.voucherStore, data.finalTotal);
+    showSuccessView(order.id, order.total, data.gcAmount);
+  }
+}
+
+function processGreenCoinAndVoucher(gcAmount, voucherStore, finalTotal) {
+  if (gcAmount > 0) {
+    var currentGc = parseInt(localStorage.getItem('refashion_greencoins') || 0);
+    localStorage.setItem('refashion_greencoins', Math.max(0, currentGc - gcAmount).toString());
+  }
+  
+  if (voucherStore) {
+    var claimed = JSON.parse(localStorage.getItem('refashion_claimed_vouchers') || '{}');
+    delete claimed[voucherStore];
+    localStorage.setItem('refashion_claimed_vouchers', JSON.stringify(claimed));
+  }
+  
+  var gcEst = Math.floor(finalTotal / 100000) * 5;
+  if (checkoutShippingMethod === 'locker') {
+    gcEst += 50;
+  }
+  var currentGc = parseInt(localStorage.getItem('refashion_greencoins') || 0);
+  localStorage.setItem('refashion_greencoins', (currentGc + gcEst).toString());
 }
 
 function showSuccessView(orderId, total, gcEst) {
@@ -1770,15 +2540,15 @@ function showSuccessView(orderId, total, gcEst) {
   container.innerHTML =
     '<div class="success-view">' +
       '<div class="success-card animate-fade-in-up">' +
-        '<div class="success-icon" style="background-color:var(--sentiment-pos-light)"><i class="fa-solid fa-check" style="font-size:2.5rem;color:var(--sentiment-pos)"></i></div>' +
-        '<h2 style="font-family:var(--font-serif);font-size:2rem;color:var(--primary);margin-bottom:0.75rem">\u0110\u1eb7t H\u00e0ng Th\u00e0nh C\u00f4ng! \ud83c\udf89</h2>' +
-        '<p style="color:var(--text-muted);margin-bottom:0.5rem">M\u00e3 \u0111\u01a1n h\u00e0ng: <strong style="color:var(--primary)">#' + orderId + '</strong></p>' +
+        '<div class="success-icon animate-success" style="background-color:var(--sentiment-pos-light)"><i class="fa-solid fa-check" style="font-size:2.5rem;color:var(--sentiment-pos)"></i></div>' +
+        '<h2 style="font-family:var(--font-serif);font-size:2rem;color:var(--primary);margin-bottom:0.75rem">Order Placed Successfully! \ud83c\udf89</h2>' +
+        '<p style="color:var(--text-muted);margin-bottom:0.5rem">Order code: <strong style="color:var(--primary)">#' + orderId + '</strong></p>' +
         '<div style="background-color:var(--primary-light);border-radius:16px;padding:1.25rem;margin-bottom:1.5rem;text-align:left">' +
-          '<div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.75rem;font-weight:700;color:var(--primary)"><i class="fa-solid fa-truck-fast"></i> Th\u1eddi gian giao h\u00e0ng d\u1ef1 ki\u1ebfn</div>' +
+          '<div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.75rem;font-weight:700;color:var(--primary)"><i class="fa-solid fa-truck-fast"></i> Estimated Delivery Time</div>' +
           '<p style="font-size:1.1rem;font-weight:800;color:var(--foreground)">\ud83d\udce6 ' + deliveryRange + '</p>' +
         '</div>' +
-        '<div style="background-color:var(--sentiment-pos-light);border-radius:12px;padding:1rem;margin-bottom:2rem;display:inline-flex;align-items:center;gap:0.5rem;color:var(--sentiment-pos);font-weight:700;font-size:1rem"><i class="fa-solid fa-leaf"></i> B\u1ea1n \u0111\u01b0\u1ee3c c\u1ed9ng +' + (gcEst) + ' GreenCoin!</div>' +
-        '<div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap"><a href="/buyer/profile.html" class="btn btn-primary" style="border-radius:12px;padding:0.85rem 2rem">Xem \u0110\u01a1n H\u00e0ng</a><a href="/buyer/order-tracking.html?order=' + orderId + '" class="btn btn-outline" style="border-radius:12px;padding:0.85rem 2rem"><i class="fa-solid fa-truck" style="margin-right:0.3rem"></i>Theo D\u00f5i</a><a href="/buyer/shop.html" class="btn btn-outline" style="border-radius:12px;padding:0.85rem 2rem">Ti\u1ebfp T\u1ee5c Mua S\u1eafm</a></div>' +
+        '<div style="background-color:var(--sentiment-pos-light);border-radius:12px;padding:1rem;margin-bottom:2rem;display:inline-flex;align-items:center;gap:0.5rem;color:var(--sentiment-pos);font-weight:700;font-size:1rem"><i class="fa-solid fa-leaf"></i> You earned +' + (gcEst) + ' GreenCoin!</div>' +
+        '<div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap"><a href="/buyer/orders.html" class="btn btn-primary" style="border-radius:12px;padding:0.85rem 2rem">View Order</a><a href="/buyer/order-tracking.html?order=' + orderId + '" class="btn btn-outline" style="border-radius:12px;padding:0.85rem 2rem"><i class="fa-solid fa-truck" style="margin-right:0.3rem"></i>Track</a><a href="/buyer/shop.html" class="btn btn-outline" style="border-radius:12px;padding:0.85rem 2rem">Continue Shopping</a></div>' +
       '</div>' +
     '</div>';
 }
@@ -1796,128 +2566,210 @@ function renderProfile() {
   var user = RefashionAuth._getUser();
   var container = document.getElementById('profile-content');
   if (!user || !container) return;
-  var orders = RefashionAuth._getOrders();
-  var donations = RefashionAuth._getDonations();
-  var cartCount = RefashionAuth.getCartCount();
-  var totalSpent = orders.reduce(function(s, o) { return s + o.total; }, 0);
-  var totalCoinEarned = orders.reduce(function(s, o) { return s + o.greenCoinEarned; }, 0) + donations.reduce(function(s, d) { return s + d.coinEarned; }, 0);
-  var totalDonatedItems = donations.reduce(function(s, d) { return s + d.quantity; }, 0);
-  var estimatedCO2 = (totalSpent / 1000000 * 2.5 + totalDonatedItems * 0.3).toFixed(1);
-  var ordersHtml = '';
-  if (orders.length > 0) {
-    for (var i = 0; i < orders.length; i++) {
-      var o = orders[i];
-      var profStatusMap = {
-        pending: { badge: 'var(--sentiment-neu-light)', color: 'var(--sentiment-neu)', text: '\u23f3 \u0110ang x\u1eed l\u00fd' },
-        confirmed: { badge: 'var(--primary-light)', color: 'var(--primary)', text: '\u2705 \u0110\u00e3 x\u00e1c nh\u1eadn' },
-        packed: { badge: 'var(--primary-light)', color: 'var(--primary)', text: '\ud83d\udce6 \u0110\u00e3 \u0111\u00f3ng g\u00f3i' },
-        shipping: { badge: 'var(--accent-light)', color: 'var(--accent)', text: '\ud83d\ude9a \u0110ang giao' },
-        completed: { badge: 'var(--sentiment-pos-light)', color: 'var(--sentiment-pos)', text: '\u2705 \u0110\u00e3 giao' },
-        delivered: { badge: 'var(--sentiment-pos-light)', color: 'var(--sentiment-pos)', text: '\u2705 \u0110\u00e3 giao' },
-        cancelled: { badge: 'var(--danger-light)', color: 'var(--danger)', text: '\u274c \u0110\u00e3 h\u1ee7y' }
-      };
-      var ps = profStatusMap[o.status] || profStatusMap.pending;
-      var statusBadge = ps.badge;
-      var statusColor = ps.color;
-      var statusText = ps.text;
-      var firstItemId = o.items.length > 0 ? o.items[0].id : '1';
-      var itemsHtml = '';
-      for (var j = 0; j < o.items.length; j++) {
-        var item = o.items[j];
-        itemsHtml +=
-          '<div onclick="goToDetail(\'' + item.id + '\')" style="cursor:pointer;display:flex;align-items:center;gap:0.75rem;background-color:var(--card);padding:0.6rem 1rem;border-radius:12px;border:1px solid var(--border);transition:all 0.25s ease;" onmouseover="this.style.borderColor=\'var(--primary)\';this.style.transform=\'translateY(-2px)\';" onmouseout="this.style.borderColor=\'var(--border)\';this.style.transform=\'none\';">' +
-            '<img src="' + item.image + '" style="width:40px;height:40px;border-radius:8px;object-fit:cover" />' +
-            '<div><p style="font-size:0.8rem;font-weight:600;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + item.name + '</p><p style="font-size:0.72rem;color:var(--text-muted)">x' + item.quantity + ' \u2022 ' + item.priceStr + '</p></div>' +
-          '</div>';
-      }
-      ordersHtml +=
-        '<div style="background-color:var(--background);border-radius:16px;border:1px solid var(--border);padding:1.5rem">' +
-          '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem">' +
-            '<div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap"><span style="font-weight:800;font-size:0.95rem;color:var(--primary)">#' + o.id + '</span><span style="font-size:0.8rem;color:var(--text-muted)"><i class="fa-solid fa-calendar" style="margin-right:0.3rem"></i>' + o.date + '</span></div>' +
-            '<div style="display:flex;gap:0.75rem;align-items:center"><span class="badge" style="background-color:' + statusBadge + ';color:' + statusColor + ';text-transform:none;font-size:0.75rem">' + statusText + '</span><span style="font-weight:800;font-size:1.05rem;color:var(--accent)">' + o.totalStr + '</span></div>' +
-          '</div>' +
-          '<div style="display:flex;gap:1rem;flex-wrap:wrap">' + itemsHtml + '</div>' +
-          '<div style="margin-top:1.25rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;border-top:1px dashed var(--border);padding-top:1rem">' +
-            '<div style="display:flex;align-items:center;gap:0.35rem;font-size:0.8rem;color:var(--sentiment-pos)"><i class="fa-solid fa-leaf"></i><span>+' + o.greenCoinEarned + ' GreenCoin \u0111\u01b0\u1ee3c c\u1ed9ng t\u1eeb \u0111\u01a1n h\u00e0ng n\u00e0y</span></div>' +
-            '<div style="display:flex;gap:0.5rem">' +
-              '<button class="btn btn-outline" onclick="window.location.href=\'/buyer/order-tracking.html?order=' + o.id + '\'" style="border-radius:8px;font-size:0.75rem;padding:6px 14px;height:auto;font-weight:700;border-color:var(--primary);color:var(--primary);cursor:pointer;transition:all 0.2s;" onmouseover="this.style.opacity=\'0.85\'" onmouseout="this.style.opacity=\'1\'"><i class="fa-solid fa-truck" style="margin-right:0.3rem"></i>Theo D\u00f5i</button>' +
-              '<button class="btn btn-primary" onclick="goToDetail(\'' + firstItemId + '\')" style="border-radius:8px;font-size:0.75rem;padding:6px 14px;height:auto;font-weight:700;background-color:var(--accent);border-color:var(--accent);color:var(--foreground);cursor:pointer;transition:all 0.2s;" onmouseover="this.style.opacity=\'0.85\'" onmouseout="this.style.opacity=\'1\'">Mua L\u1ea1i</button>' +
-            '</div>' +
-          '</div>' +
-        '</div>';
+
+  var dobVal = '';
+  if (user.birthYear) {
+    var strVal = String(user.birthYear).trim();
+    if (strVal.length === 4) {
+      dobVal = strVal + '-01-01';
+    } else {
+      dobVal = strVal;
     }
-  } else {
-    ordersHtml =
-      '<div style="text-align:center;padding:4rem 2rem;color:var(--text-muted)">' +
-        '<i class="fa-solid fa-receipt" style="font-size:3rem;margin-bottom:1rem;opacity:0.3"></i>' +
-        '<h3 style="font-size:1.2rem;font-weight:700;margin-bottom:0.5rem;color:var(--foreground)">Ch\u01b0a c\u00f3 \u0111\u01a1n h\u00e0ng n\u00e0o</h3>' +
-        '<p style="font-size:0.9rem;margin-bottom:1.5rem">H\u00e3y b\u1eaft \u0111\u1ea7u mua s\u1eafm xanh \u0111\u1ec3 t\u1ea1o \u0111\u01a1n h\u00e0ng \u0111\u1ea7u ti\u00ean nh\u00e9!</p>' +
-        '<a href="shop.html" class="btn btn-primary" style="border-radius:12px">Kh\u00e1m ph\u00e1 C\u1eeda H\u00e0ng</a>' +
-      '</div>';
   }
-  var donationsHtml = '';
-  if (donations.length > 0) {
-    for (var i = 0; i < donations.length; i++) {
-      var d = donations[i];
-      var typeName = d.clothingType === 'shirt' ? '\u00c1o Thun / \u00c1o S\u01a1 Mi' : d.clothingType === 'jacket' ? '\u00c1o Kho\u00e1c' : d.clothingType === 'pants' ? 'Qu\u1ea7n Jean / Kaki' : d.clothingType === 'dress' ? 'V\u00e1y / \u0110\u1ea7m' : 'Kh\u00e1c';
-      var condName = d.condition === 'new' ? 'C\u00f2n r\u1ea5t m\u1edbi' : d.condition === 'good' ? 'C\u00f2n t\u1ed1t' : 'H\u01a1i c\u0169';
-      donationsHtml +=
-        '<div style="background-color:var(--background);border-radius:16px;border:1px solid var(--border);padding:1.25rem">' +
-          '<div style="display:flex;justify-content:space-between;margin-bottom:0.75rem"><span style="font-weight:700;font-size:0.85rem;color:var(--primary)">#' + d.id + '</span><span style="font-size:0.75rem;color:var(--text-muted)">' + d.date + '</span></div>' +
-          '<p style="font-size:0.9rem;font-weight:600;margin-bottom:0.35rem">' + typeName + ' \u2014 ' + d.quantity + ' m\u00f3n</p>' +
-          '<p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:0.5rem">T\u00ecnh tr\u1ea1ng: ' + condName + '</p>' +
-          '<div style="display:flex;align-items:center;gap:0.35rem;font-size:0.8rem;color:var(--sentiment-pos);font-weight:700"><i class="fa-solid fa-leaf"></i>+' + d.coinEarned + ' GreenCoin</div>' +
-        '</div>';
-    }
-  } else {
-    donationsHtml =
-      '<div style="text-align:center;padding:4rem 2rem;color:var(--text-muted)">' +
-        '<i class="fa-solid fa-hand-holding-heart" style="font-size:3rem;margin-bottom:1rem;opacity:0.3"></i>' +
-        '<h3 style="font-size:1.2rem;font-weight:700;margin-bottom:0.5rem;color:var(--foreground)">Ch\u01b0a c\u00f3 l\u01b0\u1ee3t quy\u00ean g\u00f3p n\u00e0o</h3>' +
-        '<p style="font-size:0.9rem;margin-bottom:1.5rem">H\u00e3y quy\u00ean g\u00f3p qu\u1ea7n \u00e1o c\u0169 \u0111\u1ec3 nh\u1eadn GreenCoin v\u00e0 b\u1ea3o v\u1ec7 m\u00f4i tr\u01b0\u1eddng!</p>' +
-        '<a href="community.html" class="btn btn-accent" style="border-radius:12px">Quy\u00ean G\u00f3p Ngay</a>' +
-      '</div>';
-  }
-  var genderStr = user.gender === 'men' ? 'Nam' : user.gender === 'women' ? 'Nữ' : 'Chưa cập nhật';
-  var birthYearStr = user.birthYear || 'Chưa cập nhật';
-  var addressStr = user.address || 'Chưa cập nhật';
 
   container.innerHTML =
-    '<div class="profile-hero">' +
+    '<div class="profile-hero" style="margin-bottom: 2rem;">' +
       '<div class="profile-hero-bg"><i class="fa-solid fa-leaf"></i></div>' +
       '<div class="profile-hero-content">' +
         '<div class="profile-avatar">' + user.username.charAt(0).toUpperCase() + '</div>' +
         '<div class="profile-info">' +
           '<h1>' + user.username + '</h1>' +
-          '<div class="profile-meta" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:0.5rem; margin-top:0.5rem;">' +
-            '<span><i class="fa-solid fa-envelope" style="width:16px;margin-right:0.4rem;color:var(--primary)"></i>Email: ' + user.email + '</span>' +
-            '<span><i class="fa-solid fa-phone" style="width:16px;margin-right:0.4rem;color:var(--primary)"></i>SĐT: ' + (user.phone || 'Chưa cập nhật') + '</span>' +
-            '<span><i class="fa-solid fa-venus-mars" style="width:16px;margin-right:0.4rem;color:var(--primary)"></i>Giới tính: ' + genderStr + '</span>' +
-            '<span><i class="fa-solid fa-calendar-days" style="width:16px;margin-right:0.4rem;color:var(--primary)"></i>Năm sinh: ' + birthYearStr + '</span>' +
-            '<span><i class="fa-solid fa-location-dot" style="width:16px;margin-right:0.4rem;color:var(--primary)"></i>Địa chỉ: ' + addressStr + '</span>' +
-            '<span><i class="fa-solid fa-calendar" style="width:16px;margin-right:0.4rem;color:var(--primary)"></i>Tham gia: ' + user.joinDate + '</span>' +
+          '<div class="profile-meta">' +
+            '<span><i class="fa-solid fa-envelope" style="width:16px;margin-right:0.4rem;color:#EEE8DB"></i>Email: ' + user.email + '</span>' +
+            '<span><i class="fa-solid fa-calendar" style="width:16px;margin-right:0.4rem;color:#EEE8DB"></i>Joined: ' + user.joinDate + '</span>' +
           '</div>' +
         '</div>' +
-        '<div class="greencoin-badge"><p style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;font-weight:600;margin-bottom:0.35rem;color:var(--accent)">GreenCoin</p><p style="font-size:2.5rem;font-weight:900;display:flex;align-items:center;gap:0.5rem">' + (user.greenCoin || 0) + ' <i class="fa-solid fa-leaf" style="font-size:1.75rem;color:var(--accent)"></i></p></div>' +
       '</div>' +
     '</div>' +
-    '<div class="stats-grid">' +
-      '<div class="stat-card"><div class="stat-icon" style="background-color:var(--primary-light)"><i class="fa-solid fa-bag-shopping" style="font-size:1.2rem;color:var(--primary)"></i></div><div><p style="font-size:1.5rem;font-weight:800;color:var(--primary)">' + orders.length + '</p><p style="font-size:0.8rem;color:var(--text-muted);font-weight:500">\u0110\u01a1n h\u00e0ng</p></div></div>' +
-      '<div class="stat-card"><div class="stat-icon" style="background-color:var(--accent-light)"><i class="fa-solid fa-cart-shopping" style="font-size:1.2rem;color:var(--accent)"></i></div><div><p style="font-size:1.5rem;font-weight:800;color:var(--accent)">' + cartCount + '</p><p style="font-size:0.8rem;color:var(--text-muted);font-weight:500">Trong gi\u1ecf</p></div></div>' +
-      '<div class="stat-card"><div class="stat-icon" style="background-color:var(--sentiment-pos-light)"><i class="fa-solid fa-hand-holding-heart" style="font-size:1.2rem;color:var(--sentiment-pos)"></i></div><div><p style="font-size:1.5rem;font-weight:800;color:var(--sentiment-pos)">' + totalDonatedItems + ' m\u00f3n</p><p style="font-size:0.8rem;color:var(--text-muted);font-weight:500">\u0110\u1ed3 \u0111\u00e3 quy\u00ean g\u00f3p</p></div></div>' +
-      '<div class="stat-card"><div class="stat-icon" style="background-color:var(--primary-light)"><i class="fa-solid fa-cloud-arrow-down" style="font-size:1.2rem;color:var(--primary)"></i></div><div><p style="font-size:1.5rem;font-weight:800;color:var(--primary)">' + estimatedCO2 + ' kg</p><p style="font-size:0.8rem;color:var(--text-muted);font-weight:500">CO\u2082 \u0111\u00e3 gi\u1ea3m</p></div></div>' +
-      '<div class="stat-card"><div class="stat-icon" style="background-color:var(--accent-light)"><i class="fa-solid fa-coins" style="font-size:1.2rem;color:var(--accent)"></i></div><div><p style="font-size:1.5rem;font-weight:800;color:var(--accent)">' + totalCoinEarned + '</p><p style="font-size:0.8rem;color:var(--text-muted);font-weight:500">T\u1ed5ng coin ki\u1ebfm \u0111\u01b0\u1ee3c</p></div></div>' +
-    '</div>' +
-    '<div class="orders-section"><div class="section-header"><div><span class="badge badge-primary" style="margin-bottom:0.5rem">L\u1ecbch s\u1eed mua h\u00e0ng</span><h2 style="font-family:var(--font-serif);font-size:1.75rem;color:var(--primary)">\u0110\u01a1n H\u00e0ng C\u1ee7a B\u1ea1n</h2></div><a href="shop.html" class="btn btn-outline" style="border-radius:12px;font-size:0.85rem"><i class="fa-solid fa-bag-shopping"></i> Ti\u1ebfp t\u1ee5c mua s\u1eafm</a></div><div style="display:flex;flex-direction:column;gap:1.25rem">' + ordersHtml + '</div></div>' +
-    '<div class="donations-section"><div class="section-header"><div><span class="badge badge-accent" style="margin-bottom:0.5rem">Ho\u1ea1t \u0111\u1ed9ng xanh</span><h2 style="font-family:var(--font-serif);font-size:1.75rem;color:var(--primary)">L\u1ecbch S\u1eed Quy\u00ean G\u00f3p</h2></div><a href="community.html" class="btn btn-outline" style="border-radius:12px;font-size:0.85rem"><i class="fa-solid fa-hand-holding-heart"></i> Quy\u00ean g\u00f3p th\u00eam</a></div><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem">' + donationsHtml + '</div></div>';
+    
+    '<div style="display:grid; grid-template-columns: 1fr; gap:2rem; margin-top:2rem;">' +
+      '<div style="background:var(--card); border:1px solid var(--border); border-radius:24px; padding:2.5rem; box-shadow:0 8px 30px var(--shadow);">' +
+        '<h3 style="font-family:var(--font-serif); font-size:1.75rem; color:var(--primary); margin-bottom:1.5rem; display:flex; align-items:center; gap:0.5rem;">' +
+          '<i class="fa-solid fa-user-gear"></i> Personal Information' +
+        '</h3>' +
+        '<form id="profile-edit-form" class="profile-edit-form" onsubmit="submitEditProfile(event)" style="display:flex; flex-direction:column; gap:1.25rem;">' +
+          '<div class="profile-edit-form-group">' +
+            '<label style="font-weight:600; font-size:0.85rem; margin-bottom:0.5rem; display:block;">Username</label>' +
+            '<input type="text" id="edit-username" value="' + user.username + '" required style="width:100%; padding:0.75rem 1rem; border-radius:12px; border:1px solid var(--border); background-color:var(--background); color:var(--foreground); font-size:0.9rem;" />' +
+          '</div>' +
+          
+          '<div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;">' +
+            '<div class="profile-edit-form-group">' +
+              '<label style="font-weight:600; font-size:0.85rem; margin-bottom:0.5rem; display:block;">Gender</label>' +
+              '<select id="edit-gender" style="width:100%; padding:0.75rem 1rem; border-radius:12px; border:1px solid var(--border); background-color:var(--background); color:var(--foreground); font-size:0.9rem;">' +
+                '<option value="men" ' + (user.gender === 'men' ? 'selected' : '') + '>Male</option>' +
+                '<option value="women" ' + (user.gender === 'women' ? 'selected' : '') + '>Female</option>' +
+                '<option value="unisex" ' + (user.gender === 'unisex' ? 'selected' : '') + '>Unisex / Other</option>' +
+              '</select>' +
+            '</div>' +
+            '<div class="profile-edit-form-group">' +
+              '<label style="font-weight:600; font-size:0.85rem; margin-bottom:0.5rem; display:block;">Date of Birth</label>' +
+              '<input type="date" id="edit-birthYear" value="' + dobVal + '" style="width:100%; padding:0.75rem 1rem; border-radius:12px; border:1px solid var(--border); background-color:var(--background); color:var(--foreground); font-size:0.9rem;" />' +
+            '</div>' +
+          '</div>' +
+
+          '<div class="profile-edit-form-group">' +
+            '<label style="font-weight:600; font-size:0.85rem; margin-bottom:0.5rem; display:block;">Phone Number</label>' +
+            '<input type="tel" id="edit-phone" value="' + (user.phone || '') + '" placeholder="Enter phone number..." style="width:100%; padding:0.75rem 1rem; border-radius:12px; border:1px solid var(--border); background-color:var(--background); color:var(--foreground); font-size:0.9rem;" />' +
+          '</div>' +
+
+          '<div class="profile-edit-form-group">' +
+            '<label style="font-weight:600; font-size:0.85rem; margin-bottom:0.5rem; display:block;">Address</label>' +
+            '<div style="display:flex; gap:0.5rem;">' +
+              '<input type="text" id="edit-address" value="' + (user.address || '') + '" placeholder="Enter address..." style="flex:1; padding:0.75rem 1rem; border-radius:12px; border:1px solid var(--border); background-color:var(--background); color:var(--foreground); font-size:0.9rem;" />' +
+              '<button type="button" class="btn" onclick="openMapPicker()" style="padding:0.75rem 1rem; background:var(--accent); color:white; font-weight:700; border-radius:12px; border:none; cursor:pointer; display:flex; align-items:center; gap:0.35rem; transition:all 0.25s ease;" onmouseover="this.style.opacity=\'0.85\';" onmouseout="this.style.opacity=\'1\';">' +
+                '<i class="fa-solid fa-map-location-dot"></i> Bản đồ' +
+              '</button>' +
+            '</div>' +
+          '</div>' +
+
+          '<hr style="border:0; border-top:1px solid var(--border); margin:1rem 0;" />' +
+          
+          '<h3 style="font-family:var(--font-serif); font-size:1.5rem; color:var(--primary); margin-bottom:0.5rem; display:flex; align-items:center; gap:0.5rem;">' +
+            '<i class="fa-solid fa-shield-halved"></i> Change Password (Optional)' +
+          '</h3>' +
+          '<p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:1rem;">Leave password fields blank if you do not want to change it.</p>' +
+
+          '<div class="profile-edit-form-group">' +
+            '<label style="font-weight:600; font-size:0.85rem; margin-bottom:0.5rem; display:block;">Current Password</label>' +
+            '<input type="password" id="edit-curr-password" placeholder="Enter current password..." style="width:100%; padding:0.75rem 1rem; border-radius:12px; border:1px solid var(--border); background-color:var(--background); color:var(--foreground); font-size:0.9rem;" />' +
+          '</div>' +
+
+          '<div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;">' +
+            '<div class="profile-edit-form-group">' +
+              '<label style="font-weight:600; font-size:0.85rem; margin-bottom:0.5rem; display:block;">New Password</label>' +
+              '<input type="password" id="edit-new-password" placeholder="New password..." style="width:100%; padding:0.75rem 1rem; border-radius:12px; border:1px solid var(--border); background-color:var(--background); color:var(--foreground); font-size:0.9rem;" />' +
+            '</div>' +
+            '<div class="profile-edit-form-group">' +
+              '<label style="font-weight:600; font-size:0.85rem; margin-bottom:0.5rem; display:block;">Confirm New Password</label>' +
+              '<input type="password" id="edit-confirm-password" placeholder="Confirm new password..." style="width:100%; padding:0.75rem 1rem; border-radius:12px; border:1px solid var(--border); background-color:var(--background); color:var(--foreground); font-size:0.9rem;" />' +
+            '</div>' +
+          '</div>' +
+
+          '<div style="margin-top:1.5rem; display:flex; justify-content:flex-end;">' +
+            '<button type="submit" class="btn btn-primary" style="border-radius:12px; padding:0.85rem 2rem; font-weight:700;">Save Changes</button>' +
+          '</div>' +
+        '</form>' +
+      '</div>' +
+      '</div>' +
+    '</div>';
+
+  // Inject or prepare map picker overlay element directly to body if not already there
+  var mapOverlay = document.getElementById('map-picker-overlay');
+  if (!mapOverlay) {
+    mapOverlay = document.createElement('div');
+    mapOverlay.id = 'map-picker-overlay';
+    mapOverlay.className = 'map-picker-overlay';
+    mapOverlay.innerHTML =
+      '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">' +
+        '<h4 style="margin:0; font-size:1.1rem; color:white; font-family:var(--font-serif);"><i class="fa-solid fa-map-location-dot" style="color:var(--accent)"></i> Chọn vị trí trên Bản đồ</h4>' +
+        '<button type="button" onclick="closeMapPicker()" style="background:none; border:none; color:white; font-size:1.25rem; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>' +
+      '</div>' +
+      '<div style="display:flex; gap:0.5rem; margin-bottom:0.75rem;">' +
+        '<input type="text" id="map-search-input" placeholder="Nhập địa chỉ cần tìm (mặc định ở VN)..." onkeydown="if(event.key===\'Enter\'){event.preventDefault();searchAddressOnMap();}" />' +
+        '<button type="button" onclick="searchAddressOnMap()" class="btn" style="padding:0.6rem 1rem; border-radius:10px; border:none; cursor:pointer; background:var(--accent); color:white; font-weight:700;">Tìm</button>' +
+      '</div>' +
+      '<div id="map-picker-canvas"></div>' +
+      '<div style="margin-bottom:0.75rem; color:white; font-size:0.85rem; line-height:1.4;">' +
+        '<span style="font-weight:700;">Vị trí đã chọn:</span> <span id="map-selected-address-text">Not selected</span>' +
+      '</div>' +
+      '<div style="display:flex; justify-content:flex-end; gap:0.5rem;">' +
+        '<button type="button" class="btn btn-outline" onclick="closeMapPicker()" style="border-radius:10px; padding:0.5rem 1rem; color:white; border-color:white; background:transparent;">Hủy</button>' +
+        '<button type="button" class="btn btn-primary" onclick="confirmMapSelection()" style="border-radius:10px; padding:0.5rem 1rem; background:var(--accent); border-color:var(--accent); color:white; font-weight:700;">Xác nhận</button>' +
+      '</div>';
+    document.body.appendChild(mapOverlay);
+  }
+}
+
+function openEditProfileModal() {
+  var user = RefashionAuth._getUser();
+  if (!user) return;
+  document.getElementById('edit-username').value = user.username || '';
+  document.getElementById('edit-gender').value = user.gender || 'unisex';
+  document.getElementById('edit-birthYear').value = user.birthYear || '';
+  document.getElementById('edit-address').value = user.address || '';
+  document.getElementById('edit-phone').value = user.phone || '';
+  document.getElementById('edit-curr-password').value = '';
+  document.getElementById('edit-new-password').value = '';
+  document.getElementById('edit-confirm-password').value = '';
+  var modal = document.getElementById('profile-edit-modal');
+  if (modal) modal.classList.add('show');
+}
+
+function closeEditProfileModal() {
+  var modal = document.getElementById('profile-edit-modal');
+  if (modal) modal.classList.remove('show');
+}
+
+function submitEditProfile(event) {
+  event.preventDefault();
+  var user = RefashionAuth._getUser();
+  if (!user) return;
+
+  var username = document.getElementById('edit-username').value.trim();
+  var gender = document.getElementById('edit-gender').value;
+  var birthYear = document.getElementById('edit-birthYear').value.trim();
+  var address = document.getElementById('edit-address').value.trim();
+  var phone = document.getElementById('edit-phone').value.trim();
+  var currPassword = document.getElementById('edit-curr-password').value;
+  var newPassword = document.getElementById('edit-new-password').value;
+  var confirmPassword = document.getElementById('edit-confirm-password').value;
+
+  if (newPassword || confirmPassword || currPassword) {
+    if (!currPassword) {
+      showToast('❌ Please enter your current password to change it.');
+      return;
+    }
+    var realPass = RefashionAuth.getUserPassword(user.email);
+    if (currPassword !== realPass) {
+      showToast('❌ Current password is incorrect.');
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      showToast('❌ New password and confirmation password do not match.');
+      return;
+    }
+    if (newPassword.length < 6) {
+      showToast('❌ New password must be at least 6 characters.');
+      return;
+    }
+  }
+
+  var payload = {
+    username: username,
+    gender: gender,
+    birthYear: birthYear || '',
+    address: address,
+    phone: phone,
+    password: newPassword || ''
+  };
+
+  var res = RefashionAuth.updateUserProfile(payload);
+  if (res.success) {
+    showToast('✅ Profile updated successfully!');
+    closeEditProfileModal();
+    renderProfile();
+  } else {
+    showToast('❌ ' + res.message);
+  }
 }
 
 /* ==================== COMMUNITY PAGE ==================== */
 var REWARDS_DB = [
-  { id: 1, name: 'G\u00f3p S\u1ee9c Tr\u1ed3ng 1 C\u00e2y Xanh', cost: 50, image: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=300', description: 'ReFashion s\u1ebd thay m\u1eb7t b\u1ea1n tr\u1ed3ng 1 c\u00e2y xanh t\u1ea1i r\u1eebng ng\u1eadp m\u1eb7n C\u1ea7n Gi\u1edd.', category: 'action' },
-  { id: 2, name: 'Voucher Gi\u1ea3m Gi\u00e1 20%', cost: 100, image: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?q=80&w=300', description: 'M\u00e3 gi\u1ea3m gi\u00e1 20% \u00e1p d\u1ee5ng cho m\u1ecdi \u0111\u01a1n h\u00e0ng xanh ti\u1ebfp theo t\u1ea1i ReFashion.', category: 'discount' },
-  { id: 3, name: 'B\u00ecnh N\u01b0\u1edbc Th\u00e9p Kh\u00f4ng G\u1ec9 Eco', cost: 200, image: 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?q=80&w=300', description: 'B\u00ecnh gi\u1eef nhi\u1ec7t ch\u1ea5t li\u1ec7u th\u00e9p kh\u00f4ng g\u1ec9 cao c\u1ea5p.', category: 'gift' },
-  { id: 4, name: 'T\u00fai Tote S\u1ee3i \u0110ay M\u1ed9c M\u1ea1c', cost: 80, image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=300', description: 'T\u00fai v\u1ea3i tote d\u1ec7t t\u1eeb s\u1ee3i \u0111ay t\u1ef1 nhi\u00ean si\u00eau b\u1ec1n.', category: 'gift' }
+  { id: 1, name: 'Plant 1 Green Tree', cost: 50, image: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=300', description: 'ReFashion will plant a tree on your behalf in the Can Gio mangrove forest.', category: 'action' },
+  { id: 2, name: '20% Discount Voucher', cost: 100, image: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?q=80&w=300', description: '20% off discount code applicable to your next green order at ReFashion.', category: 'discount' },
+  { id: 3, name: 'Stainless Steel Eco Bottle', cost: 200, image: 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?q=80&w=300', description: 'Premium insulated stainless steel thermal bottle.', category: 'gift' },
+  { id: 4, name: 'Natural Jute Tote Bag', cost: 80, image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=300', description: 'Durable tote bag woven from natural jute fibers.', category: 'gift' }
 ];
 
 function initCommunityPage() {
@@ -1932,102 +2784,130 @@ function renderCommunity() {
   var balance = user ? (user.greenCoin || 0) : 0;
   var container = document.getElementById('community-content');
   if (!container) return;
+
+  // Initialize mock redemptions if empty
+  if (isLoggedIn && !localStorage.getItem('refashion_redemptions')) {
+    var mockRedemptions = [
+      { id: 'R-mock1', itemName: '20% Discount Voucher', cost: 100, date: '02/07/2026', code: 'RF20-MOCK99' },
+      { id: 'R-mock2', itemName: 'Plant 1 Green Tree', cost: 50, date: '25/06/2026', code: null }
+    ];
+    localStorage.setItem('refashion_redemptions', JSON.stringify(mockRedemptions));
+  }
+
   var walletHtml = isLoggedIn
     ? '<h2 style="font-size:3.5rem;font-weight:900;margin:0.5rem 0;display:flex;align-items:center;gap:0.5rem">' + balance + ' <i class="fa-solid fa-leaf" style="font-size:2.5rem;color:var(--accent)"></i></h2>'
-    : '<h2 style="font-size:3.5rem;font-weight:900;margin:0.5rem 0;display:flex;align-items:center;gap:0.5rem">\u2014 <i class="fa-solid fa-leaf" style="font-size:2.5rem;color:var(--accent)"></i></h2><p style="font-size:0.85rem;opacity:0.85"><a href="../auth/login.html?redirect=community.html" style="color:var(--accent);font-weight:700;text-decoration:underline">\u0110\u0103ng nh\u1eadp</a> \u0111\u1ec3 xem s\u1ed1 d\u01b0 GreenCoin</p>';
+    : '<h2 style="font-size:3.5rem;font-weight:900;margin:0.5rem 0;display:flex;align-items:center;gap:0.5rem">\u2014 <i class="fa-solid fa-leaf" style="font-size:2.5rem;color:var(--accent)"></i></h2><p style="font-size:0.85rem;opacity:0.85"><a href="../auth/login.html?redirect=community.html" style="color:var(--accent);font-weight:700;text-decoration:underline">Login</a> to view your GreenCoin balance</p>';
+  
   var rewardsHtml = '';
   for (var i = 0; i < REWARDS_DB.length; i++) {
     var item = REWARDS_DB[i];
     var canRedeem = isLoggedIn && balance >= item.cost;
     rewardsHtml +=
       '<div class="reward-card">' +
-        '<div class="reward-img"><img src="' + item.image + '" alt="' + item.name + '" /></div>' +
+        '<div class="reward-img"><img src="' + item.image + '" alt="' + item.name + '" onerror="this.onerror=null;this.src=\'../images/sh_denim_shirt.png\'" /></div>' +
         '<div class="reward-body">' +
           '<h4 style="font-weight:700;font-size:0.95rem;margin-bottom:0.5rem">' + item.name + '</h4>' +
           '<p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:1rem;line-height:1.4;flex-grow:1">' + item.description + '</p>' +
           '<div class="reward-footer">' +
             '<span style="font-size:1.1rem;font-weight:800;color:var(--primary);display:flex;align-items:center;gap:0.25rem">' + item.cost + ' <i class="fa-solid fa-leaf" style="font-size:0.9rem;color:var(--accent)"></i></span>' +
-            '<button onclick="handleRedeem(' + item.id + ')" class="btn btn-outline" style="padding:0.4rem 0.85rem;font-size:0.8rem;border-radius:8px;background-color:' + (canRedeem ? 'var(--primary-light)' : 'transparent') + ';color:' + (canRedeem ? 'var(--primary)' : 'var(--foreground)') + ';border-color:' + (canRedeem ? 'var(--primary)' : 'var(--border)') + '">' + (isLoggedIn ? '\u0110\u1ed5i Qu\u00e0' : '\u0110\u0103ng Nh\u1eadp') + '</button>' +
+            '<button onclick="handleRedeem(' + item.id + ')" class="btn btn-outline" style="padding:0.4rem 0.85rem;font-size:0.8rem;border-radius:8px;background-color:' + (canRedeem ? 'var(--primary-light)' : 'transparent') + ';color:' + (canRedeem ? 'var(--primary)' : 'var(--foreground)') + ';border-color:' + (canRedeem ? 'var(--primary)' : 'var(--border)') + '">' + (isLoggedIn ? 'Redeem' : 'Login') + '</button>' +
           '</div>' +
         '</div>' +
       '</div>';
   }
+
+  var redemptions = [];
+  if (isLoggedIn) {
+    try { redemptions = JSON.parse(localStorage.getItem('refashion_redemptions')) || []; } catch(e) {}
+  }
+  
+  var redemptionsHtml = '';
+  if (isLoggedIn) {
+    if (redemptions.length > 0) {
+      redemptionsHtml += 
+        '<div style="margin-top:4rem; border-top:1px solid var(--border); padding-top:3rem;">' +
+          '<div style="text-align:center;margin-bottom:2.5rem">' +
+            '<h3 style="font-family:var(--font-serif);font-size:2rem;color:var(--primary);margin-bottom:0.5rem">Lịch sử đổi quà & điểm</h3>' +
+            '<p style="color:var(--text-muted);font-size:1rem">Xem danh sách các phần quà và hoạt động bạn đã đổi bằng GreenCoin.</p>' +
+          '</div>' +
+          '<div style="background-color:var(--card); border-radius:24px; border:1px solid var(--border); padding:2rem; box-shadow:0 10px 30px var(--shadow); overflow-x:auto;">' +
+            '<table style="width:100%; border-collapse:collapse; text-align:left; font-size:0.9rem; min-width:600px;">' +
+              '<thead>' +
+                '<tr style="border-bottom:2px solid var(--border); color:var(--primary); font-weight:700;">' +
+                  '<th style="padding:1rem;">Mã giao dịch</th>' +
+                  '<th style="padding:1rem;">Phần quà / Hoạt động</th>' +
+                  '<th style="padding:1rem;">Mã Voucher (nếu có)</th>' +
+                  '<th style="padding:1rem;">Ngày đổi</th>' +
+                  '<th style="padding:1rem; text-align:right;">GreenCoin đã tiêu</th>' +
+                '</tr>' +
+              '</thead>' +
+              '<tbody>';
+      for (var k = 0; k < redemptions.length; k++) {
+        var r = redemptions[k];
+        var codeDisplay = r.code ? '<code style="background-color:var(--primary-light); color:var(--primary); padding:0.25rem 0.5rem; border-radius:6px; font-weight:700; font-family:var(--font-sans);">' + r.code + '</code>' : '<span style="color:var(--text-muted);">—</span>';
+        redemptionsHtml +=
+          '<tr style="border-bottom:1px solid var(--border); transition:all 0.2s;" onmouseover="this.style.backgroundColor=\'var(--background)\';" onmouseout="this.style.backgroundColor=\'transparent\';">' +
+            '<td style="padding:1rem; font-weight:600; color:var(--primary);">' + r.id + '</td>' +
+            '<td style="padding:1rem; display:flex; align-items:center; gap:0.5rem;"><i class="fa-solid ' + (r.code ? 'fa-ticket' : 'fa-seedling') + '" style="color:' + (r.code ? 'var(--accent)' : 'var(--primary)') + ';"></i>' + r.itemName + '</td>' +
+            '<td style="padding:1rem;">' + codeDisplay + '</td>' +
+            '<td style="padding:1rem; color:var(--text-muted);">' + r.date + '</td>' +
+            '<td style="padding:1rem; text-align:right; font-weight:800; color:var(--sentiment-neg); font-size:1.05rem;">-' + r.cost + ' <i class="fa-solid fa-leaf" style="font-size:0.8rem;color:var(--accent);"></i></td>' +
+          '</tr>';
+      }
+      redemptionsHtml +=
+              '</tbody>' +
+            '</table>' +
+          '</div>' +
+        '</div>';
+    } else {
+      redemptionsHtml +=
+        '<div style="margin-top:4rem; border-top:1px solid var(--border); padding-top:3rem; text-align:center; color:var(--text-muted);">' +
+          '<h3 style="font-family:var(--font-serif);font-size:2rem;color:var(--primary);margin-bottom:0.5rem">Lịch sử đổi quà & điểm</h3>' +
+          '<p style="margin-bottom:1.5rem;">Bạn chưa thực hiện giao dịch đổi quà nào.</p>' +
+        '</div>';
+    }
+  }
+
   container.innerHTML =
     '<div class="community-section"><div class="container">' +
-      '<div class="community-header"><span class="badge badge-accent" style="margin-bottom:1rem">C\u1ed9ng \u0110\u1ed3ng H\u00e0nh Tinh</span><h1>Tr\u00e1i \u0110\u1ea5t Xanh H\u01a1n M\u1ed7i Ng\u00e0y</h1><p style="color:var(--text-muted);font-size:1.1rem">Tham gia quy\u00ean g\u00f3p qu\u1ea7n \u00e1o c\u0169 \u0111\u1ec3 nh\u1eadn \u0111i\u1ec3m th\u01b0\u1edfng GreenCoin v\u00e0 c\u00f9ng chung tay t\u00e0i tr\u1ee3 c\u00e1c d\u1ef1 \u00e1n ph\u1ee5c h\u1ed3i sinh th\u00e1i.</p></div>' +
+      '<div class="community-header"><span class="badge badge-accent" style="margin-bottom:1rem">Green Planet Community</span><h1>A Greener Earth Every Day</h1><p style="color:var(--text-muted);font-size:1.1rem">Donate old clothes to earn GreenCoin rewards and join hands to sponsor ecological restoration projects.</p></div>' +
       '<div class="top-panel">' +
-        '<div class="wallet-card animate-pulse-soft"><div class="wallet-card-bg"><i class="fa-solid fa-leaf"></i></div><div><span style="font-size:0.85rem;text-transform:uppercase;letter-spacing:0.1em;font-weight:700;color:var(--accent)">V\u00ed GreenCoin C\u1ee7a B\u1ea1n</span>' + walletHtml + '</div><div style="border-top:1px solid rgba(255,255,255,0.15);padding-top:1.5rem"><p style="font-size:0.85rem;opacity:0.85;line-height:1.5">\ud83c\udf40 C\u00e1ch ki\u1ebfm GreenCoin:<br />\u2022 Mua s\u1eafm t\u1ea1i ReFashion (+5 coin/100k)<br />\u2022 Pass \u0111\u1ed3 mi\u1ec5n ph\u00ed (+15 coin/s\u1ea3n ph\u1ea9m)<br />\u2022 \u0110i\u1ec3m danh h\u1eb1ng ng\u00e0y (+10 coin)</p><button onclick="dailyCheckin()" class="btn btn-outline" style="margin-top:1rem;width:100%;border-radius:12px;padding:0.7rem;font-size:0.85rem;font-weight:700;background-color:rgba(255,255,255,0.12);border-color:rgba(255,255,255,0.25);color:#fff" id="checkin-btn"><i class="fa-solid fa-calendar-check" style="margin-right:0.4rem"></i> \u0110i\u1ec3m Danh Nh\u1eadn 10 Coin</button></div></div>' +
-        '<div style="background-color:var(--card);border-radius:24px;border:1px solid var(--border);padding:2rem;box-shadow:0 10px 30px var(--shadow)"><h3 style="font-family:var(--font-serif);font-size:1.5rem;color:var(--primary);margin-bottom:1.25rem">Chi\u1ebfn D\u1ecbch B\u1ea3o V\u1ec7 M\u00f4i Tr\u01b0\u1eddng \u0110ang Di\u1ec5n Ra</h3>' +
+        '<div class="wallet-card animate-pulse-soft"><div class="wallet-card-bg"><i class="fa-solid fa-leaf"></i></div><div><span style="font-size:0.85rem;text-transform:uppercase;letter-spacing:0.1em;font-weight:700;color:var(--accent)">Your GreenCoin Wallet</span>' + walletHtml + '</div><div style="border-top:1px solid rgba(255,255,255,0.15);padding-top:1.5rem"><p style="font-size:0.85rem;opacity:0.85;line-height:1.5">\ud83c\udf40 How to earn GreenCoin:<br />\u2022 Shop at ReFashion (+5 coin/100k)\u2022 Daily check-in (+10 coin)</p><button onclick="dailyCheckin()" class="btn btn-outline" style="margin-top:1rem;width:100%;border-radius:12px;padding:0.7rem;font-size:0.85rem;font-weight:700;background-color:rgba(255,255,255,0.12);border-color:rgba(255,255,255,0.25);color:#fff" id="checkin-btn"><i class="fa-solid fa-calendar-check" style="margin-right:0.4rem"></i> Check In & Earn 10 Coin</button></div></div>' +
+        '<div style="background-color:var(--card);border-radius:24px;border:1px solid var(--border);padding:2rem;box-shadow:0 10px 30px var(--shadow)"><h3 style="font-family:var(--font-serif);font-size:1.5rem;color:var(--primary);margin-bottom:1.25rem">Ongoing Environmental Campaigns</h3>' +
           '<div style="display:flex;flex-direction:column;gap:1.25rem">' +
-            '<div style="display:flex;gap:1rem;border-bottom:1px solid var(--border);padding-bottom:1rem;align-items:flex-start"><div style="width:80px;height:80px;border-radius:12px;overflow:hidden;flex-shrink:0"><img src="https://images.unsplash.com/photo-1618477388954-7852f32655ec?q=80&w=150" style="width:100%;height:100%;object-fit:cover" /></div><div style="flex:1"><span class="badge badge-primary" style="font-size:0.65rem;margin-bottom:0.25rem">Ho\u1ea1t \u0111\u1ed9ng th\u00e1ng 6</span><h4 style="font-weight:700;font-size:0.95rem">Ng\u00e0y h\u1ed9i D\u1ecdn R\u00e1c & L\u00e0m S\u1ea1ch B\u1edd Bi\u1ec3n V\u0169ng T\u00e0u</h4><p style="font-size:0.85rem;color:var(--text-muted);margin-top:0.25rem;margin-bottom:0.5rem">Tham gia c\u00f9ng h\u01a1n 200 t\u00ecnh nguy\u1ec7n vi\u00ean nh\u1eb7t r\u00e1c nh\u1ef1a, b\u1ea3o v\u1ec7 \u0111\u1ea1i d\u01b0\u01a1ng.</p><a href="https://tnmtvungtau.vn" target="_blank" class="btn btn-outline" style="font-size:0.75rem;padding:0.3rem 0.85rem;border-radius:8px;display:inline-flex;align-items:center;gap:0.35rem"><i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.7rem"></i> Xem Chi Ti\u1ebft</a></div></div>' +
-            '<div style="display:flex;gap:1rem;align-items:flex-start"><div style="width:80px;height:80px;border-radius:12px;overflow:hidden;flex-shrink:0"><img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=150" style="width:100%;height:100%;object-fit:cover" /></div><div style="flex:1"><span class="badge badge-accent" style="font-size:0.65rem;margin-bottom:0.25rem">D\u1ef1 \u00e1n r\u1eebng xanh</span><h4 style="font-weight:700;font-size:0.95rem">Quy\u00ean G\u00f3p Ph\u1ee7 Xanh 10 Hecta R\u1eebng Ng\u1eadp M\u1eb7n</h4><p style="font-size:0.85rem;color:var(--text-muted);margin-top:0.25rem;margin-bottom:0.5rem">Ph\u1ed1i h\u1ee3p tr\u1ed3ng r\u1eebng ch\u1ed1ng ng\u1eadp. Nh\u1ea5n \u0111\u1ed5i 50 GreenCoin \u0111\u1ec3 thay th\u1ebf 1 c\u00e2y con.</p><a href="https://www.thiennhien.net" target="_blank" class="btn btn-outline" style="font-size:0.75rem;padding:0.3rem 0.85rem;border-radius:8px;display:inline-flex;align-items:center;gap:0.35rem"><i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.7rem"></i> Xem Chi Ti\u1ebft</a></div></div>' +
+            '<div style="display:flex;gap:1rem;border-bottom:1px solid var(--border);padding-bottom:1rem;align-items:flex-start"><div style="width:80px;height:80px;border-radius:12px;overflow:hidden;flex-shrink:0"><img src="https://images.unsplash.com/photo-1618477388954-7852f32655ec?q=80&w=150" style="width:100%;height:100%;object-fit:cover" /></div><div style="flex:1"><span class="badge badge-primary" style="font-size:0.65rem;margin-bottom:0.25rem">June Campaign</span><h4 style="font-weight:700;font-size:0.95rem">Beach Cleanup & Waste Collection Festival — Vung Tau</h4><p style="font-size:0.85rem;color:var(--text-muted);margin-top:0.25rem;margin-bottom:0.5rem">Join 200+ volunteers collecting plastic waste to protect our oceans.</p><a href="https://tnmtvungtau.vn" target="_blank" class="btn btn-outline" style="font-size:0.75rem;padding:0.3rem 0.85rem;border-radius:8px;display:inline-flex;align-items:center;gap:0.35rem"><i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.7rem"></i> View Details</a></div></div>' +
+            '<div style="display:flex;gap:1rem;align-items:flex-start"><div style="width:80px;height:80px;border-radius:12px;overflow:hidden;flex-shrink:0"><img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=150" style="width:100%;height:100%;object-fit:cover" /></div><div style="flex:1"><span class="badge badge-accent" style="font-size:0.65rem;margin-bottom:0.25rem">Forest Restoration</span><h4 style="font-weight:700;font-size:0.95rem">Reforest 10 Hectares of Mangrove Forest</h4><p style="font-size:0.85rem;color:var(--text-muted);margin-top:0.25rem;margin-bottom:0.5rem">Partner to plant mangroves for flood protection. Redeem 50 GreenCoin to replace one sapling.</p><a href="https://www.thiennhien.net" target="_blank" class="btn btn-outline" style="font-size:0.75rem;padding:0.3rem 0.85rem;border-radius:8px;display:inline-flex;align-items:center;gap:0.35rem"><i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.7rem"></i> View Details</a></div></div>' +
           '</div></div>' +
       '</div>' +
-      '<div class="donation-rewards-layout">' +
-'<div class="donation-form">' +
-        '<h3 style="font-family:var(--font-serif);font-size:1.5rem;color:var(--primary);margin-bottom:0.5rem">Pass \u0110\u1ed3 Free</h3><p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1.5rem">Qu\u1ea7n \u00e1o kh\u00f4ng d\u00f9ng n\u1eefa c\u1ee7a b\u1ea1n s\u1ebd \u0111\u01b0\u1ee3c chuy\u1ec3n t\u1eebt ti\u1ebfp cho ng\u01b0\u1eddi c\u1ea7n. B\u1ea1n nh\u1eadn +15 GreenCoin m\u1ed7i m\u00f3n.</p>' +
-          '<div id="donation-success" style="display:none" class="success-alert"><i class="fa-solid fa-circle-check"></i> Quy\u00ean g\u00f3p th\u00e0nh c\u00f4ng! GreenCoin \u0111\u00e3 \u0111\u01b0\u1ee3c c\u1ed9ng v\u00e0o v\u00ed.</div>' +
-          '<form id="donation-form">' +
-            '<div class="form-group"><label>Lo\u1ea1i s\u1ea3n ph\u1ea9m</label><select id="donation-type"><option value="shirt">\u00c1o Thun / \u00c1o S\u01a1 Mi</option><option value="jacket">\u00c1o Kho\u00e1c</option><option value="pants">Qu\u1ea7n Jean / Kaki</option><option value="dress">V\u00e1y / \u0110\u1ea7m</option><option value="others">Kh\u00e1c</option></select></div>' +
-            '<div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">' +
-              '<div class="form-group"><label>S\u1ed1 l\u01b0\u1ee3ng</label><input type="number" id="donation-qty" min="1" max="50" value="1" /></div>' +
-              '<div class="form-group"><label>T\u00ecnh tr\u1ea1ng \u0111\u1ed3</label><select id="donation-condition"><option value="new">C\u00f2n r\u1ea5t m\u1edbi</option><option value="good">C\u00f2n t\u1ed1t</option><option value="reusable">H\u01a1i c\u0169 (C\u00f3 th\u1ec3 k\u00e9o s\u1ee3i)</option></select></div>' +
-            '</div>' +
-            '<div class="form-group"><label>\u0110\u1ecba ch\u1ec9 giao \u0111\u1ed3</label><input type="text" id="donation-address" placeholder="Nh\u1eadp \u0111\u1ecba ch\u1ec9 giao \u0111\u1ed3..." required /></div>' +
-            '<button type="submit" class="btn btn-primary" style="width:100%;border-radius:10px;margin-top:1rem">' + (isLoggedIn ? 'Pass \u0110\u1ed3 Ngay' : '\u0110\u0103ng Nh\u1eadp \u0111\u1ec3 Pass \u0110\u1ed3') + '</button>' +
-          '</form>' +
-        '</div>' +
-        '<div><h3 style="font-family:var(--font-serif);font-size:1.75rem;color:var(--primary);margin-bottom:0.5rem">C\u1eeda H\u00e0ng Qu\u00e0 T\u1eb7ng Xanh</h3><p style="color:var(--text-muted);font-size:0.95rem;margin-bottom:2rem">Quy \u0111\u1ed5i s\u1ed1 \u0111i\u1ec3m GreenCoin t\u00edch l\u0169y \u0111\u01b0\u1ee3c \u0111\u1ec3 nh\u1eadn c\u00e1c s\u1ea3n ph\u1ea9m ho\u1eb7c \u0111\u00f3ng g\u00f3p cho Tr\u00e1i \u0110\u1ea5t.</p><div class="rewards-grid">' + rewardsHtml + '</div></div>' +
+      '<div class="rewards-section">' +
+        '<div style="text-align:center;margin-bottom:2.5rem"><h3 style="font-family:var(--font-serif);font-size:2rem;color:var(--primary);margin-bottom:0.5rem">Green Rewards Store</h3><p style="color:var(--text-muted);font-size:1rem">Redeem your accumulated GreenCoin points for products or contribute to the Earth.</p></div>' +
+        '<div class="rewards-grid">' + rewardsHtml + '</div>' +
       '</div>' +
+      redemptionsHtml +
     '</div></div>';
-  bindDonationForm(isLoggedIn);
 }
-
 function dailyCheckin() {
   var user = RefashionAuth._getUser();
   if (!user) { window.location.href = '/auth/login.html?redirect=/buyer/community.html'; return; }
   var today = new Date().toLocaleDateString('vi-VN');
   var lastCheckin = user.lastCheckin || '';
   if (lastCheckin === today) {
-    showToast('\u274c H\u00f4m nay b\u1ea1n \u0111\u00e3 \u0111i\u1ec3m danh r\u1ed3i! H\u00e3y quay l\u1ea1i ng\u00e0y mai.');
+    showToast('\u274c You\'ve already checked in today! Come back tomorrow.');
     return;
   }
   var bonus = 10;
   user.greenCoin = (user.greenCoin || 0) + bonus;
   user.lastCheckin = today;
   RefashionAuth._saveUser(user);
-  showToast('\ud83c\udf40 \u0110i\u1ec3m danh th\u00e0nh c\u00f4ng! B\u1ea1n nh\u1eadn +' + bonus + ' GreenCoin.');
+  showToast('\ud83c\udf40 Check-in successful! You received +' + bonus + ' GreenCoin.');
   document.getElementById('checkin-btn').disabled = true;
-  document.getElementById('checkin-btn').innerHTML = '<i class="fa-solid fa-calendar-check" style="margin-right:0.4rem"></i> \u0110\u00e3 \u0110i\u1ec3m Danh';
+  document.getElementById('checkin-btn').innerHTML = '<i class="fa-solid fa-calendar-check" style="margin-right:0.4rem"></i> Checked In';
   document.getElementById('checkin-btn').style.opacity = '0.6';
   document.getElementById('checkin-btn').style.cursor = 'not-allowed';
   renderCommunity();
 }
 
-function bindDonationForm(isLoggedIn) {
-  var form = document.getElementById('donation-form');
-  if (!form) return;
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
-    if (!isLoggedIn) { window.location.href = '/auth/login.html?redirect=/buyer/community.html'; return; }
-    var address = document.getElementById('donation-address').value.trim();
-    if (!address) { showToast('Vui l\u00f2ng nh\u1eadp \u0111\u1ecba ch\u1ec9.'); return; }
-    var coins = RefashionAuth.addDonation({
-      clothingType: document.getElementById('donation-type').value,
-      quantity: parseInt(document.getElementById('donation-qty').value) || 1,
-      condition: document.getElementById('donation-condition').value,
-      address: address
-    });
-    document.getElementById('donation-success').style.display = 'flex';
-    document.getElementById('donation-address').value = '';
-    document.getElementById('donation-qty').value = '1';
-    showToast('\ud83c\udf40 Quy\u00ean g\u00f3p th\u00e0nh c\u00f4ng! B\u1ea1n \u0111\u01b0\u1ee3c c\u1ed9ng +' + coins + ' GreenCoin.');
-    setTimeout(function() {
-      var el = document.getElementById('donation-success');
-      if (el) el.style.display = 'none';
-    }, 5000);
-  });
-}
+
 
 function handleRedeem(itemId) {
   var user = RefashionAuth._getUser();
@@ -2037,17 +2917,32 @@ function handleRedeem(itemId) {
     if (REWARDS_DB[i].id === itemId) { item = REWARDS_DB[i]; break; }
   }
   if (!item) return;
+  var voucher = null;
   if (item.category === 'discount') {
     var match = item.name.match(/(\d+)%/);
     var discount = match ? parseInt(match[1]) : 20;
-    var voucher = RefashionAuth.redeemVoucher(item.cost, discount, item.name);
-    if (!voucher) { showToast('\u274c B\u1ea1n kh\u00f4ng \u0111\u1ee7 GreenCoin. C\u1ea7n th\u00eam ' + (item.cost - (user.greenCoin || 0)) + ' GreenCoin.'); return; }
-    showToast('\ud83c\udf9f\ufe0f \u0110\u1ed5i voucher th\u00e0nh c\u00f4ng! M\u00e3 c\u1ee7a b\u1ea1n: ' + voucher.code + ' (Gi\u1ea3m ' + discount + '%, HSD: ' + voucher.expiresAt + ').');
+    voucher = RefashionAuth.redeemVoucher(item.cost, discount, item.name);
+    if (!voucher) { showToast('\u274c Not enough GreenCoin. You need ' + (item.cost - (user.greenCoin || 0)) + ' more GreenCoin.'); return; }
+    showToast('\ud83c\udf9f\ufe0f Voucher redeemed! Your code: ' + voucher.code + ' (' + discount + '% OFF, Exp: ' + voucher.expiresAt + ').');
   } else {
     var success = RefashionAuth.spendGreenCoin(item.cost);
-    if (!success) { showToast('\u274c B\u1ea1n kh\u00f4ng \u0111\u1ee7 GreenCoin. C\u1ea7n th\u00eam ' + (item.cost - (user.greenCoin || 0)) + ' GreenCoin.'); return; }
-    showToast('\ud83c\udf89 \u0110\u1ed5i qu\u00e0 th\u00e0nh c\u00f4ng! B\u1ea1n \u0111\u00e3 nh\u1eadn: "' + item.name + '".');
+    if (!success) { showToast('\u274c Not enough GreenCoin. You need ' + (item.cost - (user.greenCoin || 0)) + ' more GreenCoin.'); return; }
+    showToast('\ud83c\udf89 Reward redeemed! You received: "' + item.name + '".');
   }
+  
+  // Save to redemption history
+  var redemption = {
+    id: 'R-' + Date.now().toString(36).toUpperCase(),
+    itemName: item.name,
+    cost: item.cost,
+    date: new Date().toLocaleDateString('vi-VN'),
+    code: voucher ? voucher.code : null
+  };
+  var redemptions = [];
+  try { redemptions = JSON.parse(localStorage.getItem('refashion_redemptions')) || []; } catch(e) {}
+  redemptions.unshift(redemption);
+  localStorage.setItem('refashion_redemptions', JSON.stringify(redemptions));
+
   renderCommunity();
 }
 
@@ -2059,6 +2954,270 @@ function initMoMoReturnPage() {
   var amount = params.get('amount');
   var transId = params.get('transId');
   var message = params.get('message');
+  
+  if (resultCode === '0' && orderId) {
+    try {
+      var orders = JSON.parse(localStorage.getItem('refashion_orders')) || [];
+      var orderUpdated = false;
+      for (var i = 0; i < orders.length; i++) {
+        if (orders[i].id === orderId) {
+          orders[i].paymentStatus = 'paid';
+          orders[i].status = 'confirmed';
+          orderUpdated = true;
+          break;
+        }
+      }
+      if (orderUpdated) {
+        localStorage.setItem('refashion_orders', JSON.stringify(orders));
+      }
+    } catch (e) {
+      console.warn("[MoMo Return] Failed to update order status:", e);
+    }
+  }
+
+  renderNavbar('navbar-container');
+  renderFooter('footer-container');
+  var container = document.getElementById('momo-return-content');
+  if (!container) return;
+  if (resultCode === '0') {
+    container.innerHTML =
+      '<div class="success-view">' +
+        '<div class="success-card animate-fade-in-up">' +
+          '<div class="success-icon animate-success" style="background-color:var(--sentiment-pos-light)"><i class="fa-solid fa-check" style="font-size:2.5rem;color:var(--sentiment-pos)"></i></div>' +
+          '<h2 style="font-family:var(--font-serif);font-size:2rem;color:var(--primary);margin-bottom:0.75rem">Payment Successful! \ud83c\udf89</h2>' +
+          '<p style="color:var(--text-muted);margin-bottom:1rem">Order <strong style="color:var(--primary)">#' + (orderId || '') + '</strong> has been paid via MoMo.</p>' +
+          '<div style="background-color:var(--primary-light);border-radius:16px;padding:1.25rem;text-align:left">' +
+            '<div style="display:flex;justify-content:space-between;font-size:0.9rem;margin-bottom:0.5rem"><span style="color:var(--text-muted)">MoMo Transaction ID</span><span style="font-weight:700;color:var(--primary)">' + (transId || '') + '</span></div>' +
+            '<div style="display:flex;justify-content:space-between;font-size:0.9rem"><span style="color:var(--text-muted)">Amount</span><span style="font-weight:700;color:var(--accent)">' + (amount ? Number(amount).toLocaleString('vi-VN') : '') + ' \u0111</span></div>' +
+          '</div>' +
+          '<div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:2rem"><a href="/buyer/orders.html" class="btn btn-primary" style="border-radius:12px;padding:0.85rem 2rem">View Order</a><a href="shop.html" class="btn btn-outline" style="border-radius:12px;padding:0.85rem 2rem">Continue Shopping</a></div>' +
+          '<div style="margin-top:2rem;display:flex;align-items:center;justify-content:center;gap:0.5rem;font-size:0.8rem;color:var(--text-muted)"><i class="fa-solid fa-wallet" style="color:#a50064"></i> Paid via MoMo Wallet</div>' +
+        '</div>' +
+      '</div>';
+  } else {
+    container.innerHTML =
+      '<div class="success-view">' +
+        '<div class="success-card animate-fade-in-up">' +
+          '<div class="success-icon animate-error" style="background-color:#fef2f2"><i class="fa-solid fa-xmark" style="font-size:2.5rem;color:#ef4444"></i></div>' +
+          '<h2 style="font-family:var(--font-serif);font-size:2rem;color:#ef4444;margin-bottom:0.75rem">Payment Failed</h2>' +
+          '<p style="color:var(--text-muted);margin-bottom:2rem">' + (message || 'Transaction unsuccessful. Please try again.') + '</p>' +
+          '<div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap"><a href="checkout.html" class="btn btn-primary" style="border-radius:12px;padding:0.85rem 2rem">Try Again</a><a href="shop.html" class="btn btn-outline" style="border-radius:12px;padding:0.85rem 2rem">Go Back</a></div>' +
+        '</div>' +
+      '</div>';
+  }
+}
+
+/* ==================== COMMUNITY PAGE ==================== */
+var REWARDS_DB = [
+  { id: 1, name: 'Plant 1 Green Tree', cost: 50, image: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=300', description: 'ReFashion will plant a tree on your behalf in the Can Gio mangrove forest.', category: 'action' },
+  { id: 2, name: '20% Discount Voucher', cost: 100, image: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?q=80&w=300', description: '20% off discount code applicable to your next green order at ReFashion.', category: 'discount' },
+  { id: 3, name: 'Stainless Steel Eco Bottle', cost: 200, image: 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?q=80&w=300', description: 'Premium insulated stainless steel thermal bottle.', category: 'gift' },
+  { id: 4, name: 'Natural Jute Tote Bag', cost: 80, image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=300', description: 'Durable tote bag woven from natural jute fibers.', category: 'gift' }
+];
+
+function initCommunityPage() {
+  renderNavbar('navbar-container');
+  renderFooter('footer-container');
+  renderCommunity();
+}
+
+function renderCommunity() {
+  var user = RefashionAuth._getUser();
+  var isLoggedIn = !!user;
+  var balance = user ? (user.greenCoin || 0) : 0;
+  var container = document.getElementById('community-content');
+  if (!container) return;
+
+  // Initialize mock redemptions if empty
+  if (isLoggedIn && !localStorage.getItem('refashion_redemptions')) {
+    var mockRedemptions = [
+      { id: 'R-mock1', itemName: '20% Discount Voucher', cost: 100, date: '02/07/2026', code: 'RF20-MOCK99' },
+      { id: 'R-mock2', itemName: 'Plant 1 Green Tree', cost: 50, date: '25/06/2026', code: null }
+    ];
+    localStorage.setItem('refashion_redemptions', JSON.stringify(mockRedemptions));
+  }
+
+  var walletHtml = isLoggedIn
+    ? '<h2 style="font-size:3.5rem;font-weight:900;margin:0.5rem 0;display:flex;align-items:center;gap:0.5rem">' + balance + ' <i class="fa-solid fa-leaf" style="font-size:2.5rem;color:var(--accent)"></i></h2>'
+    : '<h2 style="font-size:3.5rem;font-weight:900;margin:0.5rem 0;display:flex;align-items:center;gap:0.5rem">\u2014 <i class="fa-solid fa-leaf" style="font-size:2.5rem;color:var(--accent)"></i></h2><p style="font-size:0.85rem;opacity:0.85"><a href="../auth/login.html?redirect=community.html" style="color:var(--accent);font-weight:700;text-decoration:underline">Login</a> to view your GreenCoin balance</p>';
+  
+  var rewardsHtml = '';
+  for (var i = 0; i < REWARDS_DB.length; i++) {
+    var item = REWARDS_DB[i];
+    var canRedeem = isLoggedIn && balance >= item.cost;
+    rewardsHtml +=
+      '<div class="reward-card">' +
+        '<div class="reward-img"><img src="' + item.image + '" alt="' + item.name + '" onerror="this.onerror=null;this.src=\'../images/sh_denim_shirt.png\'" /></div>' +
+        '<div class="reward-body">' +
+          '<h4 style="font-weight:700;font-size:0.95rem;margin-bottom:0.5rem">' + item.name + '</h4>' +
+          '<p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:1rem;line-height:1.4;flex-grow:1">' + item.description + '</p>' +
+          '<div class="reward-footer">' +
+            '<span style="font-size:1.1rem;font-weight:800;color:var(--primary);display:flex;align-items:center;gap:0.25rem">' + item.cost + ' <i class="fa-solid fa-leaf" style="font-size:0.9rem;color:var(--accent)"></i></span>' +
+            '<button onclick="handleRedeem(' + item.id + ')" class="btn btn-outline" style="padding:0.4rem 0.85rem;font-size:0.8rem;border-radius:8px;background-color:' + (canRedeem ? 'var(--primary-light)' : 'transparent') + ';color:' + (canRedeem ? 'var(--primary)' : 'var(--foreground)') + ';border-color:' + (canRedeem ? 'var(--primary)' : 'var(--border)') + '">' + (isLoggedIn ? 'Redeem' : 'Login') + '</button>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+  }
+
+  var redemptions = [];
+  if (isLoggedIn) {
+    try { redemptions = JSON.parse(localStorage.getItem('refashion_redemptions')) || []; } catch(e) {}
+  }
+  
+  var redemptionsHtml = '';
+  if (isLoggedIn) {
+    if (redemptions.length > 0) {
+      redemptionsHtml += 
+        '<div style="margin-top:4rem; border-top:1px solid var(--border); padding-top:3rem;">' +
+          '<div style="text-align:center;margin-bottom:2.5rem">' +
+            '<h3 style="font-family:var(--font-serif);font-size:2rem;color:var(--primary);margin-bottom:0.5rem">Lịch sử đổi quà & điểm</h3>' +
+            '<p style="color:var(--text-muted);font-size:1rem">Xem danh sách các phần quà và hoạt động bạn đã đổi bằng GreenCoin.</p>' +
+          '</div>' +
+          '<div style="background-color:var(--card); border-radius:24px; border:1px solid var(--border); padding:2rem; box-shadow:0 10px 30px var(--shadow); overflow-x:auto;">' +
+            '<table style="width:100%; border-collapse:collapse; text-align:left; font-size:0.9rem; min-width:600px;">' +
+              '<thead>' +
+                '<tr style="border-bottom:2px solid var(--border); color:var(--primary); font-weight:700;">' +
+                  '<th style="padding:1rem;">Mã giao dịch</th>' +
+                  '<th style="padding:1rem;">Phần quà / Hoạt động</th>' +
+                  '<th style="padding:1rem;">Mã Voucher (nếu có)</th>' +
+                  '<th style="padding:1rem;">Ngày đổi</th>' +
+                  '<th style="padding:1rem; text-align:right;">GreenCoin đã tiêu</th>' +
+                '</tr>' +
+              '</thead>' +
+              '<tbody>';
+      for (var k = 0; k < redemptions.length; k++) {
+        var r = redemptions[k];
+        var codeDisplay = r.code ? '<code style="background-color:var(--primary-light); color:var(--primary); padding:0.25rem 0.5rem; border-radius:6px; font-weight:700; font-family:var(--font-sans);">' + r.code + '</code>' : '<span style="color:var(--text-muted);">—</span>';
+        redemptionsHtml +=
+          '<tr style="border-bottom:1px solid var(--border); transition:all 0.2s;" onmouseover="this.style.backgroundColor=\'var(--background)\';" onmouseout="this.style.backgroundColor=\'transparent\';">' +
+            '<td style="padding:1rem; font-weight:600; color:var(--primary);">' + r.id + '</td>' +
+            '<td style="padding:1rem; display:flex; align-items:center; gap:0.5rem;"><i class="fa-solid ' + (r.code ? 'fa-ticket' : 'fa-seedling') + '" style="color:' + (r.code ? 'var(--accent)' : 'var(--primary)') + ';"></i>' + r.itemName + '</td>' +
+            '<td style="padding:1rem;">' + codeDisplay + '</td>' +
+            '<td style="padding:1rem; color:var(--text-muted);">' + r.date + '</td>' +
+            '<td style="padding:1rem; text-align:right; font-weight:800; color:var(--sentiment-neg); font-size:1.05rem;">-' + r.cost + ' <i class="fa-solid fa-leaf" style="font-size:0.8rem;color:var(--accent);"></i></td>' +
+          '</tr>';
+      }
+      redemptionsHtml +=
+              '</tbody>' +
+            '</table>' +
+          '</div>' +
+        '</div>';
+    } else {
+      redemptionsHtml +=
+        '<div style="margin-top:4rem; border-top:1px solid var(--border); padding-top:3rem; text-align:center; color:var(--text-muted);">' +
+          '<h3 style="font-family:var(--font-serif);font-size:2rem;color:var(--primary);margin-bottom:0.5rem">Lịch sử đổi quà & điểm</h3>' +
+          '<p style="margin-bottom:1.5rem;">Bạn chưa thực hiện giao dịch đổi quà nào.</p>' +
+        '</div>';
+    }
+  }
+
+  container.innerHTML =
+    '<div class="community-section"><div class="container">' +
+      '<div class="community-header"><span class="badge badge-accent" style="margin-bottom:1rem">Green Planet Community</span><h1>A Greener Earth Every Day</h1><p style="color:var(--text-muted);font-size:1.1rem">Donate old clothes to earn GreenCoin rewards and join hands to sponsor ecological restoration projects.</p></div>' +
+      '<div class="top-panel">' +
+        '<div class="wallet-card animate-pulse-soft"><div class="wallet-card-bg"><i class="fa-solid fa-leaf"></i></div><div><span style="font-size:0.85rem;text-transform:uppercase;letter-spacing:0.1em;font-weight:700;color:var(--accent)">Your GreenCoin Wallet</span>' + walletHtml + '</div><div style="border-top:1px solid rgba(255,255,255,0.15);padding-top:1.5rem"><p style="font-size:0.85rem;opacity:0.85;line-height:1.5">\ud83c\udf40 How to earn GreenCoin:<br />\u2022 Shop at ReFashion (+5 coin/100k)\u2022 Daily check-in (+10 coin)</p><button onclick="dailyCheckin()" class="btn btn-outline" style="margin-top:1rem;width:100%;border-radius:12px;padding:0.7rem;font-size:0.85rem;font-weight:700;background-color:rgba(255,255,255,0.12);border-color:rgba(255,255,255,0.25);color:#fff" id="checkin-btn"><i class="fa-solid fa-calendar-check" style="margin-right:0.4rem"></i> Check In & Earn 10 Coin</button></div></div>' +
+        '<div style="background-color:var(--card);border-radius:24px;border:1px solid var(--border);padding:2rem;box-shadow:0 10px 30px var(--shadow)"><h3 style="font-family:var(--font-serif);font-size:1.5rem;color:var(--primary);margin-bottom:1.25rem">Ongoing Environmental Campaigns</h3>' +
+          '<div style="display:flex;flex-direction:column;gap:1.25rem">' +
+            '<div style="display:flex;gap:1rem;border-bottom:1px solid var(--border);padding-bottom:1rem;align-items:flex-start"><div style="width:80px;height:80px;border-radius:12px;overflow:hidden;flex-shrink:0"><img src="https://images.unsplash.com/photo-1618477388954-7852f32655ec?q=80&w=150" style="width:100%;height:100%;object-fit:cover" /></div><div style="flex:1"><span class="badge badge-primary" style="font-size:0.65rem;margin-bottom:0.25rem">June Campaign</span><h4 style="font-weight:700;font-size:0.95rem">Beach Cleanup & Waste Collection Festival — Vung Tau</h4><p style="font-size:0.85rem;color:var(--text-muted);margin-top:0.25rem;margin-bottom:0.5rem">Join 200+ volunteers collecting plastic waste to protect our oceans.</p><a href="https://tnmtvungtau.vn" target="_blank" class="btn btn-outline" style="font-size:0.75rem;padding:0.3rem 0.85rem;border-radius:8px;display:inline-flex;align-items:center;gap:0.35rem"><i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.7rem"></i> View Details</a></div></div>' +
+            '<div style="display:flex;gap:1rem;align-items:flex-start"><div style="width:80px;height:80px;border-radius:12px;overflow:hidden;flex-shrink:0"><img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=150" style="width:100%;height:100%;object-fit:cover" /></div><div style="flex:1"><span class="badge badge-accent" style="font-size:0.65rem;margin-bottom:0.25rem">Forest Restoration</span><h4 style="font-weight:700;font-size:0.95rem">Reforest 10 Hectares of Mangrove Forest</h4><p style="font-size:0.85rem;color:var(--text-muted);margin-top:0.25rem;margin-bottom:0.5rem">Partner to plant mangroves for flood protection. Redeem 50 GreenCoin to replace one sapling.</p><a href="https://www.thiennhien.net" target="_blank" class="btn btn-outline" style="font-size:0.75rem;padding:0.3rem 0.85rem;border-radius:8px;display:inline-flex;align-items:center;gap:0.35rem"><i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.7rem"></i> View Details</a></div></div>' +
+          '</div></div>' +
+      '</div>' +
+      '<div class="rewards-section">' +
+        '<div style="text-align:center;margin-bottom:2.5rem"><h3 style="font-family:var(--font-serif);font-size:2rem;color:var(--primary);margin-bottom:0.5rem">Green Rewards Store</h3><p style="color:var(--text-muted);font-size:1rem">Redeem your accumulated GreenCoin points for products or contribute to the Earth.</p></div>' +
+        '<div class="rewards-grid">' + rewardsHtml + '</div>' +
+      '</div>' +
+      redemptionsHtml +
+    '</div></div>';
+}
+function dailyCheckin() {
+  var user = RefashionAuth._getUser();
+  if (!user) { window.location.href = '/auth/login.html?redirect=/buyer/community.html'; return; }
+  var today = new Date().toLocaleDateString('vi-VN');
+  var lastCheckin = user.lastCheckin || '';
+  if (lastCheckin === today) {
+    showToast('\u274c You\'ve already checked in today! Come back tomorrow.');
+    return;
+  }
+  var bonus = 10;
+  user.greenCoin = (user.greenCoin || 0) + bonus;
+  user.lastCheckin = today;
+  RefashionAuth._saveUser(user);
+  showToast('\ud83c\udf40 Check-in successful! You received +' + bonus + ' GreenCoin.');
+  document.getElementById('checkin-btn').disabled = true;
+  document.getElementById('checkin-btn').innerHTML = '<i class="fa-solid fa-calendar-check" style="margin-right:0.4rem"></i> Checked In';
+  document.getElementById('checkin-btn').style.opacity = '0.6';
+  document.getElementById('checkin-btn').style.cursor = 'not-allowed';
+  renderCommunity();
+}
+
+
+
+function handleRedeem(itemId) {
+  var user = RefashionAuth._getUser();
+  if (!user) { window.location.href = '/auth/login.html?redirect=/buyer/community.html'; return; }
+  var item = null;
+  for (var i = 0; i < REWARDS_DB.length; i++) {
+    if (REWARDS_DB[i].id === itemId) { item = REWARDS_DB[i]; break; }
+  }
+  if (!item) return;
+  var voucher = null;
+  if (item.category === 'discount') {
+    var match = item.name.match(/(\d+)%/);
+    var discount = match ? parseInt(match[1]) : 20;
+    voucher = RefashionAuth.redeemVoucher(item.cost, discount, item.name);
+    if (!voucher) { showToast('\u274c Not enough GreenCoin. You need ' + (item.cost - (user.greenCoin || 0)) + ' more GreenCoin.'); return; }
+    showToast('\ud83c\udf9f\ufe0f Voucher redeemed! Your code: ' + voucher.code + ' (' + discount + '% OFF, Exp: ' + voucher.expiresAt + ').');
+  } else {
+    var success = RefashionAuth.spendGreenCoin(item.cost);
+    if (!success) { showToast('\u274c Not enough GreenCoin. You need ' + (item.cost - (user.greenCoin || 0)) + ' more GreenCoin.'); return; }
+    showToast('\ud83c\udf89 Reward redeemed! You received: "' + item.name + '".');
+  }
+  
+  // Save to redemption history
+  var redemption = {
+    id: 'R-' + Date.now().toString(36).toUpperCase(),
+    itemName: item.name,
+    cost: item.cost,
+    date: new Date().toLocaleDateString('vi-VN'),
+    code: voucher ? voucher.code : null
+  };
+  var redemptions = [];
+  try { redemptions = JSON.parse(localStorage.getItem('refashion_redemptions')) || []; } catch(e) {}
+  redemptions.unshift(redemption);
+  localStorage.setItem('refashion_redemptions', JSON.stringify(redemptions));
+
+  renderCommunity();
+}
+
+/* ==================== MOMO RETURN ==================== */
+function initMoMoReturnPage() {
+  var params = new URLSearchParams(window.location.search);
+  var resultCode = params.get('resultCode');
+  var orderId = params.get('orderId');
+  var amount = params.get('amount');
+  var transId = params.get('transId');
+  var message = params.get('message');
+  
+  if (resultCode === '0' && orderId) {
+    try {
+      var orders = JSON.parse(localStorage.getItem('refashion_orders')) || [];
+      var orderUpdated = false;
+      for (var i = 0; i < orders.length; i++) {
+        if (orders[i].id === orderId) {
+          orders[i].paymentStatus = 'paid';
+          orders[i].status = 'confirmed';
+          orderUpdated = true;
+          break;
+        }
+      }
+      if (orderUpdated) {
+        localStorage.setItem('refashion_orders', JSON.stringify(orders));
+      }
+    } catch (e) {
+      console.warn("[MoMo Return] Failed to update order status:", e);
+    }
+  }
+
   renderNavbar('navbar-container');
   renderFooter('footer-container');
   var container = document.getElementById('momo-return-content');
@@ -2068,14 +3227,14 @@ function initMoMoReturnPage() {
       '<div class="success-view">' +
         '<div class="success-card animate-fade-in-up">' +
           '<div class="success-icon" style="background-color:var(--sentiment-pos-light)"><i class="fa-solid fa-check" style="font-size:2.5rem;color:var(--sentiment-pos)"></i></div>' +
-          '<h2 style="font-family:var(--font-serif);font-size:2rem;color:var(--primary);margin-bottom:0.75rem">Thanh To\u00e1n Th\u00e0nh C\u00f4ng! \ud83c\udf89</h2>' +
-          '<p style="color:var(--text-muted);margin-bottom:1rem">\u0110\u01a1n h\u00e0ng <strong style="color:var(--primary)">#' + (orderId || '') + '</strong> \u0111\u00e3 \u0111\u01b0\u1ee3c thanh to\u00e1n qua MoMo.</p>' +
+          '<h2 style="font-family:var(--font-serif);font-size:2rem;color:var(--primary);margin-bottom:0.75rem">Payment Successful! \ud83c\udf89</h2>' +
+          '<p style="color:var(--text-muted);margin-bottom:1rem">Order <strong style="color:var(--primary)">#' + (orderId || '') + '</strong> has been paid via MoMo.</p>' +
           '<div style="background-color:var(--primary-light);border-radius:16px;padding:1.25rem;text-align:left">' +
-            '<div style="display:flex;justify-content:space-between;font-size:0.9rem;margin-bottom:0.5rem"><span style="color:var(--text-muted)">M\u00e3 giao d\u1ecbch MoMo</span><span style="font-weight:700;color:var(--primary)">' + (transId || '') + '</span></div>' +
-            '<div style="display:flex;justify-content:space-between;font-size:0.9rem"><span style="color:var(--text-muted)">S\u1ed1 ti\u1ec1n</span><span style="font-weight:700;color:var(--accent)">' + (amount ? Number(amount).toLocaleString('vi-VN') : '') + ' \u0111</span></div>' +
+            '<div style="display:flex;justify-content:space-between;font-size:0.9rem;margin-bottom:0.5rem"><span style="color:var(--text-muted)">MoMo Transaction ID</span><span style="font-weight:700;color:var(--primary)">' + (transId || '') + '</span></div>' +
+            '<div style="display:flex;justify-content:space-between;font-size:0.9rem"><span style="color:var(--text-muted)">Amount</span><span style="font-weight:700;color:var(--accent)">' + (amount ? Number(amount).toLocaleString('vi-VN') : '') + ' \u0111</span></div>' +
           '</div>' +
-          '<div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:2rem"><a href="profile.html" class="btn btn-primary" style="border-radius:12px;padding:0.85rem 2rem">Xem \u0110\u01a1n H\u00e0ng</a><a href="shop.html" class="btn btn-outline" style="border-radius:12px;padding:0.85rem 2rem">Ti\u1ebfp T\u1ee5c Mua S\u1eafm</a></div>' +
-          '<div style="margin-top:2rem;display:flex;align-items:center;justify-content:center;gap:0.5rem;font-size:0.8rem;color:var(--text-muted)"><i class="fa-solid fa-wallet" style="color:#a50064"></i> Thanh to\u00e1n qua V\u00ed MoMo (Sandbox Test)</div>' +
+          '<div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:2rem"><a href="profile.html" class="btn btn-primary" style="border-radius:12px;padding:0.85rem 2rem">View Order</a><a href="shop.html" class="btn btn-outline" style="border-radius:12px;padding:0.85rem 2rem">Continue Shopping</a></div>' +
+          '<div style="margin-top:2rem;display:flex;align-items:center;justify-content:center;gap:0.5rem;font-size:0.8rem;color:var(--text-muted)"><i class="fa-solid fa-wallet" style="color:#a50064"></i> Paid via MoMo Wallet</div>' +
         '</div>' +
       '</div>';
   } else {
@@ -2083,9 +3242,9 @@ function initMoMoReturnPage() {
       '<div class="success-view">' +
         '<div class="success-card animate-fade-in-up">' +
           '<div class="success-icon" style="background-color:#fef2f2"><i class="fa-solid fa-xmark" style="font-size:2.5rem;color:#ef4444"></i></div>' +
-          '<h2 style="font-family:var(--font-serif);font-size:2rem;color:#ef4444;margin-bottom:0.75rem">Thanh To\u00e1n Th\u1ea5t B\u1ea1i</h2>' +
-          '<p style="color:var(--text-muted);margin-bottom:2rem">' + (message || 'Giao d\u1ecbch kh\u00f4ng th\u00e0nh c\u00f4ng. Vui l\u00f2ng th\u1eed l\u1ea1i.') + '</p>' +
-          '<div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap"><a href="checkout.html" class="btn btn-primary" style="border-radius:12px;padding:0.85rem 2rem">Th\u1eed L\u1ea1i</a><a href="shop.html" class="btn btn-outline" style="border-radius:12px;padding:0.85rem 2rem">Quay L\u1ea1i</a></div>' +
+          '<h2 style="font-family:var(--font-serif);font-size:2rem;color:#ef4444;margin-bottom:0.75rem">Payment Failed</h2>' +
+          '<p style="color:var(--text-muted);margin-bottom:2rem">' + (message || 'Transaction unsuccessful. Please try again.') + '</p>' +
+          '<div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap"><a href="checkout.html" class="btn btn-primary" style="border-radius:12px;padding:0.85rem 2rem">Try Again</a><a href="shop.html" class="btn btn-outline" style="border-radius:12px;padding:0.85rem 2rem">Go Back</a></div>' +
         '</div>' +
       '</div>';
   }
@@ -2153,13 +3312,13 @@ function renderSecondhandContainer() {
   var headerBadge = '';
 
   if (user && user.role === 'Seller') {
-    headerBadge = '<span class="badge badge-primary" style="margin-bottom:1rem"><i class="fa-solid fa-scissors"></i> Nguồn nguyên liệu thô</span>';
-    headerTitle = 'Chợ Đồ Cũ Cho Designer';
-    headerDesc = 'Nơi các Nhà thiết kế (Designer) tìm kiếm và thu mua lại các sản phẩm quần áo cũ từ cộng đồng để làm nguyên liệu tái chế, thiết kế Upcycle.';
+    headerBadge = '<span class="badge badge-primary" style="margin-bottom:1rem"><i class="fa-solid fa-scissors"></i> Raw Material Source</span>';
+    headerTitle = 'Secondhand Marketplace for Designers';
+    headerDesc = 'Where Designers source and purchase secondhand clothing from the community as recycled material for Upcycle designs.';
   } else {
-    headerBadge = '<span class="badge badge-accent" style="margin-bottom:1rem"><i class="fa-solid fa-bullhorn"></i> Thanh lý & Ký gửi</span>';
-    headerTitle = 'Ký Gửi & Thanh Lý Đồ Cũ';
-    headerDesc = 'Đăng bán thanh lý quần áo cũ của bạn làm nguyên liệu cho các Designer của ReFashion thu mua thiết kế lại, giúp giảm thiểu rác thải thời trang.';
+    headerBadge = '<span class="badge badge-accent" style="margin-bottom:1rem"><i class="fa-solid fa-bullhorn"></i> Consign & Sell</span>';
+    headerTitle = 'Consign & Sell Used Items';
+    headerDesc = 'List your used clothing for sale as material for ReFashion Designers to repurpose, helping reduce fashion waste.';
   }
 
   container.innerHTML =
@@ -2227,12 +3386,12 @@ function renderSecondhandFeed(container) {
 
   // Categories list
   var categories = [
-    { id: 'all', name: 'Tất Cả' },
-    { id: 'shirt', name: 'Áo Thun/Sơ Mi' },
-    { id: 'pants', name: 'Quần Jeans/Kaki' },
-    { id: 'jacket', name: 'Áo Khoác' },
-    { id: 'dress', name: 'Váy/Đầm' },
-    { id: 'others', name: 'Khác' }
+    { id: 'all', name: 'All' },
+    { id: 'shirt', name: 'T-Shirts/Shirts' },
+    { id: 'pants', name: 'Jeans/Khakis' },
+    { id: 'jacket', name: 'Jackets' },
+    { id: 'dress', name: 'Dresses' },
+    { id: 'others', name: 'Others' }
   ];
 
   var filterHtml = categories.map(function(c) {
@@ -2245,21 +3404,21 @@ function renderSecondhandFeed(container) {
     feedGridHtml =
       '<div class="not-found" style="grid-column:1/-1">' +
         '<i class="fa-solid fa-box-open" style="font-size:3rem;color:var(--text-muted);margin-bottom:1.5rem"></i>' +
-        '<h3 style="font-size:1.25rem;font-weight:700;margin-bottom:0.5rem">Chưa có sản phẩm nào</h3>' +
-        '<p style="color:var(--text-muted);font-size:0.95rem">Không tìm thấy đồ secondhand nào phù hợp với bộ lọc hiện tại.</p>' +
+        '<h3 style="font-size:1.25rem;font-weight:700;margin-bottom:0.5rem">No items yet</h3>' +
+        '<p style="color:var(--text-muted);font-size:0.95rem">No secondhand items match your current filters.</p>' +
       '</div>';
   } else {
     for (var i = 0; i < filtered.length; i++) {
       var item = filtered[i];
-      var priceText = item.price === 0 ? 'Tặng Miễn Phí (0đ)' : item.price.toLocaleString('vi-VN') + ' đ';
-      var conditionText = item.condition === 'new' ? 'Còn rất mới' : item.condition === 'good' ? 'Còn tốt' : 'Hơi cũ';
+      var priceText = item.price === 0 ? 'Free (0đ)' : item.price.toLocaleString('vi-VN') + ' đ';
+      var conditionText = item.condition === 'new' ? 'Like New' : item.condition === 'good' ? 'Good' : 'Gently Used';
       var condColor = item.condition === 'new' ? 'var(--primary)' : 'var(--accent)';
       
       feedGridHtml +=
         '<div class="secondhand-card">' +
           '<div class="secondhand-card-img">' +
             '<span class="designer-badge-tag"><i class="fa-solid fa-scissors"></i> Upcycling Raw</span>' +
-            '<img src="' + item.image + '" alt="' + item.name + '" />' +
+            '<img src="' + item.image + '" alt="' + item.name + '" onerror="this.onerror=null;this.src=\'../images/sh_denim_shirt.png\'" />' +
           '</div>' +
           '<div class="secondhand-card-body">' +
             '<h3 class="secondhand-card-title">' + item.name + '</h3>' +
@@ -2272,7 +3431,7 @@ function renderSecondhandFeed(container) {
               '<i class="fa-solid fa-location-dot" style="color:var(--accent)"></i> <span>' + item.location + '</span>' +
             '</div>' +
             '<div class="secondhand-card-footer">' +
-              '<a href="tel:' + item.phone + '" class="btn btn-outline" style="flex:1;border-radius:10px;padding:0.5rem;font-size:0.8rem;text-align:center"><i class="fa-solid fa-phone"></i> Gọi Điện</a>' +
+              '<a href="tel:' + item.phone + '" class="btn btn-outline" style="flex:1;border-radius:10px;padding:0.5rem;font-size:0.8rem;text-align:center"><i class="fa-solid fa-phone"></i> Call</a>' +
               '<a href="https://zalo.me/' + item.phone.replace(/\s+/g, '') + '" target="_blank" class="btn btn-primary" style="flex:1;border-radius:10px;padding:0.5rem;font-size:0.8rem;text-align:center;background-color:#0068ff"><i class="fa-solid fa-comment-dots"></i> Chat Zalo</a>' +
             '</div>' +
           '</div>' +
@@ -2286,7 +3445,7 @@ function renderSecondhandFeed(container) {
         '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem">' +
           '<div style="display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center">' + filterHtml + '</div>' +
           '<div style="position:relative;display:flex;align-items:center;width:240px">' +
-            '<input type="text" placeholder="Tìm tên đồ cũ..." value="' + secondhandState.searchQuery + '" style="padding:0.5rem 1rem 0.5rem 2.25rem;border-radius:30px;border:1px solid var(--border);background-color:var(--card);color:var(--foreground);font-size:0.85rem;width:100%" id="secondhand-search" />' +
+            '<input type="text" placeholder="Search items..." value="' + secondhandState.searchQuery + '" style="padding:0.5rem 1rem 0.5rem 2.25rem;border-radius:30px;border:1px solid var(--border);background-color:var(--card);color:var(--foreground);font-size:0.85rem;width:100%" id="secondhand-search" />' +
             '<i class="fa-solid fa-magnifying-glass" style="position:absolute;left:0.85rem;color:var(--text-muted);font-size:0.85rem"></i>' +
           '</div>' +
         '</div>' +
@@ -2296,9 +3455,9 @@ function renderSecondhandFeed(container) {
       '<div>' +
         '<div class="donation-pitch-card">' +
           '<div style="width:60px;height:60px;border-radius:50%;background-color:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem"><i class="fa-solid fa-hand-holding-heart" style="font-size:1.8rem"></i></div>' +
-          '<h3>Quyên Góp Từ Thiện</h3>' +
-          '<p>Nếu bạn không muốn bán mà chỉ muốn quyên góp quần áo cũ một cách nhanh chóng, hãy gửi chúng đến ReFashion. Chúng tôi sẽ giặt ủi sạch sẽ và chuyển cho các hội đồng sinh thái hoặc Designer để tích thêm GreenCoin đổi voucher quà tặng nhé!</p>' +
-          '<a href="community.html" class="btn btn-accent" style="width:100%;background-color:white;color:var(--primary);font-weight:700;border-radius:12px;display:block;text-align:center"><i class="fa-solid fa-heart"></i> Tới trang quyên góp</a>' +
+          '<h3>Charity Donation</h3>' +
+          '<p>If you don\'t want to sell but simply donate used clothes quickly, send them to ReFashion. We\'ll clean them and pass them to ecological organizations or Designers, earning you GreenCoin for gift vouchers!</p>' +
+          '<a href="community.html" class="btn btn-accent" style="width:100%;background-color:white;color:var(--primary);font-weight:700;border-radius:12px;display:block;text-align:center"><i class="fa-solid fa-heart"></i> Go to Donation Page</a>' +
         '</div>' +
       '</div>' +
     '</div>';
@@ -2326,9 +3485,9 @@ function renderSecondhandPostManager(container) {
     container.innerHTML =
       '<div class="not-found" style="padding:5rem 2rem">' +
         '<i class="fa-solid fa-lock" style="font-size:3rem;color:var(--text-muted);margin-bottom:1.5rem"></i>' +
-        '<h3 style="font-size:1.25rem;font-weight:700;margin-bottom:0.5rem">Vui lòng đăng nhập</h3>' +
-        '<p style="color:var(--text-muted);font-size:0.95rem;margin-bottom:1.5rem">Bạn cần đăng nhập bằng tài khoản Buyer để đăng thanh lý đồ secondhand hoặc quản lý tin đăng của mình.</p>' +
-        '<a href="../auth/login.html?redirect=secondhand.html" class="btn btn-primary" style="border-radius:12px">Đăng Nhập Ngay</a>' +
+        '<h3 style="font-size:1.25rem;font-weight:700;margin-bottom:0.5rem">Please login</h3>' +
+        '<p style="color:var(--text-muted);font-size:0.95rem;margin-bottom:1.5rem">You need to login with a Buyer account to list secondhand items or manage your listings.</p>' +
+        '<a href="../auth/login.html?redirect=secondhand.html" class="btn btn-primary" style="border-radius:12px">Login Now</a>' +
       '</div>';
     return;
   }
@@ -2338,11 +3497,11 @@ function renderSecondhandPostManager(container) {
 
   var myItemsHtml = '';
   if (myItems.length === 0) {
-    myItemsHtml = '<p style="color:var(--text-muted);font-size:0.9rem;text-align:center;padding:2rem 0">Bạn chưa đăng tin thanh lý nào.</p>';
+    myItemsHtml = '<p style="color:var(--text-muted);font-size:0.9rem;text-align:center;padding:2rem 0">You haven\'t posted any listings yet.</p>';
   } else {
     for (var i = 0; i < myItems.length; i++) {
       var item = myItems[i];
-      var priceText = item.price === 0 ? 'Tặng Miễn Phí' : item.price.toLocaleString('vi-VN') + ' đ';
+      var priceText = item.price === 0 ? 'Free' : item.price.toLocaleString('vi-VN') + ' đ';
       myItemsHtml +=
         '<div class="post-manager-item">' +
           '<div class="post-manager-info">' +
@@ -2352,50 +3511,52 @@ function renderSecondhandPostManager(container) {
               '<p style="color:var(--accent);font-weight:700">' + priceText + '</p>' +
             '</div>' +
           '</div>' +
-          '<button onclick="deleteSecondhandItem(\'' + item.id + '\')" class="btn btn-outline" style="border-color:#ef4444;color:#ef4444;padding:0.4rem 0.8rem;border-radius:8px;font-size:0.75rem"><i class="fa-solid fa-trash-can"></i> Xóa tin</button>' +
+          '<button onclick="deleteSecondhandItem(\'' + item.id + '\')" class="btn btn-outline" style="border-color:#ef4444;color:#ef4444;padding:0.4rem 0.8rem;border-radius:8px;font-size:0.75rem"><i class="fa-solid fa-trash-can"></i> Delete</button>' +
         '</div>';
     }
   }
 
   container.innerHTML =
     '<div class="secondhand-post-section">' +
-      '<div class="donation-form">' +
-        '<h3 style="font-family:var(--font-serif);font-size:1.5rem;color:var(--primary);margin-bottom:0.5rem">Đăng Tin Thanh Lý Đồ Cũ</h3>' +
-        '<p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1.5rem">Cung cấp thông tin chi tiết về món đồ cũ của bạn để các Designer có nhu cầu upcycle tìm mua.</p>' +
+      '<div style="background:var(--card);border:1px solid var(--border);border-radius:24px;padding:2.5rem;box-shadow:0 8px 30px var(--shadow);">' +
+      '<div class="donation-form" style="background:transparent;border:none;padding:0;box-shadow:none;">' +
+        '<h3 style="font-family:var(--font-serif);font-size:1.5rem;color:var(--primary);margin-bottom:0.5rem">Post Used Item Listing</h3>' +
+        '<p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1.5rem">Provide details about your used item so Designers seeking upcycle materials can find and purchase it.</p>' +
         
         '<form id="secondhand-post-form">' +
-          '<div class="form-group"><label>Tên món đồ *</label><input type="text" id="sh-post-name" placeholder="VD: Quần bò jean cũ rách nhẹ gối..." required /></div>' +
+          '<div class="form-group"><label>Item Name *</label><input type="text" id="sh-post-name" placeholder="E.g.: Old jeans with slightly torn knees..." required /></div>' +
           
           '<div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">' +
-            '<div class="form-group"><label>Danh mục *</label><select id="sh-post-category"><option value="shirt">Áo Thun/Sơ Mi</option><option value="pants">Quần Jeans/Kaki</option><option value="jacket">Áo Khoác</option><option value="dress">Váy/Đầm</option><option value="others">Khác</option></select></div>' +
-            '<div class="form-group"><label>Tình trạng đồ *</label><select id="sh-post-condition"><option value="new">Còn rất mới</option><option value="good">Còn tốt</option><option value="reusable">Hơi cũ (Vẫn may vá tốt)</option></select></div>' +
+            '<div class="form-group"><label>Category *</label><select id="sh-post-category"><option value="shirt">T-Shirts/Shirts</option><option value="pants">Jeans/Khakis</option><option value="jacket">Jackets</option><option value="dress">Dresses</option><option value="others">Others</option></select></div>' +
+            '<div class="form-group"><label>Condition *</label><select id="sh-post-condition"><option value="new">Like New</option><option value="good">Good</option><option value="reusable">Gently Used (Still wearable)</option></select></div>' +
           '</div>' +
           
-          '<div class="form-group"><label>Giá bán (đ) - Nhập 0 để Tặng Miễn Phí *</label><input type="number" id="sh-post-price" min="0" placeholder="VD: 50000" required /></div>' +
-          '<div class="form-group"><label>Khu vực lấy đồ *</label><input type="text" id="sh-post-location" placeholder="VD: Quận 1, TP. Hồ Chí Minh" required /></div>' +
-          '<div class="form-group"><label>Số điện thoại liên hệ (SĐT / Zalo) *</label><input type="tel" id="sh-post-phone" placeholder="VD: 0901234567" required /></div>' +
+          '<div class="form-group"><label>Price (VND) - Enter 0 for Free *</label><input type="number" id="sh-post-price" min="0" placeholder="E.g.: 50000" required /></div>' +
+          '<div class="form-group"><label>Pickup Location *</label><input type="text" id="sh-post-location" placeholder="E.g.: District 1, Ho Chi Minh City" required /></div>' +
+          '<div class="form-group"><label>Contact Phone (Zalo) *</label><input type="tel" id="sh-post-phone" placeholder="E.g.: 0901234567" required /></div>' +
           
           '<div class="form-group">' +
-            '<label>Hình ảnh món đồ</label>' +
+            '<label>Item Image</label>' +
             '<input type="file" id="sh-post-file" accept="image/*" style="display:none" />' +
             '<div class="image-upload-preview" id="sh-post-image-placeholder" onclick="document.getElementById(\'sh-post-file\').click()">' +
               '<i class="fa-solid fa-cloud-arrow-up" style="font-size:1.8rem;color:var(--primary);margin-bottom:0.5rem"></i>' +
-              '<span style="font-size:0.8rem;color:var(--text-muted)">Nhấp để tải lên ảnh thực tế</span>' +
+              '<span style="font-size:0.8rem;color:var(--text-muted)">Click to upload actual photo</span>' +
             '</div>' +
             '<div class="image-upload-preview" id="sh-post-image-preview-wrap" style="display:none" onclick="document.getElementById(\'sh-post-file\').click()">' +
               '<img src="" id="sh-post-image-preview-img" style="max-height: 150px; width: auto; object-fit: contain;" />' +
-              '<span style="font-size:0.75rem;color:var(--primary);font-weight:700;margin-top:0.5rem">Nhấp để thay đổi ảnh</span>' +
+              '<span style="font-size:0.75rem;color:var(--primary);font-weight:700;margin-top:0.5rem">Click to change photo</span>' +
             '</div>' +
           '</div>' +
           
-          '<div class="form-group"><label>Mô tả chi tiết *</label><textarea id="sh-post-description" rows="3" placeholder="Ghi rõ chất liệu, kích cỡ, lỗi rách (nếu có) để designer dễ hình dung..." required></textarea></div>' +
+          '<div class="form-group"><label>Detailed Description *</label><textarea id="sh-post-description" rows="3" placeholder="Specify material, size, defects (if any) so designers can easily visualize..." required></textarea></div>' +
           
-          '<button type="submit" class="btn btn-primary" style="width:100%;border-radius:10px;margin-top:1rem"><i class="fa-solid fa-bullhorn"></i> Đăng Bán Ngay</button>' +
+          '<button type="submit" class="btn btn-primary" style="width:100%;border-radius:10px;margin-top:1rem"><i class="fa-solid fa-bullhorn"></i> List Now</button>' +
         '</form>' +
+      '</div>' +
       '</div>' +
 
       '<div class="post-manager-section">' +
-        '<h3>Tin Đăng Của Bạn</h3>' +
+        '<h3>Your Listings</h3>' +
         '<div class="post-manager-list">' + myItemsHtml + '</div>' +
       '</div>' +
     '</div>';
@@ -2464,7 +3625,7 @@ function renderSecondhandPostManager(container) {
       currentItems.unshift(newItem);
       saveSecondhandItems(currentItems);
 
-      showToast('🎉 Đăng bán đồ secondhand thành công!');
+      showToast('🎉 Secondhand item listed successfully!');
       secondhandState.activeTab = 'feed';
       renderSecondhandContainer();
     });
@@ -2475,7 +3636,7 @@ function deleteSecondhandItem(id) {
   var items = getSecondhandItems();
   var updated = items.filter(function(i) { return i.id !== id; });
   saveSecondhandItems(updated);
-  showToast('🗑️ Đã xóa tin đăng.');
+  showToast('🗑️ Listing deleted.');
   renderSecondhandTabContent();
 }
 
@@ -2494,7 +3655,7 @@ function initTrackingPage() {
   var params = new URLSearchParams(window.location.search);
   var orderId = params.get('order');
   if (!orderId) {
-    document.getElementById('tracking-content').innerHTML = '<div style="text-align:center;padding:4rem"><h3>Không tìm thấy đơn hàng</h3><a href="/buyer/profile.html" class="btn btn-primary" style="border-radius:12px">Quay lại Hồ Sơ</a></div>';
+    document.getElementById('tracking-content').innerHTML = '<div style="text-align:center;padding:4rem"><h3>Order not found</h3><a href="/buyer/profile.html" class="btn btn-primary" style="border-radius:12px">Back to Profile</a></div>';
     return;
   }
   renderOrderTracking(orderId);
@@ -2509,69 +3670,120 @@ function renderOrderTracking(orderId) {
     if (orders[i].id === orderId) { order = orders[i]; break; }
   }
   if (!order) {
-    container.innerHTML = '<div style="text-align:center;padding:4rem"><h3>Không tìm thấy đơn hàng</h3><a href="/buyer/profile.html" class="btn btn-primary" style="border-radius:12px">Quay lại Hồ Sơ</a></div>';
+    container.innerHTML = '<div style="text-align:center;padding:4rem"><h3>Order not found</h3><a href="/buyer/profile.html" class="btn btn-primary" style="border-radius:12px">Back to Profile</a></div>';
     return;
   }
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', '/datasets/tracking.json', true);
-  xhr.onload = function() {
-    var trackingData = null;
-    if (xhr.status === 200) {
-      var allTracking = JSON.parse(xhr.responseText);
-      trackingData = allTracking[orderId] || null;
-    }
-    renderTrackingUI(container, order, trackingData);
-  };
-  xhr.onerror = function() { renderTrackingUI(container, order, null); };
-  xhr.send();
+
+  // Show loading skeleton simulating API call
+  container.innerHTML =
+    '<div class="tracking-container" style="margin-top:2rem">' +
+      '<div class="tracking-skeleton">' +
+        '<div class="sk-title"></div>' +
+        '<div class="sk-row"><div class="sk-box" style="width:60%"></div><div class="sk-box" style="width:20%"></div></div>' +
+        '<div class="sk-row"><div class="sk-box" style="width:45%"></div><div class="sk-box" style="width:30%"></div></div>' +
+        '<div class="sk-row sk-map"></div>' +
+        '<div class="sk-row"><div class="sk-box" style="width:70%"></div><div class="sk-box" style="width:15%"></div></div>' +
+        '<div class="sk-row" style="gap:0.5rem;flex-direction:column">' +
+          '<div class="sk-box" style="width:90%;height:16px"></div>' +
+          '<div class="sk-box" style="width:60%;height:16px"></div>' +
+          '<div class="sk-box" style="width:75%;height:16px"></div>' +
+        '</div>' +
+        '<div style="text-align:center;margin-top:1rem;font-size:0.8rem;color:var(--text-muted)"><i class="fa-solid fa-spinner fa-spin"></i> Fetching tracking data...</div>' +
+      '</div>' +
+    '</div>';
+
+  // Simulate API call delay
+  setTimeout(function() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/datasets/tracking.json', true);
+    xhr.onload = function() {
+      var trackingData = null;
+      if (xhr.status === 200) {
+        var allTracking = JSON.parse(xhr.responseText);
+        trackingData = allTracking[orderId] || null;
+      }
+      renderTrackingUI(container, order, trackingData);
+    };
+    xhr.onerror = function() { renderTrackingUI(container, order, null); };
+    xhr.send();
+  }, 1200);
 }
 
 function renderTrackingUI(container, order, trackingData) {
   var statusMap = {
-    pending: { label: 'Ch\u1edd X\u00e1c Nh\u1eadn', icon: 'fa-clipboard-list', color: 'var(--sentiment-neu)' },
-    confirmed: { label: '\u0110\u00e3 X\u00e1c Nh\u1eadn', icon: 'fa-check-circle', color: 'var(--primary)' },
-    packed: { label: '\u0110\u00e3 \u0110\u00f3ng G\u00f3i', icon: 'fa-box', color: 'var(--primary)' },
-    shipping: { label: '\u0110ang Giao', icon: 'fa-truck', color: 'var(--accent)' },
-    completed: { label: '\u0110\u00e3 Giao', icon: 'fa-circle-check', color: 'var(--sentiment-pos)' },
-    cancelled: { label: '\u0110\u00e3 H\u1ee7y', icon: 'fa-circle-xmark', color: 'var(--danger)' }
+    pending: { label: 'Pending Confirmation', icon: 'fa-clipboard-list', color: 'var(--sentiment-neu)' },
+    confirmed: { label: 'Confirmed', icon: 'fa-check-circle', color: 'var(--primary)' },
+    packed: { label: 'Packed', icon: 'fa-box', color: 'var(--primary)' },
+    shipping: { label: 'Shipping', icon: 'fa-truck-fast', color: 'var(--accent)' },
+    completed: { label: 'Delivered', icon: 'fa-circle-check', color: 'var(--sentiment-pos)' },
+    cancelled: { label: 'Cancelled', icon: 'fa-circle-xmark', color: 'var(--danger)' }
   };
   var currentStatus = order.status;
   var isCancelled = currentStatus === 'cancelled';
   var defaultSteps = [
-    { status: 'pending', label: 'Ch\u1edd X\u00e1c Nh\u1eadn', time: order.date + ' 00:00', completed: true },
-    { status: 'confirmed', label: '\u0110\u00e3 X\u00e1c Nh\u1eadn', time: null, completed: false },
-    { status: 'packed', label: '\u0110\u00e3 \u0110\u00f3ng G\u00f3i', time: null, completed: false },
-    { status: 'shipping', label: '\u0110ang Giao', time: null, completed: false },
-    { status: 'completed', label: '\u0110\u00e3 Giao', time: null, completed: false }
+    { status: 'pending', label: 'Pending Confirmation', time: order.date + ' 00:00', completed: true, detail: '' },
+    { status: 'confirmed', label: 'Confirmed', time: null, completed: false, detail: '' },
+    { status: 'packed', label: 'Packed', time: null, completed: false, detail: '' },
+    { status: 'shipping', label: 'Shipping', time: null, completed: false, detail: '' },
+    { status: 'completed', label: 'Delivered', time: null, completed: false, detail: '' }
   ];
   var steps = trackingData ? trackingData.steps : defaultSteps;
   var route = trackingData ? trackingData.route : [];
-  var courier = trackingData ? trackingData.courier : '\u0110ang ch\u1edd x\u1eed l\u00fd';
-  var estimatedDelivery = trackingData ? trackingData.estimatedDelivery : '\u0110ang c\u1eadp nh\u1eadt';
+  var courier = trackingData ? trackingData.courier : 'Awaiting processing';
+  var estimatedDelivery = trackingData ? trackingData.estimatedDelivery : 'Updating';
   var currentStepIdx = trackingData ? trackingData.currentStep : 0;
+  var driver = trackingData ? trackingData.driver : null;
+  var currentLocation = trackingData ? trackingData.currentLocation : null;
+  var progressPercent = trackingData ? trackingData.progressPercent : (currentStepIdx >= 0 ? Math.round((currentStepIdx) / 4 * 100) : 0);
+  var cancelledReason = trackingData ? trackingData.cancelledReason : null;
   if (isCancelled) currentStepIdx = -1;
+
+  // Products HTML
   var itemsHtml = '';
   for (var i = 0; i < order.items.length; i++) {
     var item = order.items[i];
     itemsHtml +=
       '<div class="tracking-item-row">' +
-        '<img src="' + item.image + '" alt="' + item.name + '" />' +
+        '<img src="' + item.image + '" alt="' + item.name + '" onerror="this.onerror=null;this.src=\'../images/sh_denim_shirt.png\'" />' +
         '<div><p class="tracking-item-name">' + item.name + '</p><p class="tracking-item-meta">' + (item.variant || '') + ' x' + item.quantity + '</p></div>' +
         '<span class="tracking-item-price">' + item.priceStr + '</span>' +
       '</div>';
   }
+
+  // Timeline with micro-steps support
   var stepsHtml = '';
   for (var i = 0; i < steps.length; i++) {
     var s = steps[i];
     var isActive = i <= currentStepIdx;
     var isCurrent = i === currentStepIdx;
     var stepIcon = statusMap[s.status] ? statusMap[s.status].icon : 'fa-circle';
+    var microStepsHtml = '';
+    if (s.microSteps && (isActive || isCurrent)) {
+      microStepsHtml += '<div class="tracking-micro-steps">';
+      for (var m = 0; m < s.microSteps.length; m++) {
+        var ms = s.microSteps[m];
+        var msActive = ms.completed;
+        var msCurrent = m === s.microSteps.length - 1 && isCurrent && !ms.completed;
+        microStepsHtml +=
+          '<div class="tracking-micro-step' + (msActive ? ' completed' : '') + (msCurrent ? ' current' : '') + '">' +
+            '<div class="micro-step-dot"><i class="fa-solid ' + (msActive ? 'fa-check' : (msCurrent ? 'fa-truck' : 'fa-circle')) + '"></i></div>' +
+            '<div class="micro-step-body">' +
+              '<p class="micro-step-label">' + ms.label + '</p>' +
+              '<span class="micro-step-time">' + (ms.time || '\u2014') + '</span>' +
+              (ms.location ? '<span class="micro-step-location"><i class="fa-solid fa-location-dot"></i> ' + ms.location + '</span>' : '') +
+            '</div>' +
+          '</div>';
+      }
+      microStepsHtml += '</div>';
+    }
     stepsHtml +=
       '<div class="tracking-step' + (isActive ? ' active' : '') + (isCurrent ? ' current' : '') + '">' +
         '<div class="tracking-step-dot"><i class="fa-solid ' + stepIcon + '"></i></div>' +
         '<div class="tracking-step-body">' +
           '<p class="tracking-step-label">' + s.label + '</p>' +
           '<p class="tracking-step-time">' + (isActive && s.time ? s.time : '\u2014') + '</p>' +
+          (isActive && s.detail ? '<p class="tracking-step-detail">' + s.detail + '</p>' : '') +
+          microStepsHtml +
         '</div>' +
       '</div>';
   }
@@ -2580,57 +3792,106 @@ function renderTrackingUI(container, order, trackingData) {
       '<div class="tracking-step active cancelled">' +
         '<div class="tracking-step-dot"><i class="fa-solid fa-circle-xmark"></i></div>' +
         '<div class="tracking-step-body">' +
-          '<p class="tracking-step-label">\u0110\u00e3 H\u1ee7y</p>' +
+          '<p class="tracking-step-label">Cancelled</p>' +
           '<p class="tracking-step-time">' + order.date + '</p>' +
+          (cancelledReason ? '<p class="tracking-step-detail" style="color:var(--danger)">Reason: ' + cancelledReason + '</p>' : '') +
         '</div>' +
       '</div>';
   }
+
+  // Progress bar (for active orders)
+  var progressHtml = '';
+  if (!isCancelled && currentStepIdx >= 0 && currentStepIdx < 4) {
+    progressHtml =
+      '<div class="tracking-card">' +
+        '<h4 style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem"><span><i class="fa-solid fa-gauge-high" style="margin-right:0.5rem;color:var(--accent)"></i> Delivery Progress</span><span class="tracking-live-badge"><span class="live-dot"></span> Live</span></h4>' +
+        '<div class="tracking-progress-bar"><div class="tracking-progress-fill" style="width:' + progressPercent + '%"></div></div>' +
+        '<div style="display:flex;justify-content:space-between;font-size:0.75rem;color:var(--text-muted);margin-top:0.4rem">' +
+          '<span>Warehouse</span>' +
+          '<span>' + progressPercent + '% complete</span>' +
+          '<span>Destination</span>' +
+        '</div>' +
+      '</div>';
+  }
+
+  // Courier driver card (for shipping orders)
+  var driverHtml = '';
+  if (driver && currentStepIdx >= 2) {
+    driverHtml =
+      '<div class="tracking-card tracking-driver-card">' +
+        '<h4><i class="fa-solid fa-user" style="margin-right:0.5rem;color:var(--accent)"></i> Your Delivery Driver</h4>' +
+        '<div class="driver-info">' +
+          '<div class="driver-avatar"><i class="fa-solid fa-user"></i></div>' +
+          '<div class="driver-details">' +
+            '<p class="driver-name">' + driver.name + '</p>' +
+            '<p class="driver-meta"><i class="fa-solid fa-phone"></i> ' + driver.phone + '</p>' +
+            '<p class="driver-meta"><i class="fa-solid fa-truck"></i> ' + driver.plate + '</p>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+  }
+
+  // Current location card
+  var locationHtml = '';
+  if (currentLocation && currentStepIdx >= 2 && currentStepIdx < 4) {
+    locationHtml =
+      '<div class="tracking-card">' +
+        '<h4><i class="fa-solid fa-location-dot" style="margin-right:0.5rem;color:var(--accent)"></i> Current Location</h4>' +
+        '<p class="current-location-label">' + currentLocation.label + '</p>' +
+        '<p class="current-location-time"><i class="fa-solid fa-clock"></i> Last updated: ' + currentLocation.lastUpdated + '</p>' +
+      '</div>';
+  }
+
   var mapId = 'tracking-map-' + Date.now();
+  var showMap = route.length > 1 && currentStepIdx >= 2;
   container.innerHTML =
     '<div class="tracking-container">' +
-      '<a href="/buyer/profile.html" class="tracking-back"><i class="fa-solid fa-arrow-left"></i> Quay l\u1ea1i H\u1ed3 S\u01a1</a>' +
+      '<a href="/buyer/profile.html" class="tracking-back"><i class="fa-solid fa-arrow-left"></i> Back to Profile</a>' +
       '<div class="tracking-header">' +
         '<div>' +
-          '<span class="tracking-badge">' + (isCancelled ? '\u0110\u00e3 H\u1ee7y' : (statusMap[currentStatus] ? statusMap[currentStatus].label : currentStatus)) + '</span>' +
-          '<h1>Theo D\u00f5i \u0110\u01a1n H\u00e0ng</h1>' +
-          '<p class="tracking-id">M\u00e3 \u0111\u01a1n: <strong>' + order.id + '</strong> &middot; \u0110\u1eb7t ng\u00e0y ' + order.date + '</p>' +
+          '<span class="tracking-badge">' + (isCancelled ? 'Cancelled' : (statusMap[currentStatus] ? statusMap[currentStatus].label : currentStatus)) + '</span>' +
+          '<h1>Order Tracking</h1>' +
+          '<p class="tracking-id">Order ID: <strong>' + order.id + '</strong> &middot; Placed on ' + order.date + '</p>' +
         '</div>' +
         '<div class="tracking-total">' + order.totalStr + '</div>' +
       '</div>' +
       '<div class="tracking-body">' +
         '<div class="tracking-main">' +
           '<div class="tracking-card">' +
-            '<h3><i class="fa-solid fa-clock-rotate-left" style="margin-right:0.5rem"></i> L\u1ecbch Tr\u00ecnh \u0110\u01a1n H\u00e0ng</h3>' +
+            '<h3><i class="fa-solid fa-clock-rotate-left" style="margin-right:0.5rem"></i> Order Timeline</h3>' +
             '<div class="tracking-steps">' + stepsHtml + '</div>' +
           '</div>' +
-          (route.length > 1 ? '<div class="tracking-card"><h3><i class="fa-solid fa-map" style="margin-right:0.5rem"></i> L\u1ed9 Tr\u00ecnh V\u1eadn Chuy\u1ec3n</h3><div id="' + mapId + '" class="tracking-map"></div></div>' : '') +
+          (showMap ? '<div class="tracking-card"><h3 style="display:flex;align-items:center;justify-content:space-between"><span><i class="fa-solid fa-map" style="margin-right:0.5rem"></i> Live Map</span><span style="font-size:0.7rem;font-weight:400;color:var(--text-muted);display:flex;align-items:center;gap:0.3rem"><span class="live-dot"></span> Updating every 5s</span></h3><div id="' + mapId + '" class="tracking-map"></div></div>' : '') +
           '<div class="tracking-card">' +
-            '<h3><i class="fa-solid fa-bag-shopping" style="margin-right:0.5rem"></i> S\u1ea3n Ph\u1ea9m trong \u0110\u01a1n</h3>' +
+            '<h3><i class="fa-solid fa-bag-shopping" style="margin-right:0.5rem"></i> Products in Order</h3>' +
             '<div class="tracking-items">' + itemsHtml + '</div>' +
           '</div>' +
         '</div>' +
         '<div class="tracking-sidebar">' +
+          progressHtml +
           '<div class="tracking-card">' +
-            '<h4><i class="fa-solid fa-truck-fast" style="margin-right:0.5rem"></i> Th\u00f4ng Tin Giao H\u00e0ng</h4>' +
-            '<div class="tracking-info-row"><span class="tracking-info-label">\u0110\u01a1n v\u1ecb v\u1eadn chuy\u1ec3n</span><span>' + courier + '</span></div>' +
-            '<div class="tracking-info-row"><span class="tracking-info-label">D\u1ef1 ki\u1ebfn giao</span><span>' + estimatedDelivery + '</span></div>' +
-            '<div class="tracking-info-row"><span class="tracking-info-label">\u0110\u1ecba ch\u1ec9 nh\u1eadn</span><span style="font-size:0.85rem">' + (order.address || '\u0110ang c\u1eadp nh\u1eadt') + '</span></div>' +
-            (order.note ? '<div class="tracking-info-row"><span class="tracking-info-label">Ghi ch\u00fa</span><span>' + order.note + '</span></div>' : '') +
+            '<h4><i class="fa-solid fa-truck-fast" style="margin-right:0.5rem"></i> Shipping Information</h4>' +
+            '<div class="tracking-info-row"><span class="tracking-info-label">Carrier</span><span>' + courier + '</span></div>' +
+            '<div class="tracking-info-row"><span class="tracking-info-label">Est. Delivery</span><span>' + estimatedDelivery + '</span></div>' +
+            '<div class="tracking-info-row"><span class="tracking-info-label">Delivery Address</span><span style="font-size:0.85rem">' + (order.address || 'Updating') + '</span></div>' +
+            (order.note ? '<div class="tracking-info-row"><span class="tracking-info-label">Note</span><span>' + order.note + '</span></div>' : '') +
           '</div>' +
+          driverHtml +
+          locationHtml +
           '<div class="tracking-card">' +
-            '<h4><i class="fa-solid fa-leaf" style="margin-right:0.5rem"></i> T\u00e1c \u0110\u1ed9ng Xanh</h4>' +
+            '<h4><i class="fa-solid fa-leaf" style="margin-right:0.5rem"></i> Green Impact</h4>' +
             '<p class="tracking-greencoin"><i class="fa-solid fa-leaf" style="color:var(--accent)"></i> +' + order.greenCoinEarned + ' GreenCoin</p>' +
-            '<p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.5rem">S\u1ed1 coin n\u00e0y \u0111\u00e3 \u0111\u01b0\u1ee3c c\u1ed9ng v\u00e0o v\u00ed GreenCoin c\u1ee7a b\u1ea1n.</p>' +
+            '<p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.5rem">These coins have been added to your GreenCoin wallet.</p>' +
           '</div>' +
         '</div>' +
       '</div>' +
     '</div>';
-  if (route.length > 1) {
-    setTimeout(function() { initTrackingMap(mapId, route); }, 100);
+  if (showMap) {
+    setTimeout(function() { initTrackingMap(mapId, route, steps, progressPercent, currentStepIdx); }, 200);
   }
 }
 
-function initTrackingMap(mapId, route) {
+function initTrackingMap(mapId, route, steps, progressPercent, currentStepIdx) {
   var mapEl = document.getElementById(mapId);
   if (!mapEl || typeof L === 'undefined') return;
   var bounds = [];
@@ -2645,12 +3906,25 @@ function initTrackingMap(mapId, route) {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     maxZoom: 18
   }).addTo(map);
-  L.polyline(latlngs, { color: '#2a9d8f', weight: 4, opacity: 0.7 }).addTo(map);
+
+  // Route polyline
+  var polyline = L.polyline(latlngs, { color: '#2a9d8f', weight: 4, opacity: 0.7 }).addTo(map);
+
+  // Completed portion of the route (for shipping progress visualization)
+  if (currentStepIdx === 3 && progressPercent > 0 && progressPercent < 100) {
+    var completedCount = Math.max(1, Math.floor(latlngs.length * progressPercent / 100));
+    var completedLatLngs = latlngs.slice(0, completedCount);
+    var lastP = latlngs[completedCount - 1] || latlngs[0];
+    completedLatLngs.push(lastP);
+    L.polyline(completedLatLngs, { color: '#e76f51', weight: 5, opacity: 0.9, dashArray: '8, 6' }).addTo(map);
+  }
+
+  // Markers for each route point
   for (var i = 0; i < route.length; i++) {
     var isStart = i === 0;
     var isEnd = i === route.length - 1;
     var iconColor = isStart ? '#e76f51' : isEnd ? '#2a9d8f' : '#f4a261';
-    var iconSize = isStart || isEnd ? 32 : 28;
+    var iconSize = isStart || isEnd ? 34 : 28;
     var iconFa = isStart ? 'fa-store' : isEnd ? 'fa-location-dot' : 'fa-warehouse';
     var markerHtml = '<div style="background:' + iconColor + ';width:' + iconSize + 'px;height:' + iconSize + 'px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:' + (iconSize * 0.44) + 'px;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,0.3)"><i class="fa-solid ' + iconFa + '"></i></div>';
     var marker = L.marker(latlngs[i], {
@@ -2658,10 +3932,84 @@ function initTrackingMap(mapId, route) {
     }).addTo(map);
     marker.bindPopup('<strong>' + route[i].label + '</strong><br>' + route[i].address);
   }
+
+  // Pulsing destination marker ring
+  var destEl = document.createElement('div');
+  destEl.className = 'tracking-pulse-ring';
+  var destLatLng = latlngs[latlngs.length - 1];
+  L.marker(destLatLng, {
+    icon: L.divIcon({ html: '<div class="pulse-ring"></div>', className: '', iconSize: [50, 50], iconAnchor: [25, 25] }),
+    interactive: false
+  }).addTo(map);
+
+  // Animated vehicle marker (only during shipping step)
+  var vehicleMarker = null;
+  if (currentStepIdx === 3 && progressPercent > 0 && progressPercent < 100) {
+    var vehicleHtml = '<div class="tracking-vehicle"><i class="fa-solid fa-truck-fast"></i></div>';
+    var initialPos = getPositionAlongRoute(latlngs, progressPercent);
+    vehicleMarker = L.marker(initialPos, {
+      icon: L.divIcon({ html: vehicleHtml, className: 'tracking-vehicle-divicon', iconSize: [36, 36], iconAnchor: [18, 18] }),
+      zIndexOffset: 1000
+    }).addTo(map);
+
+    // Start animation - move vehicle along route
+    var currentProgress = progressPercent;
+    var animInterval = setInterval(function() {
+      currentProgress += 0.5;
+      if (currentProgress > 98) {
+        currentProgress = 98;
+        clearInterval(animInterval);
+        return;
+      }
+      var newPos = getPositionAlongRoute(latlngs, currentProgress);
+      vehicleMarker.setLatLng(newPos);
+
+      // Rotate vehicle towards next point
+      var nextIdx = Math.min(Math.floor(currentProgress / 100 * (latlngs.length - 1)) + 1, latlngs.length - 1);
+      var currIdx = Math.max(0, nextIdx - 1);
+      var angle = Math.atan2(
+        latlngs[nextIdx][0] - latlngs[currIdx][0],
+        latlngs[nextIdx][1] - latlngs[currIdx][1]
+      ) * 180 / Math.PI;
+      var vEl = vehicleMarker.getElement();
+      if (vEl) {
+        var iconEl = vEl.querySelector('.tracking-vehicle');
+        if (iconEl) iconEl.style.transform = 'rotate(' + angle + 'deg)';
+      }
+    }, 2000);
+  }
+
+  // Fit bounds
   if (bounds.length > 1) {
     map.fitBounds(bounds, { padding: [50, 50] });
   }
   setTimeout(function() { map.invalidateSize(); }, 200);
+
+  // Helper to interpolate position along route
+  function getPositionAlongRoute(latlngs, pct) {
+    if (pct <= 0) return latlngs[0];
+    if (pct >= 100) return latlngs[latlngs.length - 1];
+    var totalDist = 0;
+    var segDists = [];
+    for (var i = 0; i < latlngs.length - 1; i++) {
+      var d = map.distance(L.latLng(latlngs[i]), L.latLng(latlngs[i + 1]));
+      segDists.push(d);
+      totalDist += d;
+    }
+    var targetDist = totalDist * pct / 100;
+    var accumulated = 0;
+    for (var i = 0; i < segDists.length; i++) {
+      if (accumulated + segDists[i] >= targetDist) {
+        var ratio = (targetDist - accumulated) / segDists[i];
+        return [
+          latlngs[i][0] + (latlngs[i + 1][0] - latlngs[i][0]) * ratio,
+          latlngs[i][1] + (latlngs[i + 1][1] - latlngs[i][1]) * ratio
+        ];
+      }
+      accumulated += segDists[i];
+    }
+    return latlngs[latlngs.length - 1];
+  }
 }
 
 /* ==================== INIT DISPATCH ==================== */
@@ -2689,6 +4037,9 @@ document.addEventListener('DOMContentLoaded', function() {
     case 'shop-detail':
       initDetailPage();
       break;
+    case 'store-detail':
+      initStorePage();
+      break;
     case 'cart':
       initCartPage();
       break;
@@ -2697,6 +4048,9 @@ document.addEventListener('DOMContentLoaded', function() {
       break;
     case 'momo-return':
       initMoMoReturnPage();
+      break;
+    case 'orders':
+      initOrdersPage();
       break;
     case 'profile':
       initProfilePage();
@@ -2717,6 +4071,7 @@ document.addEventListener('DOMContentLoaded', function() {
       initBuyerPage();
       break;
   }
+  initBuyerChatWidget();
 });
 
 /* ==================== Explainable AI (XAI) & Digital Product Passport (DPP) Core Engine ==================== */
@@ -3285,7 +4640,7 @@ function showDppModal(productId) {
   var dppRaw = getDppData(productId);
   if (!dppRaw) return;
 
-  var lang = 'vi'; // Default to vi for FinalWorkWeb
+  var lang = 'en'; // Set to English
   var isEn = lang === 'en';
   var dpp = getLocalizedDpp(dppRaw, lang);
 
@@ -3528,6 +4883,22 @@ function showXaiModal(productId) {
       }
     }
   }
+  // Also try PRODUCTS_DB for static/mapped product IDs
+  if (!product && typeof PRODUCTS_DB !== 'undefined' && PRODUCTS_DB[productId]) {
+    product = PRODUCTS_DB[productId];
+    // Enrich with attributes from SHOP_PRODUCTS for fuller XAI explanation
+    if (typeof SHOP_PRODUCTS !== 'undefined') {
+      for (var ei = 0; ei < SHOP_PRODUCTS.length; ei++) {
+        var sp = SHOP_PRODUCTS[ei];
+        if (sp.store === product.store && (sp.fabric || sp.colorPattern || sp.shape)) {
+          if (!product.fabric) product.fabric = sp.fabric;
+          if (!product.colorPattern) product.colorPattern = sp.colorPattern;
+          if (!product.shape) product.shape = sp.shape;
+          break;
+        }
+      }
+    }
+  }
   if (!product) return;
 
   var overlay = document.createElement('div');
@@ -3562,10 +4933,10 @@ function showXaiModal(productId) {
       '<button onclick="closeXaiModal()" style="position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 1.25rem; cursor: pointer; color: var(--text-muted); hover: color: var(--text-dark);"><i class="fa-solid fa-xmark"></i></button>' +
       '<div style="display:flex; align-items:center; gap:8px; margin-bottom: 16px;">' +
         '<i class="fa-solid fa-wand-magic-sparkles" style="font-size: 1.4rem; color: var(--primary);"></i>' +
-        '<h3 style="margin:0; font-family:\'Outfit\', sans-serif; font-weight:600; color:var(--primary); font-size:1.15rem;">Stylist AI giải thích</h3>' +
+        '<h3 style="margin:0; font-family:\'Outfit\', sans-serif; font-weight:600; color:var(--primary); font-size:1.15rem;">Stylist AI Explains</h3>' +
       '</div>' +
       '<div id="xai-modal-loading" style="font-size:0.85rem; color:var(--text-muted); text-align:center; padding: 20px 0;">' +
-        '<i class="fa-solid fa-circle-notch fa-spin" style="margin-right:6px;"></i> Đang phân tích đóng góp đặc tính Shapley...' +
+        '<i class="fa-solid fa-circle-notch fa-spin" style="margin-right:6px;"></i> Analyzing Shapley feature contributions...' +
       '</div>' +
       '<div id="xai-modal-content" style="display:none;"></div>' +
     '</div>';
@@ -3630,17 +5001,17 @@ function getXaiExplanation(p) {
   var store = p.store || "";
   
   if (name.indexOf("Áo Khoác") !== -1 || name.indexOf("Jacket") !== -1) {
-    return "Sản phẩm được gợi ý vì đây là chiếc áo khoác gió tuần hoàn tiêu biểu từ " + store + ", giúp tiết kiệm năng lượng và giảm thiểu carbon đáng kể. Nó bổ sung hoàn hảo cho bộ trang phục ngoài trời của bạn, đồng thời nâng đỡ lối sống bền vững.";
+    return "This product is recommended because it\u2019s a signature circular wind jacket from " + store + ", saving significant energy and reducing carbon emissions. It perfectly complements your outdoor wardrobe while supporting a sustainable lifestyle.";
   } else if (name.indexOf("Balo") !== -1 || name.indexOf("Túi") !== -1) {
-    return "Chúng tôi gợi ý balo này dựa trên khả năng lưu trữ tối ưu của nó cho các hoạt động thể thao dã ngoại. Chế tác từ bạt và dù cũ siêu bền bỉ, balo là biểu trưng của thiết kế thông minh kéo dài vòng đời vật liệu.";
+    return "We recommend this backpack based on its optimal storage capacity for outdoor activities. Crafted from ultra-durable old tarps and parachute fabric, it represents smart design that extends material lifespan.";
   } else if (name.indexOf("Áo Thun") !== -1 || name.indexOf("T-shirt") !== -1) {
-    return "Áo thun cotton unisex được đề xuất vì tính đa dụng cực cao trong tủ đồ tối giản. Với 100% sợi dệt tự nhiên tái sinh và cúc vỏ dừa mộc mạc, sản phẩm mang lại sự mát mẻ tự nhiên và an lành cho làn da.";
+    return "This unisex cotton T-shirt is recommended for its high versatility in a minimalist wardrobe. With 100% regenerated natural fibers and rustic coconut shell buttons, it delivers natural coolness and skin-friendly comfort.";
   } else if (name.indexOf("Quần") !== -1 || name.indexOf("Pants") !== -1) {
-    return "Được gợi ý nhờ thiết kế form đứng kaki cổ điển dễ phối hợp. Quy trình tái chế chất lượng cao từ quần cũ không chỉ gìn giữ chất liệu thô mộc đặc trưng mà còn giảm thiểu lượng rác thải dệt may xả ra môi trường.";
+    return "Recommended for its classic straight-cut khaki design that\u2019s easy to style. The high-quality recycling process from old pants preserves the characteristic raw texture while minimizing textile waste released into the environment.";
   } else if (name.indexOf("Giày") !== -1 || name.indexOf("Shoes") !== -1 || name.indexOf("Dép") !== -1) {
-    return "Đôi giày/sandal thân thiện này sử dụng cao su tái chế và sợi dứa Piñatex bền chắc. Phù hợp cho những ai yêu thích dịch chuyển nhẹ nhàng, êm chân và ủng hộ nền kinh tế tuần hoàn, bảo vệ môi trường.";
+    return "These eco-friendly shoes/sandals use recycled rubber and durable Pi\u00f1atex pineapple fiber. Perfect for those who love gentle, comfortable movement and support the circular economy while protecting the environment.";
   }
-  return "Sản phẩm được khuyên dùng dựa trên sự tương tương thích cao với xu hướng thời trang bền vững. Nguồn nguyên liệu thu hồi chất lượng cao và quy trình hoàn thiện lành nghề mang lại phom dáng hiện đại và lâu bền.";
+  return "This product is recommended based on its high compatibility with sustainable fashion trends. High-quality reclaimed materials and skilled finishing processes deliver a modern, durable fit.";
 }
 
 // Make them available on window scope for inline onclick events
@@ -3668,19 +5039,19 @@ var vtonState = {
 };
 
 var VTON_PRESET_MODELS = [
-  { id: 'model_m1', file: 'MEN-Denim-id_00000080-01_7_additional.jpg', name: 'Nam da trắng', gender: 'male',
+  { id: 'model_m1', file: 'MEN-Denim-id_00000080-01_7_additional.jpg', name: 'Male Fair Skin', gender: 'male',
     url: '/images/products/MEN-Denim-id_00000080-01_7_additional.jpg' },
-  { id: 'model_m2', file: 'MEN-Denim-id_00000089-02_7_additional.jpg', name: 'Nam 2', gender: 'male',
+  { id: 'model_m2', file: 'MEN-Denim-id_00000089-02_7_additional.jpg', name: 'Male 2', gender: 'male',
     url: '/images/products/MEN-Denim-id_00000089-02_7_additional.jpg' },
-  { id: 'model_m3', file: 'MEN-Denim-id_00000089-26_7_additional.jpg', name: 'Nam 3', gender: 'male',
+  { id: 'model_m3', file: 'MEN-Denim-id_00000089-26_7_additional.jpg', name: 'Male 3', gender: 'male',
     url: '/images/products/MEN-Denim-id_00000089-26_7_additional.jpg' },
-  { id: 'model_m4', file: 'MEN-Denim-id_00000182-01_7_additional.jpg', name: 'Nam 4', gender: 'male',
+  { id: 'model_m4', file: 'MEN-Denim-id_00000182-01_7_additional.jpg', name: 'Male 4', gender: 'male',
     url: '/images/products/MEN-Denim-id_00000182-01_7_additional.jpg' },
-  { id: 'model_f1', file: 'WOMEN-Blouses_Shirts-id_00000183-01_1_front.jpg', name: 'Nữ 1', gender: 'female',
+  { id: 'model_f1', file: 'WOMEN-Blouses_Shirts-id_00000183-01_1_front.jpg', name: 'Female 1', gender: 'female',
     url: '/images/products/WOMEN-Blouses_Shirts-id_00000183-01_1_front.jpg' },
-  { id: 'model_f2', file: 'WOMEN-Blouses_Shirts-id_00000001-02_1_front.jpg', name: 'Nữ 2', gender: 'female',
+  { id: 'model_f2', file: 'WOMEN-Blouses_Shirts-id_00000001-02_1_front.jpg', name: 'Female 2', gender: 'female',
     url: '/images/products/WOMEN-Blouses_Shirts-id_00000001-02_1_front.jpg' },
-  { id: 'model_f3', file: 'WOMEN-Sweaters-id_00005890-05_1_front.jpg', name: 'Nữ 3', gender: 'female',
+  { id: 'model_f3', file: 'WOMEN-Sweaters-id_00005890-05_1_front.jpg', name: 'Female 3', gender: 'female',
     url: '/images/products/WOMEN-Sweaters-id_00005890-05_1_front.jpg' }
 ];
 
@@ -3702,7 +5073,7 @@ function getGarmentType() {
 }
 
 function openVtonStudio(product) {
-  if (!product || !product.clothFile) { showToast('Sản phẩm này chưa hỗ trợ thử đồ AI.'); return; }
+  if (!product || !product.clothFile) { showToast('This product does not support AI Try-On yet.'); return; }
   vtonState.currentProductClothFile = product.clothFile;
   vtonState.currentProductGarmentType = product.garmentType || product.category || 'upper';
   vtonState.currentProductName = product.name || '';
@@ -3804,7 +5175,7 @@ function handleVtonUserUpload(event) {
     renderVtonModels();
     var wsModel = document.getElementById('vton-ws-model-img');
     if (wsModel) wsModel.src = e.target.result;
-    showToast('✅ Đã tải ảnh của bạn!');
+    showToast('✅ Your photo uploaded!');
   };
   reader.readAsDataURL(file);
 }
@@ -3842,8 +5213,8 @@ function setVtonProgress(pct, text) {
 function startVtonInference() {
   var modelUrl = getActiveModelImageUrl();
   var garmentUrl = getGarmentImageUrl();
-  if (!modelUrl) { showToast('Vui lòng chọn người mẫu!'); return; }
-  if (!garmentUrl) { showToast('Không tìm thấy ảnh trang phục.'); return; }
+  if (!modelUrl) { showToast('Please select a model!'); return; }
+  if (!garmentUrl) { showToast('Garment image not found.'); return; }
 
   setVtonState('loading');
   setVtonProgress(0, '0%');
@@ -3851,13 +5222,13 @@ function startVtonInference() {
 }
 
 function runSimulationMode(modelUrl, garmentUrl) {
-  logVton('Khởi động Simulation Engine...');
+  logVton('Starting Simulation Engine...');
   setVtonProgress(10, '10%');
-  setTimeout(function() { logVton('Phân tích hình dáng người mẫu...'); setVtonProgress(30, '30%'); }, 400);
-  setTimeout(function() { logVton('Ánh xạ điểm trang phục lên cơ thể...'); setVtonProgress(55, '55%'); }, 900);
-  setTimeout(function() { logVton('Tổng hợp kết quả hình ảnh...'); setVtonProgress(80, '80%'); }, 1500);
+  setTimeout(function() { logVton('Analyzing model body shape...'); setVtonProgress(30, '30%'); }, 400);
+  setTimeout(function() { logVton('Mapping garment points to body...'); setVtonProgress(55, '55%'); }, 900);
+  setTimeout(function() { logVton('Generating final image...'); setVtonProgress(80, '80%'); }, 1500);
   setTimeout(function() {
-    logVton('Hoàn tất! Đang hiển thị kết quả...');
+    logVton('Complete! Displaying result...');
     setVtonProgress(100, '100%');
     // Simulate overlay: show garment on model using CSS blending/actual product image
     showVtonSuccess(modelUrl, vtonState.currentProductImage || garmentUrl);
@@ -3865,7 +5236,7 @@ function runSimulationMode(modelUrl, garmentUrl) {
 }
 
 async function runRealVtonAPI(modelUrl, garmentUrl) {
-  logVton('Đang kết nối với Hugging Face Space (IDM-VTON)...');
+  logVton('Connecting to Hugging Face Space (IDM-VTON)...');
   setVtonProgress(5, '5%');
   try {
     var hfToken = '';
@@ -3883,15 +5254,15 @@ async function runRealVtonAPI(modelUrl, garmentUrl) {
     }
     var hfSpace = 'Gain1109/IDM-VTON';
 
-    logVton('Đang tải module Gradio Client...');
+    logVton('Loading Gradio Client module...');
     var { client, upload_files } = await import('https://cdn.jsdelivr.net/npm/@gradio/client@0.15.1/+esm');
 
-    logVton('Đang kết nối tới Space: ' + hfSpace);
+    logVton('Connecting to Space: ' + hfSpace);
     setVtonProgress(15, '15%');
     var connectOpts = hfToken ? { hf_token: hfToken } : {};
     var clientInstance = await client(hfSpace, connectOpts);
 
-    logVton('Đang tải và chuẩn bị ảnh...');
+    logVton('Loading and preparing images...');
     setVtonProgress(30, '30%');
     var modelBlob = await getBlobFromUrl(modelUrl);
     var garmentBlob = await getBlobFromUrl(garmentUrl);
@@ -3900,16 +5271,16 @@ async function runRealVtonAPI(modelUrl, garmentUrl) {
     var modelFile = new File([modelBlob], 'model.jpg', { type: modelBlob.type || 'image/jpeg' });
     var garmentFile = new File([garmentBlob], 'garment.jpg', { type: garmentBlob.type || 'image/jpeg' });
 
-    logVton('Đang tải ảnh model và trang phục lên Gradio server...');
+    logVton('Uploading model and garment images to Gradio server...');
     setVtonProgress(40, '40%');
     var uploadResult = await upload_files(clientInstance.config.root, [modelFile, garmentFile], hfToken);
     if (!uploadResult || !uploadResult.files || uploadResult.files.length < 2) {
-      throw new Error('Tải ảnh lên Gradio server thất bại');
+      throw new Error('Failed to upload images to Gradio server');
     }
     var modelUploadedPath = uploadResult.files[0];
     var garmentUploadedPath = uploadResult.files[1];
 
-    logVton('Đang gửi yêu cầu inference...');
+    logVton('Sending inference request...');
     setVtonProgress(60, '60%');
 
     var result = await clientInstance.predict('/tryon', [
@@ -3922,7 +5293,7 @@ async function runRealVtonAPI(modelUrl, garmentUrl) {
       42
     ]);
 
-    logVton('Nhận kết quả từ API...');
+    logVton('Receiving results from API...');
     setVtonProgress(90, '90%');
 
     var resultData = result && result.data;
@@ -3935,16 +5306,16 @@ async function runRealVtonAPI(modelUrl, garmentUrl) {
       }
     }
 
-    if (!resultImg) throw new Error('API không trả về ảnh kết quả');
+    if (!resultImg) throw new Error('API did not return a result image');
 
     setVtonProgress(100, '100%');
-    logVton('Hoàn tất thử đồ AI!');
+    logVton('AI Try-On complete!');
     showVtonSuccess(modelUrl, resultImg);
 
   } catch (err) {
-    logVton('Lỗi: ' + (err.message || String(err)));
+    logVton('Error: ' + (err.message || String(err)));
     setVtonProgress(0, '0%');
-    showToast('❌ Lỗi API: ' + (err.message || 'Không kết nối được').substring(0, 80));
+    showToast('❌ API Error: ' + (err.message || 'Connection failed').substring(0, 80));
     setVtonState('empty');
   }
 }
@@ -4020,7 +5391,7 @@ function initCompareSlider() {
 }
 
 function downloadVtonResult() {
-  if (!vtonState.resultImageUrl) { showToast('Chưa có ảnh kết quả để lưu.'); return; }
+  if (!vtonState.resultImageUrl) { showToast('No result image to save.'); return; }
   var a = document.createElement('a');
   a.href = vtonState.resultImageUrl;
   a.download = 'refashion-tryon-result.jpg';
@@ -4029,16 +5400,16 @@ function downloadVtonResult() {
 
 function addVtonProductToCart() {
   var user = RefashionAuth._getUser();
-  if (!user) { showToast('Vui lòng đăng nhập để thêm vào giỏ!'); return; }
+  if (!user) { showToast('Please login to add to cart!'); return; }
   RefashionAuth.addToCart({
     productId: 'z_' + Date.now(),
     name: vtonState.currentProductName,
     price: vtonState.currentProductPrice,
     priceStr: vtonState.currentProductPriceStr,
     image: vtonState.currentProductImage,
-    variant: 'M - Mặc định'
+    variant: 'M - Default'
   });
-  showToast('🛍️ Đã thêm "' + vtonState.currentProductName + '" vào giỏ hàng!');
+  showToast('🛍️ Added "' + vtonState.currentProductName + '" to cart!');
   closeVtonStudio();
 }
 
@@ -4052,3 +5423,1627 @@ window.startVtonInference = startVtonInference;
 window.downloadVtonResult = downloadVtonResult;
 window.addVtonProductToCart = addVtonProductToCart;
 
+// Map Picker Functionality
+var mapPickerObj = null;
+var mapPickerMarker = null;
+
+function loadLeaflet(callback) {
+  if (window.L) {
+    callback();
+    return;
+  }
+  var link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+  document.head.appendChild(link);
+  
+  var script = document.createElement('script');
+  script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+  script.onload = function() {
+    callback();
+  };
+  document.head.appendChild(script);
+}
+
+function openMapPicker() {
+  var overlay = document.getElementById('map-picker-overlay');
+  if (overlay) overlay.classList.add('show');
+  
+  loadLeaflet(function() {
+    // Default Vietnam coordinates (Da Nang center)
+    var defaultLat = 16.047079;
+    var defaultLng = 108.206230;
+    var defaultZoom = 5;
+    
+    // Check current address input value
+    var currentAddress = document.getElementById('edit-address').value.trim();
+    document.getElementById('map-selected-address-text').textContent = currentAddress || 'Not selected';
+    document.getElementById('map-search-input').value = currentAddress;
+
+    if (!mapPickerObj) {
+      mapPickerObj = L.map('map-picker-canvas').setView([defaultLat, defaultLng], defaultZoom);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(mapPickerObj);
+      
+      mapPickerMarker = L.marker([defaultLat, defaultLng], { draggable: true }).addTo(mapPickerObj);
+      
+      // Handle map click
+      mapPickerObj.on('click', function(e) {
+        var lat = e.latlng.lat;
+        var lng = e.latlng.lng;
+        updateMapMarker(lat, lng);
+      });
+      
+      // Handle marker drag
+      mapPickerMarker.on('dragend', function() {
+        var pos = mapPickerMarker.getLatLng();
+        updateMapMarker(pos.lat, pos.lng);
+      });
+    } else {
+      mapPickerObj.invalidateSize();
+    }
+
+    // Try to geocode current address if it exists, otherwise default to VN center
+    if (currentAddress) {
+      searchAddressOnMap(currentAddress);
+    } else {
+      mapPickerObj.setView([defaultLat, defaultLng], defaultZoom);
+      mapPickerMarker.setLatLng([defaultLat, defaultLng]);
+    }
+  });
+}
+
+function closeMapPicker() {
+  var overlay = document.getElementById('map-picker-overlay');
+  if (overlay) overlay.classList.remove('show');
+}
+
+function updateMapMarker(lat, lng) {
+  if (mapPickerMarker) {
+    mapPickerMarker.setLatLng([lat, lng]);
+  }
+  
+  document.getElementById('map-selected-address-text').textContent = 'Determining address...';
+  
+  var url = 'https://nominatim.openstreetmap.org/reverse?format=json&lat=' + lat + '&lon=' + lng + '&accept-language=vi';
+  
+  fetch(url)
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      if (data && data.display_name) {
+        document.getElementById('map-selected-address-text').textContent = data.display_name;
+      } else {
+        document.getElementById('map-selected-address-text').textContent = lat.toFixed(5) + ', ' + lng.toFixed(5);
+      }
+    })
+    .catch(function() {
+      document.getElementById('map-selected-address-text').textContent = lat.toFixed(5) + ', ' + lng.toFixed(5);
+    });
+}
+
+function searchAddressOnMap(queryOverride) {
+  var query = queryOverride || document.getElementById('map-search-input').value.trim();
+  if (!query) return;
+  
+  var searchUrl = 'https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(query) + '&countrycodes=vn&limit=1&accept-language=vi';
+  
+  document.getElementById('map-selected-address-text').textContent = 'Searching...';
+  
+  fetch(searchUrl)
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      if (data && data.length > 0) {
+        var first = data[0];
+        var lat = parseFloat(first.lat);
+        var lng = parseFloat(first.lon);
+        
+        if (mapPickerObj && mapPickerMarker) {
+          mapPickerObj.setView([lat, lng], 16);
+          mapPickerMarker.setLatLng([lat, lng]);
+        }
+        document.getElementById('map-selected-address-text').textContent = first.display_name;
+      } else {
+        if (queryOverride) {
+          var defaultLat = 16.047079;
+          var defaultLng = 108.206230;
+          if (mapPickerObj && mapPickerMarker) {
+            mapPickerObj.setView([defaultLat, defaultLng], 5);
+            mapPickerMarker.setLatLng([defaultLat, defaultLng]);
+          }
+          document.getElementById('map-selected-address-text').textContent = queryOverride;
+        } else {
+          document.getElementById('map-selected-address-text').textContent = 'No address found in Vietnam.';
+        }
+      }
+    })
+    .catch(function() {
+      document.getElementById('map-selected-address-text').textContent = 'Connection error during search.';
+    });
+}
+
+function confirmMapSelection() {
+  var address = document.getElementById('map-selected-address-text').textContent;
+  if (address && address !== 'Not selected' && address !== 'Searching...' && address !== 'Determining address...' && address !== 'No address found in Vietnam.' && address !== 'Connection error during search.') {
+    document.getElementById('edit-address').value = address;
+  }
+  closeMapPicker();
+}
+
+// Expose map functions globally
+window.openMapPicker = openMapPicker;
+window.closeMapPicker = closeMapPicker;
+window.searchAddressOnMap = searchAddressOnMap;
+window.confirmMapSelection = confirmMapSelection;
+
+/* ==================== ADVANCED SEARCH & VOICE SEARCH LOGIC ==================== */
+function initAdvancedSearch() {
+  var searchInput = document.getElementById('filter-search');
+  var voiceBtn = document.getElementById('voice-search-btn');
+  var dropdown = document.getElementById('search-suggestions-dropdown');
+  if (!searchInput) return;
+
+  if (voiceBtn) {
+    var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      voiceBtn.style.display = 'none';
+    } else {
+      var recognition = new SpeechRecognition();
+      recognition.lang = 'en-US';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      var isListening = false;
+
+      recognition.onstart = function() {
+        isListening = true;
+        voiceBtn.innerHTML = '<i class="fa-solid fa-microphone-lines fa-bounce" style="color:var(--primary)"></i>';
+        searchInput.placeholder = 'Listening... Speak now';
+        showToast('🎙️ Microphone active. Speak to search...');
+      };
+
+      recognition.onend = function() {
+        isListening = false;
+        voiceBtn.innerHTML = '<i class="fa-solid fa-microphone"></i>';
+        searchInput.placeholder = 'Search eco-products...';
+      };
+
+      recognition.onerror = function(event) {
+        console.error('Speech recognition error:', event.error);
+        if (event.error === 'not-allowed') {
+          showToast('❌ Microphone permission denied');
+        } else {
+          showToast('❌ Voice recognition error: ' + event.error);
+        }
+      };
+
+      recognition.onresult = function(event) {
+        var transcript = event.results[0][0].transcript;
+        searchInput.value = transcript;
+        shopState.searchQuery = transcript;
+        shopState.currentPage = 1;
+        saveShopState();
+        renderShopProducts();
+
+        if (typeof AI_REC_SYSTEM !== 'undefined') {
+          AI_REC_SYSTEM.trackSearch(transcript);
+        }
+        showToast('🎙️ Found: "' + transcript + '"');
+      };
+
+      voiceBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (isListening) {
+          recognition.stop();
+        } else {
+          recognition.start();
+        }
+      });
+    }
+  }
+
+  function showSuggestions() {
+    if (!dropdown) return;
+
+    var history = [];
+    if (typeof AI_REC_SYSTEM !== 'undefined' && AI_REC_SYSTEM.profile && AI_REC_SYSTEM.profile.history) {
+      history = AI_REC_SYSTEM.profile.history;
+    }
+
+    var html = '';
+
+    var keywords = [];
+    if (typeof AI_REC_SYSTEM !== 'undefined' && AI_REC_SYSTEM.profile && AI_REC_SYSTEM.profile.keywords) {
+      for (var kw in AI_REC_SYSTEM.profile.keywords) {
+        if (AI_REC_SYSTEM.profile.keywords[kw] > 0) {
+          keywords.push({ kw: kw, weight: AI_REC_SYSTEM.profile.keywords[kw] });
+        }
+      }
+      keywords.sort(function(a, b) { return b.weight - a.weight; });
+    }
+
+    if (history.length > 0) {
+      html += '<div class="suggestion-group-title">Based on your recent clicks</div>';
+
+      var seenProds = {};
+      var count = 0;
+      for (var i = 0; i < history.length && count < 4; i++) {
+        var hItem = history[i];
+        if (seenProds[hItem.productId]) continue;
+        seenProds[hItem.productId] = true;
+        count++;
+
+        var pImg = 'https://images.unsplash.com/photo-1544441893-675973e31985?q=80&w=1200';
+        if (typeof SHOP_PRODUCTS !== 'undefined') {
+          for (var j = 0; j < SHOP_PRODUCTS.length; j++) {
+            if (String(SHOP_PRODUCTS[j].id) === String(hItem.productId)) {
+              pImg = SHOP_PRODUCTS[j].image;
+              break;
+            }
+          }
+        }
+
+        html += '<div class="suggestion-item product-suggestion" data-id="' + hItem.productId + '">' +
+                  '<img src="' + pImg + '" style="width:36px;height:36px;object-fit:cover;border-radius:6px;border:1px solid var(--border)" />' +
+                  '<div style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' +
+                    '<div style="font-weight:600;font-size:0.85rem;color:var(--foreground)">' + hItem.name + '</div>' +
+                    '<div style="font-size:0.75rem;color:var(--text-muted)">Recently ' + hItem.action + 'ed</div>' +
+                  '</div>' +
+                '</div>';
+      }
+    }
+
+    if (keywords.length > 0) {
+      html += '<div class="suggestion-group-title">Suggested Searches</div>';
+      html += '<div style="display:flex;flex-wrap:wrap;gap:0.4rem;padding:0.4rem 1rem 0.6rem 1rem">';
+      var maxKeywords = Math.min(6, keywords.length);
+      for (var i = 0; i < maxKeywords; i++) {
+        html += '<span class="suggestion-tag" data-val="' + keywords[i].kw + '">' + keywords[i].kw + '</span>';
+      }
+      html += '</div>';
+    }
+
+    if (!html) {
+      html += '<div style="padding:1rem;text-align:center;font-size:0.85rem;color:var(--text-muted)">Type to search or browse categories below</div>';
+    }
+
+    dropdown.innerHTML = html;
+    dropdown.style.display = 'block';
+
+    var prodItems = dropdown.querySelectorAll('.product-suggestion');
+    prodItems.forEach(function(el) {
+      el.addEventListener('click', function() {
+        var pId = this.getAttribute('data-id');
+        window.location.href = '/buyer/shop-detail.html?id=' + pId;
+      });
+    });
+
+    var tags = dropdown.querySelectorAll('.suggestion-tag');
+    tags.forEach(function(el) {
+      el.addEventListener('click', function() {
+        var val = this.getAttribute('data-val');
+        searchInput.value = val;
+        shopState.searchQuery = val;
+        shopState.currentPage = 1;
+        saveShopState();
+        renderShopProducts();
+        if (typeof AI_REC_SYSTEM !== 'undefined') {
+          AI_REC_SYSTEM.trackSearch(val);
+        }
+        dropdown.style.display = 'none';
+      });
+    });
+  }
+
+  searchInput.addEventListener('focus', function() {
+    showSuggestions();
+  });
+
+  document.addEventListener('click', function(e) {
+    if (dropdown && !searchInput.contains(e.target) && !dropdown.contains(e.target)) {
+      dropdown.style.display = 'none';
+    }
+  });
+}
+
+
+/* ==================== ORDER HISTORY PAGE ==================== */
+function initOrdersPage() {
+  var user = RefashionAuth._getUser();
+  if (!user) { window.location.href = '/auth/login.html?redirect=/buyer/orders.html'; return; }
+  renderNavbar('navbar-container');
+  renderFooter('footer-container');
+  renderOrders('all');
+}
+
+function renderOrders(activeTab) {
+  activeTab = activeTab || 'all';
+  window.buyerActiveTab = activeTab;
+  var user = RefashionAuth._getUser();
+  var container = document.getElementById('orders-content');
+  if (!user || !container) return;
+
+  var orders = RefashionAuth._getOrders();
+  
+  // Calculate counts for badges
+  var allCount = orders.length;
+  var pendingCount = orders.filter(function(o) { return o.status === 'pending'; }).length;
+  var packedCount = orders.filter(function(o) { return o.status === 'confirmed' || o.status === 'packed'; }).length;
+  var shippingCount = orders.filter(function(o) { return o.status === 'shipping'; }).length;
+  var completedCount = orders.filter(function(o) { return o.status === 'completed' || o.status === 'delivered'; }).length;
+  var cancelledCount = orders.filter(function(o) { return o.status === 'cancelled'; }).length;
+
+  // Filter orders based on activeTab
+  var filteredOrders = [];
+  if (activeTab === 'all') {
+    filteredOrders = orders;
+  } else if (activeTab === 'pending') {
+    filteredOrders = orders.filter(function(o) { return o.status === 'pending'; });
+  } else if (activeTab === 'packed') {
+    filteredOrders = orders.filter(function(o) { return o.status === 'confirmed' || o.status === 'packed'; });
+  } else if (activeTab === 'shipping') {
+    filteredOrders = orders.filter(function(o) { return o.status === 'shipping'; });
+  } else if (activeTab === 'completed') {
+    filteredOrders = orders.filter(function(o) { return o.status === 'completed' || o.status === 'delivered'; });
+  } else if (activeTab === 'cancelled') {
+    filteredOrders = orders.filter(function(o) { return o.status === 'cancelled'; });
+  }
+
+  var tabsHtml = 
+    '<div class="orders-tabs">' +
+      '<div class="order-tab ' + (activeTab === 'all' ? 'active' : '') + '" onclick="changeOrderTab(\'all\')">' +
+        'All <span class="tab-badge">' + allCount + '</span>' +
+      '</div>' +
+      '<div class="order-tab ' + (activeTab === 'pending' ? 'active' : '') + '" onclick="changeOrderTab(\'pending\')">' +
+        'Pending <span class="tab-badge">' + pendingCount + '</span>' +
+      '</div>' +
+      '<div class="order-tab ' + (activeTab === 'packed' ? 'active' : '') + '" onclick="changeOrderTab(\'packed\')">' +
+        'Awaiting Pickup <span class="tab-badge">' + packedCount + '</span>' +
+      '</div>' +
+      '<div class="order-tab ' + (activeTab === 'shipping' ? 'active' : '') + '" onclick="changeOrderTab(\'shipping\')">' +
+        'Shipping <span class="tab-badge">' + shippingCount + '</span>' +
+      '</div>' +
+      '<div class="order-tab ' + (activeTab === 'completed' ? 'active' : '') + '" onclick="changeOrderTab(\'completed\')">' +
+        'Delivered <span class="tab-badge">' + completedCount + '</span>' +
+      '</div>' +
+      '<div class="order-tab ' + (activeTab === 'cancelled' ? 'active' : '') + '" onclick="changeOrderTab(\'cancelled\')">' +
+        'Cancelled <span class="tab-badge">' + cancelledCount + '</span>' +
+      '</div>' +
+    '</div>';
+
+  var ordersHtml = '';
+  if (filteredOrders.length > 0) {
+    for (var i = 0; i < filteredOrders.length; i++) {
+      var o = filteredOrders[i];
+      var profStatusMap = {
+        pending: { badge: 'var(--sentiment-neu-light)', color: 'var(--sentiment-neu)', text: 'Pending', icon: 'fa-clock' },
+        confirmed: { badge: 'var(--primary-light)', color: 'var(--primary)', text: 'Confirmed', icon: 'fa-circle-check' },
+        packed: { badge: 'var(--primary-light)', color: 'var(--primary)', text: 'Awaiting Pickup', icon: 'fa-box' },
+        shipping: { badge: 'var(--accent-light)', color: 'var(--accent)', text: 'Shipping', icon: 'fa-truck-fast' },
+        completed: { badge: 'var(--sentiment-pos-light)', color: 'var(--sentiment-pos)', text: 'Completed', icon: 'fa-circle-check' },
+        delivered: { badge: 'var(--sentiment-pos-light)', color: 'var(--sentiment-pos)', text: 'Delivered', icon: 'fa-circle-check' },
+        cancelled: { badge: 'var(--danger-light)', color: 'var(--danger)', text: 'Cancelled', icon: 'fa-circle-xmark' },
+        return_pending: { badge: 'rgba(217, 119, 6, 0.1)', color: '#d97706', text: 'Return Requested', icon: 'fa-triangle-exclamation' },
+        disputed: { badge: 'rgba(198, 40, 40, 0.1)', color: '#c62828', text: 'Disputed (Admin Review)', icon: 'fa-circle-exclamation' },
+        refunded: { badge: 'rgba(85, 122, 70, 0.1)', color: '#557A46', text: 'Refunded', icon: 'fa-arrow-rotate-left' }
+      };
+      var ps = profStatusMap[o.status] || profStatusMap.pending;
+      var statusBadge = ps.badge;
+      var statusColor = ps.color;
+      var statusText = ps.text;
+      var statusIcon = ps.icon;
+      var firstItemId = o.items.length > 0 ? o.items[0].id : '1';
+      var itemsHtml = '';
+      for (var j = 0; j < o.items.length; j++) {
+        var item = o.items[j];
+        itemsHtml +=
+          '<div onclick="goToDetail(\'' + item.id + '\')" style="cursor:pointer;display:flex;align-items:center;gap:0.75rem;background-color:var(--card);padding:0.6rem 1rem;border-radius:12px;border:1px solid var(--border);transition:all 0.25s ease;" onmouseover="this.style.borderColor=\'var(--primary)\';this.style.transform=\'translateY(-2px)\';" onmouseout="this.style.borderColor=\'var(--border)\';this.style.transform=\'none\';">' +
+            '<img src="' + item.image + '" style="width:40px;height:40px;border-radius:8px;object-fit:cover" />' +
+            '<div><p style="font-size:0.8rem;font-weight:600;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + item.name + '</p><p style="font-size:0.72rem;color:var(--text-muted)">x' + item.quantity + ' \u2022 ' + item.priceStr + '</p></div>' +
+          '</div>';
+      }
+
+      var returnInfoHtml = '';
+      if (o.status === 'return_pending' || o.status === 'disputed' || o.status === 'refunded') {
+        returnInfoHtml = 
+          '<div style="margin-top:0.75rem;padding:0.75rem 1rem;background:rgba(217,119,6,0.05);border-radius:12px;border:1px solid rgba(217,119,6,0.15);font-size:0.8rem;color:var(--text-muted);">' +
+            '<div style="font-weight:700;color:#d97706;margin-bottom:0.25rem;"><i class="fa-solid fa-triangle-exclamation" style="margin-right:0.35rem"></i>Return Request Details</div>' +
+            '<div><strong>Reason:</strong> ' + (o.returnReason || 'N/A') + '</div>' +
+            (o.returnDescription ? '<div><strong>Details:</strong> ' + o.returnDescription + '</div>' : '') +
+          '</div>';
+      }
+
+      var actionButtonsHtml = '<button class="btn btn-outline" onclick="window.location.href=\'/buyer/order-tracking.html?order=' + o.id + '\'" style="border-radius:8px;font-size:0.75rem;padding:6px 14px;height:auto;font-weight:700;border-color:var(--primary);color:var(--primary);cursor:pointer;transition:all 0.2s;" onmouseover="this.style.opacity=\'0.85\'" onmouseout="this.style.opacity=\'1\';"><i class="fa-solid fa-truck" style="margin-right:0.3rem"></i>Track</button>';
+      
+      if (o.status === 'completed' || o.status === 'delivered') {
+        actionButtonsHtml += '<button class="btn btn-outline" onclick="openReturnModal(\'' + o.id + '\')" style="border-radius:8px;font-size:0.75rem;padding:6px 14px;height:auto;font-weight:700;border-color:#b91c1c;color:#b91c1c;margin-left:0.5rem;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background=\'#fef2f2\'" onmouseout="this.style.background=\'none\'"><i class="fa-solid fa-arrow-rotate-left" style="margin-right:0.3rem"></i>Return/Refund</button>';
+      }
+      
+      actionButtonsHtml += '<button class="btn btn-primary" onclick="goToDetail(\'' + firstItemId + '\')" style="border-radius:8px;font-size:0.75rem;padding:6px 14px;height:auto;font-weight:700;background-color:var(--accent);border-color:var(--accent);color:var(--foreground);margin-left:0.5rem;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.opacity=\'0.85\'" onmouseout="this.style.opacity=\'1\';">Buy Again</button>';
+
+      ordersHtml +=
+        '<div style="background-color:var(--card); border-radius:20px; border:1px solid var(--border); padding:1.5rem; margin-bottom:1.25rem; box-shadow:0 4px 15px var(--shadow);">' +
+          '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem">' +
+            '<div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap"><span style="font-weight:800;font-size:0.95rem;color:var(--primary)">#' + o.id + '</span><span style="font-size:0.8rem;color:var(--text-muted)"><i class="fa-solid fa-calendar" style="margin-right:0.3rem"></i>' + o.date + '</span></div>' +
+            '<div style="display:flex;gap:0.75rem;align-items:center"><span class="badge" style="background-color:' + statusBadge + ';color:' + statusColor + ';text-transform:none;font-size:0.75rem; display:inline-flex; align-items:center; gap:0.25rem;"><i class="fa-solid ' + statusIcon + '"></i>' + statusText + '</span><span style="font-weight:800;font-size:1.05rem;color:var(--accent)">' + o.totalStr + '</span></div>' +
+          '</div>' +
+          '<div style="display:flex;gap:1rem;flex-wrap:wrap">' + itemsHtml + '</div>' +
+          returnInfoHtml +
+          '<div style="margin-top:1.25rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;border-top:1px dashed var(--border);padding-top:1rem">' +
+            '<div style="display:flex;align-items:center;gap:0.35rem;font-size:0.8rem;color:var(--sentiment-pos)"><i class="fa-solid fa-leaf"></i><span>+' + o.greenCoinEarned + ' GreenCoin earned from this order</span></div>' +
+            '<div style="display:flex;gap:0.5rem">' +
+              actionButtonsHtml +
+            '</div>' +
+          '</div>' +
+        '</div>';
+    }
+  } else {
+    ordersHtml =
+      '<div style="text-align:center;padding:4rem 2rem;color:var(--text-muted);background:var(--card);border-radius:20px;border:1px solid var(--border);">' +
+        '<i class="fa-solid fa-receipt" style="font-size:3rem;margin-bottom:1rem;opacity:0.3"></i>' +
+        '<h3 style="font-size:1.2rem;font-weight:700;margin-bottom:0.5rem;color:var(--foreground)">No orders yet</h3>' +
+        '<p style="font-size:0.9rem;margin-bottom:1.5rem">You have no orders in this status.</p>' +
+        '<a href="shop.html" class="btn btn-primary" style="border-radius:12px">Explore Shop</a>' +
+      '</div>';
+  }
+
+  container.innerHTML =
+    '<div class="orders-section-container" style="margin-top:2rem;">' +
+      '<div class="section-header" style="margin-bottom:1.5rem;">' +
+        '<div>' +
+          '<span class="badge badge-primary" style="margin-bottom:0.5rem">Order History</span>' +
+          '<h2 style="font-family:var(--font-serif);font-size:1.75rem;color:var(--primary)">My Orders</h2>' +
+        '</div>' +
+      '</div>' +
+      tabsHtml +
+      '<div style="display:flex;flex-direction:column;gap:0.75rem">' + ordersHtml + '</div>' +
+    '</div>';
+}
+
+window.changeOrderTab = function(tabName) {
+  renderOrders(tabName);
+};
+
+window.openReturnModal = function(orderId) {
+  var modalId = 'return-refund-modal';
+  var modal = document.getElementById(modalId);
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = modalId;
+    modal.style = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:9999;opacity:0;transition:opacity 0.3s ease;';
+    document.body.appendChild(modal);
+  }
+  
+  modal.innerHTML = 
+    '<div class="eco-card" style="width:100%;max-width:500px;background:var(--card);border-radius:28px;border:1px solid var(--border);padding:2rem;box-shadow:0 10px 30px var(--shadow);transform:scale(0.9);transition:transform 0.3s ease;position:relative;">' +
+      '<button onclick="closeReturnModal()" style="position:absolute;top:1.25rem;right:1.25rem;background:none;border:none;color:var(--text-muted);font-size:1.25rem;cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>' +
+      '<h3 style="font-family:var(--font-serif);font-size:1.5rem;color:var(--primary);margin-bottom:0.5rem">Yêu cầu Trả hàng / Hoàn tiền</h3>' +
+      '<p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:1.5rem">Đơn hàng: <strong>#' + orderId + '</strong>. Vui lòng điền thông tin khiếu nại của bạn.</p>' +
+      
+      '<div style="margin-bottom:1rem">' +
+        '<label style="display:block;font-size:0.8rem;font-weight:700;margin-bottom:0.5rem;color:var(--foreground)">Lý do trả hàng <span style="color:var(--danger)">*</span></label>' +
+        '<select id="return-reason" class="input-editorial" style="width:100%;height:40px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--foreground);padding:0 0.75rem;font-size:0.85rem;">' +
+          '<option value="Hàng lỗi/Hỏng do vận chuyển">Hàng lỗi / Hỏng do vận chuyển</option>' +
+          '<option value="Sản phẩm sai kích thước/màu sắc">Sản phẩm sai kích thước / màu sắc</option>' +
+          '<option value="Sản phẩm không đúng mô tả">Sản phẩm không đúng mô tả</option>' +
+          '<option value="Hàng giả/nhái hoặc thiếu hàng">Hàng giả/nhái hoặc thiếu hàng</option>' +
+          '<option value="Khác">Lý do khác</option>' +
+        '</select>' +
+      '</div>' +
+      
+      '<div style="margin-bottom:1rem">' +
+        '<label style="display:block;font-size:0.8rem;font-weight:700;margin-bottom:0.5rem;color:var(--foreground)">Mô tả chi tiết <span style="color:var(--danger)">*</span></label>' +
+        '<textarea id="return-description" class="input-editorial" style="width:100%;height:100px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--foreground);padding:0.5rem 0.75rem;font-size:0.85rem;resize:none;" placeholder="Vui lòng mô tả rõ tình trạng sản phẩm..."></textarea>' +
+      '</div>' +
+      
+      '<div style="margin-bottom:1.5rem">' +
+        '<label style="display:block;font-size:0.8rem;font-weight:700;margin-bottom:0.5rem;color:var(--foreground)">Hình ảnh minh chứng (Mockup)</label>' +
+        '<div style="border:2px dashed var(--border);border-radius:12px;padding:1.5rem;text-align:center;cursor:pointer;background:rgba(85,122,70,0.02);transition:all 0.2s;" onmouseover="this.style.borderColor=\'var(--primary)\';" onmouseout="this.style.borderColor=\'var(--border)\';" onclick="document.getElementById(\'return-file\').click()">' +
+          '<i class="fa-regular fa-image" style="font-size:1.75rem;color:var(--primary);margin-bottom:0.5rem"></i>' +
+          '<p style="font-size:0.75rem;color:var(--text-muted);margin:0">Nhấp để tải ảnh hoặc video minh chứng</p>' +
+          '<input type="file" id="return-file" style="display:none" onchange="handleReturnFileSelect(event)" />' +
+          '<div id="return-file-preview" style="margin-top:0.75rem;font-size:0.75rem;color:var(--primary);font-weight:700;display:none"></div>' +
+        '</div>' +
+      '</div>' +
+      
+      '<div style="display:flex;justify-content:flex-end;gap:0.75rem">' +
+        '<button onclick="closeReturnModal()" class="btn btn-outline" style="border-radius:8px;font-size:0.75rem;padding:8px 16px;height:auto;">Hủy bỏ</button>' +
+        '<button onclick="submitReturnRequest(\'' + orderId + '\')" class="btn btn-primary" style="border-radius:8px;font-size:0.75rem;padding:8px 16px;height:auto;background:var(--primary);border-color:var(--primary);color:#fff;">Gửi yêu cầu</button>' +
+      '</div>' +
+    '</div>';
+    
+  setTimeout(function() {
+    modal.style.opacity = '1';
+    modal.children[0].style.transform = 'scale(1)';
+  }, 50);
+};
+
+window.closeReturnModal = function() {
+  var modal = document.getElementById('return-refund-modal');
+  if (modal) {
+    modal.style.opacity = '0';
+    modal.children[0].style.transform = 'scale(0.9)';
+    setTimeout(function() {
+      modal.remove();
+    }, 300);
+  }
+};
+
+window.handleReturnFileSelect = function(e) {
+  var file = e.target.files[0];
+  var preview = document.getElementById('return-file-preview');
+  if (file && preview) {
+    preview.innerText = '✓ Đã chọn file: ' + file.name;
+    preview.style.display = 'block';
+  }
+};
+
+window.submitReturnRequest = function(orderId) {
+  var reason = document.getElementById('return-reason').value;
+  var description = document.getElementById('return-description').value.trim();
+  if (!description) {
+    alert('Vui lòng nhập mô tả chi tiết lý do trả hàng.');
+    return;
+  }
+  
+  var allOrders = JSON.parse(localStorage.getItem('refashion_shared_orders') || '[]');
+  var orderFound = false;
+  for (var i = 0; i < allOrders.length; i++) {
+    if (allOrders[i].id === orderId) {
+      allOrders[i].status = 'return_pending';
+      allOrders[i].returnReason = reason;
+      allOrders[i].returnDescription = description;
+      allOrders[i].returnEvidence = '/images/sh_denim_shirt.png';
+      orderFound = true;
+      break;
+    }
+  }
+  
+  if (orderFound) {
+    localStorage.setItem('refashion_shared_orders', JSON.stringify(allOrders));
+    alert('Yêu cầu Trả hàng / Hoàn tiền đã được gửi đi thành công!');
+    closeReturnModal();
+    renderOrders('all');
+  } else {
+    alert('Không tìm thấy đơn hàng #' + orderId);
+  }
+};
+
+// Start polling for shared orders updates
+(function() {
+  var lastOrdersState = localStorage.getItem('refashion_shared_orders');
+  setInterval(function() {
+    var currentOrdersState = localStorage.getItem('refashion_shared_orders');
+    if (currentOrdersState !== lastOrdersState) {
+      lastOrdersState = currentOrdersState;
+      if (typeof renderOrders === 'function') {
+        renderOrders(window.buyerActiveTab || 'all');
+      }
+    }
+  }, 3000);
+})();
+
+
+/* ==================== BUYER FLOATING CHAT WIDGET ==================== */
+function initBuyerChatWidget() {
+  // 1. Add Styles
+  var style = document.createElement('style');
+  style.innerHTML = `
+    .buyer-chat-trigger {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #16a34a;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+      cursor: pointer;
+      z-index: 99999;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .buyer-chat-trigger:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 6px 16px rgba(22, 163, 74, 0.4);
+    }
+    .buyer-chat-trigger:active {
+      transform: scale(0.95);
+    }
+    .buyer-chat-panel {
+      position: fixed;
+      bottom: 92px;
+      right: 24px;
+      width: 360px;
+      height: 500px;
+      max-height: calc(100vh - 120px);
+      border-radius: 16px;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      z-index: 99999;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    .buyer-chat-header {
+      padding: 14px 16px;
+      background: #16a34a;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .buyer-chat-header .header-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+    .buyer-chat-header img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: white;
+    }
+    .buyer-chat-header .title-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+    .buyer-chat-header .store-name {
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+    .buyer-chat-header .store-status {
+      font-size: 0.75rem;
+      opacity: 0.85;
+    }
+    .buyer-chat-header .close-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 0;
+      line-height: 1;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+    .buyer-chat-header .close-btn:hover {
+      opacity: 1;
+    }
+    .buyer-chat-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      background: #f8fafc;
+    }
+    .buyer-chat-store-list {
+      padding: 8px 0;
+    }
+    .buyer-chat-store-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      cursor: pointer;
+      transition: background 0.2s;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .buyer-chat-store-item:hover {
+      background: #f1f5f9;
+    }
+    .buyer-chat-store-item img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .buyer-chat-store-item .store-item-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .buyer-chat-store-item .store-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    .buyer-chat-store-item .store-item-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #1e293b;
+    }
+    .buyer-chat-store-item .store-item-time {
+      font-size: 0.75rem;
+      color: #94a3b8;
+    }
+    .buyer-chat-store-item .store-item-msg {
+      font-size: 0.8rem;
+      color: #64748b;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-top: 2px;
+    }
+    .buyer-chat-messages {
+      flex: 1;
+      padding: 16px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .buyer-chat-msg {
+      max-width: 75%;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      line-height: 1.4;
+      word-break: break-word;
+    }
+    .buyer-chat-msg.incoming {
+      align-self: flex-start;
+      background: #ffffff;
+      color: #1e293b;
+      border: 1px solid #e2e8f0;
+      border-bottom-left-radius: 2px;
+    }
+    .buyer-chat-msg.outgoing {
+      align-self: flex-end;
+      background: #16a34a;
+      color: white;
+      border-bottom-right-radius: 2px;
+    }
+    .buyer-chat-msg-time {
+      font-size: 0.7rem;
+      color: #94a3b8;
+      margin-top: 4px;
+      text-align: right;
+    }
+    .buyer-chat-msg.outgoing .buyer-chat-msg-time {
+      color: rgba(255,255,255,0.7);
+    }
+    .buyer-chat-footer {
+      padding: 12px 16px;
+      background: #ffffff;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .buyer-chat-input {
+      flex: 1;
+      border: 1px solid #cbd5e1;
+      border-radius: 20px;
+      padding: 8px 16px;
+      font-size: 0.85rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .buyer-chat-input:focus {
+      border-color: #16a34a;
+    }
+    .buyer-chat-send-btn {
+      background: #16a34a;
+      color: white;
+      border: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .buyer-chat-send-btn:hover {
+      transform: scale(1.05);
+      background: #15803d;
+    }
+    .buyer-chat-send-btn:active {
+      transform: scale(0.95);
+    }
+    .buyer-chat-login-notice {
+      padding: 32px 24px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      gap: 16px;
+    }
+    .buyer-chat-login-notice p {
+      font-size: 0.9rem;
+      color: #64748b;
+      line-height: 1.5;
+      margin: 0;
+    }
+    .buyer-chat-login-notice a {
+      display: inline-block;
+      background: #16a34a;
+      color: white;
+      padding: 8px 20px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.85rem;
+      transition: background 0.2s;
+    }
+    .buyer-chat-login-notice a:hover {
+      background: #15803d;
+    }
+  `;
+  document.body.appendChild(style);
+
+  // 2. Add DOM elements
+  var trigger = document.createElement('div');
+  trigger.className = 'buyer-chat-trigger';
+  trigger.innerHTML = '<i class="fa-solid fa-comments"></i>';
+  document.body.appendChild(trigger);
+
+  var panel = document.createElement('div');
+  panel.className = 'buyer-chat-panel';
+  panel.id = 'buyer-chat-panel';
+  document.body.appendChild(panel);
+
+  var activeStoreName = null;
+
+  function renderPanelContent() {
+    var user = RefashionAuth._getUser();
+    if (!user) {
+      panel.innerHTML = `
+        <div class="buyer-chat-header">
+          <div class="header-info">
+            <span class="store-name">ReFashion Chat</span>
+          </div>
+          <button class="close-btn" onclick="toggleBuyerChatPanel()">&times;</button>
+        </div>
+        <div class="buyer-chat-body">
+          <div class="buyer-chat-login-notice">
+            <p>Vui lòng đăng nhập tài khoản Buyer để bắt đầu trò chuyện với các Cửa hàng trên ReFashion.</p>
+            <a href="/auth/login.html">Đăng nhập ngay</a>
+          </div>
+        </div>
+      `;
+      return;
+    }
+
+    var local = localStorage.getItem('refashion_shared_chats');
+    var conversations = [];
+    try { conversations = JSON.parse(local) || []; } catch(e) {}
+
+    var buyerName = user.name || "Nguyễn Văn A";
+
+    if (activeStoreName) {
+      var conv = conversations.find(function(c) {
+        return c.store === activeStoreName && c.buyer.name === buyerName;
+      });
+
+      if (!conv) {
+        var storeLogo = '../images/store_eco_wear.png';
+        if (activeStoreName === 'Denim Craft') storeLogo = '../images/store_denim_craft.png';
+        else if (activeStoreName === 'Hemp & Bamboo') storeLogo = '../images/store_hemp_bamboo.png';
+        else if (activeStoreName === 'Retro Chic') storeLogo = '../images/store_retro_chic.png';
+        else if (activeStoreName === 'Green Thread') storeLogo = '../images/store_green_thread.png';
+        else if (activeStoreName === 'Zero Waste') storeLogo = '../images/store_zero_waste.png';
+
+        conv = {
+          id: 'conv_' + Date.now(),
+          buyer: { name: buyerName, avatar: 'https://ui-avatars.com/api/?name=' + encodeURIComponent(buyerName) + '&background=0F172A&color=fff' },
+          store: activeStoreName,
+          storeLogo: storeLogo,
+          lastMessage: '',
+          lastTime: new Date().toISOString(),
+          unread: 0,
+          status: 'active',
+          messages: []
+        };
+        conversations.push(conv);
+        localStorage.setItem('refashion_shared_chats', JSON.stringify(conversations));
+      }
+
+      conv.unread = 0;
+
+      var messagesHtml = conv.messages.map(function(m) {
+        var cls = m.sender === 'buyer' ? 'outgoing' : 'incoming';
+        var timeStr = '';
+        try {
+          var d = new Date(m.time);
+          timeStr = d.getHours().toString().padStart(2, '0') + ':' + d.getMinutes().toString().padStart(2, '0');
+        } catch(e) {}
+        return `
+          <div class="buyer-chat-msg ${cls}">
+            <div>${escHtml(m.text)}</div>
+            <div class="buyer-chat-msg-time">${timeStr}</div>
+          </div>
+        `;
+      }).join('');
+
+      panel.innerHTML = `
+        <div class="buyer-chat-header">
+          <div class="header-info" onclick="window.backToStoreList()">
+            <i class="fa-solid fa-chevron-left" style="margin-right: 4px; font-size: 0.85rem;"></i>
+            <img src="${conv.storeLogo}" alt="Logo">
+            <div class="title-wrap">
+              <span class="store-name">${conv.store}</span>
+              <span class="store-status">Đang hoạt động</span>
+            </div>
+          </div>
+          <button class="close-btn" onclick="toggleBuyerChatPanel()">&times;</button>
+        </div>
+        <div class="buyer-chat-body" id="buyer-chat-messages-container">
+          <div class="buyer-chat-messages">
+            ${messagesHtml || '<div style="text-align:center;padding:24px;color:#94a3b8;font-size:0.8rem;">Bắt đầu cuộc trò chuyện của bạn!</div>'}
+          </div>
+        </div>
+        <div class="buyer-chat-footer">
+          <input type="text" class="buyer-chat-input" id="buyer-chat-input-field" placeholder="Nhập tin nhắn..." onkeydown="handleBuyerChatKeyDown(event)">
+          <button class="buyer-chat-send-btn" onclick="submitBuyerChatMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+      `;
+
+      var msgBody = document.getElementById('buyer-chat-messages-container');
+      if (msgBody) {
+        msgBody.scrollTop = msgBody.scrollHeight;
+      }
+
+      var inputField = document.getElementById('buyer-chat-input-field');
+      if (inputField) inputField.focus();
+
+    } else {
+      var myConvs = conversations.filter(function(c) {
+        return c.buyer.name === buyerName;
+      });
+
+      var storesHtml = myConvs.map(function(c) {
+        var timeStr = '';
+        try {
+          var d = new Date(c.lastTime);
+          timeStr = d.getHours().toString().padStart(2, '0') + ':' + d.getMinutes().toString().padStart(2, '0');
+        } catch(e) {}
+        return `
+          <div class="buyer-chat-store-item" onclick="window.openBuyerChatWithStore('${c.store}')">
+            <img src="${c.storeLogo}" alt="Logo">
+            <div class="store-item-info">
+              <div class="store-item-header">
+                <span class="store-item-name">${c.store}</span>
+                <span class="store-item-time">${timeStr}</span>
+              </div>
+              <div class="store-item-msg">${escHtml(c.lastMessage || 'Chưa có tin nhắn')}</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      panel.innerHTML = `
+        <div class="buyer-chat-header">
+          <div class="header-info">
+            <span class="store-name">Tin nhắn Cửa hàng</span>
+          </div>
+          <button class="close-btn" onclick="toggleBuyerChatPanel()">&times;</button>
+        </div>
+        <div class="buyer-chat-body">
+          <div class="buyer-chat-store-list">
+            ${storesHtml || '<div style="text-align:center;padding:48px 24px;color:#94a3b8;font-size:0.85rem;">Bạn chưa có cuộc hội thoại nào. Hãy ghé thăm các Cửa hàng để bắt đầu chat nhé!</div>'}
+          </div>
+        </div>
+      `;
+    }
+  }
+
+  window.toggleBuyerChatPanel = function() {
+    if (panel.style.display === 'flex') {
+      panel.style.display = 'none';
+    } else {
+      panel.style.display = 'flex';
+      renderPanelContent();
+    }
+  };
+
+  window.openBuyerChatWithStore = function(storeName) {
+    var user = RefashionAuth._getUser();
+    if (!user) {
+      panel.style.display = 'flex';
+      renderPanelContent();
+      return;
+    }
+    activeStoreName = storeName;
+    panel.style.display = 'flex';
+    renderPanelContent();
+  };
+
+  window.backToStoreList = function() {
+    activeStoreName = null;
+    renderPanelContent();
+  };
+
+  window.submitBuyerChatMessage = function() {
+    var input = document.getElementById('buyer-chat-input-field');
+    if (!input || !input.value.trim() || !activeStoreName) return;
+    var text = input.value.trim();
+    input.value = '';
+
+    var user = RefashionAuth._getUser();
+    var buyerName = user ? user.name : "Nguyễn Văn A";
+
+    var local = localStorage.getItem('refashion_shared_chats');
+    var conversations = [];
+    try { conversations = JSON.parse(local) || []; } catch(e) {}
+
+    var conv = conversations.find(function(c) {
+      return c.store === activeStoreName && c.buyer.name === buyerName;
+    });
+
+    if (conv) {
+      var nowStr = new Date().toISOString();
+      conv.messages.push({ sender: 'buyer', text: text, time: nowStr });
+      conv.lastMessage = text;
+      conv.lastTime = nowStr;
+      
+      localStorage.setItem('refashion_shared_chats', JSON.stringify(conversations));
+      renderPanelContent();
+    }
+  };
+
+  window.handleBuyerChatKeyDown = function(event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      submitBuyerChatMessage();
+    }
+  };
+
+  trigger.addEventListener('click', toggleBuyerChatPanel);
+
+  function escHtml(str) {
+    if (!str) return '';
+    var div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+  }
+
+  var lastChatState = localStorage.getItem('refashion_shared_chats');
+  setInterval(function() {
+    var currentChatState = localStorage.getItem('refashion_shared_chats');
+    if (currentChatState !== lastChatState) {
+      lastChatState = currentChatState;
+      if (panel.style.display === 'flex') {
+        var activeInput = document.activeElement;
+        var hadFocus = activeInput && activeInput.id === 'buyer-chat-input-field';
+        var textVal = hadFocus ? activeInput.value : '';
+
+        renderPanelContent();
+
+        if (hadFocus) {
+          var newInput = document.getElementById('buyer-chat-input-field');
+          if (newInput) {
+            newInput.value = textVal;
+            newInput.focus();
+          }
+        }
+      }
+    }
+  }, 3000);
+}
+
+
+/* ==================== BUYER FLOATING CHAT WIDGET ==================== */
+function initBuyerChatWidget() {
+  // 1. Add Styles
+  var style = document.createElement('style');
+  style.innerHTML = `
+    .buyer-chat-trigger {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #16a34a;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+      cursor: pointer;
+      z-index: 99999;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .buyer-chat-trigger:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 6px 16px rgba(22, 163, 74, 0.4);
+    }
+    .buyer-chat-trigger:active {
+      transform: scale(0.95);
+    }
+    .buyer-chat-panel {
+      position: fixed;
+      bottom: 92px;
+      right: 24px;
+      width: 360px;
+      height: 500px;
+      max-height: calc(100vh - 120px);
+      border-radius: 16px;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      z-index: 99999;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    .buyer-chat-header {
+      padding: 14px 16px;
+      background: #16a34a;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .buyer-chat-header .header-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+    .buyer-chat-header img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: white;
+    }
+    .buyer-chat-header .title-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+    .buyer-chat-header .store-name {
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+    .buyer-chat-header .store-status {
+      font-size: 0.75rem;
+      opacity: 0.85;
+    }
+    .buyer-chat-header .close-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 0;
+      line-height: 1;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+    .buyer-chat-header .close-btn:hover {
+      opacity: 1;
+    }
+    .buyer-chat-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      background: #f8fafc;
+    }
+    .buyer-chat-store-list {
+      padding: 8px 0;
+    }
+    .buyer-chat-store-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      cursor: pointer;
+      transition: background 0.2s;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .buyer-chat-store-item:hover {
+      background: #f1f5f9;
+    }
+    .buyer-chat-store-item img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .buyer-chat-store-item .store-item-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .buyer-chat-store-item .store-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    .buyer-chat-store-item .store-item-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #1e293b;
+    }
+    .buyer-chat-store-item .store-item-time {
+      font-size: 0.75rem;
+      color: #94a3b8;
+    }
+    .buyer-chat-store-item .store-item-msg {
+      font-size: 0.8rem;
+      color: #64748b;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-top: 2px;
+    }
+    .buyer-chat-messages {
+      flex: 1;
+      padding: 16px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .buyer-chat-msg {
+      max-width: 75%;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      line-height: 1.4;
+      word-break: break-word;
+    }
+    .buyer-chat-msg.incoming {
+      align-self: flex-start;
+      background: #ffffff;
+      color: #1e293b;
+      border: 1px solid #e2e8f0;
+      border-bottom-left-radius: 2px;
+    }
+    .buyer-chat-msg.outgoing {
+      align-self: flex-end;
+      background: #16a34a;
+      color: white;
+      border-bottom-right-radius: 2px;
+    }
+    .buyer-chat-msg-time {
+      font-size: 0.7rem;
+      color: #94a3b8;
+      margin-top: 4px;
+      text-align: right;
+    }
+    .buyer-chat-msg.outgoing .buyer-chat-msg-time {
+      color: rgba(255,255,255,0.7);
+    }
+    .buyer-chat-footer {
+      padding: 12px 16px;
+      background: #ffffff;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .buyer-chat-input {
+      flex: 1;
+      border: 1px solid #cbd5e1;
+      border-radius: 20px;
+      padding: 8px 16px;
+      font-size: 0.85rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .buyer-chat-input:focus {
+      border-color: #16a34a;
+    }
+    .buyer-chat-send-btn {
+      background: #16a34a;
+      color: white;
+      border: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .buyer-chat-send-btn:hover {
+      transform: scale(1.05);
+      background: #15803d;
+    }
+    .buyer-chat-send-btn:active {
+      transform: scale(0.95);
+    }
+    .buyer-chat-login-notice {
+      padding: 32px 24px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      gap: 16px;
+    }
+    .buyer-chat-login-notice p {
+      font-size: 0.9rem;
+      color: #64748b;
+      line-height: 1.5;
+      margin: 0;
+    }
+    .buyer-chat-login-notice a {
+      display: inline-block;
+      background: #16a34a;
+      color: white;
+      padding: 8px 20px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.85rem;
+      transition: background 0.2s;
+    }
+    .buyer-chat-login-notice a:hover {
+      background: #15803d;
+    }
+  `;
+  document.body.appendChild(style);
+
+  // 2. Add DOM elements
+  var trigger = document.createElement('div');
+  trigger.className = 'buyer-chat-trigger';
+  trigger.innerHTML = '<i class="fa-solid fa-comments"></i>';
+  document.body.appendChild(trigger);
+
+  var panel = document.createElement('div');
+  panel.className = 'buyer-chat-panel';
+  panel.id = 'buyer-chat-panel';
+  document.body.appendChild(panel);
+
+  var activeStoreName = null;
+
+  function renderPanelContent() {
+    var user = RefashionAuth._getUser();
+    if (!user) {
+      panel.innerHTML = `
+        <div class="buyer-chat-header">
+          <div class="header-info">
+            <span class="store-name">ReFashion Chat</span>
+          </div>
+          <button class="close-btn" onclick="toggleBuyerChatPanel()">&times;</button>
+        </div>
+        <div class="buyer-chat-body">
+          <div class="buyer-chat-login-notice">
+            <p>Vui lòng đăng nhập tài khoản Buyer để bắt đầu trò chuyện với các Cửa hàng trên ReFashion.</p>
+            <a href="/auth/login.html">Đăng nhập ngay</a>
+          </div>
+        </div>
+      `;
+      return;
+    }
+
+    var local = localStorage.getItem('refashion_shared_chats');
+    var conversations = [];
+    try { conversations = JSON.parse(local) || []; } catch(e) {}
+
+    var buyerName = user.name || "Nguyễn Văn A";
+
+    if (activeStoreName) {
+      var conv = conversations.find(function(c) {
+        return c.store === activeStoreName && c.buyer.name === buyerName;
+      });
+
+      if (!conv) {
+        var storeLogo = '../images/store_eco_wear.png';
+        if (activeStoreName === 'Denim Craft') storeLogo = '../images/store_denim_craft.png';
+        else if (activeStoreName === 'Hemp & Bamboo') storeLogo = '../images/store_hemp_bamboo.png';
+        else if (activeStoreName === 'Retro Chic') storeLogo = '../images/store_retro_chic.png';
+        else if (activeStoreName === 'Green Thread') storeLogo = '../images/store_green_thread.png';
+        else if (activeStoreName === 'Zero Waste') storeLogo = '../images/store_zero_waste.png';
+
+        conv = {
+          id: 'conv_' + Date.now(),
+          buyer: { name: buyerName, avatar: 'https://ui-avatars.com/api/?name=' + encodeURIComponent(buyerName) + '&background=0F172A&color=fff' },
+          store: activeStoreName,
+          storeLogo: storeLogo,
+          lastMessage: '',
+          lastTime: new Date().toISOString(),
+          unread: 0,
+          status: 'active',
+          messages: []
+        };
+        conversations.push(conv);
+        localStorage.setItem('refashion_shared_chats', JSON.stringify(conversations));
+      }
+
+      conv.unread = 0;
+
+      var messagesHtml = conv.messages.map(function(m) {
+        var cls = m.sender === 'buyer' ? 'outgoing' : 'incoming';
+        var timeStr = '';
+        try {
+          var d = new Date(m.time);
+          timeStr = d.getHours().toString().padStart(2, '0') + ':' + d.getMinutes().toString().padStart(2, '0');
+        } catch(e) {}
+        return `
+          <div class="buyer-chat-msg ${cls}">
+            <div>${escHtml(m.text)}</div>
+            <div class="buyer-chat-msg-time">${timeStr}</div>
+          </div>
+        `;
+      }).join('');
+
+      panel.innerHTML = `
+        <div class="buyer-chat-header">
+          <div class="header-info" onclick="window.backToStoreList()">
+            <i class="fa-solid fa-chevron-left" style="margin-right: 4px; font-size: 0.85rem;"></i>
+            <img src="${conv.storeLogo}" alt="Logo">
+            <div class="title-wrap">
+              <span class="store-name">${conv.store}</span>
+              <span class="store-status">Đang hoạt động</span>
+            </div>
+          </div>
+          <button class="close-btn" onclick="toggleBuyerChatPanel()">&times;</button>
+        </div>
+        <div class="buyer-chat-body" id="buyer-chat-messages-container">
+          <div class="buyer-chat-messages">
+            ${messagesHtml || '<div style="text-align:center;padding:24px;color:#94a3b8;font-size:0.8rem;">Bắt đầu cuộc trò chuyện của bạn!</div>'}
+          </div>
+        </div>
+        <div class="buyer-chat-footer">
+          <input type="text" class="buyer-chat-input" id="buyer-chat-input-field" placeholder="Nhập tin nhắn..." onkeydown="handleBuyerChatKeyDown(event)">
+          <button class="buyer-chat-send-btn" onclick="submitBuyerChatMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+      `;
+
+      var msgBody = document.getElementById('buyer-chat-messages-container');
+      if (msgBody) {
+        msgBody.scrollTop = msgBody.scrollHeight;
+      }
+
+      var inputField = document.getElementById('buyer-chat-input-field');
+      if (inputField) inputField.focus();
+
+    } else {
+      var myConvs = conversations.filter(function(c) {
+        return c.buyer.name === buyerName;
+      });
+
+      var storesHtml = myConvs.map(function(c) {
+        var timeStr = '';
+        try {
+          var d = new Date(c.lastTime);
+          timeStr = d.getHours().toString().padStart(2, '0') + ':' + d.getMinutes().toString().padStart(2, '0');
+        } catch(e) {}
+        return `
+          <div class="buyer-chat-store-item" onclick="window.openBuyerChatWithStore('${c.store}')">
+            <img src="${c.storeLogo}" alt="Logo">
+            <div class="store-item-info">
+              <div class="store-item-header">
+                <span class="store-item-name">${c.store}</span>
+                <span class="store-item-time">${timeStr}</span>
+              </div>
+              <div class="store-item-msg">${escHtml(c.lastMessage || 'Chưa có tin nhắn')}</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      panel.innerHTML = `
+        <div class="buyer-chat-header">
+          <div class="header-info">
+            <span class="store-name">Tin nhắn Cửa hàng</span>
+          </div>
+          <button class="close-btn" onclick="toggleBuyerChatPanel()">&times;</button>
+        </div>
+        <div class="buyer-chat-body">
+          <div class="buyer-chat-store-list">
+            ${storesHtml || '<div style="text-align:center;padding:48px 24px;color:#94a3b8;font-size:0.85rem;">Bạn chưa có cuộc hội thoại nào. Hãy ghé thăm các Cửa hàng để bắt đầu chat nhé!</div>'}
+          </div>
+        </div>
+      `;
+    }
+  }
+
+  window.toggleBuyerChatPanel = function() {
+    if (panel.style.display === 'flex') {
+      panel.style.display = 'none';
+    } else {
+      panel.style.display = 'flex';
+      renderPanelContent();
+    }
+  };
+
+  window.openBuyerChatWithStore = function(storeName) {
+    var user = RefashionAuth._getUser();
+    if (!user) {
+      panel.style.display = 'flex';
+      renderPanelContent();
+      return;
+    }
+    activeStoreName = storeName;
+    panel.style.display = 'flex';
+    renderPanelContent();
+  };
+
+  window.backToStoreList = function() {
+    activeStoreName = null;
+    renderPanelContent();
+  };
+
+  window.submitBuyerChatMessage = function() {
+    var input = document.getElementById('buyer-chat-input-field');
+    if (!input || !input.value.trim() || !activeStoreName) return;
+    var text = input.value.trim();
+    input.value = '';
+
+    var user = RefashionAuth._getUser();
+    var buyerName = user ? user.name : "Nguyễn Văn A";
+
+    var local = localStorage.getItem('refashion_shared_chats');
+    var conversations = [];
+    try { conversations = JSON.parse(local) || []; } catch(e) {}
+
+    var conv = conversations.find(function(c) {
+      return c.store === activeStoreName && c.buyer.name === buyerName;
+    });
+
+    if (conv) {
+      var nowStr = new Date().toISOString();
+      conv.messages.push({ sender: 'buyer', text: text, time: nowStr });
+      conv.lastMessage = text;
+      conv.lastTime = nowStr;
+      
+      localStorage.setItem('refashion_shared_chats', JSON.stringify(conversations));
+      renderPanelContent();
+    }
+  };
+
+  window.handleBuyerChatKeyDown = function(event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      submitBuyerChatMessage();
+    }
+  };
+
+  trigger.addEventListener('click', toggleBuyerChatPanel);
+
+  function escHtml(str) {
+    if (!str) return '';
+    var div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+  }
+
+  var lastChatState = localStorage.getItem('refashion_shared_chats');
+  setInterval(function() {
+    var currentChatState = localStorage.getItem('refashion_shared_chats');
+    if (currentChatState !== lastChatState) {
+      lastChatState = currentChatState;
+      if (panel.style.display === 'flex') {
+        var activeInput = document.activeElement;
+        var hadFocus = activeInput && activeInput.id === 'buyer-chat-input-field';
+        var textVal = hadFocus ? activeInput.value : '';
+
+        renderPanelContent();
+
+        if (hadFocus) {
+          var newInput = document.getElementById('buyer-chat-input-field');
+          if (newInput) {
+            newInput.value = textVal;
+            newInput.focus();
+          }
+        }
+      }
+    }
+  }, 3000);
+}

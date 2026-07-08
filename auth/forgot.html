@@ -1,9 +1,9 @@
 <!doctype html>
 <html lang="en">
     <head>
-  <meta name="description" content="ReFashion - Hệ sinh thái thời trang tuần hoàn kết nối người mua, nhà thiết kế tái sinh và quản trị viên minh bạch.">
-  <meta property="og:title" content="ReFashion - Thời trang Tái sinh & Bền vững">
-  <meta property="og:description" content="Hệ sinh thái thời trang tuần hoàn kết nối người mua, nhà thiết kế tái sinh và quản trị viên minh bạch.">
+  <meta name="description" content="ReFashion - Circular fashion ecosystem connecting buyers, upcycle designers, and administrators.">
+  <meta property="og:title" content="ReFashion - Circular & Sustainable Fashion">
+  <meta property="og:description" content="Circular fashion ecosystem connecting buyers, upcycle designers, and administrators.">
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Forgot Password | ReFashion</title>
@@ -17,49 +17,39 @@
             <!-- LEFT -->
 
             <div class="auth-left">
+                <a href="../buyer/index.html" class="back-home"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
                 <div class="logo">♻ ReFashion</div>
 
                 <h1>Forgot Password</h1>
 
-                <form>
-                    <input type="email" id="email" placeholder="Email" />
+                <form id="forgotForm">
+                    <!-- Step 1: Email Input -->
+                    <div id="emailStep">
+                        <input type="email" id="email" placeholder="Enter your Email" required style="margin-bottom: 15px; width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px;" />
+                        <button type="button" id="sendOtpBtn" class="primary-btn" style="width: 100%;">
+                            Send OTP Code
+                        </button>
+                    </div>
 
-                    <button type="button" id="sendOtpBtn" class="primary-btn">
-                        Send OTP
-                    </button>
-
-                    <input type="text" id="otp" placeholder="OTP" />
-
-                    <input
-                        type="password"
-                        id="newPassword"
-                        placeholder="New Password"
-                    />
-
-                    <input
-                        type="password"
-                        id="confirmNewPassword"
-                        placeholder="Confirm Password"
-                    />
-
-                    <button type="button" id="resetBtn" class="primary-btn">
-                        Reset Password
-                    </button>
+                    <!-- Step 2: OTP & New Password (Hidden by default) -->
+                    <div id="otpStep" style="display: none; margin-top: 15px;">
+                        <p style="color: #666; font-size: 13px; margin-bottom: 15px;">OTP code has been sent to your email. Please check and fill in the information below.</p>
+                        
+                        <input type="text" id="otp" placeholder="Enter OTP code (6 digits)" required style="margin-bottom: 15px; width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px;" />
+                        
+                        <input type="password" id="newPassword" placeholder="New password (at least 6 characters)" required style="margin-bottom: 15px; width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px;" />
+                        
+                        <input type="password" id="confirmNewPassword" placeholder="Confirm new password" required style="margin-bottom: 20px; width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px;" />
+                        
+                        <button type="submit" id="resetBtn" class="primary-btn" style="width: 100%;">
+                            Reset Password
+                        </button>
+                    </div>
                 </form>
 
                 <div class="divider">
                     <span>or continue</span>
                 </div>
-
-                <button class="social-btn">
-                    <i class="fa-brands fa-google"></i>
-                    Continue with Google
-                </button>
-
-                <button class="social-btn">
-                    <i class="fa-brands fa-apple"></i>
-                    Continue with Apple
-                </button>
 
                 <p class="bottom-text">
                     Back to login?
@@ -87,7 +77,191 @@
             </div>
         </div>
 
-        <script src="../js/mainjs.js"></script>
+        <script src="../js/mainjs.js?v=2"></script>
         <script src="../js/auth.js"></script>
+        <script type="module">
+            import { auth, db } from "../js/firebase-config.js";
+            import { doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+            const emailInput = document.getElementById("email");
+            const sendOtpBtn = document.getElementById("sendOtpBtn");
+            const emailStep = document.getElementById("emailStep");
+            const otpStep = document.getElementById("otpStep");
+            
+            const otpInput = document.getElementById("otp");
+            const newPasswordInput = document.getElementById("newPassword");
+            const confirmPasswordInput = document.getElementById("confirmNewPassword");
+            const forgotForm = document.getElementById("forgotForm");
+
+            let targetEmail = "";
+            let generatedOtp = "";
+            let otpExpiry = 0;
+
+            async function checkAccountExists(email) {
+                const normalizedEmail = email.toLowerCase().trim();
+                
+                // 1. Check in local MOCK_ACCOUNTS first
+                const mockAccs = window.MOCK_ACCOUNTS || [];
+                const mockMatch = mockAccs.find(acc => acc.email.toLowerCase().trim() === normalizedEmail);
+                if (mockMatch) return { exists: true, mockMatch: mockMatch };
+
+                // 2. Check in Firestore
+                try {
+                    const docRef = doc(db, "users", normalizedEmail);
+                    const docSnap = await getDoc(docRef);
+                    if (docSnap && docSnap.exists()) {
+                        return { exists: true, mockMatch: null };
+                    }
+                } catch (e) {
+                    console.warn("[forgot] Firestore account check failed, relying on mock check:", e);
+                }
+
+                return { exists: false, mockMatch: null };
+            }
+
+            if (sendOtpBtn) {
+                sendOtpBtn.addEventListener("click", async () => {
+                    const email = emailInput.value.trim();
+                    if (!email) {
+                        showAlert("Please enter your Email!");
+                        return;
+                    }
+
+                    sendOtpBtn.disabled = true;
+                    sendOtpBtn.innerText = "Checking account...";
+
+                    try {
+                        const checkResult = await checkAccountExists(email);
+                        if (!checkResult.exists) {
+                            showAlert("This email is not registered on the system!");
+                            sendOtpBtn.disabled = false;
+                            sendOtpBtn.innerText = "Send OTP Code";
+                            return;
+                        }
+
+                        targetEmail = email.toLowerCase();
+                        sendOtpBtn.innerText = "Sending OTP...";
+
+                        // Generate 6-digit OTP
+                        const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+
+                        // Store OTP in local JS state to avoid unauthenticated Firestore write permission errors
+                        generatedOtp = otpCode;
+                        otpExpiry = new Date().getTime() + 5 * 60 * 1000; // 5 minutes
+
+                        // Call Vercel serverless function to send email
+                        try {
+                            const res = await fetch("/api/send-otp", {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+                                body: JSON.stringify({ email: targetEmail, otp: otpCode })
+                            });
+                            
+                            const data = await res.json();
+                            if (data.success) {
+                                if (data.demo) {
+                                    // Local/Vercel demo fallback if SMTP is not configured yet
+                                    console.log("SMTP not configured. OTP (for testing):", data.otp);
+                                    showAlert(`[TESTING FALLBACK] Your OTP code is: ${data.otp} (also printed in console)`);
+                                } else {
+                                    showAlert("OTP code has been successfully sent to your email!");
+                                }
+                                
+                                // Show OTP step, hide email input step
+                                emailInput.disabled = true;
+                                sendOtpBtn.style.display = "none";
+                                otpStep.style.display = "block";
+                            } else {
+                                throw new Error(data.error || "Failed to send OTP.");
+                            }
+                        } catch (sendErr) {
+                            console.error("API send-otp error:", sendErr);
+                            showAlert("Cannot send OTP via email: " + sendErr.message);
+                            sendOtpBtn.disabled = false;
+                            sendOtpBtn.innerText = "Send OTP Code";
+                        }
+                    } catch (err) {
+                        console.error("OTP send process error:", err);
+                        showAlert("An error occurred: " + err.message);
+                        sendOtpBtn.disabled = false;
+                        sendOtpBtn.innerText = "Send OTP Code";
+                    }
+                });
+            }
+
+            if (forgotForm) {
+                forgotForm.addEventListener("submit", async (e) => {
+                    e.preventDefault();
+                    
+                    const otpVal = otpInput.value.trim();
+                    const newPass = newPasswordInput.value;
+                    const confirmPass = confirmPasswordInput.value;
+
+                    if (!otpVal || !newPass || !confirmPass) {
+                        showAlert("Please fill in all fields!");
+                        return;
+                    }
+
+                    if (newPass.length < 6) {
+                        showAlert("New password must be at least 6 characters!");
+                        return;
+                    }
+
+                    if (newPass !== confirmPass) {
+                        showAlert("Passwords do not match!");
+                        return;
+                    }
+
+                    const resetBtn = document.getElementById("resetBtn");
+                    resetBtn.disabled = true;
+                    resetBtn.innerText = "Verifying & resetting...";
+
+                    const now = new Date().getTime();
+
+                    // Verify OTP locally
+                    if (!generatedOtp || now > otpExpiry) {
+                        showAlert("OTP code has expired or is invalid! Please request a new OTP.");
+                        resetBtn.disabled = false;
+                        resetBtn.innerText = "Reset Password";
+                        return;
+                    }
+
+                    if (otpVal !== generatedOtp) {
+                        showAlert("Incorrect OTP code! Please try again.");
+                        resetBtn.disabled = false;
+                        resetBtn.innerText = "Reset Password";
+                        return;
+                    }
+
+                    // Sync password locally in localStorage so login works instantly
+                    const resetPasswords = JSON.parse(localStorage.getItem('reset_passwords') || '{}');
+                    resetPasswords[targetEmail] = newPass;
+                    localStorage.setItem('reset_passwords', JSON.stringify(resetPasswords));
+
+                    try {
+                        // Success! Update password in Firestore
+                        const userRef = doc(db, "users", targetEmail);
+                        await setDoc(userRef, { password: newPass }, { merge: true });
+                        
+                        showAlert("Password reset successful! Please log in with your new password.");
+                        window.location.href = "login.html";
+                    } catch (err) {
+                        console.error("Firestore password update error:", err);
+                        
+                        // If it's a permission error, explain how to fix it but let them log in anyway since we saved to localStorage
+                        if (err.code === "permission-denied" || err.message.includes("permissions")) {
+                            showAlert("Password reset successful (saved locally for test login)! \n\nNote: For this password to work on other devices, you need to update Firestore Database Rules in Firebase Console to allow write access to the 'users' collection.");
+                            window.location.href = "login.html";
+                        } else {
+                            showAlert("Password reset failed: " + err.message);
+                            resetBtn.disabled = false;
+                            resetBtn.innerText = "Reset Password";
+                        }
+                    }
+                });
+            }
+        </script>
     </body>
 </html>

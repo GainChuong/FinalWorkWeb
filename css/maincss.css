@@ -81,7 +81,7 @@ button, input, textarea, select { font-family: inherit; outline: none; }
   font-size: 0.75rem; font-weight: 600;
   text-transform: uppercase; letter-spacing: 0.05em;
 }
-.badge-primary { background-color: var(--primary-light); color: var(--primary); }
+.badge-primary { background-color: var(--primary); color: white; }
 .badge-accent { background-color: var(--accent-light); color: var(--accent); }
 .badge-success { background-color: var(--sentiment-pos-light); color: var(--sentiment-pos); }
 
@@ -102,16 +102,18 @@ button, input, textarea, select { font-family: inherit; outline: none; }
   text-transform: uppercase; letter-spacing: 0.2em; color: var(--accent);
 }
 
-.nav-links-list { display: flex; list-style: none; gap: 2rem; }
+.nav-links-list { display: flex; list-style: none; gap: 1.25rem; }
 .nav-link-item {
-  font-weight: 500; font-size: 0.95rem; position: relative;
+  font-weight: 500; font-size: 0.9rem; position: relative;
   padding: 0.5rem 0; color: var(--foreground); opacity: 0.85;
   transition: all 0.2s ease;
+  white-space: nowrap;
 }
 .nav-link-item:hover { opacity: 1; color: var(--primary); }
 .nav-link-item::after {
   content: ''; position: absolute; bottom: 0; left: 0;
-  width: 0; height: 2px; background-color: var(--accent);
+  width: 0; height: 2px; background-color: var(--primary);
+  box-shadow: 0 0 12px var(--primary), 0 0 6px var(--primary-light);
   transition: width 0.3s ease;
 }
 .nav-link-item:hover::after { width: 100%; }
@@ -177,4 +179,11 @@ button, input, textarea, select { font-family: inherit; outline: none; }
     --danger-light: hsl(0, 50%, 18%);
   }
   .glass { background: rgba(20, 24, 28, 0.7); border: 1px solid rgba(255,255,255,0.05); }
+}
+
+@media (max-width: 1200px) {
+  .logo-brand { font-size: 1.4rem; }
+  .nav-links-list { gap: 0.75rem; }
+  .nav-link-item { font-size: 0.82rem; }
+  .nav-actions-div { gap: 0.75rem; }
 }

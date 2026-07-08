@@ -1,0 +1,477 @@
+{
+  "disputes": [
+    {
+      "id": "DSP-5001",
+      "orderId": "ORD-10001",
+      "buyerEmail": "buyer14@refashion.vn",
+      "sellerEmail": "seller_zerowaste@refashion.vn",
+      "reason": "Sản phẩm bị lỗi đường may, không giống mô tả.",
+      "status": "admin_review",
+      "createdAt": "2026-07-08T18:07:20.460Z",
+      "history": [
+        {
+          "actor": "Buyer",
+          "action": "Opened Return Request",
+          "note": "Áo bị rách một đường nhỏ ở tay.",
+          "timestamp": "2026-07-08T18:07:20.460Z"
+        },
+        {
+          "actor": "Seller",
+          "action": "Disputed",
+          "note": "Sản phẩm đã được kiểm tra kỹ trước khi giao. Có video quá trình đóng gói. Khách hàng có dấu hiệu tự làm rách để đòi hoàn tiền.",
+          "timestamp": "2026-07-09T09:15:00.460Z"
+        }
+      ]
+    },
+    {
+      "id": "DSP-5002",
+      "orderId": "ORD-10002",
+      "buyerEmail": "buyer16@refashion.vn",
+      "sellerEmail": "seller_retro@refashion.vn",
+      "reason": "Giao sai mẫu, tôi đặt màu xanh nhưng giao màu đỏ.",
+      "status": "admin_review",
+      "createdAt": "2026-07-07T18:07:20.460Z",
+      "history": [
+        {
+          "actor": "Buyer",
+          "action": "Opened Return Request",
+          "note": "Giao nhầm size và màu.",
+          "timestamp": "2026-07-07T18:07:20.460Z"
+        },
+        {
+          "actor": "Seller",
+          "action": "Disputed",
+          "note": "Tôi đã giao đúng hàng, có video đóng gói. Khách hàng đã xác nhận đơn hàng trước đó.",
+          "timestamp": "2026-07-08T18:07:20.460Z"
+        }
+      ]
+    },
+    {
+      "id": "DSP-5003",
+      "orderId": "ORD-10003",
+      "buyerEmail": "buyer19@refashion.vn",
+      "sellerEmail": "seller_denim@refashion.vn",
+      "reason": "Hàng cũ hơn so với đánh giá 95% New.",
+      "status": "admin_review",
+      "createdAt": "2026-07-08T18:07:20.460Z",
+      "history": [
+        {
+          "actor": "Buyer",
+          "action": "Opened Return Request",
+          "note": "Chất liệu bị sờn nhiều.",
+          "timestamp": "2026-07-08T18:07:20.460Z"
+        },
+        {
+          "actor": "Seller",
+          "action": "Disputed",
+          "note": "Sản phẩm đúng 95% New như mô tả, có hình ảnh chi tiết trước khi giao. Buyer đã dùng thử 2 tuần mới yêu cầu trả.",
+          "timestamp": "2026-07-09T14:30:00.460Z"
+        }
+      ]
+    },
+    {
+      "id": "DSP-5004",
+      "orderId": "ORD-10000",
+      "buyerEmail": "buyer6@refashion.vn",
+      "sellerEmail": "seller_retro@refashion.vn",
+      "reason": "Áo jacket bị phai màu sau 1 lần giặt.",
+      "status": "admin_review",
+      "createdAt": "2026-07-06T10:00:00.460Z",
+      "history": [
+        {
+          "actor": "Buyer",
+          "action": "Opened Return Request",
+          "note": "Jacket bị ra màu xanh khi giặt tay.",
+          "timestamp": "2026-07-06T10:00:00.460Z"
+        },
+        {
+          "actor": "Seller",
+          "action": "Disputed",
+          "note": "Chất liệu jacket đã được kiểm định không phai màu. Khách hàng giặt chung với đồ trắng và không đọc hướng dẫn bảo quản. Có ảnh chụp sản phẩm trước khi giao.",
+          "timestamp": "2026-07-07T08:00:00.460Z"
+        }
+      ]
+    },
+    {
+      "id": "DSP-5005",
+      "orderId": "ORD-10005",
+      "buyerEmail": "buyer10@refashion.vn",
+      "sellerEmail": "seller_denim@refashion.vn",
+      "reason": "Quần bị rách đường chỉ, yêu cầu hoàn tiền.",
+      "status": "admin_review",
+      "createdAt": "2026-07-05T15:30:00.460Z",
+      "history": [
+        {
+          "actor": "Buyer",
+          "action": "Opened Return Request",
+          "note": "Đường chỉ quần bị bung ở đũng quần.",
+          "timestamp": "2026-07-05T15:30:00.460Z"
+        },
+        {
+          "actor": "Seller",
+          "action": "Disputed",
+          "note": "Quần được may gia cố gấp đôi. Buyer đã mặc đi làm 1 tháng mới báo hỏng. Dấu hiệu rách do sử dụng sai mục đích, không phải lỗi sản xuất.",
+          "timestamp": "2026-07-06T10:00:00.460Z"
+        }
+      ]
+    },
+    {
+      "id": "DSP-5006",
+      "orderId": "ORD-10008",
+      "buyerEmail": "buyer1@refashion.vn",
+      "sellerEmail": "seller_hemp@refashion.vn",
+      "reason": "Váy không giống hình, chất vải thô hơn mô tả.",
+      "status": "admin_review",
+      "createdAt": "2026-07-04T09:00:00.460Z",
+      "history": [
+        {
+          "actor": "Buyer",
+          "action": "Opened Return Request",
+          "note": "Váy màu sắc không giống ảnh, vải cứng.",
+          "timestamp": "2026-07-04T09:00:00.460Z"
+        },
+        {
+          "actor": "Seller",
+          "action": "Disputed",
+          "note": "Ảnh chụp đúng sản phẩm thật, không qua chỉnh sửa. Chất liệu cotton hữu cơ tự nhiên có độ cứng nhất định. Đã ghi rõ trong mô tả. Video review sản phẩm được đính kèm.",
+          "timestamp": "2026-07-05T14:00:00.460Z"
+        },
+        {
+          "actor": "Buyer",
+          "action": "Replied",
+          "note": "Nhưng tôi thấy sản phẩm khác hoàn toàn.",
+          "timestamp": "2026-07-05T16:00:00.460Z"
+        }
+      ]
+    },
+    {
+      "id": "DSP-5007",
+      "orderId": "ORD-10010",
+      "buyerEmail": "buyer6@refashion.vn",
+      "sellerEmail": "seller_greenthread@refashion.vn",
+      "reason": "Đặt 2 váy nhưng chỉ nhận được 1.",
+      "status": "admin_review",
+      "createdAt": "2026-07-03T11:00:00.460Z",
+      "history": [
+        {
+          "actor": "Buyer",
+          "action": "Opened Return Request",
+          "note": "Thiếu 1 item Dress Cotton Solid Sleeveless.",
+          "timestamp": "2026-07-03T11:00:00.460Z"
+        },
+        {
+          "actor": "Seller",
+          "action": "Disputed",
+          "note": "Đơn hàng được đóng gói có camera giám sát. Cân nặng kiện hàng khi giao đúng với 2 item. Khách hàng ký nhận đầy đủ, không có khiếu nại khi nhận.",
+          "timestamp": "2026-07-04T09:30:00.460Z"
+        },
+        {
+          "actor": "Buyer",
+          "action": "Replied",
+          "note": "Tôi không kiểm tra kỹ lúc nhận vì bận.",
+          "timestamp": "2026-07-04T14:20:00.460Z"
+        },
+        {
+          "actor": "Seller",
+          "action": "Replied",
+          "note": "Chúng tôi có trách nhiệm giao đúng số lượng. Biên bản bàn giao với đơn vị vận chuyển xác nhận kiện hàng còn nguyên niêm phong.",
+          "timestamp": "2026-07-05T08:00:00.460Z"
+        }
+      ]
+    },
+    {
+      "id": "DSP-5008",
+      "orderId": "ORD-10012",
+      "buyerEmail": "buyer12@refashion.vn",
+      "sellerEmail": "seller_retro@refashion.vn",
+      "reason": "Áo bị nhăn nhiều sau khi mặc, cho rằng hàng kém chất lượng.",
+      "status": "admin_review",
+      "createdAt": "2026-07-02T16:45:00.460Z",
+      "history": [
+        {
+          "actor": "Buyer",
+          "action": "Opened Return Request",
+          "note": "Chất vải quá mỏng, dễ nhăn, không như quảng cáo.",
+          "timestamp": "2026-07-02T16:45:00.460Z"
+        },
+        {
+          "actor": "Seller",
+          "action": "Disputed",
+          "note": "Sản phẩm sử dụng vải chiffon cao cấp, đặc tính nhẹ và thoáng, có thể nhăn nhẹ sau khi vận chuyển. Đã có hướng dẫn là nhẹ nhàng. Không phải lỗi chất lượng.",
+          "timestamp": "2026-07-03T10:00:00.460Z"
+        }
+      ]
+    },
+    {
+      "id": "DSP-5009",
+      "orderId": "ORD-10017",
+      "buyerEmail": "buyer9@refashion.vn",
+      "sellerEmail": "seller_greenthread@refashion.vn",
+      "reason": "Đặt size L nhận size M.",
+      "status": "admin_review",
+      "createdAt": "2026-07-01T13:20:00.460Z",
+      "history": [
+        {
+          "actor": "Buyer",
+          "action": "Opened Return Request",
+          "note": "Size M trong khi đặt size L.",
+          "timestamp": "2026-07-01T13:20:00.460Z"
+        },
+        {
+          "actor": "Seller",
+          "action": "Disputed",
+          "note": "Kiểm tra lại đơn hàng và kho: size L đã được lấy đúng. Nhãn sản phẩm ghi size L. Có ảnh sản phẩm trên bàn đo kích thước trước khi giao.",
+          "timestamp": "2026-07-02T08:15:00.460Z"
+        }
+      ]
+    },
+    {
+      "id": "DSP-5010",
+      "orderId": "ORD-10020",
+      "buyerEmail": "buyer17@refashion.vn",
+      "sellerEmail": "seller_zerowaste@refashion.vn",
+      "reason": "Sản phẩm đến chậm và có mùi hôi.",
+      "status": "admin_review",
+      "createdAt": "2026-06-30T10:10:00.460Z",
+      "history": [
+        {
+          "actor": "Buyer",
+          "action": "Opened Return Request",
+          "note": "Hàng bị ẩm mốc, có mùi khó chịu.",
+          "timestamp": "2026-06-30T10:10:00.460Z"
+        },
+        {
+          "actor": "Seller",
+          "action": "Disputed",
+          "note": "Sản phẩm được đóng gói trong túi hút ẩm và màng PE chống thấm. Đơn vị vận chuyển xác nhận không có dấu hiệu hư hỏng bao bì. Có biên bản bàn giao.",
+          "timestamp": "2026-06-30T16:40:00.460Z"
+        }
+      ]
+    },
+    {
+      "id": "DSP-5011",
+      "orderId": "ORD-10021",
+      "buyerEmail": "buyer18@refashion.vn",
+      "sellerEmail": "seller_retro@refashion.vn",
+      "reason": "Quần denim không giống ảnh shop, yêu cầu refund.",
+      "status": "admin_review",
+      "createdAt": "2026-06-29T08:30:00.460Z",
+      "history": [
+        {
+          "actor": "Buyer",
+          "action": "Opened Return Request",
+          "note": "Màu quần khác so với hình chụp.",
+          "timestamp": "2026-06-29T08:30:00.460Z"
+        },
+        {
+          "actor": "Seller",
+          "action": "Disputed",
+          "note": "Quần denim được chụp dưới ánh sáng studio và có ghi chú 'màu sắc có thể chênh lệch nhẹ do ánh sáng màn hình'. Sản phẩm thực tế đúng mã màu. Khách hàng đã mặc thử, không thể hoàn trả vì lý do cảm quan.",
+          "timestamp": "2026-06-29T14:00:00.460Z"
+        }
+      ]
+    },
+    {
+      "id": "DSP-5012",
+      "orderId": "ORD-10022",
+      "buyerEmail": "buyer20@refashion.vn",
+      "sellerEmail": "seller@refashion.vn",
+      "reason": "Đặt 5 món nhưng giao thiếu 1 áo.",
+      "status": "admin_review",
+      "createdAt": "2026-06-28T09:25:00.460Z",
+      "history": [
+        {
+          "actor": "Buyer",
+          "action": "Opened Return Request",
+          "note": "Thiếu 1 Shirt Chiffon Graphic so với đơn hàng.",
+          "timestamp": "2026-06-28T09:25:00.460Z"
+        },
+        {
+          "actor": "Seller",
+          "action": "Disputed",
+          "note": "Hệ thống kiểm kho và camera đóng gói xác nhận đủ 5 items. Trọng lượng kiện hàng 1.8kg tương ứng 5 items. Khách hàng đã ký nhận 'đã kiểm tra đủ hàng'.",
+          "timestamp": "2026-06-28T15:00:00.460Z"
+        },
+        {
+          "actor": "Buyer",
+          "action": "Replied",
+          "note": "Tôi ký nhưng chưa kiểm tra kỹ.",
+          "timestamp": "2026-06-29T09:10:00.460Z"
+        }
+      ]
+    },
+    {
+      "id": "DSP-5013",
+      "orderId": "ORD-10024",
+      "buyerEmail": "buyer1@refashion.vn",
+      "sellerEmail": "seller_denim@refashion.vn",
+      "reason": "Váy bị bẩn, có vết ố vàng.",
+      "status": "admin_review",
+      "createdAt": "2026-06-27T14:00:00.460Z",
+      "history": [
+        {
+          "actor": "Buyer",
+          "action": "Opened Return Request",
+          "note": "Váy trắng có vết ố vàng ở cổ áo.",
+          "timestamp": "2026-06-27T14:00:00.460Z"
+        },
+        {
+          "actor": "Seller",
+          "action": "Disputed",
+          "note": "Váy được kiểm tra và đóng gói trong điều kiện sạch sẽ. Vết ố có thể do khách hàng làm dính trong quá trình thử đồ. Sản phẩm đã mặc và giặt trước khi khiếu nại.",
+          "timestamp": "2026-06-28T09:00:00.460Z"
+        }
+      ]
+    },
+    {
+      "id": "DSP-5014",
+      "orderId": "ORD-10025",
+      "buyerEmail": "buyer9@refashion.vn",
+      "sellerEmail": "seller_greenthread@refashion.vn",
+      "reason": "Áo jacket bị tuột chỉ sau 3 ngày mặc.",
+      "status": "admin_review",
+      "createdAt": "2026-06-26T11:15:00.460Z",
+      "history": [
+        {
+          "actor": "Buyer",
+          "action": "Opened Return Request",
+          "note": "Đường chỉ tay áo bị tuột.",
+          "timestamp": "2026-06-26T11:15:00.460Z"
+        },
+        {
+          "actor": "Seller",
+          "action": "Disputed",
+          "note": "Jacket được may bằng chỉ nylon gia cố. Hình ảnh buyer gửi cho thấy phần chỉ đã bị cắt chứ không phải đứt tự nhiên. Khách hàng có thể đã cố tình cắt chỉ để khiếu nại.",
+          "timestamp": "2026-06-26T17:30:00.460Z"
+        }
+      ]
+    },
+    {
+      "id": "DSP-5015",
+      "orderId": "ORD-10032",
+      "buyerEmail": "buyer20@refashion.vn",
+      "sellerEmail": "seller_zerowaste@refashion.vn",
+      "reason": "Hàng giao sai địa chỉ, yêu cầu hoàn tiền.",
+      "status": "admin_review",
+      "createdAt": "2026-06-25T08:00:00.460Z",
+      "history": [
+        {
+          "actor": "Buyer",
+          "action": "Opened Return Request",
+          "note": "Shop giao sai địa chỉ, tôi không nhận được hàng.",
+          "timestamp": "2026-06-25T08:00:00.460Z"
+        },
+        {
+          "actor": "Seller",
+          "action": "Disputed",
+          "note": "Địa chỉ giao hàng chính xác theo thông tin khách hàng cung cấp trong đơn. Bên vận chuyển đã giao đúng địa chỉ và có chữ ký người nhận. Người nhận là người thân của khách hàng.",
+          "timestamp": "2026-06-25T15:00:00.460Z"
+        },
+        {
+          "actor": "Buyer",
+          "action": "Replied",
+          "note": "Người nhận là bạn tôi nhưng bạn tôi nói không thấy kiện hàng nào.",
+          "timestamp": "2026-06-26T10:00:00.460Z"
+        },
+        {
+          "actor": "Seller",
+          "action": "Replied",
+          "note": "Đã gửi ảnh chụp biên nhận giao hàng có chữ ký và mã số nhân viên giao hàng. Đề nghị admin xác minh với đơn vị vận chuyển.",
+          "timestamp": "2026-06-26T14:00:00.460Z"
+        }
+      ]
+    },
+    {
+      "id": "DSP-5016",
+      "orderId": "ORD-10033",
+      "buyerEmail": "buyer1@refashion.vn",
+      "sellerEmail": "seller@refashion.vn",
+      "reason": "Áo bị co rút sau khi giặt.",
+      "status": "admin_review",
+      "createdAt": "2026-06-24T13:45:00.460Z",
+      "history": [
+        {
+          "actor": "Buyer",
+          "action": "Opened Return Request",
+          "note": "Áo bị co lại 2 size sau 1 lần giặt.",
+          "timestamp": "2026-06-24T13:45:00.460Z"
+        },
+        {
+          "actor": "Seller",
+          "action": "Disputed",
+          "note": "Sản phẩm cotton 100% đã được xử lý chống co trước khi sản xuất. Hướng dẫn bảo quản ghi rõ 'giặt nước lạnh, phơi bóng mát'. Khách hàng giặt nước nóng và sấy máy, vi phạm hướng dẫn sử dụng.",
+          "timestamp": "2026-06-25T08:30:00.460Z"
+        }
+      ]
+    },
+    {
+      "id": "DSP-5017",
+      "orderId": "ORD-10034",
+      "buyerEmail": "buyer4@refashion.vn",
+      "sellerEmail": "seller_denim@refashion.vn",
+      "reason": "Jacket cũ, không phải hàng mới.",
+      "status": "admin_review",
+      "createdAt": "2026-06-23T10:30:00.460Z",
+      "history": [
+        {
+          "actor": "Buyer",
+          "action": "Opened Return Request",
+          "note": "Jacket có dấu hiệu đã qua sử dụng.",
+          "timestamp": "2026-06-23T10:30:00.460Z"
+        },
+        {
+          "actor": "Seller",
+          "action": "Disputed",
+          "note": "Jacket là hàng mới 100%, còn nguyên tem và túi hút ẩm. Dấu 'sử dụng' có thể là nếp gấp do vận chuyển. Hình ảnh unboxing từ khách hàng khác cho thấy sản phẩm tương tự không có vấn đề.",
+          "timestamp": "2026-06-23T16:00:00.460Z"
+        }
+      ]
+    },
+    {
+      "id": "DSP-5018",
+      "orderId": "ORD-10044",
+      "buyerEmail": "buyer15@refashion.vn",
+      "sellerEmail": "seller_retro@refashion.vn",
+      "reason": "Váy bị rách khi nhận hàng.",
+      "status": "admin_review",
+      "createdAt": "2026-06-22T16:00:00.460Z",
+      "history": [
+        {
+          "actor": "Buyer",
+          "action": "Opened Return Request",
+          "note": "Váy bị rách một đường dài 5cm.",
+          "timestamp": "2026-06-22T16:00:00.460Z"
+        },
+        {
+          "actor": "Seller",
+          "action": "Disputed",
+          "note": "Kiện hàng được đóng gói chắc chắn, không có dấu hiệu bị rách từ bên ngoài. Khách hàng đã ký nhận mà không kiểm tra. Có thể rách do khách hàng mở hàng bằng dao rọc giấy quá mạnh.",
+          "timestamp": "2026-06-23T09:00:00.460Z"
+        }
+      ]
+    },
+    {
+      "id": "DSP-5019",
+      "orderId": "ORD-10047",
+      "buyerEmail": "buyer16@refashion.vn",
+      "sellerEmail": "seller@refashion.vn",
+      "reason": "Đặt 2 Dress Cotton Solid và 2 Dress Cotton Graphic nhưng giao sai kiểu dáng.",
+      "status": "admin_review",
+      "createdAt": "2026-06-21T07:30:00.460Z",
+      "history": [
+        {
+          "actor": "Buyer",
+          "action": "Opened Return Request",
+          "note": "2 Dress Cotton Solid bị giao nhầm thành Dress Cotton Floral.",
+          "timestamp": "2026-06-21T07:30:00.460Z"
+        },
+        {
+          "actor": "Seller",
+          "action": "Disputed",
+          "note": "Kiểm tra lại toàn bộ đơn hàng: 4 items được lấy đúng từ kho. Mỗi sản phẩm đều có mã QR riêng, đã quét trước khi giao. Hệ thống không ghi nhận lỗi lấy hàng. Khách hàng có thể nhầm lẫn giữa các kiểu dáng.",
+          "timestamp": "2026-06-21T14:00:00.460Z"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta name="description" content="ReFashion - Circular fashion ecosystem connecting buyers, upcycle designers, and administrators.">
+        <meta property="og:title" content="ReFashion - Circular & Sustainable Fashion">
+        <meta property="og:description" content="Circular fashion ecosystem connecting buyers, upcycle designers, and administrators.">
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Reset Password | ReFashion</title>
+
+        <link rel="stylesheet" href="../css/auth.css" />
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    </head>
+    <body>
+        <div class="auth-container">
+            <!-- LEFT -->
+
+            <div class="auth-left">
+                <a href="../buyer/index.html" class="back-home"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+                <div class="logo">♻ ReFashion</div>
+
+                <h1>Reset Password</h1>
+                <p style="color: #666; margin-bottom: 20px; font-size: 14px;">Enter a new password for your account.</p>
+
+                <form id="resetForm">
+                    <input type="password" id="newPassword" placeholder="New password (min 6 characters)" required style="margin-bottom: 15px; width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px;" />
+                    <input type="password" id="confirmPassword" placeholder="Confirm new password" required style="margin-bottom: 20px; width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px;" />
+                    <button type="submit" id="submitBtn" class="primary-btn">
+                        Reset Password
+                    </button>
+                </form>
+
+                <div class="divider">
+                    <span>or continue</span>
+                </div>
+
+                <p class="bottom-text">
+                    Remember your password?
+                    <a href="login.html">Sign In</a>
+                </p>
+            </div>
+
+            <!-- RIGHT -->
+
+            <div class="auth-right">
+                <div class="slider-content">
+                    <img
+                        id="sliderImage"
+                        src="../images/slide1.png"
+                        alt="ReFashion Brand Showcase Image"
+                    />
+
+                    <h2 id="sliderTitle">Give Clothes A Second Life</h2>
+
+                    <p id="sliderDesc">
+                        Donate, exchange and transform unused clothing into
+                        valuable fashion resources.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <script src="../js/mainjs.js?v=2"></script>
+        <script src="../js/auth.js"></script>
+        <script type="module">
+            import { auth, db } from "../js/firebase-config.js";
+            import { confirmPasswordReset, verifyPasswordResetCode } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+            import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const oobCode = urlParams.get('oobCode');
+
+            const resetForm = document.getElementById("resetForm");
+            const newPasswordInput = document.getElementById("newPassword");
+            const confirmPasswordInput = document.getElementById("confirmPassword");
+            const submitBtn = document.getElementById("submitBtn");
+
+            let targetEmail = "";
+
+            if (!oobCode) {
+                alert("Invalid or missing password reset code.");
+                window.location.href = "login.html";
+            } else {
+                // Verify the reset code is still valid on load
+                verifyPasswordResetCode(auth, oobCode).then((email) => {
+                    targetEmail = email;
+                    console.log("[reset] Code verified for email:", email);
+                }).catch((error) => {
+                    console.error("[reset] Invalid or expired code:", error);
+                    alert("Password reset link has expired or is invalid. Please request a new one.");
+                    window.location.href = "forgot.html";
+                });
+            }
+
+            if (resetForm) {
+                resetForm.addEventListener("submit", async (e) => {
+                    e.preventDefault();
+                    const newPassword = newPasswordInput.value;
+                    const confirmPassword = confirmPasswordInput.value;
+
+                    if (newPassword.length < 6) {
+                        alert("New password must be at least 6 characters!");
+                        return;
+                    }
+
+                    if (newPassword !== confirmPassword) {
+                        alert("Passwords do not match!");
+                        return;
+                    }
+
+                    submitBtn.disabled = true;
+                    submitBtn.innerText = "Resetting...";
+
+                    try {
+                        // 1. Confirm reset in Firebase Auth
+                        await confirmPasswordReset(auth, oobCode, newPassword);
+
+                        // 2. Save new password persistently to localStorage
+                        if (targetEmail) {
+                            const resetPasswords = JSON.parse(localStorage.getItem('reset_passwords') || '{}');
+                            resetPasswords[targetEmail.toLowerCase()] = newPassword;
+                            localStorage.setItem('reset_passwords', JSON.stringify(resetPasswords));
+
+                            // 3. Try syncing to Firestore users if possible
+                            try {
+                                const docRef = doc(db, "users", targetEmail.toLowerCase());
+                                await setDoc(docRef, { password: newPassword }, { merge: true });
+                            } catch (fireErr) {
+                                console.warn("[reset] Could not update password in Firestore, saved locally:", fireErr);
+                            }
+                        }
+
+                        alert("Password reset successful! Please log in with your new password.");
+                        window.location.href = "login.html";
+                    } catch (error) {
+                        console.error("[reset] Password reset update error:", error);
+                        alert("Password reset failed: " + error.message);
+                        submitBtn.disabled = false;
+                        submitBtn.innerText = "Reset Password";
+                    }
+                });
+            }
+        </script>
+    </body>
+</html>

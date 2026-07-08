@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đang kết nối MoMo - ReFashion</title>
+  <link rel="stylesheet" href="../css/maincss.css?v=2">
+  <link rel="stylesheet" href="../css/buyer.css?v=2">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --momo-pink: #a50064;
+    }
+    body {
+      background: #f8f9fa;
+      font-family: 'Outfit', sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .loading-container {
+      text-align: center;
+      padding: 2.5rem;
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 15px 35px rgba(165, 0, 100, 0.05);
+      max-width: 420px;
+      width: 90%;
+      border: 1px solid rgba(165, 0, 100, 0.05);
+    }
+    .momo-logo {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 1.5rem;
+      animation: pulse 2s infinite ease-in-out;
+    }
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid var(--momo-pink);
+      border-radius: 50%;
+      margin: 1.5rem auto;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.04); }
+    }
+    .status-text {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 0.5rem;
+    }
+    .sub-text {
+      font-size: 0.85rem;
+      color: #777;
+    }
+    .error-box {
+      display: none;
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #fff5f5;
+      color: #e53e3e;
+      border-radius: 12px;
+      border: 1px solid #fed7d7;
+      font-size: 0.85rem;
+      text-align: left;
+      word-break: break-all;
+    }
+    .retry-btn {
+      display: none;
+      margin-top: 1.5rem;
+      background: var(--momo-pink);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 0.85rem 1.5rem;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.2s;
+    }
+    .retry-btn:hover {
+      background: #80004e;
+    }
+  </style>
+</head>
+<body>
+  <div class="loading-container animate-fade-in-up">
+    <img src="https://upload.wikimedia.org/wikipedia/vi/f/fe/MoMo_Logo.png" alt="MoMo Logo" class="momo-logo" onerror="this.src='https://developers.momo.vn/v2/assets/images/logo.png'">
+    <div class="status-text" id="status-label">Đang kết nối tới MoMo...</div>
+    <div class="sub-text" id="sub-label">Vui lòng chờ trong giây lát.</div>
+    <div class="spinner" id="spinner"></div>
+    
+    <div class="error-box" id="error-box"></div>
+    <button class="retry-btn" id="retry-btn" onclick="location.reload()">Thử lại</button>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const orderId = params.get('orderId');
+    const amount = parseInt(params.get('amount'));
+
+    if (!orderId || !amount) {
+      document.getElementById('status-label').textContent = "Lỗi giao dịch";
+      document.getElementById('sub-label').textContent = "Thông tin đơn hàng thiếu dữ liệu.";
+      document.getElementById('spinner').style.display = 'none';
+      const errorBox = document.getElementById('error-box');
+      errorBox.textContent = "Thiếu tham số orderId hoặc số tiền thanh toán.";
+      errorBox.style.display = 'block';
+    } else {
+      // Call real MoMo API via server
+      fetch('/api/create-momo-payment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          orderId: orderId,
+          amount: amount,
+          redirectUrl: window.location.origin + '/buyer/momo-return.html'
+        })
+      })
+      .then(function (res) {
+        if (!res.ok) throw new Error('HTTP status ' + res.status);
+        return res.json();
+      })
+      .then(function (data) {
+        if (data && data.payUrl) {
+          document.getElementById('status-label').textContent = 'Đang chuyển hướng tới MoMo...';
+          window.location.href = data.payUrl;
+        } else {
+          throw new Error(data.message || JSON.stringify(data));
+        }
+      })
+      .catch(function (err) {
+        console.error('MoMo error:', err);
+        document.getElementById('status-label').textContent = 'Không thể khởi tạo giao dịch';
+        document.getElementById('sub-label').textContent = err.message;
+        document.getElementById('spinner').style.display = 'none';
+        document.getElementById('error-box').textContent = 'Chi tiết lỗi: ' + err.message;
+        document.getElementById('error-box').style.display = 'block';
+        document.getElementById('retry-btn').style.display = 'block';
+      });
+    }
+  </script>
+</body>
+</html>
