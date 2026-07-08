@@ -5833,15 +5833,21 @@ function renderOrders(activeTab) {
       var statusColor = ps.color;
       var statusText = ps.text;
       var statusIcon = ps.icon;
-      var firstItemId = o.items.length > 0 ? o.items[0].id : '1';
+      var firstItemId = (o.items && o.items.length > 0) ? o.items[0].id : '1';
       var itemsHtml = '';
-      for (var j = 0; j < o.items.length; j++) {
-        var item = o.items[j];
-        itemsHtml +=
-          '<div onclick="goToDetail(\'' + item.id + '\')" style="cursor:pointer;display:flex;align-items:center;gap:0.75rem;background-color:var(--card);padding:0.6rem 1rem;border-radius:12px;border:1px solid var(--border);transition:all 0.25s ease;" onmouseover="this.style.borderColor=\'var(--primary)\';this.style.transform=\'translateY(-2px)\';" onmouseout="this.style.borderColor=\'var(--border)\';this.style.transform=\'none\';">' +
-            '<img src="' + item.image + '" style="width:40px;height:40px;border-radius:8px;object-fit:cover" />' +
-            '<div><p style="font-size:0.8rem;font-weight:600;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + item.name + '</p><p style="font-size:0.72rem;color:var(--text-muted)">x' + item.quantity + ' \u2022 ' + item.priceStr + '</p></div>' +
-          '</div>';
+      if (o.items) {
+        for (var j = 0; j < o.items.length; j++) {
+          var item = o.items[j];
+          var iImage = item.image || '../images/placeholder.png';
+          var iName = item.name || ('Sản phẩm ' + (item.productId || item.id || 'N/A'));
+          var iQty = item.quantity || 1;
+          var iPriceStr = item.priceStr || (item.price ? item.price.toLocaleString('vi-VN') + ' đ' : '0 đ');
+          itemsHtml +=
+            '<div onclick="goToDetail(\'' + (item.productId || item.id) + '\')" style="cursor:pointer;display:flex;align-items:center;gap:0.75rem;background-color:var(--card);padding:0.6rem 1rem;border-radius:12px;border:1px solid var(--border);transition:all 0.25s ease;" onmouseover="this.style.borderColor=\'var(--primary)\';this.style.transform=\'translateY(-2px)\';" onmouseout="this.style.borderColor=\'var(--border)\';this.style.transform=\'none\';">' +
+              '<img src="' + iImage + '" style="width:40px;height:40px;border-radius:8px;object-fit:cover" />' +
+              '<div><p style="font-size:0.8rem;font-weight:600;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + iName + '</p><p style="font-size:0.72rem;color:var(--text-muted)">x' + iQty + ' \u2022 ' + iPriceStr + '</p></div>' +
+            '</div>';
+        }
       }
 
       var returnInfoHtml = '';
@@ -5862,16 +5868,20 @@ function renderOrders(activeTab) {
       
       actionButtonsHtml += '<button class="btn btn-primary" onclick="goToDetail(\'' + firstItemId + '\')" style="border-radius:8px;font-size:0.75rem;padding:6px 14px;height:auto;font-weight:700;background-color:var(--accent);border-color:var(--accent);color:var(--foreground);margin-left:0.5rem;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.opacity=\'0.85\'" onmouseout="this.style.opacity=\'1\';">Buy Again</button>';
 
+      var safeDate = o.date || new Date(o.createdAt || Date.now()).toLocaleDateString('en-US');
+      var safeTotalStr = o.totalStr || (o.total ? o.total.toLocaleString('vi-VN') + ' đ' : '0 đ');
+      var safeGC = o.greenCoinEarned || 0;
+
       ordersHtml +=
         '<div style="background-color:var(--card); border-radius:20px; border:1px solid var(--border); padding:1.5rem; margin-bottom:1.25rem; box-shadow:0 4px 15px var(--shadow);">' +
           '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem">' +
-            '<div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap"><span style="font-weight:800;font-size:0.95rem;color:var(--primary)">#' + o.id + '</span><span style="font-size:0.8rem;color:var(--text-muted)"><i class="fa-solid fa-calendar" style="margin-right:0.3rem"></i>' + o.date + '</span></div>' +
-            '<div style="display:flex;gap:0.75rem;align-items:center"><span class="badge" style="background-color:' + statusBadge + ';color:' + statusColor + ';text-transform:none;font-size:0.75rem; display:inline-flex; align-items:center; gap:0.25rem;"><i class="fa-solid ' + statusIcon + '"></i>' + statusText + '</span><span style="font-weight:800;font-size:1.05rem;color:var(--accent)">' + o.totalStr + '</span></div>' +
+            '<div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap"><span style="font-weight:800;font-size:0.95rem;color:var(--primary)">#' + o.id + '</span><span style="font-size:0.8rem;color:var(--text-muted)"><i class="fa-solid fa-calendar" style="margin-right:0.3rem"></i>' + safeDate + '</span></div>' +
+            '<div style="display:flex;gap:0.75rem;align-items:center"><span class="badge" style="background-color:' + statusBadge + ';color:' + statusColor + ';text-transform:none;font-size:0.75rem; display:inline-flex; align-items:center; gap:0.25rem;"><i class="fa-solid ' + statusIcon + '"></i>' + statusText + '</span><span style="font-weight:800;font-size:1.05rem;color:var(--accent)">' + safeTotalStr + '</span></div>' +
           '</div>' +
           '<div style="display:flex;gap:1rem;flex-wrap:wrap">' + itemsHtml + '</div>' +
           returnInfoHtml +
           '<div style="margin-top:1.25rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;border-top:1px dashed var(--border);padding-top:1rem">' +
-            '<div style="display:flex;align-items:center;gap:0.35rem;font-size:0.8rem;color:var(--sentiment-pos)"><i class="fa-solid fa-leaf"></i><span>+' + o.greenCoinEarned + ' GreenCoin earned from this order</span></div>' +
+            '<div style="display:flex;align-items:center;gap:0.35rem;font-size:0.8rem;color:var(--sentiment-pos)"><i class="fa-solid fa-leaf"></i><span>+' + safeGC + ' GreenCoin earned from this order</span></div>' +
             '<div style="display:flex;gap:0.5rem">' +
               actionButtonsHtml +
             '</div>' +
