@@ -3695,16 +3695,55 @@ function renderOrderTracking(orderId) {
   // Simulate API call delay
   setTimeout(function() {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/datasets/tracking.json', true);
+    xhr.open('GET', '../datasets/tracking.json', true);
     xhr.onload = function() {
       var trackingData = null;
       if (xhr.status === 200) {
         var allTracking = JSON.parse(xhr.responseText);
         trackingData = allTracking[orderId] || null;
       }
+      
+      if (!trackingData) {
+         trackingData = {
+           steps: [
+             { status: 'pending', label: 'Pending Confirmation', time: (order.date || 'Today') + ' 08:00', completed: true, detail: 'Order received' },
+             { status: 'confirmed', label: 'Confirmed', time: (order.date || 'Today') + ' 09:30', completed: true, detail: 'Payment verified' },
+             { status: 'packed', label: 'Packed', time: (order.date || 'Today') + ' 14:00', completed: true, detail: 'Ready for shipping' },
+             { status: 'shipping', label: 'Shipping', time: (order.date || 'Today') + ' 16:00', completed: true, detail: 'In transit to destination' },
+             { status: 'completed', label: 'Delivered', time: null, completed: false, detail: '' }
+           ],
+           route: [
+             { lat: 21.0285, lng: 105.8542, label: 'Eco Wear Hub', address: 'Hoan Kiem, Hanoi' },
+             { lat: 21.0123, lng: 105.8012, label: 'Sorting Center', address: 'Dong Da, Hanoi' },
+             { lat: 21.0333, lng: 105.7833, label: 'Local Post Office', address: 'Cau Giay, Hanoi' },
+             { lat: 21.0500, lng: 105.8000, label: 'Delivery Address', address: order.address || 'Hanoi, Vietnam' }
+           ],
+           courier: 'Eco Express (Mock)',
+           estimatedDelivery: '3 - 5 days',
+           currentStep: 3, 
+           progressPercent: 65,
+           driver: { name: 'Nguyen Van A', phone: '090-123-4567', plate: '29A-123.45' },
+           currentLocation: { label: 'In transit - Cau Giay area', lastUpdated: 'Just now' }
+         };
+         
+         if (order.status === 'pending') trackingData.currentStep = 0;
+         else if (order.status === 'confirmed') trackingData.currentStep = 1;
+         else if (order.status === 'packed') trackingData.currentStep = 2;
+         else if (order.status === 'completed' || order.status === 'delivered') {
+             trackingData.currentStep = 4;
+             trackingData.progressPercent = 100;
+             trackingData.steps[4].time = (order.date || 'Today') + ' 18:00';
+             trackingData.steps[4].completed = true;
+         }
+         
+         if (trackingData.currentStep < 3) trackingData.progressPercent = 0;
+      }
+      
       renderTrackingUI(container, order, trackingData);
     };
-    xhr.onerror = function() { renderTrackingUI(container, order, null); };
+    xhr.onerror = function() { 
+      renderTrackingUI(container, order, null); 
+    };
     xhr.send();
   }, 1200);
 }
@@ -3721,7 +3760,7 @@ function renderTrackingUI(container, order, trackingData) {
   var currentStatus = order.status;
   var isCancelled = currentStatus === 'cancelled';
   var defaultSteps = [
-    { status: 'pending', label: 'Pending Confirmation', time: order.date + ' 00:00', completed: true, detail: '' },
+    { status: 'pending', label: 'Pending Confirmation', time: (order.date || 'Today') + ' 00:00', completed: true, detail: '' },
     { status: 'confirmed', label: 'Confirmed', time: null, completed: false, detail: '' },
     { status: 'packed', label: 'Packed', time: null, completed: false, detail: '' },
     { status: 'shipping', label: 'Shipping', time: null, completed: false, detail: '' },
@@ -3740,14 +3779,21 @@ function renderTrackingUI(container, order, trackingData) {
 
   // Products HTML
   var itemsHtml = '';
-  for (var i = 0; i < order.items.length; i++) {
-    var item = order.items[i];
-    itemsHtml +=
-      '<div class="tracking-item-row">' +
-        '<img src="' + item.image + '" alt="' + item.name + '" onerror="this.onerror=null;this.src=\'../images/sh_denim_shirt.png\'" />' +
-        '<div><p class="tracking-item-name">' + item.name + '</p><p class="tracking-item-meta">' + (item.variant || '') + ' x' + item.quantity + '</p></div>' +
-        '<span class="tracking-item-price">' + item.priceStr + '</span>' +
-      '</div>';
+  if (order.items) {
+    for (var i = 0; i < order.items.length; i++) {
+      var item = order.items[i];
+      var iImage = item.image || '../images/placeholder.png';
+      var iName = item.name || ('Sản phẩm ' + (item.productId || item.id || 'N/A'));
+      var iQty = item.quantity || 1;
+      var iPriceStr = item.priceStr || (item.price ? item.price.toLocaleString('vi-VN') + ' đ' : '0 đ');
+      
+      itemsHtml +=
+        '<div class="tracking-item-row">' +
+          '<img src="' + iImage + '" alt="' + iName + '" onerror="this.onerror=null;this.src=\'../images/placeholder.png\'" />' +
+          '<div><p class="tracking-item-name">' + iName + '</p><p class="tracking-item-meta">' + (item.variant || '') + ' x' + iQty + '</p></div>' +
+          '<span class="tracking-item-price">' + iPriceStr + '</span>' +
+        '</div>';
+    }
   }
 
   // Timeline with micro-steps support
