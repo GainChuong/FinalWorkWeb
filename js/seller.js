@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function formatVND(num) {
-      return num.toLocaleString('vi-VN') + 'đ';
+      return num.toLocaleString('en-US') + ' VND';
     }
 
     function getProductIcon(name) {
@@ -688,7 +688,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         if (start === targetValue) {
             if (isCurrency) {
-                el.innerHTML = Math.round(targetValue).toLocaleString('vi-VN') + 'đ';
+                el.innerHTML = Math.round(targetValue).toLocaleString('en-US') + ' VND';
             } else {
                 el.innerHTML = Math.round(targetValue).toLocaleString('en-US') + suffix;
             }
@@ -704,7 +704,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const currentValue = start + easeProgress * (targetValue - start);
             
             if (isCurrency) {
-                el.innerHTML = Math.round(currentValue).toLocaleString('vi-VN') + 'đ';
+                el.innerHTML = Math.round(currentValue).toLocaleString('en-US') + ' VND';
             } else {
                 el.innerHTML = Math.round(currentValue).toLocaleString('en-US') + suffix;
             }
@@ -713,7 +713,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 requestAnimationFrame(update);
             } else {
                 if (isCurrency) {
-                    el.innerHTML = targetValue.toLocaleString('vi-VN') + 'đ';
+                    el.innerHTML = targetValue.toLocaleString('en-US') + ' VND';
                 } else {
                     el.innerHTML = targetValue.toLocaleString('en-US') + suffix;
                 }
@@ -1226,7 +1226,7 @@ document.addEventListener('DOMContentLoaded', function () {
         
         // Number Formatter helper
         function formatVND(num) {
-            return num.toLocaleString('vi-VN') + 'đ';
+            return num.toLocaleString('en-US') + ' VND';
         }
         
         // Main simulation tick
@@ -1631,11 +1631,11 @@ document.addEventListener('DOMContentLoaded', function () {
             const list = document.getElementById('variant-list');
             if (!list) return;
             if (!variants || variants.length === 0) {
-                list.innerHTML = '<div class="variant-row"><input type="text" class="input-editorial variant-size" placeholder="Size" style="width:80px;"><input type="text" class="input-editorial variant-color" placeholder="Màu" style="flex:1;"><input type="number" class="input-editorial variant-price" placeholder="Giá (đ)" min="0" style="width:120px;"><input type="number" class="input-editorial variant-stock" placeholder="Kho" min="0" style="width:90px;"><button type="button" class="btn-remove-variant" style="display:none;">&times;</button></div>';
+                list.innerHTML = '<div class="variant-row"><input type="text" class="input-editorial variant-size" placeholder="Size" style="width:80px;"><input type="text" class="input-editorial variant-color" placeholder="Color" style="flex:1;"><input type="number" class="input-editorial variant-price" placeholder="Price" min="0" style="width:120px;"><input type="number" class="input-editorial variant-stock" placeholder="Stock" min="0" style="width:90px;"><button type="button" class="btn-remove-variant" style="display:none;">&times;</button></div>';
                 return;
             }
             list.innerHTML = variants.map(function(v, i) {
-                return '<div class="variant-row"><input type="text" class="input-editorial variant-size" placeholder="Size" value="' + v.size + '" style="width:80px;"><input type="text" class="input-editorial variant-color" placeholder="Màu" value="' + v.color + '" style="flex:1;"><input type="number" class="input-editorial variant-price" placeholder="Giá (đ)" value="' + v.price + '" min="0" style="width:120px;"><input type="number" class="input-editorial variant-stock" placeholder="Kho" value="' + v.stock + '" min="0" style="width:90px;"><button type="button" class="btn-remove-variant" data-idx="' + i + '">&times;</button></div>';
+                return '<div class="variant-row"><input type="text" class="input-editorial variant-size" placeholder="Size" value="' + v.size + '" style="width:80px;"><input type="text" class="input-editorial variant-color" placeholder="Color" value="' + v.color + '" style="flex:1;"><input type="number" class="input-editorial variant-price" placeholder="Price" value="' + v.price + '" min="0" style="width:120px;"><input type="number" class="input-editorial variant-stock" placeholder="Stock" value="' + v.stock + '" min="0" style="width:90px;"><button type="button" class="btn-remove-variant" data-idx="' + i + '">&times;</button></div>';
             }).join('');
             list.querySelectorAll('.btn-remove-variant').forEach(function(btn) {
                 btn.addEventListener('click', function() {
@@ -1652,7 +1652,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!tableBody) return;
 
             if (productsData.length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--text-secondary);">Chưa có sản phẩm nào</td></tr>';
+                tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--text-secondary);">No products found</td></tr>';
                 return;
             }
 
@@ -1663,7 +1663,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     : 'background-color: ' + (p.imgColor || '#557A46') + ';';
                 const totalStock = p.variants ? p.variants.reduce(function(sum, v) { return sum + (v.stock || 0); }, 0) : (p.stock || 0);
                 const varCount = p.variants ? p.variants.length : 0;
-                const varText = varCount > 0 ? varCount + ' phân loại' : (p.variant || 'Tiêu chuẩn');
+                const varText = varCount > 0 ? varCount + ' variants' : (p.variant || 'Standard');
                 const minPrice = p.variants && p.variants.length > 0
                     ? Math.min.apply(null, p.variants.map(function(v) { return v.price || 0; }))
                     : (p.price || 0);
@@ -1671,14 +1671,14 @@ document.addEventListener('DOMContentLoaded', function () {
                     ? Math.max.apply(null, p.variants.map(function(v) { return v.price || 0; }))
                     : (p.price || 0);
                 const priceText = minPrice === maxPrice
-                    ? minPrice.toLocaleString('vi-VN') + 'đ'
-                    : minPrice.toLocaleString('vi-VN') + 'đ - ' + maxPrice.toLocaleString('vi-VN') + 'đ';
+                    ? minPrice.toLocaleString('en-US') + ' VND'
+                    : minPrice.toLocaleString('vi-VN') + 'đ - ' + maxPrice.toLocaleString('en-US') + ' VND';
 
                 return '<tr>' +
                     '<td><div class="product-info-cell"><div class="product-img" style="' + imgStyle + '"></div><div><strong>' + p.name + '</strong><br><span class="text-sans">' + varText + '</span></div></div></td>' +
                     '<td class="text-mono">' + priceText + '</td>' +
                     '<td>' + totalStock + '</td>' +
-                    '<td><span class="badge-editorial badge-accent">Đang Bán</span></td>' +
+                    '<td><span class="badge-editorial badge-accent">Active</span></td>' +
                     '<td><button class="icon-btn edit-product" data-id="' + p.id + '"><i class="fas fa-edit"></i></button><button class="icon-btn delete delete-product" data-id="' + p.id + '"><i class="fas fa-trash"></i></button></td>' +
                 '</tr>';
             }).join('');
@@ -1695,7 +1695,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     productsData = productsData.filter(function(p) { return String(p.id) !== String(id); });
                     saveProductsToStorage();
                     renderProductsTable();
-                    showToast('Đã Xóa Sản Phẩm', 'Sản phẩm đã được xóa khỏi danh sách.', 'fa-trash');
+                    showToast('Product Deleted', 'The product has been removed from the list.', 'fa-trash');
                 });
             });
         }
@@ -1719,9 +1719,9 @@ document.addEventListener('DOMContentLoaded', function () {
             renderVariants(product.variants || []);
 
             const modalTitle = addProductModal.querySelector('.modal-header h3');
-            if (modalTitle) modalTitle.textContent = 'Chỉnh Sửa Sản Phẩm';
+            if (modalTitle) modalTitle.textContent = 'Edit Product';
             const submitBtn = addProductForm.querySelector('button[type="submit"]');
-            if (submitBtn) submitBtn.textContent = 'Cập Nhật';
+            if (submitBtn) submitBtn.textContent = 'Update';
 
             addProductModal.classList.add('show');
         }
@@ -1735,9 +1735,9 @@ document.addEventListener('DOMContentLoaded', function () {
             renderSizeChartPreview();
             renderVariants([]);
             const modalTitle = addProductModal.querySelector('.modal-header h3');
-            if (modalTitle) modalTitle.textContent = 'Đăng Sản Phẩm Mới';
+            if (modalTitle) modalTitle.textContent = 'Add New Product';
             const submitBtn = addProductForm.querySelector('button[type="submit"]');
-            if (submitBtn) submitBtn.textContent = 'Đăng Bán Ngay';
+            if (submitBtn) submitBtn.textContent = 'Publish Product';
         }
 
         // Multi-image upload handler
@@ -1855,7 +1855,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             saveProductsToStorage();
                             renderProductsTable();
                             closeModal();
-                            showToast('Cập Nhật Thành Công', 'Sản phẩm <strong>' + prodName + '</strong> đã được cập nhật.', 'fa-check-circle');
+                            showToast('Update Successful', 'Product <strong>' + prodName + '</strong> has been updated.', 'fa-check-circle');
                         }
                     } else {
                         var newProduct = {
@@ -1882,7 +1882,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         }
 
                         closeModal();
-                        showToast('Đăng Sản Phẩm Thành Công', 'Sản phẩm <strong>' + prodName + '</strong> đã được đăng bán.', 'fa-check-circle');
+                        showToast('Product Added Successfully', 'Product <strong>' + prodName + '</strong> has been published.', 'fa-check-circle');
                     }
                 });
             }
@@ -1900,7 +1900,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             name: p.name,
                             category: p.category,
                             description: p.description || '',
-                            variants: p.variants || [{ size: '', color: p.variant || 'Tiêu chuẩn', price: p.price, stock: p.stock }],
+                            variants: p.variants || [{ size: '', color: p.variant || 'Standard', price: p.price, stock: p.stock }],
                             images: p.image ? [p.image] : [],
                             imgColor: '#557A46',
                             store: p.store,
