@@ -2264,3 +2264,2297 @@ function shMarketContact(itemId, itemName, phone, price) {
         toastObserver.observe(toastContainer, { childList: true });
     }
 })();
+
+/* ==================== VTON STUDIO ==================== */
+
+var sellerVtonState = {
+  selectedModelId: null,
+  userUploadedImage: null,
+  selectedGarmentId: null,
+  currentProductClothFile: null,
+  currentProductGarmentType: 'upper',
+  currentProductName: '',
+  currentProductPrice: 0,
+  currentProductPriceStr: '',
+  currentProductImage: '',
+  resultImageUrl: null,
+  simulateMode: true
+};
+
+var SELLER_VTON_PRESET_MODELS = [
+  { id: 'model_m1', file: 'MEN-Denim-id_00000080-01_7_additional.jpg', name: 'Male Fair Skin', gender: 'male',
+    url: '/images/products/MEN-Denim-id_00000080-01_7_additional.jpg' },
+  { id: 'model_m2', file: 'MEN-Denim-id_00000089-02_7_additional.jpg', name: 'Male 2', gender: 'male',
+    url: '/images/products/MEN-Denim-id_00000089-02_7_additional.jpg' },
+  { id: 'model_m3', file: 'MEN-Denim-id_00000089-26_7_additional.jpg', name: 'Male 3', gender: 'male',
+    url: '/images/products/MEN-Denim-id_00000089-26_7_additional.jpg' },
+  { id: 'model_m4', file: 'MEN-Denim-id_00000182-01_7_additional.jpg', name: 'Male 4', gender: 'male',
+    url: '/images/products/MEN-Denim-id_00000182-01_7_additional.jpg' },
+  { id: 'model_f1', file: 'WOMEN-Blouses_Shirts-id_00000183-01_1_front.jpg', name: 'Female 1', gender: 'female',
+    url: '/images/products/WOMEN-Blouses_Shirts-id_00000183-01_1_front.jpg' },
+  { id: 'model_f2', file: 'WOMEN-Blouses_Shirts-id_00000001-02_1_front.jpg', name: 'Female 2', gender: 'female',
+    url: '/images/products/WOMEN-Blouses_Shirts-id_00000001-02_1_front.jpg' },
+  { id: 'model_f3', file: 'WOMEN-Sweaters-id_00005890-05_1_front.jpg', name: 'Female 3', gender: 'female',
+    url: '/images/products/WOMEN-Sweaters-id_00005890-05_1_front.jpg' }
+];
+
+function sellerGetActiveModelImageUrl() {
+  if (sellerVtonState.userUploadedImage) return sellerVtonState.userUploadedImage;
+  var m = SELLER_VTON_PRESET_MODELS.find(function(x) { return x.id === sellerVtonState.selectedModelId; });
+  return m ? m.url : SELLER_VTON_PRESET_MODELS[0].url;
+}
+
+function sellerGetGarmentImageUrl() {
+  return sellerVtonState.currentProductClothFile || '';
+}
+
+function sellerGetGarmentType() {
+  var t = (sellerVtonState.currentProductGarmentType || 'upper').toLowerCase();
+  if (t === 'lower') return 'lower';
+  if (t === 'overall') return 'overall';
+  return 'upper';
+}
+
+function sellerOpenVtonStudio() {
+  var product = {};
+  // Try to find the first image in the gallery as the product image
+  var gallery = document.getElementById("product-image-gallery");
+  if (gallery) {
+    var firstImg = gallery.querySelector("img");
+    if (firstImg) product.clothFile = firstImg.src;
+  }
+  if (!product.clothFile) {
+    product.clothFile = "../images/products/MEN-Denim-id_00000080-01_7_additional.jpg";
+  }
+
+  
+  sellerVtonState.currentProductClothFile = product.clothFile;
+  sellerVtonState.currentProductGarmentType = product.garmentType || product.category || 'upper';
+  sellerVtonState.currentProductName = product.name || '';
+  sellerVtonState.currentProductPrice = product.price || 0;
+  sellerVtonState.currentProductPriceStr = product.priceStr || product.price || '';
+  sellerVtonState.currentProductImage = product.image || '';
+  sellerVtonState.resultImageUrl = null;
+
+  var modal = document.getElementById('seller-vton-modal');
+  if (modal) modal.classList.add('show');
+
+  sellerRenderVtonModels();
+  sellerRenderVtonGarment();
+  sellerResetVtonResult();
+
+  // Auto-select first model
+  if (!sellerVtonState.selectedModelId) {
+    sellerSelectVtonModel(SELLER_VTON_PRESET_MODELS[0].id);
+  } else {
+    sellerSelectVtonModel(sellerVtonState.selectedModelId);
+  }
+
+  // Load Hugging Face token from local .env if available
+  sellerLoadHfTokenFromEnv();
+}
+
+function sellerCloseVtonStudio() {
+  var modal = document.getElementById('seller-vton-modal');
+  if (modal) modal.classList.remove('show');
+}
+
+async function sellerLoadHfTokenFromEnv() {
+  try {
+    var response = await fetch('/.env');
+    if (!response.ok) return;
+    var text = await response.text();
+    var match = text.match(/HF_TOKEN\s*=\s*([^\r\n]+)/);
+    if (match && match[1]) {
+      var token = match[1].trim();
+      var input = document.getElementById('seller-vton-api-token');
+      if (input) {
+        input.value = token;
+      }
+      // If we got a valid token, automatically disable simulation mode
+      var simCheck = document.getElementById('seller-vton-simulate-check');
+      if (simCheck) {
+        simCheck.checked = false;
+        sellerVtonState.simulateMode = false;
+      }
+    }
+  } catch (e) {
+    console.warn('Failed to load token from .env:', e);
+  }
+}
+
+function sellerRenderVtonModels() {
+  var list = document.getElementById('seller-vton-models-list');
+  if (!list) return;
+  var html = '';
+  SELLER_VTON_PRESET_MODELS.forEach(function(m) {
+    var active = m.id === sellerVtonState.selectedModelId ? ' active' : '';
+    html += '<div class="vton-model-card' + active + '" onclick="sellerSelectVtonModel(\'' + m.id + '\')" title="' + m.name + '">' +
+              '<img class="vton-model-thumb" src="' + m.url + '" alt="' + m.name + '" onerror="this.onerror=null;this.src=\'../images/store_logo.png\'" />' +
+            '</div>';
+  });
+  list.innerHTML = html;
+}
+
+function sellerRenderVtonGarment() {
+  var src = sellerVtonState.currentProductClothFile || '';
+  // Update workspace garment panel
+  var wsGarment = document.getElementById('seller-vton-ws-garment-img');
+  if (wsGarment) wsGarment.src = src;
+
+  var list = document.getElementById('seller-vton-garments-list');
+  if (list) {
+    list.innerHTML = '<div class="vton-garment-thumb active">' +
+      '<img src="' + src + '" alt="' + sellerVtonState.currentProductName + '" onerror="this.src=\'../images/store_logo.png\'" />' +
+      '<span>' + sellerVtonState.currentProductName + '</span>' +
+      '</div>';
+  }
+}
+
+function sellerSelectVtonModel(modelId) {
+  sellerVtonState.selectedModelId = modelId;
+  sellerVtonState.userUploadedImage = null;
+  sellerRenderVtonModels();
+  var wsModel = document.getElementById('seller-vton-ws-model-img');
+  if (wsModel) wsModel.src = sellerGetActiveModelImageUrl();
+}
+
+function sellerHandleVtonUserUpload(event) {
+  var file = event.target.files[0];
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    sellerVtonState.userUploadedImage = e.target.result;
+    sellerVtonState.selectedModelId = null;
+    sellerRenderVtonModels();
+    var wsModel = document.getElementById('seller-vton-ws-model-img');
+    if (wsModel) wsModel.src = e.target.result;
+    showToast('✅ Your photo uploaded!');
+  };
+  reader.readAsDataURL(file);
+}
+
+function sellerToggleSimulateMode(checkbox) {
+  sellerVtonState.simulateMode = checkbox ? checkbox.checked : true;
+}
+
+function sellerResetVtonResult() {
+  sellerSetVtonState('empty');
+  sellerVtonState.resultImageUrl = null;
+}
+
+function sellerSetVtonState(state) {
+  var empty = document.getElementById('seller-vton-state-empty');
+  var loading = document.getElementById('seller-vton-state-loading');
+  var success = document.getElementById('seller-vton-state-success');
+  if (empty) empty.style.display = state === 'empty' ? '' : 'none';
+  if (loading) loading.style.display = state === 'loading' ? '' : 'none';
+  if (success) success.style.display = state === 'success' ? '' : 'none';
+}
+
+function sellerLogVton(msg) {
+  // console logging removed for end-user clarity
+}
+
+
+function sellerSetVtonProgress(pct, text) {
+  var fill = document.getElementById('seller-vton-progress-fill');
+  var label = document.getElementById('seller-vton-progress-text');
+  if (fill) fill.style.width = pct + '%';
+  if (label) label.textContent = text || pct + '%';
+}
+
+function sellerStartVtonInference() {
+  var modelUrl = sellerGetActiveModelImageUrl();
+  var garmentUrl = sellerGetGarmentImageUrl();
+  if (!modelUrl) { showToast('Please select a model!'); return; }
+  if (!garmentUrl) { showToast('Garment image not found.'); return; }
+
+  sellerSetVtonState('loading');
+  sellerSetVtonProgress(0, '0%');
+  sellerRunRealVtonAPI(modelUrl, garmentUrl);
+}
+
+function sellerRunSimulationMode(modelUrl, garmentUrl) {
+  sellerLogVton('Starting Simulation Engine...');
+  sellerSetVtonProgress(10, '10%');
+  setTimeout(function() { sellerLogVton('Analyzing model body shape...'); sellerSetVtonProgress(30, '30%'); }, 400);
+  setTimeout(function() { sellerLogVton('Mapping garment points to body...'); sellerSetVtonProgress(55, '55%'); }, 900);
+  setTimeout(function() { sellerLogVton('Generating final image...'); sellerSetVtonProgress(80, '80%'); }, 1500);
+  setTimeout(function() {
+    sellerLogVton('Complete! Displaying result...');
+    sellerSetVtonProgress(100, '100%');
+    // Simulate overlay: show garment on model using CSS blending/actual product image
+    sellerShowVtonSuccess(modelUrl, sellerVtonState.currentProductImage || garmentUrl);
+  }, 2200);
+}
+
+async function sellerRunRealVtonAPI(modelUrl, garmentUrl) {
+  sellerLogVton('Connecting to Hugging Face Space (IDM-VTON)...');
+  sellerSetVtonProgress(5, '5%');
+  try {
+    var hfToken = '';
+    if (typeof AI_REC_SYSTEM !== 'undefined' && AI_REC_SYSTEM.hfToken) {
+      hfToken = AI_REC_SYSTEM.hfToken;
+    } else {
+      try {
+        var res = await fetch('/.env');
+        var text = await res.text();
+        var match = text.match(/HF_TOKEN\s*=\s*([^\s]+)/);
+        if (match && match[1]) {
+          hfToken = match[1].trim();
+        }
+      } catch(e) {}
+    }
+    var hfSpace = 'Gain1109/IDM-VTON';
+
+    sellerLogVton('Loading Gradio Client module...');
+    var { client, upload_files } = await import('https://cdn.jsdelivr.net/npm/@gradio/client@0.15.1/+esm');
+
+    sellerLogVton('Connecting to Space: ' + hfSpace);
+    sellerSetVtonProgress(15, '15%');
+    var connectOpts = hfToken ? { hf_token: hfToken } : {};
+    var clientInstance = await client(hfSpace, connectOpts);
+
+    sellerLogVton('Loading and preparing images...');
+    sellerSetVtonProgress(30, '30%');
+    var modelBlob = await sellerGetBlobFromUrl(modelUrl);
+    var garmentBlob = await sellerGetBlobFromUrl(garmentUrl);
+
+    // Convert Blobs to Files so they have filenames and extensions for the Python backend
+    var modelFile = new File([modelBlob], 'model.jpg', { type: modelBlob.type || 'image/jpeg' });
+    var garmentFile = new File([garmentBlob], 'garment.jpg', { type: garmentBlob.type || 'image/jpeg' });
+
+    sellerLogVton('Uploading model and garment images to Gradio server...');
+    sellerSetVtonProgress(40, '40%');
+    var uploadResult = await upload_files(clientInstance.config.root, [modelFile, garmentFile], hfToken);
+    if (!uploadResult || !uploadResult.files || uploadResult.files.length < 2) {
+      throw new Error('Failed to upload images to Gradio server');
+    }
+    var modelUploadedPath = uploadResult.files[0];
+    var garmentUploadedPath = uploadResult.files[1];
+
+    sellerLogVton('Sending inference request...');
+    sellerSetVtonProgress(60, '60%');
+
+    var result = await clientInstance.predict('/tryon', [
+      { background: { path: modelUploadedPath, orig_name: 'model.jpg' }, layers: [], composite: null },
+      { path: garmentUploadedPath, orig_name: 'garment.jpg' },
+      sellerVtonState.currentProductName || 'sustainable fashion item',
+      true,
+      false,
+      30,
+      42
+    ]);
+
+    sellerLogVton('Receiving results from API...');
+    sellerSetVtonProgress(90, '90%');
+
+    var resultData = result && result.data;
+    var resultImg = null;
+    if (resultData && resultData[0]) {
+      if (typeof resultData[0] === 'string') {
+        resultImg = resultData[0];
+      } else if (resultData[0] && resultData[0].url) {
+        resultImg = resultData[0].url;
+      }
+    }
+
+    if (!resultImg) throw new Error('API did not return a result image');
+
+    sellerSetVtonProgress(100, '100%');
+    sellerLogVton('AI Try-On complete!');
+    sellerShowVtonSuccess(modelUrl, resultImg);
+
+  } catch (err) {
+    sellerLogVton('Error: ' + (err.message || String(err)));
+    sellerSetVtonProgress(0, '0%');
+    showToast('❌ API Error: ' + (err.message || 'Connection failed').substring(0, 80));
+    sellerSetVtonState('empty');
+  }
+}
+
+async function sellerGetBlobFromUrl(url) {
+  if (url.startsWith('data:')) {
+    var parts = url.split(',');
+    var mime = parts[0].split(':')[1].split(';')[0];
+    var bytes = Uint8Array.from(atob(parts[1]), function(c) { return c.charCodeAt(0); });
+    return new Blob([bytes], { type: mime });
+  }
+  var response = await fetch(url);
+  return response.blob();
+}
+
+function sellerShowVtonSuccess(beforeUrl, afterUrl) {
+  sellerVtonState.resultImageUrl = afterUrl;
+  var beforeImg = document.getElementById('seller-vton-result-before-img');
+  var afterImg = document.getElementById('seller-vton-result-after-img');
+  if (beforeImg) beforeImg.src = beforeUrl;
+  if (afterImg) afterImg.src = afterUrl;
+  sellerSetVtonState('success');
+  initCompareSlider();
+}
+
+function initCompareSlider() {
+  var container = document.querySelector('.compare-slider-container');
+  var slider = document.getElementById('seller-vton-compare-slider-bar');
+  var afterDiv = document.querySelector('.compare-image-after');
+  if (!container || !slider || !afterDiv) return;
+
+  // Make sure the after container takes full width so clip-path works across the entire width
+  afterDiv.style.width = '100%';
+  slider.style.left = '50%';
+  afterDiv.style.clipPath = 'inset(0 50% 0 0)';
+
+  var dragging = false;
+
+  function startDrag(e) {
+    dragging = true;
+    if (e.cancelable) e.preventDefault();
+  }
+
+  function stopDrag() {
+    dragging = false;
+  }
+
+  function drag(e) {
+    if (!dragging) return;
+    var rect = container.getBoundingClientRect();
+    var clientX = e.clientX;
+    
+    // Support touch events
+    if (e.touches && e.touches[0]) {
+      clientX = e.touches[0].clientX;
+    }
+    
+    var x = Math.max(0, Math.min(clientX - rect.left, rect.width));
+    var pct = (x / rect.width) * 100;
+    slider.style.left = pct + '%';
+    afterDiv.style.clipPath = 'inset(0 ' + (100 - pct) + '% 0 0)';
+  }
+
+  // Mouse events
+  slider.addEventListener('mousedown', startDrag);
+  document.addEventListener('mouseup', stopDrag);
+  document.addEventListener('mousemove', drag);
+
+  // Touch events
+  slider.addEventListener('touchstart', startDrag, { passive: false });
+  document.addEventListener('touchend', stopDrag);
+  document.addEventListener('touchmove', drag, { passive: false });
+}
+
+function downloadVtonResult() {
+  if (!sellerVtonState.resultImageUrl) { showToast('No result image to save.'); return; }
+  var a = document.createElement('a');
+  a.href = sellerVtonState.resultImageUrl;
+  a.download = 'refashion-tryon-result.jpg';
+  a.click();
+}
+
+function addVtonProductToCart() {
+  var user = RefashionAuth._getUser();
+  if (!user) { showToast('Please login to add to cart!'); return; }
+  RefashionAuth.addToCart({
+    productId: 'z_' + Date.now(),
+    name: sellerVtonState.currentProductName,
+    price: sellerVtonState.currentProductPrice,
+    priceStr: sellerVtonState.currentProductPriceStr,
+    image: sellerVtonState.currentProductImage,
+    variant: 'M - Default'
+  });
+  showToast('🛍️ Added "' + sellerVtonState.currentProductName + '" to cart!');
+  sellerCloseVtonStudio();
+}
+
+// Expose VTON functions globally
+window.sellerOpenVtonStudio = sellerOpenVtonStudio;
+window.sellerCloseVtonStudio = sellerCloseVtonStudio;
+window.sellerSelectVtonModel = sellerSelectVtonModel;
+window.sellerHandleVtonUserUpload = sellerHandleVtonUserUpload;
+window.sellerToggleSimulateMode = sellerToggleSimulateMode;
+window.sellerStartVtonInference = sellerStartVtonInference;
+window.downloadVtonResult = downloadVtonResult;
+window.addVtonProductToCart = addVtonProductToCart;
+
+// Map Picker Functionality
+var mapPickerObj = null;
+var mapPickerMarker = null;
+
+function loadLeaflet(callback) {
+  if (window.L) {
+    callback();
+    return;
+  }
+  var link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+  document.head.appendChild(link);
+  
+  var script = document.createElement('script');
+  script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+  script.onload = function() {
+    callback();
+  };
+  document.head.appendChild(script);
+}
+
+function openMapPicker() {
+  var overlay = document.getElementById('map-picker-overlay');
+  if (overlay) overlay.classList.add('show');
+  
+  loadLeaflet(function() {
+    // Default Vietnam coordinates (Da Nang center)
+    var defaultLat = 16.047079;
+    var defaultLng = 108.206230;
+    var defaultZoom = 5;
+    
+    // Check current address input value
+    var currentAddress = document.getElementById('edit-address').value.trim();
+    document.getElementById('map-selected-address-text').textContent = currentAddress || 'Not selected';
+    document.getElementById('map-search-input').value = currentAddress;
+
+    if (!mapPickerObj) {
+      mapPickerObj = L.map('map-picker-canvas').setView([defaultLat, defaultLng], defaultZoom);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(mapPickerObj);
+      
+      mapPickerMarker = L.marker([defaultLat, defaultLng], { draggable: true }).addTo(mapPickerObj);
+      
+      // Handle map click
+      mapPickerObj.on('click', function(e) {
+        var lat = e.latlng.lat;
+        var lng = e.latlng.lng;
+        updateMapMarker(lat, lng);
+      });
+      
+      // Handle marker drag
+      mapPickerMarker.on('dragend', function() {
+        var pos = mapPickerMarker.getLatLng();
+        updateMapMarker(pos.lat, pos.lng);
+      });
+    } else {
+      mapPickerObj.invalidateSize();
+    }
+
+    // Try to geocode current address if it exists, otherwise default to VN center
+    if (currentAddress) {
+      searchAddressOnMap(currentAddress);
+    } else {
+      mapPickerObj.setView([defaultLat, defaultLng], defaultZoom);
+      mapPickerMarker.setLatLng([defaultLat, defaultLng]);
+    }
+  });
+}
+
+function closeMapPicker() {
+  var overlay = document.getElementById('map-picker-overlay');
+  if (overlay) overlay.classList.remove('show');
+}
+
+function updateMapMarker(lat, lng) {
+  if (mapPickerMarker) {
+    mapPickerMarker.setLatLng([lat, lng]);
+  }
+  
+  document.getElementById('map-selected-address-text').textContent = 'Determining address...';
+  
+  var url = 'https://nominatim.openstreetmap.org/reverse?format=json&lat=' + lat + '&lon=' + lng + '&accept-language=vi';
+  
+  fetch(url)
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      if (data && data.display_name) {
+        document.getElementById('map-selected-address-text').textContent = data.display_name;
+      } else {
+        document.getElementById('map-selected-address-text').textContent = lat.toFixed(5) + ', ' + lng.toFixed(5);
+      }
+    })
+    .catch(function() {
+      document.getElementById('map-selected-address-text').textContent = lat.toFixed(5) + ', ' + lng.toFixed(5);
+    });
+}
+
+function searchAddressOnMap(queryOverride) {
+  var query = queryOverride || document.getElementById('map-search-input').value.trim();
+  if (!query) return;
+  
+  var searchUrl = 'https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(query) + '&countrycodes=vn&limit=1&accept-language=vi';
+  
+  document.getElementById('map-selected-address-text').textContent = 'Searching...';
+  
+  fetch(searchUrl)
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      if (data && data.length > 0) {
+        var first = data[0];
+        var lat = parseFloat(first.lat);
+        var lng = parseFloat(first.lon);
+        
+        if (mapPickerObj && mapPickerMarker) {
+          mapPickerObj.setView([lat, lng], 16);
+          mapPickerMarker.setLatLng([lat, lng]);
+        }
+        document.getElementById('map-selected-address-text').textContent = first.display_name;
+      } else {
+        if (queryOverride) {
+          var defaultLat = 16.047079;
+          var defaultLng = 108.206230;
+          if (mapPickerObj && mapPickerMarker) {
+            mapPickerObj.setView([defaultLat, defaultLng], 5);
+            mapPickerMarker.setLatLng([defaultLat, defaultLng]);
+          }
+          document.getElementById('map-selected-address-text').textContent = queryOverride;
+        } else {
+          document.getElementById('map-selected-address-text').textContent = 'No address found in Vietnam.';
+        }
+      }
+    })
+    .catch(function() {
+      document.getElementById('map-selected-address-text').textContent = 'Connection error during search.';
+    });
+}
+
+function confirmMapSelection() {
+  var address = document.getElementById('map-selected-address-text').textContent;
+  if (address && address !== 'Not selected' && address !== 'Searching...' && address !== 'Determining address...' && address !== 'No address found in Vietnam.' && address !== 'Connection error during search.') {
+    document.getElementById('edit-address').value = address;
+  }
+  closeMapPicker();
+}
+
+// Expose map functions globally
+window.openMapPicker = openMapPicker;
+window.closeMapPicker = closeMapPicker;
+window.searchAddressOnMap = searchAddressOnMap;
+window.confirmMapSelection = confirmMapSelection;
+
+/* ==================== ADVANCED SEARCH & VOICE SEARCH LOGIC ==================== */
+function initAdvancedSearch() {
+  var searchInput = document.getElementById('filter-search');
+  var voiceBtn = document.getElementById('voice-search-btn');
+  var dropdown = document.getElementById('search-suggestions-dropdown');
+  if (!searchInput) return;
+
+  if (voiceBtn) {
+    var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      voiceBtn.style.display = 'none';
+    } else {
+      var recognition = new SpeechRecognition();
+      recognition.lang = 'en-US';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      var isListening = false;
+
+      recognition.onstart = function() {
+        isListening = true;
+        voiceBtn.innerHTML = '<i class="fa-solid fa-microphone-lines fa-bounce" style="color:var(--primary)"></i>';
+        searchInput.placeholder = 'Listening... Speak now';
+        showToast('🎙️ Microphone active. Speak to search...');
+      };
+
+      recognition.onend = function() {
+        isListening = false;
+        voiceBtn.innerHTML = '<i class="fa-solid fa-microphone"></i>';
+        searchInput.placeholder = 'Search eco-products...';
+      };
+
+      recognition.onerror = function(event) {
+        console.error('Speech recognition error:', event.error);
+        if (event.error === 'not-allowed') {
+          showToast('❌ Microphone permission denied');
+        } else {
+          showToast('❌ Voice recognition error: ' + event.error);
+        }
+      };
+
+      recognition.onresult = function(event) {
+        var transcript = event.results[0][0].transcript;
+        searchInput.value = transcript;
+        shopState.searchQuery = transcript;
+        shopState.currentPage = 1;
+        saveShopState();
+        renderShopProducts();
+
+        if (typeof AI_REC_SYSTEM !== 'undefined') {
+          AI_REC_SYSTEM.trackSearch(transcript);
+        }
+        showToast('🎙️ Found: "' + transcript + '"');
+      };
+
+      voiceBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (isListening) {
+          recognition.stop();
+        } else {
+          recognition.start();
+        }
+      });
+    }
+  }
+
+  function showSuggestions() {
+    if (!dropdown) return;
+
+    var history = [];
+    if (typeof AI_REC_SYSTEM !== 'undefined' && AI_REC_SYSTEM.profile && AI_REC_SYSTEM.profile.history) {
+      history = AI_REC_SYSTEM.profile.history;
+    }
+
+    var html = '';
+
+    var keywords = [];
+    if (typeof AI_REC_SYSTEM !== 'undefined' && AI_REC_SYSTEM.profile && AI_REC_SYSTEM.profile.keywords) {
+      for (var kw in AI_REC_SYSTEM.profile.keywords) {
+        if (AI_REC_SYSTEM.profile.keywords[kw] > 0) {
+          keywords.push({ kw: kw, weight: AI_REC_SYSTEM.profile.keywords[kw] });
+        }
+      }
+      keywords.sort(function(a, b) { return b.weight - a.weight; });
+    }
+
+    if (history.length > 0) {
+      html += '<div class="suggestion-group-title">Based on your recent clicks</div>';
+
+      var seenProds = {};
+      var count = 0;
+      for (var i = 0; i < history.length && count < 4; i++) {
+        var hItem = history[i];
+        if (seenProds[hItem.productId]) continue;
+        seenProds[hItem.productId] = true;
+        count++;
+
+        var pImg = 'https://images.unsplash.com/photo-1544441893-675973e31985?q=80&w=1200';
+        if (typeof SHOP_PRODUCTS !== 'undefined') {
+          for (var j = 0; j < SHOP_PRODUCTS.length; j++) {
+            if (String(SHOP_PRODUCTS[j].id) === String(hItem.productId)) {
+              pImg = SHOP_PRODUCTS[j].image;
+              break;
+            }
+          }
+        }
+
+        html += '<div class="suggestion-item product-suggestion" data-id="' + hItem.productId + '">' +
+                  '<img src="' + pImg + '" style="width:36px;height:36px;object-fit:cover;border-radius:6px;border:1px solid var(--border)" />' +
+                  '<div style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' +
+                    '<div style="font-weight:600;font-size:0.85rem;color:var(--foreground)">' + hItem.name + '</div>' +
+                    '<div style="font-size:0.75rem;color:var(--text-muted)">Recently ' + hItem.action + 'ed</div>' +
+                  '</div>' +
+                '</div>';
+      }
+    }
+
+    if (keywords.length > 0) {
+      html += '<div class="suggestion-group-title">Suggested Searches</div>';
+      html += '<div style="display:flex;flex-wrap:wrap;gap:0.4rem;padding:0.4rem 1rem 0.6rem 1rem">';
+      var maxKeywords = Math.min(6, keywords.length);
+      for (var i = 0; i < maxKeywords; i++) {
+        html += '<span class="suggestion-tag" data-val="' + keywords[i].kw + '">' + keywords[i].kw + '</span>';
+      }
+      html += '</div>';
+    }
+
+    if (!html) {
+      html += '<div style="padding:1rem;text-align:center;font-size:0.85rem;color:var(--text-muted)">Type to search or browse categories below</div>';
+    }
+
+    dropdown.innerHTML = html;
+    dropdown.style.display = 'block';
+
+    var prodItems = dropdown.querySelectorAll('.product-suggestion');
+    prodItems.forEach(function(el) {
+      el.addEventListener('click', function() {
+        var pId = this.getAttribute('data-id');
+        window.location.href = '/buyer/shop-detail.html?id=' + pId;
+      });
+    });
+
+    var tags = dropdown.querySelectorAll('.suggestion-tag');
+    tags.forEach(function(el) {
+      el.addEventListener('click', function() {
+        var val = this.getAttribute('data-val');
+        searchInput.value = val;
+        shopState.searchQuery = val;
+        shopState.currentPage = 1;
+        saveShopState();
+        renderShopProducts();
+        if (typeof AI_REC_SYSTEM !== 'undefined') {
+          AI_REC_SYSTEM.trackSearch(val);
+        }
+        dropdown.style.display = 'none';
+      });
+    });
+  }
+
+  searchInput.addEventListener('focus', function() {
+    showSuggestions();
+  });
+
+  document.addEventListener('click', function(e) {
+    if (dropdown && !searchInput.contains(e.target) && !dropdown.contains(e.target)) {
+      dropdown.style.display = 'none';
+    }
+  });
+}
+
+
+/* ==================== ORDER HISTORY PAGE ==================== */
+function initOrdersPage() {
+  var user = RefashionAuth._getUser();
+  if (!user) { window.location.href = '/auth/login.html?redirect=/buyer/orders.html'; return; }
+  renderNavbar('navbar-container');
+  renderFooter('footer-container');
+  renderOrders('all');
+}
+
+function renderOrders(activeTab) {
+  activeTab = activeTab || 'all';
+  window.buyerActiveTab = activeTab;
+  var user = RefashionAuth._getUser();
+  var container = document.getElementById('orders-content');
+  if (!user || !container) return;
+
+  var orders = RefashionAuth._getOrders();
+  
+  // Calculate counts for badges
+  var allCount = orders.length;
+  var pendingCount = orders.filter(function(o) { return o.status === 'pending'; }).length;
+  var packedCount = orders.filter(function(o) { return o.status === 'confirmed' || o.status === 'packed'; }).length;
+  var shippingCount = orders.filter(function(o) { return o.status === 'shipping'; }).length;
+  var completedCount = orders.filter(function(o) { return o.status === 'completed' || o.status === 'delivered'; }).length;
+  var cancelledCount = orders.filter(function(o) { return o.status === 'cancelled'; }).length;
+
+  // Filter orders based on activeTab
+  var filteredOrders = [];
+  if (activeTab === 'all') {
+    filteredOrders = orders;
+  } else if (activeTab === 'pending') {
+    filteredOrders = orders.filter(function(o) { return o.status === 'pending'; });
+  } else if (activeTab === 'packed') {
+    filteredOrders = orders.filter(function(o) { return o.status === 'confirmed' || o.status === 'packed'; });
+  } else if (activeTab === 'shipping') {
+    filteredOrders = orders.filter(function(o) { return o.status === 'shipping'; });
+  } else if (activeTab === 'completed') {
+    filteredOrders = orders.filter(function(o) { return o.status === 'completed' || o.status === 'delivered'; });
+  } else if (activeTab === 'cancelled') {
+    filteredOrders = orders.filter(function(o) { return o.status === 'cancelled'; });
+  }
+
+  var tabsHtml = 
+    '<div class="orders-tabs">' +
+      '<div class="order-tab ' + (activeTab === 'all' ? 'active' : '') + '" onclick="changeOrderTab(\'all\')">' +
+        'All <span class="tab-badge">' + allCount + '</span>' +
+      '</div>' +
+      '<div class="order-tab ' + (activeTab === 'pending' ? 'active' : '') + '" onclick="changeOrderTab(\'pending\')">' +
+        'Pending <span class="tab-badge">' + pendingCount + '</span>' +
+      '</div>' +
+      '<div class="order-tab ' + (activeTab === 'packed' ? 'active' : '') + '" onclick="changeOrderTab(\'packed\')">' +
+        'Awaiting Pickup <span class="tab-badge">' + packedCount + '</span>' +
+      '</div>' +
+      '<div class="order-tab ' + (activeTab === 'shipping' ? 'active' : '') + '" onclick="changeOrderTab(\'shipping\')">' +
+        'Shipping <span class="tab-badge">' + shippingCount + '</span>' +
+      '</div>' +
+      '<div class="order-tab ' + (activeTab === 'completed' ? 'active' : '') + '" onclick="changeOrderTab(\'completed\')">' +
+        'Delivered <span class="tab-badge">' + completedCount + '</span>' +
+      '</div>' +
+      '<div class="order-tab ' + (activeTab === 'cancelled' ? 'active' : '') + '" onclick="changeOrderTab(\'cancelled\')">' +
+        'Cancelled <span class="tab-badge">' + cancelledCount + '</span>' +
+      '</div>' +
+    '</div>';
+
+  var ordersHtml = '';
+  if (filteredOrders.length > 0) {
+    for (var i = 0; i < filteredOrders.length; i++) {
+      var o = filteredOrders[i];
+      var profStatusMap = {
+        pending: { badge: 'var(--sentiment-neu-light)', color: 'var(--sentiment-neu)', text: 'Pending', icon: 'fa-clock' },
+        confirmed: { badge: 'var(--primary-light)', color: 'var(--primary)', text: 'Confirmed', icon: 'fa-circle-check' },
+        packed: { badge: 'var(--primary-light)', color: 'var(--primary)', text: 'Awaiting Pickup', icon: 'fa-box' },
+        shipping: { badge: 'var(--accent-light)', color: 'var(--accent)', text: 'Shipping', icon: 'fa-truck-fast' },
+        completed: { badge: 'var(--sentiment-pos-light)', color: 'var(--sentiment-pos)', text: 'Completed', icon: 'fa-circle-check' },
+        delivered: { badge: 'var(--sentiment-pos-light)', color: 'var(--sentiment-pos)', text: 'Delivered', icon: 'fa-circle-check' },
+        cancelled: { badge: 'var(--danger-light)', color: 'var(--danger)', text: 'Cancelled', icon: 'fa-circle-xmark' },
+        return_pending: { badge: 'rgba(217, 119, 6, 0.1)', color: '#d97706', text: 'Return Requested', icon: 'fa-triangle-exclamation' },
+        disputed: { badge: 'rgba(198, 40, 40, 0.1)', color: '#c62828', text: 'Disputed (Admin Review)', icon: 'fa-circle-exclamation' },
+        refunded: { badge: 'rgba(85, 122, 70, 0.1)', color: '#557A46', text: 'Refunded', icon: 'fa-arrow-rotate-left' }
+      };
+      var ps = profStatusMap[o.status] || profStatusMap.pending;
+      var statusBadge = ps.badge;
+      var statusColor = ps.color;
+      var statusText = ps.text;
+      var statusIcon = ps.icon;
+      var firstItemId = (o.items && o.items.length > 0) ? o.items[0].id : '1';
+      var itemsHtml = '';
+      if (o.items) {
+        for (var j = 0; j < o.items.length; j++) {
+          var item = o.items[j];
+          var iImage = item.image || '../images/placeholder.png';
+          var iName = item.name || ('Sản phẩm ' + (item.productId || item.id || 'N/A'));
+          var iQty = item.quantity || 1;
+          var iPriceStr = item.priceStr || (item.price ? item.price.toLocaleString('vi-VN') + ' đ' : '0 đ');
+          itemsHtml +=
+            '<div onclick="goToDetail(\'' + (item.productId || item.id) + '\')" style="cursor:pointer;display:flex;align-items:center;gap:0.75rem;background-color:var(--card);padding:0.6rem 1rem;border-radius:12px;border:1px solid var(--border);transition:all 0.25s ease;" onmouseover="this.style.borderColor=\'var(--primary)\';this.style.transform=\'translateY(-2px)\';" onmouseout="this.style.borderColor=\'var(--border)\';this.style.transform=\'none\';">' +
+              '<img src="' + iImage + '" style="width:40px;height:40px;border-radius:8px;object-fit:cover" />' +
+              '<div><p style="font-size:0.8rem;font-weight:600;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + iName + '</p><p style="font-size:0.72rem;color:var(--text-muted)">x' + iQty + ' \u2022 ' + iPriceStr + '</p></div>' +
+            '</div>';
+        }
+      }
+
+      var returnInfoHtml = '';
+      if (o.status === 'return_pending' || o.status === 'disputed' || o.status === 'refunded') {
+        returnInfoHtml = 
+          '<div style="margin-top:0.75rem;padding:0.75rem 1rem;background:rgba(217,119,6,0.05);border-radius:12px;border:1px solid rgba(217,119,6,0.15);font-size:0.8rem;color:var(--text-muted);">' +
+            '<div style="font-weight:700;color:#d97706;margin-bottom:0.25rem;"><i class="fa-solid fa-triangle-exclamation" style="margin-right:0.35rem"></i>Return Request Details</div>' +
+            '<div><strong>Reason:</strong> ' + (o.returnReason || 'N/A') + '</div>' +
+            (o.returnDescription ? '<div><strong>Details:</strong> ' + o.returnDescription + '</div>' : '') +
+          '</div>';
+      }
+
+      var actionButtonsHtml = '<button class="btn btn-outline" onclick="window.location.href=\'/buyer/order-tracking.html?order=' + o.id + '\'" style="border-radius:8px;font-size:0.75rem;padding:6px 14px;height:auto;font-weight:700;border-color:var(--primary);color:var(--primary);cursor:pointer;transition:all 0.2s;" onmouseover="this.style.opacity=\'0.85\'" onmouseout="this.style.opacity=\'1\';"><i class="fa-solid fa-truck" style="margin-right:0.3rem"></i>Track</button>';
+      
+      if (o.status === 'completed' || o.status === 'delivered') {
+        actionButtonsHtml += '<button class="btn btn-outline" onclick="openReturnModal(\'' + o.id + '\')" style="border-radius:8px;font-size:0.75rem;padding:6px 14px;height:auto;font-weight:700;border-color:#b91c1c;color:#b91c1c;margin-left:0.5rem;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background=\'#fef2f2\'" onmouseout="this.style.background=\'none\'"><i class="fa-solid fa-arrow-rotate-left" style="margin-right:0.3rem"></i>Return/Refund</button>';
+      }
+      
+      actionButtonsHtml += '<button class="btn btn-primary" onclick="goToDetail(\'' + firstItemId + '\')" style="border-radius:8px;font-size:0.75rem;padding:6px 14px;height:auto;font-weight:700;background-color:var(--accent);border-color:var(--accent);color:var(--foreground);margin-left:0.5rem;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.opacity=\'0.85\'" onmouseout="this.style.opacity=\'1\';">Buy Again</button>';
+
+      var safeDate = o.date || new Date(o.createdAt || Date.now()).toLocaleDateString('en-US');
+      var safeTotalStr = o.totalStr || (o.total ? o.total.toLocaleString('vi-VN') + ' đ' : '0 đ');
+      var safeGC = o.greenCoinEarned || 0;
+
+      ordersHtml +=
+        '<div style="background-color:var(--card); border-radius:20px; border:1px solid var(--border); padding:1.5rem; margin-bottom:1.25rem; box-shadow:0 4px 15px var(--shadow);">' +
+          '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem">' +
+            '<div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap"><span style="font-weight:800;font-size:0.95rem;color:var(--primary)">#' + o.id + '</span><span style="font-size:0.8rem;color:var(--text-muted)"><i class="fa-solid fa-calendar" style="margin-right:0.3rem"></i>' + safeDate + '</span></div>' +
+            '<div style="display:flex;gap:0.75rem;align-items:center"><span class="badge" style="background-color:' + statusBadge + ';color:' + statusColor + ';text-transform:none;font-size:0.75rem; display:inline-flex; align-items:center; gap:0.25rem;"><i class="fa-solid ' + statusIcon + '"></i>' + statusText + '</span><span style="font-weight:800;font-size:1.05rem;color:var(--accent)">' + safeTotalStr + '</span></div>' +
+          '</div>' +
+          '<div style="display:flex;gap:1rem;flex-wrap:wrap">' + itemsHtml + '</div>' +
+          returnInfoHtml +
+          '<div style="margin-top:1.25rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;border-top:1px dashed var(--border);padding-top:1rem">' +
+            '<div style="display:flex;align-items:center;gap:0.35rem;font-size:0.8rem;color:var(--sentiment-pos)"><i class="fa-solid fa-leaf"></i><span>+' + safeGC + ' GreenCoin earned from this order</span></div>' +
+            '<div style="display:flex;gap:0.5rem">' +
+              actionButtonsHtml +
+            '</div>' +
+          '</div>' +
+        '</div>';
+    }
+  } else {
+    ordersHtml =
+      '<div style="text-align:center;padding:4rem 2rem;color:var(--text-muted);background:var(--card);border-radius:20px;border:1px solid var(--border);">' +
+        '<i class="fa-solid fa-receipt" style="font-size:3rem;margin-bottom:1rem;opacity:0.3"></i>' +
+        '<h3 style="font-size:1.2rem;font-weight:700;margin-bottom:0.5rem;color:var(--foreground)">No orders yet</h3>' +
+        '<p style="font-size:0.9rem;margin-bottom:1.5rem">You have no orders in this status.</p>' +
+        '<a href="shop.html" class="btn btn-primary" style="border-radius:12px">Explore Shop</a>' +
+      '</div>';
+  }
+
+  container.innerHTML =
+    '<div class="orders-section-container" style="margin-top:2rem;">' +
+      '<div class="section-header" style="margin-bottom:1.5rem;">' +
+        '<div>' +
+          '<span class="badge badge-primary" style="margin-bottom:0.5rem">Order History</span>' +
+          '<h2 style="font-family:var(--font-serif);font-size:1.75rem;color:var(--primary)">My Orders</h2>' +
+        '</div>' +
+      '</div>' +
+      tabsHtml +
+      '<div style="display:flex;flex-direction:column;gap:0.75rem">' + ordersHtml + '</div>' +
+    '</div>';
+}
+
+window.changeOrderTab = function(tabName) {
+  renderOrders(tabName);
+};
+
+window.openReturnModal = function(orderId) {
+  var modalId = 'return-refund-modal';
+  var modal = document.getElementById(modalId);
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = modalId;
+    modal.style = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:9999;opacity:0;transition:opacity 0.3s ease;';
+    document.body.appendChild(modal);
+  }
+  
+  modal.innerHTML = 
+    '<div class="eco-card" style="width:100%;max-width:500px;background:var(--card);border-radius:28px;border:1px solid var(--border);padding:2rem;box-shadow:0 10px 30px var(--shadow);transform:scale(0.9);transition:transform 0.3s ease;position:relative;">' +
+      '<button onclick="closeReturnModal()" style="position:absolute;top:1.25rem;right:1.25rem;background:none;border:none;color:var(--text-muted);font-size:1.25rem;cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>' +
+      '<h3 style="font-family:var(--font-serif);font-size:1.5rem;color:var(--primary);margin-bottom:0.5rem">Yêu cầu Trả hàng / Hoàn tiền</h3>' +
+      '<p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:1.5rem">Đơn hàng: <strong>#' + orderId + '</strong>. Vui lòng điền thông tin khiếu nại của bạn.</p>' +
+      
+      '<div style="margin-bottom:1rem">' +
+        '<label style="display:block;font-size:0.8rem;font-weight:700;margin-bottom:0.5rem;color:var(--foreground)">Lý do trả hàng <span style="color:var(--danger)">*</span></label>' +
+        '<select id="return-reason" class="input-editorial" style="width:100%;height:40px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--foreground);padding:0 0.75rem;font-size:0.85rem;">' +
+          '<option value="Hàng lỗi/Hỏng do vận chuyển">Hàng lỗi / Hỏng do vận chuyển</option>' +
+          '<option value="Sản phẩm sai kích thước/màu sắc">Sản phẩm sai kích thước / màu sắc</option>' +
+          '<option value="Sản phẩm không đúng mô tả">Sản phẩm không đúng mô tả</option>' +
+          '<option value="Hàng giả/nhái hoặc thiếu hàng">Hàng giả/nhái hoặc thiếu hàng</option>' +
+          '<option value="Khác">Lý do khác</option>' +
+        '</select>' +
+      '</div>' +
+      
+      '<div style="margin-bottom:1rem">' +
+        '<label style="display:block;font-size:0.8rem;font-weight:700;margin-bottom:0.5rem;color:var(--foreground)">Mô tả chi tiết <span style="color:var(--danger)">*</span></label>' +
+        '<textarea id="return-description" class="input-editorial" style="width:100%;height:100px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--foreground);padding:0.5rem 0.75rem;font-size:0.85rem;resize:none;" placeholder="Vui lòng mô tả rõ tình trạng sản phẩm..."></textarea>' +
+      '</div>' +
+      
+      '<div style="margin-bottom:1.5rem">' +
+        '<label style="display:block;font-size:0.8rem;font-weight:700;margin-bottom:0.5rem;color:var(--foreground)">Hình ảnh minh chứng (Mockup)</label>' +
+        '<div style="border:2px dashed var(--border);border-radius:12px;padding:1.5rem;text-align:center;cursor:pointer;background:rgba(85,122,70,0.02);transition:all 0.2s;" onmouseover="this.style.borderColor=\'var(--primary)\';" onmouseout="this.style.borderColor=\'var(--border)\';" onclick="document.getElementById(\'return-file\').click()">' +
+          '<i class="fa-regular fa-image" style="font-size:1.75rem;color:var(--primary);margin-bottom:0.5rem"></i>' +
+          '<p style="font-size:0.75rem;color:var(--text-muted);margin:0">Nhấp để tải ảnh hoặc video minh chứng</p>' +
+          '<input type="file" id="return-file" style="display:none" onchange="handleReturnFileSelect(event)" />' +
+          '<div id="return-file-preview" style="margin-top:0.75rem;font-size:0.75rem;color:var(--primary);font-weight:700;display:none"></div>' +
+        '</div>' +
+      '</div>' +
+      
+      '<div style="display:flex;justify-content:flex-end;gap:0.75rem">' +
+        '<button onclick="closeReturnModal()" class="btn btn-outline" style="border-radius:8px;font-size:0.75rem;padding:8px 16px;height:auto;">Hủy bỏ</button>' +
+        '<button onclick="submitReturnRequest(\'' + orderId + '\')" class="btn btn-primary" style="border-radius:8px;font-size:0.75rem;padding:8px 16px;height:auto;background:var(--primary);border-color:var(--primary);color:#fff;">Gửi yêu cầu</button>' +
+      '</div>' +
+    '</div>';
+    
+  setTimeout(function() {
+    modal.style.opacity = '1';
+    modal.children[0].style.transform = 'scale(1)';
+  }, 50);
+};
+
+window.closeReturnModal = function() {
+  var modal = document.getElementById('return-refund-modal');
+  if (modal) {
+    modal.style.opacity = '0';
+    modal.children[0].style.transform = 'scale(0.9)';
+    setTimeout(function() {
+      modal.remove();
+    }, 300);
+  }
+};
+
+window.handleReturnFileSelect = function(e) {
+  var file = e.target.files[0];
+  var preview = document.getElementById('return-file-preview');
+  if (file && preview) {
+    preview.innerText = '✓ Đã chọn file: ' + file.name;
+    preview.style.display = 'block';
+  }
+};
+
+window.submitReturnRequest = function(orderId) {
+  var reason = document.getElementById('return-reason').value;
+  var description = document.getElementById('return-description').value.trim();
+  if (!description) {
+    alert('Vui lòng nhập mô tả chi tiết lý do trả hàng.');
+    return;
+  }
+  
+  var allOrders = JSON.parse(localStorage.getItem('refashion_shared_orders') || '[]');
+  var orderFound = false;
+  for (var i = 0; i < allOrders.length; i++) {
+    if (allOrders[i].id === orderId) {
+      allOrders[i].status = 'return_pending';
+      allOrders[i].returnReason = reason;
+      allOrders[i].returnDescription = description;
+      allOrders[i].returnEvidence = '/images/sh_denim_shirt.png';
+      orderFound = true;
+      break;
+    }
+  }
+  
+  if (orderFound) {
+    localStorage.setItem('refashion_shared_orders', JSON.stringify(allOrders));
+    alert('Yêu cầu Trả hàng / Hoàn tiền đã được gửi đi thành công!');
+    closeReturnModal();
+    renderOrders('all');
+  } else {
+    alert('Không tìm thấy đơn hàng #' + orderId);
+  }
+};
+
+// Start polling for shared orders updates
+(function() {
+  var lastOrdersState = localStorage.getItem('refashion_shared_orders');
+  setInterval(function() {
+    var currentOrdersState = localStorage.getItem('refashion_shared_orders');
+    if (currentOrdersState !== lastOrdersState) {
+      lastOrdersState = currentOrdersState;
+      if (typeof renderOrders === 'function') {
+        renderOrders(window.buyerActiveTab || 'all');
+      }
+    }
+  }, 3000);
+})();
+
+
+/* ==================== BUYER FLOATING CHAT WIDGET ==================== */
+function initBuyerChatWidget() {
+  // 1. Add Styles
+  var style = document.createElement('style');
+  style.innerHTML = `
+    .buyer-chat-trigger {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #16a34a;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+      cursor: pointer;
+      z-index: 99999;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .buyer-chat-trigger:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 6px 16px rgba(22, 163, 74, 0.4);
+    }
+    .buyer-chat-trigger:active {
+      transform: scale(0.95);
+    }
+    .buyer-chat-panel {
+      position: fixed;
+      bottom: 92px;
+      right: 24px;
+      width: 360px;
+      height: 500px;
+      max-height: calc(100vh - 120px);
+      border-radius: 16px;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      z-index: 99999;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    .buyer-chat-header {
+      padding: 14px 16px;
+      background: #16a34a;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .buyer-chat-header .header-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+    .buyer-chat-header img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: white;
+    }
+    .buyer-chat-header .title-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+    .buyer-chat-header .store-name {
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+    .buyer-chat-header .store-status {
+      font-size: 0.75rem;
+      opacity: 0.85;
+    }
+    .buyer-chat-header .close-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 0;
+      line-height: 1;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+    .buyer-chat-header .close-btn:hover {
+      opacity: 1;
+    }
+    .buyer-chat-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      background: #f8fafc;
+    }
+    .buyer-chat-store-list {
+      padding: 8px 0;
+    }
+    .buyer-chat-store-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      cursor: pointer;
+      transition: background 0.2s;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .buyer-chat-store-item:hover {
+      background: #f1f5f9;
+    }
+    .buyer-chat-store-item img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .buyer-chat-store-item .store-item-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .buyer-chat-store-item .store-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    .buyer-chat-store-item .store-item-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #1e293b;
+    }
+    .buyer-chat-store-item .store-item-time {
+      font-size: 0.75rem;
+      color: #94a3b8;
+    }
+    .buyer-chat-store-item .store-item-msg {
+      font-size: 0.8rem;
+      color: #64748b;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-top: 2px;
+    }
+    .buyer-chat-messages {
+      flex: 1;
+      padding: 16px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .buyer-chat-msg {
+      max-width: 75%;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      line-height: 1.4;
+      word-break: break-word;
+    }
+    .buyer-chat-msg.incoming {
+      align-self: flex-start;
+      background: #ffffff;
+      color: #1e293b;
+      border: 1px solid #e2e8f0;
+      border-bottom-left-radius: 2px;
+    }
+    .buyer-chat-msg.outgoing {
+      align-self: flex-end;
+      background: #16a34a;
+      color: white;
+      border-bottom-right-radius: 2px;
+    }
+    .buyer-chat-msg-time {
+      font-size: 0.7rem;
+      color: #94a3b8;
+      margin-top: 4px;
+      text-align: right;
+    }
+    .buyer-chat-msg.outgoing .buyer-chat-msg-time {
+      color: rgba(255,255,255,0.7);
+    }
+    .buyer-chat-footer {
+      padding: 12px 16px;
+      background: #ffffff;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .buyer-chat-input {
+      flex: 1;
+      border: 1px solid #cbd5e1;
+      border-radius: 20px;
+      padding: 8px 16px;
+      font-size: 0.85rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .buyer-chat-input:focus {
+      border-color: #16a34a;
+    }
+    .buyer-chat-send-btn {
+      background: #16a34a;
+      color: white;
+      border: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .buyer-chat-send-btn:hover {
+      transform: scale(1.05);
+      background: #15803d;
+    }
+    .buyer-chat-send-btn:active {
+      transform: scale(0.95);
+    }
+    .buyer-chat-login-notice {
+      padding: 32px 24px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      gap: 16px;
+    }
+    .buyer-chat-login-notice p {
+      font-size: 0.9rem;
+      color: #64748b;
+      line-height: 1.5;
+      margin: 0;
+    }
+    .buyer-chat-login-notice a {
+      display: inline-block;
+      background: #16a34a;
+      color: white;
+      padding: 8px 20px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.85rem;
+      transition: background 0.2s;
+    }
+    .buyer-chat-login-notice a:hover {
+      background: #15803d;
+    }
+  `;
+  document.body.appendChild(style);
+
+  // 2. Add DOM elements
+  var trigger = document.createElement('div');
+  trigger.className = 'buyer-chat-trigger';
+  trigger.innerHTML = '<i class="fa-solid fa-comments"></i>';
+  document.body.appendChild(trigger);
+
+  var panel = document.createElement('div');
+  panel.className = 'buyer-chat-panel';
+  panel.id = 'buyer-chat-panel';
+  document.body.appendChild(panel);
+
+  var activeStoreName = null;
+
+  function renderPanelContent() {
+    var user = RefashionAuth._getUser();
+    if (!user) {
+      panel.innerHTML = `
+        <div class="buyer-chat-header">
+          <div class="header-info">
+            <span class="store-name">ReFashion Chat</span>
+          </div>
+          <button class="close-btn" onclick="toggleBuyerChatPanel()">&times;</button>
+        </div>
+        <div class="buyer-chat-body">
+          <div class="buyer-chat-login-notice">
+            <p>Vui lòng đăng nhập tài khoản Buyer để bắt đầu trò chuyện với các Cửa hàng trên ReFashion.</p>
+            <a href="/auth/login.html">Đăng nhập ngay</a>
+          </div>
+        </div>
+      `;
+      return;
+    }
+
+    var local = localStorage.getItem('refashion_shared_chats');
+    var conversations = [];
+    try { conversations = JSON.parse(local) || []; } catch(e) {}
+
+    var buyerName = user.name || "Nguyễn Văn A";
+
+    if (activeStoreName) {
+      var conv = conversations.find(function(c) {
+        return c.store === activeStoreName && c.buyer.name === buyerName;
+      });
+
+      if (!conv) {
+        var storeLogo = '../images/store_eco_wear.png';
+        if (activeStoreName === 'Denim Craft') storeLogo = '../images/store_denim_craft.png';
+        else if (activeStoreName === 'Hemp & Bamboo') storeLogo = '../images/store_hemp_bamboo.png';
+        else if (activeStoreName === 'Retro Chic') storeLogo = '../images/store_retro_chic.png';
+        else if (activeStoreName === 'Green Thread') storeLogo = '../images/store_green_thread.png';
+        else if (activeStoreName === 'Zero Waste') storeLogo = '../images/store_zero_waste.png';
+
+        conv = {
+          id: 'conv_' + Date.now(),
+          buyer: { name: buyerName, avatar: 'https://ui-avatars.com/api/?name=' + encodeURIComponent(buyerName) + '&background=0F172A&color=fff' },
+          store: activeStoreName,
+          storeLogo: storeLogo,
+          lastMessage: '',
+          lastTime: new Date().toISOString(),
+          unread: 0,
+          status: 'active',
+          messages: []
+        };
+        conversations.push(conv);
+        localStorage.setItem('refashion_shared_chats', JSON.stringify(conversations));
+      }
+
+      conv.unread = 0;
+
+      var messagesHtml = conv.messages.map(function(m) {
+        var cls = m.sender === 'buyer' ? 'outgoing' : 'incoming';
+        var timeStr = '';
+        try {
+          var d = new Date(m.time);
+          timeStr = d.getHours().toString().padStart(2, '0') + ':' + d.getMinutes().toString().padStart(2, '0');
+        } catch(e) {}
+        return `
+          <div class="buyer-chat-msg ${cls}">
+            <div>${escHtml(m.text)}</div>
+            <div class="buyer-chat-msg-time">${timeStr}</div>
+          </div>
+        `;
+      }).join('');
+
+      panel.innerHTML = `
+        <div class="buyer-chat-header">
+          <div class="header-info" onclick="window.backToStoreList()">
+            <i class="fa-solid fa-chevron-left" style="margin-right: 4px; font-size: 0.85rem;"></i>
+            <img src="${conv.storeLogo}" alt="Logo">
+            <div class="title-wrap">
+              <span class="store-name">${conv.store}</span>
+              <span class="store-status">Đang hoạt động</span>
+            </div>
+          </div>
+          <button class="close-btn" onclick="toggleBuyerChatPanel()">&times;</button>
+        </div>
+        <div class="buyer-chat-body" id="buyer-chat-messages-container">
+          <div class="buyer-chat-messages">
+            ${messagesHtml || '<div style="text-align:center;padding:24px;color:#94a3b8;font-size:0.8rem;">Bắt đầu cuộc trò chuyện của bạn!</div>'}
+          </div>
+        </div>
+        <div class="buyer-chat-footer">
+          <input type="text" class="buyer-chat-input" id="buyer-chat-input-field" placeholder="Nhập tin nhắn..." onkeydown="handleBuyerChatKeyDown(event)">
+          <button class="buyer-chat-send-btn" onclick="submitBuyerChatMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+      `;
+
+      var msgBody = document.getElementById('buyer-chat-messages-container');
+      if (msgBody) {
+        msgBody.scrollTop = msgBody.scrollHeight;
+      }
+
+      var inputField = document.getElementById('buyer-chat-input-field');
+      if (inputField) inputField.focus();
+
+    } else {
+      var myConvs = conversations.filter(function(c) {
+        return c.buyer.name === buyerName;
+      });
+
+      var storesHtml = myConvs.map(function(c) {
+        var timeStr = '';
+        try {
+          var d = new Date(c.lastTime);
+          timeStr = d.getHours().toString().padStart(2, '0') + ':' + d.getMinutes().toString().padStart(2, '0');
+        } catch(e) {}
+        return `
+          <div class="buyer-chat-store-item" onclick="window.openBuyerChatWithStore('${c.store}')">
+            <img src="${c.storeLogo}" alt="Logo">
+            <div class="store-item-info">
+              <div class="store-item-header">
+                <span class="store-item-name">${c.store}</span>
+                <span class="store-item-time">${timeStr}</span>
+              </div>
+              <div class="store-item-msg">${escHtml(c.lastMessage || 'Chưa có tin nhắn')}</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      panel.innerHTML = `
+        <div class="buyer-chat-header">
+          <div class="header-info">
+            <span class="store-name">Tin nhắn Cửa hàng</span>
+          </div>
+          <button class="close-btn" onclick="toggleBuyerChatPanel()">&times;</button>
+        </div>
+        <div class="buyer-chat-body">
+          <div class="buyer-chat-store-list">
+            ${storesHtml || '<div style="text-align:center;padding:48px 24px;color:#94a3b8;font-size:0.85rem;">Bạn chưa có cuộc hội thoại nào. Hãy ghé thăm các Cửa hàng để bắt đầu chat nhé!</div>'}
+          </div>
+        </div>
+      `;
+    }
+  }
+
+  window.toggleBuyerChatPanel = function() {
+    if (panel.style.display === 'flex') {
+      panel.style.display = 'none';
+    } else {
+      panel.style.display = 'flex';
+      renderPanelContent();
+    }
+  };
+
+  window.openBuyerChatWithStore = function(storeName) {
+    var user = RefashionAuth._getUser();
+    if (!user) {
+      panel.style.display = 'flex';
+      renderPanelContent();
+      return;
+    }
+    activeStoreName = storeName;
+    panel.style.display = 'flex';
+    renderPanelContent();
+  };
+
+  window.backToStoreList = function() {
+    activeStoreName = null;
+    renderPanelContent();
+  };
+
+  window.submitBuyerChatMessage = function() {
+    var input = document.getElementById('buyer-chat-input-field');
+    if (!input || !input.value.trim() || !activeStoreName) return;
+    var text = input.value.trim();
+    input.value = '';
+
+    var user = RefashionAuth._getUser();
+    var buyerName = user ? user.name : "Nguyễn Văn A";
+
+    var local = localStorage.getItem('refashion_shared_chats');
+    var conversations = [];
+    try { conversations = JSON.parse(local) || []; } catch(e) {}
+
+    var conv = conversations.find(function(c) {
+      return c.store === activeStoreName && c.buyer.name === buyerName;
+    });
+
+    if (conv) {
+      var nowStr = new Date().toISOString();
+      conv.messages.push({ sender: 'buyer', text: text, time: nowStr });
+      conv.lastMessage = text;
+      conv.lastTime = nowStr;
+      
+      localStorage.setItem('refashion_shared_chats', JSON.stringify(conversations));
+      renderPanelContent();
+    }
+  };
+
+  window.handleBuyerChatKeyDown = function(event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      submitBuyerChatMessage();
+    }
+  };
+
+  trigger.addEventListener('click', toggleBuyerChatPanel);
+
+  function escHtml(str) {
+    if (!str) return '';
+    var div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+  }
+
+  var lastChatState = localStorage.getItem('refashion_shared_chats');
+  setInterval(function() {
+    var currentChatState = localStorage.getItem('refashion_shared_chats');
+    if (currentChatState !== lastChatState) {
+      lastChatState = currentChatState;
+      if (panel.style.display === 'flex') {
+        var activeInput = document.activeElement;
+        var hadFocus = activeInput && activeInput.id === 'buyer-chat-input-field';
+        var textVal = hadFocus ? activeInput.value : '';
+
+        renderPanelContent();
+
+        if (hadFocus) {
+          var newInput = document.getElementById('buyer-chat-input-field');
+          if (newInput) {
+            newInput.value = textVal;
+            newInput.focus();
+          }
+        }
+      }
+    }
+  }, 3000);
+}
+
+
+/* ==================== BUYER FLOATING CHAT WIDGET ==================== */
+function initBuyerChatWidget() {
+  // 1. Add Styles
+  var style = document.createElement('style');
+  style.innerHTML = `
+    .buyer-chat-trigger {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #16a34a;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+      cursor: pointer;
+      z-index: 99999;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .buyer-chat-trigger:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 6px 16px rgba(22, 163, 74, 0.4);
+    }
+    .buyer-chat-trigger:active {
+      transform: scale(0.95);
+    }
+    .buyer-chat-panel {
+      position: fixed;
+      bottom: 92px;
+      right: 24px;
+      width: 360px;
+      height: 500px;
+      max-height: calc(100vh - 120px);
+      border-radius: 16px;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      z-index: 99999;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    .buyer-chat-header {
+      padding: 14px 16px;
+      background: #16a34a;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .buyer-chat-header .header-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+    .buyer-chat-header img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: white;
+    }
+    .buyer-chat-header .title-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+    .buyer-chat-header .store-name {
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+    .buyer-chat-header .store-status {
+      font-size: 0.75rem;
+      opacity: 0.85;
+    }
+    .buyer-chat-header .close-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 0;
+      line-height: 1;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+    .buyer-chat-header .close-btn:hover {
+      opacity: 1;
+    }
+    .buyer-chat-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      background: #f8fafc;
+    }
+    .buyer-chat-store-list {
+      padding: 8px 0;
+    }
+    .buyer-chat-store-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      cursor: pointer;
+      transition: background 0.2s;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .buyer-chat-store-item:hover {
+      background: #f1f5f9;
+    }
+    .buyer-chat-store-item img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .buyer-chat-store-item .store-item-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .buyer-chat-store-item .store-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    .buyer-chat-store-item .store-item-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #1e293b;
+    }
+    .buyer-chat-store-item .store-item-time {
+      font-size: 0.75rem;
+      color: #94a3b8;
+    }
+    .buyer-chat-store-item .store-item-msg {
+      font-size: 0.8rem;
+      color: #64748b;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-top: 2px;
+    }
+    .buyer-chat-messages {
+      flex: 1;
+      padding: 16px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .buyer-chat-msg {
+      max-width: 75%;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      line-height: 1.4;
+      word-break: break-word;
+    }
+    .buyer-chat-msg.incoming {
+      align-self: flex-start;
+      background: #ffffff;
+      color: #1e293b;
+      border: 1px solid #e2e8f0;
+      border-bottom-left-radius: 2px;
+    }
+    .buyer-chat-msg.outgoing {
+      align-self: flex-end;
+      background: #16a34a;
+      color: white;
+      border-bottom-right-radius: 2px;
+    }
+    .buyer-chat-msg-time {
+      font-size: 0.7rem;
+      color: #94a3b8;
+      margin-top: 4px;
+      text-align: right;
+    }
+    .buyer-chat-msg.outgoing .buyer-chat-msg-time {
+      color: rgba(255,255,255,0.7);
+    }
+    .buyer-chat-footer {
+      padding: 12px 16px;
+      background: #ffffff;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .buyer-chat-input {
+      flex: 1;
+      border: 1px solid #cbd5e1;
+      border-radius: 20px;
+      padding: 8px 16px;
+      font-size: 0.85rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .buyer-chat-input:focus {
+      border-color: #16a34a;
+    }
+    .buyer-chat-send-btn {
+      background: #16a34a;
+      color: white;
+      border: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .buyer-chat-send-btn:hover {
+      transform: scale(1.05);
+      background: #15803d;
+    }
+    .buyer-chat-send-btn:active {
+      transform: scale(0.95);
+    }
+    .buyer-chat-login-notice {
+      padding: 32px 24px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      gap: 16px;
+    }
+    .buyer-chat-login-notice p {
+      font-size: 0.9rem;
+      color: #64748b;
+      line-height: 1.5;
+      margin: 0;
+    }
+    .buyer-chat-login-notice a {
+      display: inline-block;
+      background: #16a34a;
+      color: white;
+      padding: 8px 20px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.85rem;
+      transition: background 0.2s;
+    }
+    .buyer-chat-login-notice a:hover {
+      background: #15803d;
+    }
+  `;
+  document.body.appendChild(style);
+
+  // 2. Add DOM elements
+  var trigger = document.createElement('div');
+  trigger.className = 'buyer-chat-trigger';
+  trigger.innerHTML = '<i class="fa-solid fa-comments"></i>';
+  document.body.appendChild(trigger);
+
+  var panel = document.createElement('div');
+  panel.className = 'buyer-chat-panel';
+  panel.id = 'buyer-chat-panel';
+  document.body.appendChild(panel);
+
+  var activeStoreName = null;
+
+  function renderPanelContent() {
+    var user = RefashionAuth._getUser();
+    if (!user) {
+      panel.innerHTML = `
+        <div class="buyer-chat-header">
+          <div class="header-info">
+            <span class="store-name">ReFashion Chat</span>
+          </div>
+          <button class="close-btn" onclick="toggleBuyerChatPanel()">&times;</button>
+        </div>
+        <div class="buyer-chat-body">
+          <div class="buyer-chat-login-notice">
+            <p>Vui lòng đăng nhập tài khoản Buyer để bắt đầu trò chuyện với các Cửa hàng trên ReFashion.</p>
+            <a href="/auth/login.html">Đăng nhập ngay</a>
+          </div>
+        </div>
+      `;
+      return;
+    }
+
+    var local = localStorage.getItem('refashion_shared_chats');
+    var conversations = [];
+    try { conversations = JSON.parse(local) || []; } catch(e) {}
+
+    var buyerName = user.name || "Nguyễn Văn A";
+
+    if (activeStoreName) {
+      var conv = conversations.find(function(c) {
+        return c.store === activeStoreName && c.buyer.name === buyerName;
+      });
+
+      if (!conv) {
+        var storeLogo = '../images/store_eco_wear.png';
+        if (activeStoreName === 'Denim Craft') storeLogo = '../images/store_denim_craft.png';
+        else if (activeStoreName === 'Hemp & Bamboo') storeLogo = '../images/store_hemp_bamboo.png';
+        else if (activeStoreName === 'Retro Chic') storeLogo = '../images/store_retro_chic.png';
+        else if (activeStoreName === 'Green Thread') storeLogo = '../images/store_green_thread.png';
+        else if (activeStoreName === 'Zero Waste') storeLogo = '../images/store_zero_waste.png';
+
+        conv = {
+          id: 'conv_' + Date.now(),
+          buyer: { name: buyerName, avatar: 'https://ui-avatars.com/api/?name=' + encodeURIComponent(buyerName) + '&background=0F172A&color=fff' },
+          store: activeStoreName,
+          storeLogo: storeLogo,
+          lastMessage: '',
+          lastTime: new Date().toISOString(),
+          unread: 0,
+          status: 'active',
+          messages: []
+        };
+        conversations.push(conv);
+        localStorage.setItem('refashion_shared_chats', JSON.stringify(conversations));
+      }
+
+      conv.unread = 0;
+
+      var messagesHtml = conv.messages.map(function(m) {
+        var cls = m.sender === 'buyer' ? 'outgoing' : 'incoming';
+        var timeStr = '';
+        try {
+          var d = new Date(m.time);
+          timeStr = d.getHours().toString().padStart(2, '0') + ':' + d.getMinutes().toString().padStart(2, '0');
+        } catch(e) {}
+        return `
+          <div class="buyer-chat-msg ${cls}">
+            <div>${escHtml(m.text)}</div>
+            <div class="buyer-chat-msg-time">${timeStr}</div>
+          </div>
+        `;
+      }).join('');
+
+      panel.innerHTML = `
+        <div class="buyer-chat-header">
+          <div class="header-info" onclick="window.backToStoreList()">
+            <i class="fa-solid fa-chevron-left" style="margin-right: 4px; font-size: 0.85rem;"></i>
+            <img src="${conv.storeLogo}" alt="Logo">
+            <div class="title-wrap">
+              <span class="store-name">${conv.store}</span>
+              <span class="store-status">Đang hoạt động</span>
+            </div>
+          </div>
+          <button class="close-btn" onclick="toggleBuyerChatPanel()">&times;</button>
+        </div>
+        <div class="buyer-chat-body" id="buyer-chat-messages-container">
+          <div class="buyer-chat-messages">
+            ${messagesHtml || '<div style="text-align:center;padding:24px;color:#94a3b8;font-size:0.8rem;">Bắt đầu cuộc trò chuyện của bạn!</div>'}
+          </div>
+        </div>
+        <div class="buyer-chat-footer">
+          <input type="text" class="buyer-chat-input" id="buyer-chat-input-field" placeholder="Nhập tin nhắn..." onkeydown="handleBuyerChatKeyDown(event)">
+          <button class="buyer-chat-send-btn" onclick="submitBuyerChatMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+      `;
+
+      var msgBody = document.getElementById('buyer-chat-messages-container');
+      if (msgBody) {
+        msgBody.scrollTop = msgBody.scrollHeight;
+      }
+
+      var inputField = document.getElementById('buyer-chat-input-field');
+      if (inputField) inputField.focus();
+
+    } else {
+      var myConvs = conversations.filter(function(c) {
+        return c.buyer.name === buyerName;
+      });
+
+      var storesHtml = myConvs.map(function(c) {
+        var timeStr = '';
+        try {
+          var d = new Date(c.lastTime);
+          timeStr = d.getHours().toString().padStart(2, '0') + ':' + d.getMinutes().toString().padStart(2, '0');
+        } catch(e) {}
+        return `
+          <div class="buyer-chat-store-item" onclick="window.openBuyerChatWithStore('${c.store}')">
+            <img src="${c.storeLogo}" alt="Logo">
+            <div class="store-item-info">
+              <div class="store-item-header">
+                <span class="store-item-name">${c.store}</span>
+                <span class="store-item-time">${timeStr}</span>
+              </div>
+              <div class="store-item-msg">${escHtml(c.lastMessage || 'Chưa có tin nhắn')}</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      panel.innerHTML = `
+        <div class="buyer-chat-header">
+          <div class="header-info">
+            <span class="store-name">Tin nhắn Cửa hàng</span>
+          </div>
+          <button class="close-btn" onclick="toggleBuyerChatPanel()">&times;</button>
+        </div>
+        <div class="buyer-chat-body">
+          <div class="buyer-chat-store-list">
+            ${storesHtml || '<div style="text-align:center;padding:48px 24px;color:#94a3b8;font-size:0.85rem;">Bạn chưa có cuộc hội thoại nào. Hãy ghé thăm các Cửa hàng để bắt đầu chat nhé!</div>'}
+          </div>
+        </div>
+      `;
+    }
+  }
+
+  window.toggleBuyerChatPanel = function() {
+    if (panel.style.display === 'flex') {
+      panel.style.display = 'none';
+    } else {
+      panel.style.display = 'flex';
+      renderPanelContent();
+    }
+  };
+
+  window.openBuyerChatWithStore = function(storeName) {
+    var user = RefashionAuth._getUser();
+    if (!user) {
+      panel.style.display = 'flex';
+      renderPanelContent();
+      return;
+    }
+    activeStoreName = storeName;
+    panel.style.display = 'flex';
+    renderPanelContent();
+  };
+
+  window.backToStoreList = function() {
+    activeStoreName = null;
+    renderPanelContent();
+  };
+
+  window.submitBuyerChatMessage = function() {
+    var input = document.getElementById('buyer-chat-input-field');
+    if (!input || !input.value.trim() || !activeStoreName) return;
+    var text = input.value.trim();
+    input.value = '';
+
+    var user = RefashionAuth._getUser();
+    var buyerName = user ? user.name : "Nguyễn Văn A";
+
+    var local = localStorage.getItem('refashion_shared_chats');
+    var conversations = [];
+    try { conversations = JSON.parse(local) || []; } catch(e) {}
+
+    var conv = conversations.find(function(c) {
+      return c.store === activeStoreName && c.buyer.name === buyerName;
+    });
+
+    if (conv) {
+      var nowStr = new Date().toISOString();
+      conv.messages.push({ sender: 'buyer', text: text, time: nowStr });
+      conv.lastMessage = text;
+      conv.lastTime = nowStr;
+      
+      localStorage.setItem('refashion_shared_chats', JSON.stringify(conversations));
+      renderPanelContent();
+    }
+  };
+
+  window.handleBuyerChatKeyDown = function(event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      submitBuyerChatMessage();
+    }
+  };
+
+  trigger.addEventListener('click', toggleBuyerChatPanel);
+
+  function escHtml(str) {
+    if (!str) return '';
+    var div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+  }
+
+  var lastChatState = localStorage.getItem('refashion_shared_chats');
+  setInterval(function() {
+    var currentChatState = localStorage.getItem('refashion_shared_chats');
+    if (currentChatState !== lastChatState) {
+      lastChatState = currentChatState;
+      if (panel.style.display === 'flex') {
+        var activeInput = document.activeElement;
+        var hadFocus = activeInput && activeInput.id === 'buyer-chat-input-field';
+        var textVal = hadFocus ? activeInput.value : '';
+
+        renderPanelContent();
+
+        if (hadFocus) {
+          var newInput = document.getElementById('buyer-chat-input-field');
+          if (newInput) {
+            newInput.value = textVal;
+            newInput.focus();
+          }
+        }
+      }
+    }
+  }, 3000);
+}
+
+
+/* ==================== DPP External API Integrations ==================== */
+
+async function fetchClimatiqEmission(dpp, isEn) {
+  var container = document.getElementById('dpp-climatiq-lca');
+  if (!container) return;
+  
+  const CLIMATIQ_API_KEY = "FM1SBQ6AAX2EK6PFW26X74174M";
+
+  try {
+    const res = await fetch("https://api.climatiq.io/data/v1/estimate", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${CLIMATIQ_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        emission_factor: {
+          activity_id: "textiles-type_curtain_and_linen_mills",
+          data_version: "^34",
+          region: "DE",
+          year: 2023,
+          year_fallback: true,
+        },
+        parameters: {
+          money: 50,
+          money_unit: "usd",
+        },
+      }),
+    });
+    
+    if (!res.ok) throw new Error("Climatiq API Error");
+    
+    const apiData = await res.json();
+    const emitted = apiData.co2e || dpp.co2Emitted;
+    const saved = emitted * 0.65; // Estimated 65% reduction for upcycling
+    
+    container.innerHTML = '<div style="text-align:center; padding:6px; color:var(--primary); font-size: 0.7rem; margin-bottom: 8px;"><i class="fa-solid fa-cloud"></i> Calculated live via Climatiq API</div>' + 
+      '<i class="fa-solid fa-circle-info"></i> ' + (isEn 
+          ? 'ReFashion process emits <strong>' + emitted.toFixed(2) + ' kg CO₂e</strong>, saving <strong>' + saved.toFixed(2) + ' kg CO₂e</strong> (<strong>65%</strong> reduction) compared to producing a new product.'
+          : 'Quy trình Refashion phát sinh <strong>' + emitted.toFixed(2) + ' kg CO₂e</strong>, tiết kiệm <strong>' + saved.toFixed(2) + ' kg CO₂e</strong> (giảm <strong>65%</strong>) so với sản xuất sản phẩm mới cùng loại.') +
+      '<p style="font-size: 0.65rem; color: var(--text-muted); margin-top: 10px; line-height: 1.3; text-align: left;">' +
+        (isEn ? '* Based on Climatiq Emission Factor: textiles-type_curtain_and_linen_mills (DE, 2023).' : '* Dựa trên Hệ số phát thải Climatiq: dệt may và vải lanh (Đức, 2023).') +
+      '</p>';
+  } catch (error) {
+    console.error('Climatiq Fallback:', error);
+    // Fallback logic
+    container.innerHTML = '<div style="text-align:center; padding:12px; color:var(--text-muted);"><i class="fa-solid fa-circle-info"></i> ' + (isEn ? 'Fallback Mode: Mock Data' : 'Chế độ Fallback: Dữ liệu mô phỏng') + '</div>' + 
+      '<i class="fa-solid fa-circle-info"></i> ' + (isEn 
+          ? 'ReFashion process emits <strong>' + dpp.co2Emitted.toFixed(2) + ' kg CO₂</strong> during transport & refurbishment, saving <strong>' + dpp.co2Saved.toFixed(2) + ' kg CO₂</strong> (<strong>' + dpp.co2ReductionPct.toFixed(0) + '%</strong> reduction) compared to producing a new product of the same type.'
+          : 'Quy trình Refashion phát sinh <strong>' + dpp.co2Emitted.toFixed(2) + ' kg CO₂</strong> trong quá trình vận chuyển & làm mới, tiết kiệm <strong>' + dpp.co2Saved.toFixed(2) + ' kg CO₂</strong> (giảm <strong>' + dpp.co2ReductionPct.toFixed(0) + '%</strong>) so với sản xuất sản phẩm mới cùng loại.') +
+      '<p style="font-size: 0.65rem; color: var(--text-muted); margin-top: 10px; line-height: 1.3; text-align: left;">' +
+        (isEn ? '* Calculations apply a 65% displacement rate based on standard LCA studies (Fallback Mode).' : '* Tính toán áp dụng hệ số thay thế 65% theo nghiên cứu LCA tiêu chuẩn (Chế độ Fallback).') +
+      '</p>';
+  }
+}
+
+async function fetchSupplyHubFacilities(dpp, isEn) {
+  var timelineContainer = document.getElementById('dpp-os-timeline');
+  var originContainer = document.getElementById('dpp-os-origin');
+  
+  try {
+    const url = "https://opensupplyhub.org/api/facilities/?q=textile&countries=VN&sector=Apparel&pageSize=4";
+    const res = await fetch(url);
+    if (!res.ok) throw new Error("Open Supply Hub API Error");
+    const apiData = await res.json();
+    
+    if (!apiData.features || apiData.features.length < 4) throw new Error("Not enough facilities");
+
+    const facilities = apiData.features.map(item => ({
+      osId: item.id,
+      name: item.properties.name,
+      country: item.properties.country_name,
+      address: item.properties.address || 'Vietnam',
+    }));
+    
+    if (originContainer) {
+      originContainer.innerHTML = '<i class="fa-solid fa-leaf" style="color:var(--primary); margin-top: 3px; font-size: 0.95rem;"></i>' +
+        '<div><strong>' + (isEn ? 'Collection details:' : 'Chi tiết nguồn thu gom:') + '</strong><br><strong>' + facilities[3].name + '</strong><br>' + facilities[3].address + '<br><a href="https://opensupplyhub.org/facilities/' + facilities[3].osId + '" target="_blank" style="color:var(--primary); font-size:0.75rem; text-decoration: underline;"><i class="fa-solid fa-link"></i> OS_ID: ' + facilities[3].osId + '</a></div>';
+    }
+    
+    if (timelineContainer) {
+        var html = 
+          '<div style="text-align:center; padding:6px; color:var(--primary); font-size: 0.7rem; margin-bottom: 8px;"><i class="fa-solid fa-globe"></i> Live data via Open Supply Hub API</div>' +
+          '<!-- Tier 1 -->' +
+          '<div class="dpp-timeline-node active expanded" id="dpp-node-1">' +
+            '<div class="dpp-node-indicator"></div>' +
+            '<div class="dpp-node-summary" onclick="toggleDppNode(1)">' +
+              '<div>' +
+                '<span class="dpp-node-tier">' + (isEn ? 'Tier 1: Assembly & Distribution' : 'Tier 1: Hoàn thiện & Phân Phối') + '</span>' +
+                '<div class="dpp-node-title">' + facilities[0].name + '</div>' +
+              '</div>' +
+              '<i class="fa-solid fa-chevron-right dpp-node-chevron"></i>' +
+            '</div>' +
+            '<div class="dpp-node-details">' +
+              '<p style="margin-bottom:3px;"><strong>' + (isEn ? 'Location' : 'Địa điểm') + ':</strong> ' + facilities[0].address + '</p>' +
+              '<p style="margin-bottom:3px;"><strong>OS_ID:</strong> <a href="https://opensupplyhub.org/facilities/' + facilities[0].osId + '" target="_blank" style="color:var(--primary); text-decoration:underline;">' + facilities[0].osId + '</a></p>' +
+              '<p>' + (isEn ? 'Verified Open Supply Hub Facility.' : 'Cơ sở được xác minh trên Open Supply Hub.') + '</p>' +
+            '</div>' +
+          '</div>' +
+          
+          '<!-- Tier 2 -->' +
+          '<div class="dpp-timeline-node" id="dpp-node-2">' +
+            '<div class="dpp-node-indicator"></div>' +
+            '<div class="dpp-node-summary" onclick="toggleDppNode(2)">' +
+              '<div>' +
+                '<span class="dpp-node-tier">' + (isEn ? 'Tier 2: Upcycling Creative Studio' : 'Tier 2: Xưởng Tái Tạo Thiết Kế') + '</span>' +
+                '<div class="dpp-node-title">' + facilities[1].name + '</div>' +
+              '</div>' +
+              '<i class="fa-solid fa-chevron-right dpp-node-chevron"></i>' +
+            '</div>' +
+            '<div class="dpp-node-details">' +
+              '<p style="margin-bottom:3px;"><strong>' + (isEn ? 'Location' : 'Địa điểm') + ':</strong> ' + facilities[1].address + '</p>' +
+              '<p style="margin-bottom:3px;"><strong>OS_ID:</strong> <a href="https://opensupplyhub.org/facilities/' + facilities[1].osId + '" target="_blank" style="color:var(--primary); text-decoration:underline;">' + facilities[1].osId + '</a></p>' +
+              '<p>' + (isEn ? 'Verified Open Supply Hub Facility.' : 'Cơ sở được xác minh trên Open Supply Hub.') + '</p>' +
+            '</div>' +
+          '</div>' +
+          
+          '<!-- Tier 3 -->' +
+          '<div class="dpp-timeline-node" id="dpp-node-3">' +
+            '<div class="dpp-node-indicator"></div>' +
+            '<div class="dpp-node-summary" onclick="toggleDppNode(3)">' +
+              '<div>' +
+                '<span class="dpp-node-tier">' + (isEn ? 'Tier 3: Fiber Processing & Spin-Opening' : 'Tier 3: Trạm Xử Lý Vải Mộc') + '</span>' +
+                '<div class="dpp-node-title">' + facilities[2].name + '</div>' +
+              '</div>' +
+              '<i class="fa-solid fa-chevron-right dpp-node-chevron"></i>' +
+            '</div>' +
+            '<div class="dpp-node-details">' +
+              '<p style="margin-bottom:3px;"><strong>' + (isEn ? 'Location' : 'Địa điểm') + ':</strong> ' + facilities[2].address + '</p>' +
+              '<p style="margin-bottom:3px;"><strong>OS_ID:</strong> <a href="https://opensupplyhub.org/facilities/' + facilities[2].osId + '" target="_blank" style="color:var(--primary); text-decoration:underline;">' + facilities[2].osId + '</a></p>' +
+              '<p>' + (isEn ? 'Verified Open Supply Hub Facility.' : 'Cơ sở được xác minh trên Open Supply Hub.') + '</p>' +
+            '</div>' +
+          '</div>';
+          
+        timelineContainer.innerHTML = html;
+    }
+  } catch(error) {
+     console.error('OS Hub Fallback:', error);
+     // Fallback logic for Open Supply Hub
+      if (originContainer) {
+        originContainer.innerHTML = '<i class="fa-solid fa-leaf" style="color:var(--primary); margin-top: 3px; font-size: 0.95rem;"></i>' +
+          '<div><strong>' + (isEn ? 'Collection details:' : 'Chi tiết nguồn thu gom:') + '</strong><br>' + dpp.materialOrigin + '</div>';
+      }
+      
+      if (timelineContainer) {
+        var htmlFallback = 
+          '<!-- Tier 1 -->' +
+          '<div class="dpp-timeline-node active expanded" id="dpp-node-1">' +
+            '<div class="dpp-node-indicator"></div>' +
+            '<div class="dpp-node-summary" onclick="toggleDppNode(1)">' +
+              '<div>' +
+                '<span class="dpp-node-tier">' + (isEn ? 'Tier 1: Assembly & Distribution' : 'Tier 1: Hoàn thiện & Phân Phối') + '</span>' +
+                '<div class="dpp-node-title">' + dpp.tier1Name + '</div>' +
+              '</div>' +
+              '<i class="fa-solid fa-chevron-right dpp-node-chevron"></i>' +
+            '</div>' +
+            '<div class="dpp-node-details">' +
+              '<p style="margin-bottom:3px;"><strong>' + (isEn ? 'Location' : 'Địa điểm') + ':</strong> ' + dpp.tier1Loc + '</p>' +
+              '<p style="margin-bottom:3px;"><strong>' + (isEn ? 'Certification' : 'Chứng nhận') + ':</strong> <span style="color:var(--primary)">' + dpp.tier1Cert + '</span></p>' +
+              '<p>' + dpp.tier1Desc + '</p>' +
+            '</div>' +
+          '</div>' +
+          
+          '<!-- Tier 2 -->' +
+          '<div class="dpp-timeline-node" id="dpp-node-2">' +
+            '<div class="dpp-node-indicator"></div>' +
+            '<div class="dpp-node-summary" onclick="toggleDppNode(2)">' +
+              '<div>' +
+                '<span class="dpp-node-tier">' + (isEn ? 'Tier 2: Upcycling Creative Studio' : 'Tier 2: Xưởng Tái Tạo Thiết Kế') + '</span>' +
+                '<div class="dpp-node-title">' + dpp.tier2Name + '</div>' +
+              '</div>' +
+              '<i class="fa-solid fa-chevron-right dpp-node-chevron"></i>' +
+            '</div>' +
+            '<div class="dpp-node-details">' +
+              '<p style="margin-bottom:3px;"><strong>' + (isEn ? 'Location' : 'Địa điểm') + ':</strong> ' + dpp.tier2Loc + '</p>' +
+              '<p style="margin-bottom:3px;"><strong>' + (isEn ? 'Certification' : 'Chứng nhận') + ':</strong> <span style="color:var(--primary)">' + dpp.tier2Cert + '</span></p>' +
+              '<p>' + dpp.tier2Desc + '</p>' +
+            '</div>' +
+          '</div>' +
+          
+          '<!-- Tier 3 -->' +
+          '<div class="dpp-timeline-node" id="dpp-node-3">' +
+            '<div class="dpp-node-indicator"></div>' +
+            '<div class="dpp-node-summary" onclick="toggleDppNode(3)">' +
+              '<div>' +
+                '<span class="dpp-node-tier">' + (isEn ? 'Tier 3: Fiber Processing & Spin-Opening' : 'Tier 3: Trạm Xử Lý Vải Mộc') + '</span>' +
+                '<div class="dpp-node-title">' + dpp.tier3Name + '</div>' +
+              '</div>' +
+              '<i class="fa-solid fa-chevron-right dpp-node-chevron"></i>' +
+            '</div>' +
+            '<div class="dpp-node-details">' +
+              '<p style="margin-bottom:3px;"><strong>' + (isEn ? 'Location' : 'Địa điểm') + ':</strong> ' + dpp.tier3Loc + '</p>' +
+              '<p style="margin-bottom:3px;"><strong>' + (isEn ? 'Certification' : 'Chứng nhận') + ':</strong> <span style="color:var(--primary)">' + dpp.tier3Cert + '</span></p>' +
+              '<p>' + dpp.tier3Desc + '</p>' +
+            '</div>' +
+          '</div>' +
+          
+          '<!-- Tier 4 -->' +
+          '<div class="dpp-timeline-node" id="dpp-node-4">' +
+            '<div class="dpp-node-indicator"></div>' +
+            '<div class="dpp-node-summary" onclick="toggleDppNode(4)">' +
+              '<div>' +
+                '<span class="dpp-node-tier">' + (isEn ? 'Tier 4: Material Sourcing & Collection' : 'Tier 4: Nguồn Vật Liệu Thu Gom') + '</span>' +
+                '<div class="dpp-node-title">' + dpp.tier4Name + '</div>' +
+              '</div>' +
+              '<i class="fa-solid fa-chevron-right dpp-node-chevron"></i>' +
+            '</div>' +
+            '<div class="dpp-node-details">' +
+              '<p style="margin-bottom:3px;"><strong>' + (isEn ? 'Location' : 'Địa điểm') + ':</strong> ' + dpp.tier4Loc + '</p>' +
+              '<p style="margin-bottom:3px;"><strong>' + (isEn ? 'Certification' : 'Chứng nhận') + ':</strong> <span style="color:var(--primary)">' + dpp.tier4Cert + '</span></p>' +
+              '<p>' + dpp.tier4Desc + '</p>' +
+            '</div>' +
+          '</div>';
+          
+        timelineContainer.innerHTML = htmlFallback;
+      }
+  }
+}
+
+
+function sellerUseVtonResult() {
+  if (sellerVtonState.resultImageUrl) {
+    var gallery = document.getElementById("product-image-gallery");
+    var placeholder = document.getElementById("product-upload-placeholder");
+    if (placeholder) placeholder.style.display = "none";
+    if (gallery) {
+      var item = document.createElement("div");
+      item.className = "gallery-item";
+      item.innerHTML = "<img src=\"" + sellerVtonState.resultImageUrl + "\" alt=\"AI Result\">" +
+                       "<button type=\"button\" class=\"btn-remove-img\" onclick=\"this.parentElement.remove()\">&times;</button>";
+      gallery.appendChild(item);
+    }
+    sellerCloseVtonStudio();
+  }
+}
+
+
+function sellerDownloadVtonResult() {
+  if (sellerVtonState.resultImageUrl) {
+    var a = document.createElement("a");
+    a.href = sellerVtonState.resultImageUrl;
+    a.download = "AI_Model_Image_" + Date.now() + ".jpg";
+    a.click();
+  }
+}
