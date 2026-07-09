@@ -2010,7 +2010,7 @@ function _renderShMarketGrid(grid, allItems) {
                         <i data-lucide="message-circle" style="width:13px;height:13px;"></i> Contact
                     </button>
                     <button class="btn-buy" onclick="shMarketContact('${item.id}', '${item.name.replace(/'/g, "\\'")}', '${item.phone}', ${item.price})">
-                        <i data-lucide="shopping-bag" style="width:13px;height:13px;"></i> Thu Mua
+                        <i data-lucide="shopping-bag" style="width:13px;height:13px;"></i> Source Item
                     </button>
                 </div>
                 <div class="sh-market-seller">
