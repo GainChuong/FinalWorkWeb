@@ -853,6 +853,16 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  const removeCampBannerBtn = document.getElementById('camp-remove-banner-btn');
+  if (removeCampBannerBtn) {
+    removeCampBannerBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById('camp-banner').value = '';
+      document.getElementById('camp-banner-preview').style.display = 'none';
+      document.getElementById('camp-banner-img').src = '';
+    });
+  }
+
   const saveCampBtn = document.getElementById('camp-save-btn');
   if (saveCampBtn) {
     saveCampBtn.addEventListener('click', function() {

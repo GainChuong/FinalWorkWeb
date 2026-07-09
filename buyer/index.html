@@ -139,13 +139,13 @@
       const bannerCampaigns = campaigns.filter(c => c.status === 'Active' && c.bannerImage);
       
       if (bannerCampaigns.length > 0 && carouselContainer && indicatorsContainer) {
-        carouselContainer.innerHTML = '';
-        indicatorsContainer.innerHTML = '';
+        const existingCount = document.querySelectorAll('.hero-slide').length;
         
-        bannerCampaigns.forEach((camp, index) => {
+        bannerCampaigns.forEach((camp, i) => {
+          const index = existingCount + i;
           // Slide
           const slide = document.createElement('div');
-          slide.className = 'hero-slide' + (index === 0 ? ' active' : '');
+          slide.className = 'hero-slide';
           slide.style.backgroundImage = 'url(' + camp.bannerImage + ')';
           // Optional overlay darkening
           slide.innerHTML = '<div style="position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.3);"></div>';
@@ -153,16 +153,10 @@
           
           // Indicator
           const ind = document.createElement('span');
-          ind.className = 'indicator' + (index === 0 ? ' active' : '');
+          ind.className = 'indicator';
           ind.onclick = function() { window.goToSlide(index); };
           indicatorsContainer.appendChild(ind);
         });
-        
-        // Update Title / Subtitle based on the first campaign maybe? (Optional)
-        const titleEl = document.querySelector('.hero-title');
-        const subEl = document.querySelector('.hero-subtitle');
-        if (titleEl) titleEl.innerHTML = bannerCampaigns[0].name;
-        if (subEl) subEl.innerHTML = bannerCampaigns[0].description || 'Join the circular fashion revolution today.';
       }
 
       // 2. Carousel Logic
