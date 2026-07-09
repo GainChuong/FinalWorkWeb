@@ -110,7 +110,19 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
 
-    users = accData.accounts || [];
+    
+    let lockedUsers = JSON.parse(localStorage.getItem('refashion_locked_users')) || {};
+    users = (accData.accounts || []).map(function(acc, i) {
+      let uId = (i + 1).toString().padStart(3, '0');
+      return {
+        id: 'U' + uId,
+        name: acc.name || acc.email,
+        role: acc.role ? acc.role.toUpperCase() : 'USER',
+        email: acc.email,
+        status: lockedUsers[acc.email.toLowerCase()] ? 'Locked' : 'Active'
+      };
+    });
+
     const approvedShops = users.filter(u => u.role === 'Seller').map(s => ({
       id: s.email, store: s.store || s.name, owner: s.name, email: s.email,
       designer: s.name, requestedAt: '2025-01-01', plan: 'Pro',
@@ -423,10 +435,23 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
+  
   window.toggleUserStatus = function (index) {
-    users[index].status = users[index].status === 'Active' ? 'Locked' : 'Active';
+    let lockedUsers = JSON.parse(localStorage.getItem('refashion_locked_users')) || {};
+    const email = users[index].email.toLowerCase();
+    
+    if (users[index].status === 'Active') {
+      users[index].status = 'Locked';
+      lockedUsers[email] = true;
+    } else {
+      users[index].status = 'Active';
+      delete lockedUsers[email];
+    }
+    
+    localStorage.setItem('refashion_locked_users', JSON.stringify(lockedUsers));
     renderUsers();
   };
+
 
   // 2. Orders
   function renderAdminOrders() {
