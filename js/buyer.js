@@ -109,6 +109,7 @@ function initBuyerPage() {
   renderNavbar('navbar-container');
   renderFooter('footer-container');
   renderFeaturedProducts();
+  initRssNews();
 
   var searchInput = document.getElementById('nav-search');
   if (searchInput) {
@@ -132,6 +133,87 @@ function initBuyerPage() {
       if (window.scrollY > 20) nav.classList.add('scrolled');
       else nav.classList.remove('scrolled');
     }
+  });
+}
+
+function initRssNews() {
+  var grid = document.getElementById('rss-news-grid');
+  if (!grid) return;
+
+  var feeds = [
+    { url: 'https://goodonyou.eco/feed', source: 'Good On You', icon: 'fa-leaf' },
+    { url: 'https://www.projectcece.com/blog/rss', source: 'Project Cece', icon: 'fa-earth-americas' },
+    { url: 'https://eco-stylist.com/feed', source: 'Eco-Stylist', icon: 'fa-shirt' }
+  ];
+
+  var allNews = [];
+  var fetchPromises = feeds.map(function(feed) {
+    return fetch('https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(feed.url))
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        if (data.status === 'ok' && data.items) {
+          data.items.forEach(function(item) {
+            var imgUrl = item.thumbnail || (item.enclosure && item.enclosure.link);
+            if (!imgUrl) {
+              var div = document.createElement('div');
+              div.innerHTML = item.content || item.description;
+              var img = div.querySelector('img');
+              if (img) imgUrl = img.src;
+            }
+            if (!imgUrl) imgUrl = 'https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d?q=80&w=800'; // fallback eco image
+            
+            var desc = (item.description || '').replace(/(<([^>]+)>)/gi, "");
+            var divTitle = document.createElement('div');
+            divTitle.innerHTML = item.title;
+            var cleanTitle = divTitle.textContent || divTitle.innerText;
+
+            allNews.push({
+              title: cleanTitle,
+              link: item.link,
+              pubDate: new Date(item.pubDate.replace(/-/g, '/')),
+              desc: desc.substring(0, 150) + '...',
+              image: imgUrl,
+              source: feed.source,
+              icon: feed.icon
+            });
+          });
+        }
+      })
+      .catch(function(err) { console.error('RSS Fetch Error for ' + feed.source + ':', err); });
+  });
+
+  Promise.all(fetchPromises).then(function() {
+    allNews.sort(function(a, b) { return b.pubDate - a.pubDate; });
+    var displayNews = allNews.slice(0, 6);
+    
+    if (displayNews.length === 0) {
+      grid.innerHTML = '<p style="text-align:center;width:100%;grid-column:1/-1;color:var(--text-muted);font-style:italic;">Unable to load news at this moment.</p>';
+      return;
+    }
+
+    var html = '';
+    displayNews.forEach(function(n) {
+      var dateStr = !isNaN(n.pubDate.getTime()) ? n.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : 'Recent';
+      html += 
+        '<a href="' + n.link + '" target="_blank" class="news-card">' +
+          '<div class="news-card-img-wrap">' +
+            '<span class="news-card-source"><i class="fa-solid ' + n.icon + '"></i> ' + n.source + '</span>' +
+            '<img src="' + n.image + '" alt="' + n.title.replace(/"/g, '&quot;') + '" onerror="this.src=\'https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d?q=80&w=800\'" />' +
+          '</div>' +
+          '<div class="news-card-body">' +
+            '<div class="news-card-meta">' +
+              '<span><i class="fa-regular fa-calendar" style="margin-right:4px;"></i> ' + dateStr + '</span>' +
+            '</div>' +
+            '<h3 class="news-card-title">' + n.title + '</h3>' +
+            '<p class="news-card-desc">' + n.desc + '</p>' +
+          '</div>' +
+          '<div class="news-card-footer">' +
+            '<span>Read full article</span>' +
+            '<i class="fa-solid fa-arrow-right"></i>' +
+          '</div>' +
+        '</a>';
+    });
+    grid.innerHTML = html;
   });
 }
 

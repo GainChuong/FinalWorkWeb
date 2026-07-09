@@ -71,6 +71,25 @@
             <p class="pillar-desc">Every transaction and action earns you GreenCoin – green points to redeem rewards or fund environmental causes.</p>
           </div>
         </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RSS Sustainability News Section -->
+    <section class="news-section" style="padding: 5rem 0;">
+      <div class="container">
+        <div class="news-header" style="text-align: center; margin-bottom: 3.5rem;">
+          <span class="badge badge-accent" style="margin-bottom: 0.75rem; background-color: rgba(91, 116, 83, 0.1); color: var(--accent); border: 1px solid var(--accent); padding: 0.4rem 1.25rem; border-radius: 30px; font-weight: 700; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 0.5rem;"><i class="fa-solid fa-rss"></i> Eco Intelligence</span>
+          <h2 style="font-family: var(--font-serif); font-size: clamp(2rem, 4vw, 2.75rem); color: var(--primary); margin-bottom: 1rem;">Sustainable Fashion News</h2>
+          <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto; font-size: 1.05rem; line-height: 1.6;">Stay updated with global trends on ethical brands, circular economy, and conscious lifestyle choices.</p>
+        </div>
+        <div id="rss-news-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 2rem; position: relative; min-height: 250px;">
+          <!-- Spinner while loading -->
+          <div id="news-loading-spinner" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; color: var(--primary);">
+            <i class="fa-solid fa-circle-notch fa-spin" style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--accent);"></i>
+            <span style="font-weight: 600; letter-spacing: 0.05em; color: var(--text-muted);">Fetching latest insights...</span>
+          </div>
+        </div>
       </div>
     </section>
 
