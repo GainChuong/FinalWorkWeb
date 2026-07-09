@@ -1972,20 +1972,20 @@ function _renderShMarketGrid(grid, allItems) {
         grid.innerHTML = `
             <div class="sh-market-empty">
                 <i data-lucide="search-x"></i>
-                <h3 style="font-family:var(--font-serif);font-size:18px;margin-bottom:8px;">Không tìm thấy sản phẩm</h3>
-                <p style="font-size:13px;color:var(--text-secondary);">Thử thay đổi bộ lọc hoặc tìm kiếm khác nhé.</p>
+                <h3 style="font-family:var(--font-serif);font-size:18px;margin-bottom:8px;">No products found</h3>
+                <p style="font-size:13px;color:var(--text-secondary);">Try changing your filters or search terms.</p>
             </div>
         `;
         if (typeof lucide !== 'undefined') lucide.createIcons();
         return;
     }
 
-    const conditionLabels = { new: 'Còn rất mới', good: 'Còn tốt', reusable: 'Hơi cũ' };
+    const conditionLabels = { new: 'Like New', good: 'Good', reusable: 'Fair' };
 
     grid.innerHTML = filtered.map(item => {
-        const priceText = item.price === 0 ? 'Miễn Phí' : item.price.toLocaleString('vi-VN') + ' đ';
+        const priceText = item.price === 0 ? 'Free' : item.price.toLocaleString('en-US') + ' VND';
         const priceClass = item.price === 0 ? 'sh-market-price free' : 'sh-market-price';
-        const condLabel = conditionLabels[item.condition] || 'Đã Qua Dùng';
+        const condLabel = conditionLabels[item.condition] || 'Used';
         const condClass = 'sh-market-condition ' + (item.condition || 'reusable');
         const sellerInitial = (item.sellerName || 'A').charAt(0).toUpperCase();
 
@@ -2006,7 +2006,7 @@ function _renderShMarketGrid(grid, allItems) {
                     </span>
                 </div>
                 <div class="sh-market-actions">
-                    <button class="btn-call" onclick="openChatWith('${item.sellerName || 'Người bán'}')">
+                    <button class="btn-call" onclick="openChatWith('${item.sellerName || 'Seller'}')">
                         <i data-lucide="message-circle" style="width:13px;height:13px;"></i> Contact
                     </button>
                     <button class="btn-buy" onclick="shMarketContact('${item.id}', '${item.name.replace(/'/g, "\\'")}', '${item.phone}', ${item.price})">
@@ -2015,7 +2015,7 @@ function _renderShMarketGrid(grid, allItems) {
                 </div>
                 <div class="sh-market-seller">
                     <div class="sh-seller-avatar">${sellerInitial}</div>
-                    <span>${item.sellerName || 'Người bán ẩn danh'} · ${item.date}</span>
+                    <span>${item.sellerName || 'Anonymous Seller'} · ${item.date}</span>
                 </div>
             </div>
         </div>
@@ -2117,7 +2117,7 @@ function _bindShMarketFilters() {
 }
 
 function shMarketContact(itemId, itemName, phone, price) {
-    const priceText = price === 0 ? 'Miễn Phí' : price.toLocaleString('vi-VN') + ' đ';
+    const priceText = price === 0 ? 'Free' : price.toLocaleString('en-US') + ' VND';
     
     // Mark item as pending in localStorage
     try {
@@ -2137,8 +2137,8 @@ function shMarketContact(itemId, itemName, phone, price) {
         toast.innerHTML = `
             <div class="toast-icon"><i data-lucide="check-circle-2"></i></div>
             <div class="toast-body">
-                <div class="toast-title">Đã Liên Hệ Thu Mua Thành Công!</div>
-                <div class="toast-msg"><strong>${itemName}</strong> · Giá: <strong>${priceText}</strong> · SĐT: ${phone}</div>
+                <div class="toast-title">Successfully Contacted Seller!</div>
+                <div class="toast-msg"><strong>${itemName}</strong> · Price: <strong>${priceText}</strong> · Phone: ${phone}</div>
             </div>
         `;
         toastContainer.appendChild(toast);
@@ -3095,7 +3095,7 @@ function renderOrders(activeTab) {
           var iImage = item.image || '../images/placeholder.png';
           var iName = item.name || ('Sản phẩm ' + (item.productId || item.id || 'N/A'));
           var iQty = item.quantity || 1;
-          var iPriceStr = item.priceStr || (item.price ? item.price.toLocaleString('vi-VN') + ' đ' : '0 đ');
+          var iPriceStr = item.priceStr || (item.price ? item.price.toLocaleString('en-US') + ' VND' : '0 đ');
           itemsHtml +=
             '<div onclick="goToDetail(\'' + (item.productId || item.id) + '\')" style="cursor:pointer;display:flex;align-items:center;gap:0.75rem;background-color:var(--card);padding:0.6rem 1rem;border-radius:12px;border:1px solid var(--border);transition:all 0.25s ease;" onmouseover="this.style.borderColor=\'var(--primary)\';this.style.transform=\'translateY(-2px)\';" onmouseout="this.style.borderColor=\'var(--border)\';this.style.transform=\'none\';">' +
               '<img src="' + iImage + '" style="width:40px;height:40px;border-radius:8px;object-fit:cover" />' +
@@ -3123,7 +3123,7 @@ function renderOrders(activeTab) {
       actionButtonsHtml += '<button class="btn btn-primary" onclick="goToDetail(\'' + firstItemId + '\')" style="border-radius:8px;font-size:0.75rem;padding:6px 14px;height:auto;font-weight:700;background-color:var(--accent);border-color:var(--accent);color:var(--foreground);margin-left:0.5rem;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.opacity=\'0.85\'" onmouseout="this.style.opacity=\'1\';">Buy Again</button>';
 
       var safeDate = o.date || new Date(o.createdAt || Date.now()).toLocaleDateString('en-US');
-      var safeTotalStr = o.totalStr || (o.total ? o.total.toLocaleString('vi-VN') + ' đ' : '0 đ');
+      var safeTotalStr = o.totalStr || (o.total ? o.total.toLocaleString('en-US') + ' VND' : '0 đ');
       var safeGC = o.greenCoinEarned || 0;
 
       ordersHtml +=
