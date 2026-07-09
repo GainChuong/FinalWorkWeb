@@ -1524,7 +1524,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (stored) {
                     productsData = JSON.parse(stored);
                     var maxId = 200;
-                    productsData.forEach(function(p) { if (p.id >= maxId) maxId = p.id + 1; });
+                    productsData.forEach(function(p) { var numId = parseInt(String(p.id).replace(/\D/g, "")) || 0; if (numId >= maxId) maxId = numId + 1; });
                     nextProductId = maxId;
                     return true;
                 }
@@ -1685,14 +1685,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
             tableBody.querySelectorAll('.edit-product').forEach(function(btn) {
                 btn.addEventListener('click', function() {
-                    openEditModal(parseInt(this.dataset.id));
+                    openEditModal(this.dataset.id);
                 });
             });
 
             tableBody.querySelectorAll('.delete-product').forEach(function(btn) {
                 btn.addEventListener('click', function() {
-                    const id = parseInt(this.dataset.id);
-                    productsData = productsData.filter(function(p) { return p.id !== id; });
+                    const id = this.dataset.id;
+                    productsData = productsData.filter(function(p) { return String(p.id) !== String(id); });
                     saveProductsToStorage();
                     renderProductsTable();
                     showToast('Đã Xóa Sản Phẩm', 'Sản phẩm đã được xóa khỏi danh sách.', 'fa-trash');
@@ -1701,7 +1701,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         function openEditModal(id) {
-            const product = productsData.find(function(p) { return p.id === id; });
+            const product = productsData.find(function(p) { return String(p.id) === String(id); });
             if (!product) return;
 
             editingProductId = id;
@@ -1840,7 +1840,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     var colors = ['#1e3a8a', '#831843', '#065f46', '#701a75', '#557A46'];
 
                     if (editingProductId) {
-                        var idx = productsData.findIndex(function(p) { return p.id === editingProductId; });
+                        var idx = productsData.findIndex(function(p) { return String(p.id) === String(editingProductId); });
                         if (idx !== -1) {
                             productsData[idx].name = prodName;
                             productsData[idx].category = prodCategory;
@@ -1859,7 +1859,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         }
                     } else {
                         var newProduct = {
-                            id: nextProductId++,
+                            id: 'P' + nextProductId++,
                             name: prodName,
                             category: prodCategory,
                             description: prodDesc,
@@ -1896,7 +1896,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     var list = data.products || [];
                     productsData = list.filter(function(p) { return p.store === sellerStore; }).map(function(p) {
                         return {
-                            id: parseInt(p.id.replace('P', '')),
+                            id: p.id,
                             name: p.name,
                             category: p.category,
                             description: p.description || '',
@@ -2191,7 +2191,7 @@ function shMarketContact(itemId, itemName, phone, price) {
         // Click to mark as read
         dropdownBody.querySelectorAll('.notif-item').forEach(el => {
             el.addEventListener('click', function() {
-                const id = parseInt(this.dataset.id);
+                const id = this.dataset.id;
                 const n = notifList.find(x => x.id === id);
                 if (n && !n.read) {
                     n.read = true;
